@@ -1,8 +1,7 @@
-
 import { SectionHeading } from "@/components/ui/section-heading";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { 
-  Users, Shield, BarChart, Clock, Robot, Database, 
+  Users, Shield, BarChart, Clock, Bot, 
   FileCheck, Video, MessageSquare, Github
 } from "lucide-react";
 
@@ -32,7 +31,7 @@ const FeaturesSection = () => {
                 description="Only interact with candidates who have verified skills, projects and credentials. No more fake resumes."
               />
               <FeatureCard 
-                icon={<Robot className="h-7 w-7 text-zordie-600" />}
+                icon={<Bot className="h-7 w-7 text-zordie-600" />}
                 title="AI Resume Screening" 
                 description="Prime AI automatically ranks and scores resumes based on job requirements, saving hours of manual review."
               />

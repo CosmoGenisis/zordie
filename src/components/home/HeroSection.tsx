@@ -1,4 +1,3 @@
-
 import React, { useEffect, useRef } from "react";
 import { Button } from "@/components/ui/button";
 import { Link } from "react-router-dom";
@@ -236,8 +235,8 @@ const HeroSection = () => {
               </div>
             </div>
             
-            {/* Floating badge */}
-            <div className="absolute -bottom-6 -left-6 bg-white rounded-lg p-4 shadow-lg border animate-pulse-light hover:scale-105 transition-all duration-300">
+            {/* Floating badge - replaced animation with static hover effect */}
+            <div className="absolute -bottom-6 -left-6 bg-white rounded-lg p-4 shadow-lg border hover:scale-105 transition-all duration-300">
               <div className="flex items-center">
                 <div className="h-10 w-10 rounded-full bg-gradient-to-r from-zordie-500 to-accent1 flex items-center justify-center text-white font-bold">
                   AI

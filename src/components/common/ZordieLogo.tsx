@@ -23,10 +23,10 @@ const ZordieLogo: React.FC<ZordieLogoProps> = ({
   };
 
   return (
-    <Link to="/" className="flex-shrink-0 flex items-center">
-      <span className={`font-bold ${sizeClasses[size]} ${variantClasses[variant]}`}>
-        Zordie
-        <span className="ml-1 text-accent1">AI</span>
+    <Link to="/" className="flex-shrink-0 flex items-center group">
+      <span className={`font-bold ${sizeClasses[size]} ${variantClasses[variant]} transition-all duration-300 tracking-tight`}>
+        Zordie<span className="ml-1 text-accent1 transition-all duration-300 group-hover:text-zordie-700">AI</span>
+        <span className="ml-1 opacity-70 text-sm font-medium">Hire</span>
       </span>
     </Link>
   );

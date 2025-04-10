@@ -11,6 +11,9 @@ import Pricing from "./pages/Pricing";
 import PostJob from "./pages/PostJob";
 import Dashboard from "./pages/Dashboard";
 import NotFound from "./pages/NotFound";
+import Features from "./pages/Features";
+import ForCompanies from "./pages/ForCompanies";
+import ForJobSeekers from "./pages/ForJobSeekers";
 
 const queryClient = new QueryClient();
 
@@ -25,6 +28,9 @@ const App = () => (
           <Route path="/login" element={<Login />} />
           <Route path="/signup" element={<Signup />} />
           <Route path="/pricing" element={<Pricing />} />
+          <Route path="/features" element={<Features />} />
+          <Route path="/companies" element={<ForCompanies />} />
+          <Route path="/candidates" element={<ForJobSeekers />} />
           <Route path="/dashboard" element={<Dashboard />} />
           <Route path="/post-job" element={<PostJob />} />
           <Route path="*" element={<NotFound />} />

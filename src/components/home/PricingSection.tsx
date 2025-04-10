@@ -1,10 +1,18 @@
 
+import { useState } from "react";
 import { Button } from "@/components/ui/button";
 import { SectionHeading } from "@/components/ui/section-heading";
-import { Check } from "lucide-react";
+import { Check, HelpCircle } from "lucide-react";
 import { Link } from "react-router-dom";
+import { HoverCard, HoverCardContent, HoverCardTrigger } from "@/components/ui/hover-card";
 
 const PricingSection = () => {
+  const [billingCycle, setBillingCycle] = useState<"monthly" | "annual">("monthly");
+
+  const handleBillingCycleChange = (cycle: "monthly" | "annual") => {
+    setBillingCycle(cycle);
+  };
+
   return (
     <section className="py-16 bg-gray-50">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
@@ -14,10 +22,38 @@ const PricingSection = () => {
           centered
         />
         
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8 mt-12">
+        <div className="flex justify-center mt-8 mb-12">
+          <div className="bg-white p-1 rounded-full border shadow-sm">
+            <div className="flex">
+              <button
+                onClick={() => handleBillingCycleChange("monthly")}
+                className={`px-5 py-2 rounded-full text-sm font-medium transition-all ${
+                  billingCycle === "monthly"
+                    ? "bg-zordie-500 text-white shadow-sm"
+                    : "text-gray-700 hover:bg-gray-100"
+                }`}
+              >
+                Monthly
+              </button>
+              <button
+                onClick={() => handleBillingCycleChange("annual")}
+                className={`px-5 py-2 rounded-full text-sm font-medium transition-all ${
+                  billingCycle === "annual"
+                    ? "bg-zordie-500 text-white shadow-sm"
+                    : "text-gray-700 hover:bg-gray-100"
+                }`}
+              >
+                Annual <span className="text-xs text-zordie-300">Save 20%</span>
+              </button>
+            </div>
+          </div>
+        </div>
+        
+        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8 mt-6 animate-fade-in">
           <PricingCard
             name="Free"
-            price="₹0"
+            price={billingCycle === "monthly" ? "₹0" : "₹0"}
+            period={billingCycle === "monthly" ? "/month" : "/year"}
             description="Perfect for trying out Zordie"
             features={[
               "2 job posts",
@@ -30,7 +66,8 @@ const PricingSection = () => {
           />
           <PricingCard
             name="Startup"
-            price="₹1,499"
+            price={billingCycle === "monthly" ? "₹1,499" : "₹14,390"}
+            period={billingCycle === "monthly" ? "/month" : "/year"}
             description="Ideal for growing teams"
             features={[
               "15 job posts",
@@ -46,7 +83,8 @@ const PricingSection = () => {
           />
           <PricingCard
             name="Business"
-            price="₹4,999"
+            price={billingCycle === "monthly" ? "₹4,999" : "₹47,990"}
+            period={billingCycle === "monthly" ? "/month" : "/year"}
             description="For scaling companies"
             features={[
               "Unlimited job posts",
@@ -63,6 +101,7 @@ const PricingSection = () => {
           <PricingCard
             name="Enterprise"
             price="Custom"
+            period=""
             description="Tailored for large organizations"
             features={[
               "Everything in Business",
@@ -71,7 +110,18 @@ const PricingSection = () => {
               "Custom AI training",
               "White-label options",
               "SLA guarantees",
-              "Phone & priority support"
+              "Phone & priority support",
+              <span key="custom-prime">
+                Customized Prime AI{" "}
+                <HoverCard>
+                  <HoverCardTrigger>
+                    <HelpCircle className="inline h-4 w-4 text-gray-400" />
+                  </HoverCardTrigger>
+                  <HoverCardContent className="text-sm">
+                    Customize Prime AI's behavior, responses, and capabilities to match your company's hiring workflow and brand voice.
+                  </HoverCardContent>
+                </HoverCard>
+              </span>
             ]}
             buttonText="Contact Sales"
             buttonVariant="outline"
@@ -83,7 +133,7 @@ const PricingSection = () => {
             Need a custom solution or have specific requirements?
           </p>
           <Link to="/contact">
-            <Button variant="outline" size="lg">
+            <Button variant="outline" size="lg" className="transition-all duration-200 hover:shadow-md">
               Contact Our Team
             </Button>
           </Link>
@@ -96,8 +146,9 @@ const PricingSection = () => {
 interface PricingCardProps {
   name: string;
   price: string;
+  period: string;
   description: string;
-  features: string[];
+  features: (string | JSX.Element)[];
   buttonText: string;
   buttonVariant: "default" | "outline";
   highlighted?: boolean;
@@ -106,6 +157,7 @@ interface PricingCardProps {
 const PricingCard = ({
   name,
   price,
+  period,
   description,
   features,
   buttonText,
@@ -118,7 +170,7 @@ const PricingCard = ({
         highlighted
           ? "border-zordie-500 shadow-lg shadow-zordie-100/50 relative overflow-hidden"
           : "border-gray-200"
-      } bg-white p-8 transition-all duration-300 hover:shadow-md`}
+      } bg-white p-8 transition-all duration-300 hover:shadow-md hover:translate-y-[-4px]`}
     >
       {highlighted && (
         <div className="absolute top-0 right-0">
@@ -131,14 +183,14 @@ const PricingCard = ({
       <h3 className="text-xl font-semibold mb-1">{name}</h3>
       <div className="flex items-baseline mb-1">
         <span className="text-3xl font-bold">{price}</span>
-        {price !== "Custom" && <span className="text-gray-500 ml-1">/month</span>}
+        {price !== "Custom" && <span className="text-gray-500 ml-1">{period}</span>}
       </div>
       <p className="text-sm text-gray-600 mb-6">{description}</p>
       
       <Link to="/signup" className="block mb-6">
         <Button
           variant={buttonVariant}
-          className={`w-full ${
+          className={`w-full transition-all duration-200 hover:shadow-md ${
             highlighted && buttonVariant === "default" ? "btn-gradient" : ""
           }`}
         >

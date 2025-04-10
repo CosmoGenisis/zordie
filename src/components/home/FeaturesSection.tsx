@@ -81,7 +81,7 @@ const FeaturesSection = () => {
                 description="Prepare with AI-powered practice interviews tailored to your target roles and get instant feedback."
               />
               <FeatureCard 
-                icon={<Database className="h-7 w-7 text-zordie-600" />}
+                icon={<BarChart className="h-7 w-7 text-zordie-600" />}
                 title="Verified Profile Badge" 
                 description="Earn a verification badge to stand out and get noticed by top companies looking for authentic talent."
               />

@@ -1,3 +1,4 @@
+
 import React from 'react';
 import Layout from '@/components/layout/Layout';
 import { SectionHeading } from '@/components/ui/section-heading';
@@ -5,6 +6,33 @@ import { Button } from '@/components/ui/button';
 import { Link } from 'react-router-dom';
 import { motion } from 'framer-motion';
 import { useTheme } from '@/context/ThemeContext';
+import { 
+  ArrowRight, 
+  BadgeCheck, 
+  Github, 
+  Award, 
+  ThumbsUp,
+  Zap,
+  Target,
+  TrendingUp,
+  Briefcase,
+  Users,
+  ShieldCheck,
+  BarChart3,
+  FileCheck,
+  Badge,
+  MessageSquare,
+  Clock,
+  Sparkles
+} from 'lucide-react';
+import { 
+  Card, 
+  CardHeader, 
+  CardFooter, 
+  CardTitle, 
+  CardDescription, 
+  CardContent 
+} from '@/components/ui/card';
 
 const ForJobSeekers = () => {
   const { theme } = useTheme();

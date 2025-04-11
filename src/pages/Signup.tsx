@@ -1,6 +1,6 @@
 
-import { useState } from "react";
-import { Link } from "react-router-dom";
+import { useState, useEffect } from "react";
+import { Link, useNavigate } from "react-router-dom";
 import { Button } from "@/components/ui/button";
 import {
   Card,
@@ -13,7 +13,7 @@ import {
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { Separator } from "@/components/ui/separator";
-import { Github, Loader2 } from "lucide-react";
+import { Github, Loader2, AlertCircle } from "lucide-react";
 import {
   Select,
   SelectContent,
@@ -21,8 +21,10 @@ import {
   SelectTrigger,
   SelectValue,
 } from "@/components/ui/select";
+import { useToast } from "@/components/ui/use-toast";
 import Layout from "@/components/layout/Layout";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
+import { useAuth } from "@/context/AuthContext";
 
 const Signup = () => {
   const [isLoading, setIsLoading] = useState(false);
@@ -32,24 +34,73 @@ const Signup = () => {
   const [password, setPassword] = useState("");
   const [companyName, setCompanyName] = useState("");
   const [companySize, setCompanySize] = useState("");
+  const [error, setError] = useState<string | null>(null);
 
-  const handleSubmit = (e: React.FormEvent) => {
+  const { signUp, user } = useAuth();
+  const { toast } = useToast();
+  const navigate = useNavigate();
+  
+  // Redirect if user is already logged in
+  useEffect(() => {
+    if (user) {
+      navigate('/dashboard');
+    }
+  }, [user, navigate]);
+
+  const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
+    
+    // Basic validation
+    if (!email || !password || !name) {
+      setError("Please fill out all required fields");
+      return;
+    }
+    
+    if (password.length < 6) {
+      setError("Password must be at least 6 characters long");
+      return;
+    }
+    
+    if (userType === "company" && (!companyName || !companySize)) {
+      setError("Please provide company details");
+      return;
+    }
+    
+    setError(null);
     setIsLoading(true);
     
-    // Simulate API call
-    setTimeout(() => {
-      setIsLoading(false);
-      // In a real app, you would handle registration here
-      console.log("Signup attempt:", { 
-        userType, 
-        email, 
-        name, 
-        password, 
-        companyName, 
-        companySize 
+    try {
+      // Prepare user metadata based on user type
+      const userData = {
+        full_name: name,
+        user_type: userType,
+        ...(userType === "company" && { 
+          company_name: companyName,
+          company_size: companySize
+        })
+      };
+      
+      const { error } = await signUp(email, password, userData);
+      
+      if (error) {
+        throw error;
+      }
+      
+      // Success
+      toast({
+        title: "Account created successfully",
+        description: "Please check your email to confirm your account",
       });
-    }, 1500);
+      
+      // Navigate to login page - user will need to confirm email before logging in
+      navigate('/login');
+      
+    } catch (error) {
+      console.error("Signup error:", error);
+      setError("Failed to create account. Please try again.");
+    } finally {
+      setIsLoading(false);
+    }
   };
 
   return (
@@ -86,6 +137,13 @@ const Signup = () => {
                   </span>
                 </div>
               </div>
+              
+              {error && (
+                <div className="bg-red-50 text-red-600 p-3 rounded-md flex items-start">
+                  <AlertCircle className="h-5 w-5 mr-2 mt-0.5 flex-shrink-0" />
+                  <span>{error}</span>
+                </div>
+              )}
               
               <form onSubmit={handleSubmit} className="space-y-4">
                 <div className="space-y-2">
@@ -157,7 +215,7 @@ const Signup = () => {
                     disabled={isLoading} 
                   />
                   <p className="text-xs text-gray-500 mt-1">
-                    Password must be at least 8 characters long with a number and special character.
+                    Password must be at least 6 characters long.
                   </p>
                 </div>
                 

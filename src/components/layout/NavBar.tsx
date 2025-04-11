@@ -1,19 +1,31 @@
 
 import React, { useState } from "react";
 import { Button } from "@/components/ui/button";
-import { Link, useLocation } from "react-router-dom";
-import { Menu, X, Globe, ChevronDown } from "lucide-react";
+import { Link, useLocation, useNavigate } from "react-router-dom";
+import { Menu, X, Globe, ChevronDown, User, LogOut } from "lucide-react";
 import {
   DropdownMenu,
   DropdownMenuContent,
   DropdownMenuItem,
   DropdownMenuTrigger,
+  DropdownMenuSeparator,
 } from "@/components/ui/dropdown-menu";
+import {
+  Avatar,
+  AvatarFallback,
+  AvatarImage,
+} from "@/components/ui/avatar";
+import { useToast } from "@/components/ui/use-toast";
 import ZordieLogo from "@/components/common/ZordieLogo";
+import { useAuth } from "@/context/AuthContext";
 
 const NavBar = () => {
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
   const location = useLocation();
+  const navigate = useNavigate();
+  const { toast } = useToast();
+  const { user, signOut } = useAuth();
+  
   const isActive = (path: string) => location.pathname === path;
 
   // Navigation items
@@ -24,9 +36,28 @@ const NavBar = () => {
     { name: "For Companies", href: "/companies" },
     { name: "For Job Seekers", href: "/candidates" },
   ];
+  
+  const handleLogout = async () => {
+    try {
+      const { error } = await signOut();
+      if (error) throw error;
+      
+      toast({
+        title: "Logged out successfully",
+      });
+      navigate('/');
+    } catch (error) {
+      console.error('Logout error:', error);
+      toast({
+        title: "Logout failed",
+        description: "Please try again",
+        variant: "destructive",
+      });
+    }
+  };
 
   return (
-    <nav className="bg-white/80 backdrop-blur-sm sticky top-0 z-40 w-full border-b">
+    <nav className="bg-white sticky top-0 z-40 w-full border-b">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <div className="flex justify-between h-16">
           <div className="flex items-center">
@@ -66,16 +97,46 @@ const NavBar = () => {
               </DropdownMenuContent>
             </DropdownMenu>
             
-            <Link to="/login">
-              <Button variant="outline" size="sm" className="transition-all duration-200 hover:shadow-md hover:border-zordie-300">
-                Login
-              </Button>
-            </Link>
-            <Link to="/signup">
-              <Button size="sm" className="btn-gradient transition-all duration-200 hover:shadow-md">
-                Sign Up
-              </Button>
-            </Link>
+            {user ? (
+              <DropdownMenu>
+                <DropdownMenuTrigger asChild>
+                  <Button variant="ghost" size="sm" className="flex items-center transition-all duration-200 hover:bg-gray-100">
+                    <Avatar className="h-8 w-8 mr-2">
+                      <AvatarImage src="https://randomuser.me/api/portraits/men/2.jpg" />
+                      <AvatarFallback>{user.email?.[0]?.toUpperCase() || 'U'}</AvatarFallback>
+                    </Avatar>
+                    <span className="font-medium">Account</span>
+                    <ChevronDown className="h-4 w-4 ml-1" />
+                  </Button>
+                </DropdownMenuTrigger>
+                <DropdownMenuContent align="end">
+                  <DropdownMenuItem asChild>
+                    <Link to="/dashboard">
+                      <User className="mr-2 h-4 w-4" />
+                      Dashboard
+                    </Link>
+                  </DropdownMenuItem>
+                  <DropdownMenuSeparator />
+                  <DropdownMenuItem onClick={handleLogout}>
+                    <LogOut className="mr-2 h-4 w-4" />
+                    Log out
+                  </DropdownMenuItem>
+                </DropdownMenuContent>
+              </DropdownMenu>
+            ) : (
+              <>
+                <Link to="/login">
+                  <Button variant="outline" size="sm" className="transition-all duration-200 hover:shadow-md hover:border-zordie-300">
+                    Login
+                  </Button>
+                </Link>
+                <Link to="/signup">
+                  <Button size="sm" className="btn-gradient transition-all duration-200 hover:shadow-md">
+                    Sign Up
+                  </Button>
+                </Link>
+              </>
+            )}
           </div>
 
           {/* Mobile menu button */}
@@ -118,16 +179,36 @@ const NavBar = () => {
           ))}
           <div className="px-3 py-3 border-t">
             <div className="flex flex-col space-y-3 pt-3">
-              <Link to="/login" className="w-full">
-                <Button variant="outline" className="w-full transition-all duration-200 hover:shadow-md" onClick={() => setMobileMenuOpen(false)}>
-                  Login
-                </Button>
-              </Link>
-              <Link to="/signup" className="w-full">
-                <Button className="w-full btn-gradient transition-all duration-200 hover:shadow-md" onClick={() => setMobileMenuOpen(false)}>
-                  Sign Up
-                </Button>
-              </Link>
+              {user ? (
+                <>
+                  <Link to="/dashboard" className="w-full">
+                    <Button variant="outline" className="w-full transition-all duration-200 hover:shadow-md flex items-center" onClick={() => setMobileMenuOpen(false)}>
+                      <User className="mr-2 h-4 w-4" />
+                      Dashboard
+                    </Button>
+                  </Link>
+                  <Button className="w-full btn-gradient transition-all duration-200 hover:shadow-md flex items-center" onClick={() => {
+                    handleLogout();
+                    setMobileMenuOpen(false);
+                  }}>
+                    <LogOut className="mr-2 h-4 w-4" />
+                    Log Out
+                  </Button>
+                </>
+              ) : (
+                <>
+                  <Link to="/login" className="w-full">
+                    <Button variant="outline" className="w-full transition-all duration-200 hover:shadow-md" onClick={() => setMobileMenuOpen(false)}>
+                      Login
+                    </Button>
+                  </Link>
+                  <Link to="/signup" className="w-full">
+                    <Button className="w-full btn-gradient transition-all duration-200 hover:shadow-md" onClick={() => setMobileMenuOpen(false)}>
+                      Sign Up
+                    </Button>
+                  </Link>
+                </>
+              )}
             </div>
           </div>
         </div>

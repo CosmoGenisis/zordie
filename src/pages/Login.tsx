@@ -1,6 +1,6 @@
 
-import { useState } from "react";
-import { Link } from "react-router-dom";
+import { useState, useEffect } from "react";
+import { Link, useNavigate } from "react-router-dom";
 import { Button } from "@/components/ui/button";
 import {
   Card,
@@ -13,24 +13,58 @@ import {
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { Separator } from "@/components/ui/separator";
-import { Github, Loader2 } from "lucide-react";
+import { Github, Loader2, AlertCircle } from "lucide-react";
+import { useToast } from "@/components/ui/use-toast";
 import Layout from "@/components/layout/Layout";
+import { useAuth } from "@/context/AuthContext";
 
 const Login = () => {
   const [isLoading, setIsLoading] = useState(false);
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
+  const [error, setError] = useState<string | null>(null);
+  
+  const { signIn, user } = useAuth();
+  const { toast } = useToast();
+  const navigate = useNavigate();
+  
+  // Redirect if user is already logged in
+  useEffect(() => {
+    if (user) {
+      navigate('/dashboard');
+    }
+  }, [user, navigate]);
 
-  const handleSubmit = (e: React.FormEvent) => {
+  const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
+    
+    if (!email || !password) {
+      setError("Please enter both email and password");
+      return;
+    }
+    
+    setError(null);
     setIsLoading(true);
     
-    // Simulate API call
-    setTimeout(() => {
+    try {
+      const { error } = await signIn(email, password);
+      
+      if (error) {
+        throw error;
+      }
+      
+      // Success - navigation will happen automatically via the useEffect
+      toast({
+        title: "Logged in successfully",
+        description: "Redirecting to dashboard...",
+      });
+      
+    } catch (error) {
+      console.error("Login error:", error);
+      setError("Invalid email or password. Please try again.");
+    } finally {
       setIsLoading(false);
-      // In a real app, you would handle authentication here
-      console.log("Login attempt with:", { email, password });
-    }, 1500);
+    }
   };
 
   return (
@@ -60,6 +94,13 @@ const Login = () => {
                   </span>
                 </div>
               </div>
+              
+              {error && (
+                <div className="bg-red-50 text-red-600 p-3 rounded-md flex items-start">
+                  <AlertCircle className="h-5 w-5 mr-2 mt-0.5 flex-shrink-0" />
+                  <span>{error}</span>
+                </div>
+              )}
               
               <form onSubmit={handleSubmit} className="space-y-4">
                 <div className="space-y-2">

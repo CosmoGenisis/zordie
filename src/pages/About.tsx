@@ -217,21 +217,21 @@ interface TeamMemberProps {
 
 const teamMembers: TeamMemberProps[] = [
   {
-    name: "Aarav Patel",
-    title: "CEO",
-    bio: "Aarav is a visionary leader with a passion for leveraging AI to solve real-world problems.",
+    name: "Abdul Quadir",
+    title: "Founder and CEO",
+    bio: "Abdul is a visionary leader with a passion for leveraging AI to solve real-world problems in the hiring space.",
     avatar: "https://images.unsplash.com/photo-1500648767791-00d5a4ee9baa?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=774&q=80"
   },
   {
-    name: "Priya Sharma",
-    title: "CTO",
-    bio: "Priya is a technology expert with years of experience in AI and machine learning.",
+    name: "Laxmi Jagga",
+    title: "Co-founder and CMO",
+    bio: "Laxmi brings extensive experience in marketing and business development, driving our growth strategy and market positioning.",
     avatar: "https://images.unsplash.com/photo-1438761681033-6461ffad8d80?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=870&q=80"
   },
   {
-    name: "Vikram Singh",
+    name: "Aditya",
     title: "Head of Product",
-    bio: "Vikram is a product strategist focused on creating user-friendly and impactful solutions.",
+    bio: "Aditya is a product strategist focused on creating user-friendly and impactful solutions that transform the hiring process.",
     avatar: "https://images.unsplash.com/photo-1534528741702-a0cfae58b707?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=735&q=80"
   }
 ];

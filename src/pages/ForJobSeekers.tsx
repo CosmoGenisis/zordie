@@ -1,3 +1,4 @@
+
 import React from 'react';
 import Layout from '@/components/layout/Layout';
 import { SectionHeading } from '@/components/ui/section-heading';
@@ -38,8 +39,8 @@ const ForJobSeekers = () => {
   
   return (
     <Layout>
-      {/* Hero Section with fixed background */}
-      <div className="relative overflow-hidden bg-gradient-to-b from-zordie-50 to-white dark:from-zordie-900 dark:to-zordie-950 transition-colors duration-300">
+      {/* Hero Section with white background */}
+      <div className="relative overflow-hidden bg-white dark:bg-zordie-950 transition-colors duration-300">
         <div className="absolute inset-0 z-0">
           <div className="absolute inset-0 bg-grid-black/[0.02] dark:bg-grid-white/[0.02]" />
         </div>

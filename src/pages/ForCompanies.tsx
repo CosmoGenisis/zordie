@@ -18,8 +18,8 @@ const ForCompanies = () => {
   
   return (
     <Layout>
-      {/* Hero Section with fixed background and new image */}
-      <div className="relative overflow-hidden bg-gradient-to-b from-zordie-50 to-white dark:from-zordie-900 dark:to-zordie-950 transition-colors duration-300">
+      {/* Hero Section with white background */}
+      <div className="relative overflow-hidden bg-white dark:bg-zordie-950 transition-colors duration-300">
         <div className="absolute inset-0 z-0">
           <div className="absolute inset-0 bg-grid-black/[0.02] dark:bg-grid-white/[0.02]" />
         </div>
@@ -207,7 +207,7 @@ const ForCompanies = () => {
                     </div>
                     <div>
                       <h3 className="mb-1 text-lg font-medium text-gray-900 dark:text-white">{benefit.title}</h3>
-                      <p className="text-gray-600 dark:text-gray-300">{benefit.description}</p>
+                      <p className="text-sm text-gray-600 dark:text-gray-300">{benefit.description}</p>
                     </div>
                   </motion.div>
                 ))}

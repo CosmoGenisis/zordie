@@ -47,29 +47,60 @@ export const AuthProvider = ({ children }: { children: React.ReactNode }) => {
 
   const signIn = async (email: string, password: string) => {
     setIsLoading(true);
-    const result = await supabase.auth.signInWithPassword({ email, password });
-    setIsLoading(false);
-    return result;
+    try {
+      const result = await supabase.auth.signInWithPassword({ email, password });
+      setIsLoading(false);
+      return {
+        data: result.data.session,
+        error: result.error
+      };
+    } catch (error) {
+      setIsLoading(false);
+      return {
+        data: null,
+        error: error as Error
+      };
+    }
   };
 
   const signUp = async (email: string, password: string, userData?: Record<string, any>) => {
     setIsLoading(true);
-    const result = await supabase.auth.signUp({ 
-      email, 
-      password,
-      options: {
-        data: userData
-      }
-    });
-    setIsLoading(false);
-    return result;
+    try {
+      const result = await supabase.auth.signUp({ 
+        email, 
+        password,
+        options: {
+          data: userData
+        }
+      });
+      setIsLoading(false);
+      return {
+        data: result.data.session,
+        error: result.error
+      };
+    } catch (error) {
+      setIsLoading(false);
+      return {
+        data: null,
+        error: error as Error
+      };
+    }
   };
 
   const signOut = async () => {
     setIsLoading(true);
-    const result = await supabase.auth.signOut();
-    setIsLoading(false);
-    return result;
+    try {
+      const result = await supabase.auth.signOut();
+      setIsLoading(false);
+      return {
+        error: result.error
+      };
+    } catch (error) {
+      setIsLoading(false);
+      return {
+        error: error as Error
+      };
+    }
   };
 
   const value = {

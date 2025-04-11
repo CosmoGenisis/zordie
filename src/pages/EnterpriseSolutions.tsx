@@ -1,4 +1,3 @@
-
 import React from 'react';
 import Layout from '@/components/layout/Layout';
 import { SectionHeading } from '@/components/ui/section-heading';
@@ -13,7 +12,7 @@ import {
   Zap, 
   Lock, 
   Globe,
-  CPU,
+  Cpu,
   Layers
 } from 'lucide-react';
 import { Separator } from '@/components/ui/separator';
@@ -84,7 +83,7 @@ const EnterpriseSolutions = () => {
             <Card className="border border-gray-200 hover:shadow-lg transition-all duration-300 h-full">
               <CardContent className="p-6">
                 <div className="w-12 h-12 rounded-full bg-zordie-100 flex items-center justify-center mb-6">
-                  <CPU className="h-6 w-6 text-zordie-700" />
+                  <Cpu className="h-6 w-6 text-zordie-700" />
                 </div>
                 <h3 className="text-xl font-semibold mb-3">Advanced AI Screening</h3>
                 <p className="text-gray-600">

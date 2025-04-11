@@ -1,4 +1,3 @@
-
 import React, { useState } from 'react';
 import Layout from '@/components/layout/Layout';
 import { SectionHeading } from '@/components/ui/section-heading';
@@ -19,7 +18,8 @@ import {
   Lightbulb,
   Sparkles,
   MessageSquare,
-  ArrowRight
+  ArrowRight,
+  ChevronRight
 } from 'lucide-react';
 import {
   Select,

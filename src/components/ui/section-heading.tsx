@@ -5,21 +5,22 @@ import { cn } from "@/lib/utils";
 interface SectionHeadingProps {
   title: string;
   subtitle?: string;
-  centered?: boolean;
+  align?: "left" | "center" | "right";
   className?: string;
 }
 
 export function SectionHeading({
   title,
   subtitle,
-  centered = false,
+  align = "left",
   className,
 }: SectionHeadingProps) {
   return (
     <div
       className={cn(
         "space-y-3 mb-10",
-        centered && "text-center mx-auto max-w-3xl",
+        align === "center" && "text-center mx-auto max-w-3xl",
+        align === "right" && "text-right",
         className
       )}
     >

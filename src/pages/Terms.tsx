@@ -1,4 +1,3 @@
-
 import React from 'react';
 import Layout from '@/components/layout/Layout';
 import { motion } from 'framer-motion';
@@ -42,7 +41,7 @@ const Terms = () => {
             <SectionHeading
               title="Terms of Service"
               subtitle="Last updated: April 11, 2025"
-              centered={false}
+              align="left"
             />
             
             <Separator className="my-8" />

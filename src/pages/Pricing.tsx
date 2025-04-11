@@ -1,4 +1,3 @@
-
 import { useState } from "react";
 import Layout from "@/components/layout/Layout";
 import { SectionHeading } from "@/components/ui/section-heading";
@@ -25,9 +24,9 @@ const Pricing = () => {
     <Layout>
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-16">
         <SectionHeading
-          title="Choose the Right Plan for Your Hiring Needs"
-          subtitle="Whether you're a small business or a large enterprise, we have a plan for you"
-          centered
+          title="Simple, Transparent Pricing"
+          subtitle="Choose the plan that's right for your business"
+          align="center"
         />
         
         {/* Billing toggle */}
@@ -280,7 +279,7 @@ const Pricing = () => {
         <div className="mt-20">
           <SectionHeading
             title="Frequently Asked Questions"
-            centered
+            align="center"
           />
           
           <div className="max-w-3xl mx-auto mt-8">

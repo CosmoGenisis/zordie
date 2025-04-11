@@ -47,7 +47,7 @@ const Contact = () => {
               <SectionHeading
                 title="Contact Us"
                 subtitle="We'd love to hear from you"
-                centered={false}
+                align="left"
               />
               
               <p className="mb-8 text-lg text-gray-600 dark:text-gray-300">
@@ -121,7 +121,7 @@ const Contact = () => {
               <div className="mt-8 overflow-hidden rounded-lg shadow-xl">
                 <iframe 
                   title="Zordie AI Location"
-                  src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d317715.7119347379!2d-0.38178125!3d51.52867865!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x47d8a00baf21de75%3A0x52963a5addd52a99!2sLondon%2C%20UK!5e0!3m2!1sen!2sus!4v1689453475696!5m2!1sen!2sus" 
+                  src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d115408.23982788336!2d80.22156075381184!3d26.449636589762694!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x399c4770b127c46f%3A0x1778302a9fbe7b41!2sKanpur%2C%20Uttar%20Pradesh!5e0!3m2!1sen!2sin!4v1681461476689!5m2!1sen!2sin" 
                   width="100%" 
                   height="300" 
                   style={{ border: 0 }} 
@@ -142,17 +142,17 @@ const contactInfo = [
   {
     icon: Mail,
     title: "Email Us",
-    details: "info@zordieai.com"
+    details: "support@zordie.in"
   },
   {
-    icon: Phone,
-    title: "Call Us",
-    details: "+1 (555) 123-4567"
+    icon: Mail,
+    title: "Customer Support",
+    details: "customersupport@zordie.com"
   },
   {
     icon: MapPin,
     title: "Office",
-    details: "123 Innovation Drive, London, UK"
+    details: "Kanpur, India"
   },
   {
     icon: Clock,

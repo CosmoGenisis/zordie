@@ -1,4 +1,3 @@
-
 import React from 'react';
 import Layout from '@/components/layout/Layout';
 import { SectionHeading } from '@/components/ui/section-heading';
@@ -82,7 +81,7 @@ const ForJobSeekers = () => {
           <SectionHeading
             title="Common Job Search Challenges"
             subtitle="Issues faced by qualified candidates in today's competitive market"
-            centered
+            align="center"
           />
           
           <div className="grid grid-cols-1 gap-8 mt-16 sm:grid-cols-2 lg:grid-cols-3">
@@ -127,7 +126,7 @@ const ForJobSeekers = () => {
           <SectionHeading
             title="How Verification Works"
             subtitle="Simple steps to stand out with verified credentials"
-            centered
+            align="center"
           />
           
           <div className="relative pt-10 mt-10">
@@ -318,7 +317,7 @@ const ForJobSeekers = () => {
           <SectionHeading
             title="Zordie AI Benefits"
             subtitle="How our platform helps job seekers succeed"
-            centered
+            align="center"
           />
           
           <div className="grid grid-cols-1 gap-8 mt-16 md:grid-cols-2 lg:grid-cols-4">

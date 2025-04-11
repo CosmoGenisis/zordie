@@ -133,7 +133,7 @@ const ForCompanies = () => {
           <SectionHeading
             title="Problems We Solve"
             subtitle="Common hiring challenges faced by companies today"
-            centered
+            align="center"
           />
           
           <div className="grid grid-cols-1 gap-8 mt-16 sm:grid-cols-2 lg:grid-cols-3">
@@ -261,7 +261,7 @@ const ForCompanies = () => {
           <SectionHeading
             title="Industries We Serve"
             subtitle="Tailored solutions for every sector"
-            centered
+            align="center"
           />
           
           <div className="grid grid-cols-1 gap-8 mt-16 md:grid-cols-2 lg:grid-cols-4">
@@ -338,7 +338,7 @@ const ForCompanies = () => {
                   </Button>
                 </Link>
                 <Link to="/pricing">
-                  <Button size="lg" variant="outline" className="text-white border-white/30 hover:bg-white/10">
+                  <Button size="lg" variant="outline" className="w-full sm:w-auto text-white border-white/30 hover:bg-white/10">
                     Enterprise Pricing
                   </Button>
                 </Link>

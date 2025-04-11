@@ -75,7 +75,7 @@ const Features = () => {
           <SectionHeading
             title="Core Platform Features"
             subtitle="Everything you need to revolutionize your hiring process"
-            centered
+            align="center"
           />
           
           <div className="grid grid-cols-1 gap-12 mt-16 md:grid-cols-2 lg:grid-cols-3">

@@ -10,7 +10,7 @@ const TestimonialsSection = () => {
         <SectionHeading
           title="Trusted by Companies & Candidates"
           subtitle="See what our users say about their experience with Zordie"
-          centered
+          align="center"
         />
         
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8 mt-12">

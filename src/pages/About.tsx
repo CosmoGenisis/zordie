@@ -1,3 +1,4 @@
+
 import React from 'react';
 import Layout from '@/components/layout/Layout';
 import { SectionHeading } from '@/components/ui/section-heading';
@@ -161,17 +162,17 @@ const About = () => {
 
             <div className="grid grid-cols-1 gap-8 mt-12 sm:grid-cols-2 lg:grid-cols-3">
               <ContactCard
-                icon={Mail}
+                Icon={Mail}
                 title="Email Us"
                 details="support@zordie.in"
               />
               <ContactCard
-                icon={Phone}
+                Icon={Phone}
                 title="Call Us"
                 details="+1 (555) 123-4567"
               />
               <ContactCard
-                icon={MapPin}
+                Icon={MapPin}
                 title="Location"
                 details="Kanpur, India"
               />
@@ -236,18 +237,18 @@ const teamMembers: TeamMemberProps[] = [
 ];
 
 interface ContactCardProps {
-  icon: React.ComponentType<any>;
+  Icon: React.ComponentType<any>;
   title: string;
   details: string;
 }
 
-const ContactCard = ({ icon, title, details }: ContactCardProps) => {
+const ContactCard = ({ Icon, title, details }: ContactCardProps) => {
   return (
     <Card className="bg-white dark:bg-zordie-800 border-0 hover-card-effect">
       <CardContent className="p-6">
         <div className="flex items-center mb-4">
           <div className="flex items-center justify-center w-10 h-10 mr-4 rounded-full bg-zordie-100 dark:bg-zordie-700">
-            <icon className="w-5 h-5 text-zordie-600 dark:text-zordie-200" />
+            <Icon className="w-5 h-5 text-zordie-600 dark:text-zordie-200" />
           </div>
           <h3 className="text-lg font-medium text-gray-900 dark:text-white">{title}</h3>
         </div>

@@ -30,6 +30,7 @@ import VerifyProfile from "./pages/VerifyProfile";
 import PracticeInterview from "./pages/PracticeInterview";
 import Resources from "./pages/Resources";
 import ProtectedRoute from "./components/auth/ProtectedRoute";
+import AIInterview from "./pages/AIInterview";
 
 const queryClient = new QueryClient();
 
@@ -70,6 +71,7 @@ const App = () => (
               <Route path="/find-jobs" element={<FindJobs />} />
               <Route path="/verify-profile" element={<VerifyProfile />} />
               <Route path="/practice-interview" element={<PracticeInterview />} />
+              <Route path="/ai-interview" element={<AIInterview />} />
               <Route path="/resources" element={<Resources />} />
               <Route path="*" element={<NotFound />} />
             </Routes>

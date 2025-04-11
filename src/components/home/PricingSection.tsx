@@ -19,7 +19,7 @@ const PricingSection = () => {
         <SectionHeading
           title="Affordable Plans for Every Business"
           subtitle="Choose the plan that best fits your hiring needs"
-          centered
+          align="center"
         />
         
         <div className="flex justify-center mt-8 mb-12">

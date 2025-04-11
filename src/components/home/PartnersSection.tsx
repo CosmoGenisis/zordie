@@ -7,7 +7,7 @@ const PartnersSection = () => {
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <SectionHeading
           title="Trusted by Leading Companies"
-          centered
+          align="center"
         />
         
         <div className="flex flex-wrap justify-center items-center gap-x-12 gap-y-8 mt-10">

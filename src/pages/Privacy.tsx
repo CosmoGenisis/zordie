@@ -42,7 +42,7 @@ const Privacy = () => {
             <SectionHeading
               title="Privacy Policy"
               subtitle="Last updated: April 11, 2025"
-              centered={false}
+              align="left"
             />
             
             <Separator className="my-8" />

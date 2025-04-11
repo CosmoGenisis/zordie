@@ -1,3 +1,4 @@
+
 import { SectionHeading } from "@/components/ui/section-heading";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { 
@@ -12,7 +13,7 @@ const FeaturesSection = () => {
         <SectionHeading
           title="AI-Powered Platform for Trustworthy Hiring"
           subtitle="Discover how Zordie transforms the hiring process with verification and intelligence"
-          centered
+          align="center"
         />
         
         <Tabs defaultValue="companies" className="w-full">

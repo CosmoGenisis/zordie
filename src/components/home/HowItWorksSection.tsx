@@ -9,7 +9,7 @@ const HowItWorksSection = () => {
         <SectionHeading
           title="How Zordie Works"
           subtitle="A simple yet powerful process for both companies and job seekers"
-          centered
+          align="center"
         />
         
         <Tabs defaultValue="companies" className="w-full">

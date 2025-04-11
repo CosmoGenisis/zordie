@@ -21,10 +21,14 @@ files=(
 # Function to replace centered with align
 update_file() {
   sed -i 's/centered={true}/align="center"/g' "$1"
+  sed -i 's/centered=\{true\}/align="center"/g' "$1"
   sed -i 's/centered={false}/align="left"/g' "$1"
+  sed -i 's/centered=\{false\}/align="left"/g' "$1"
   sed -i 's/centered={boolean}/align="center"/g' "$1"
+  sed -i 's/centered=\{boolean\}/align="center"/g' "$1"
   sed -i 's/centered: true/align: "center"/g' "$1"
   sed -i 's/centered: false/align: "left"/g' "$1"
+  sed -i 's/centered/align="center"/g' "$1"
 }
 
 # Iterate through files and update
@@ -36,3 +40,5 @@ for file in "${files[@]}"; do
     echo "File not found: $file"
   fi
 done
+
+echo "All files have been updated to use align prop instead of centered prop."

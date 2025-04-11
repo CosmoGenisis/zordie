@@ -1,4 +1,3 @@
-
 import React from 'react';
 import Layout from '@/components/layout/Layout';
 import { SectionHeading } from '@/components/ui/section-heading';
@@ -12,14 +11,17 @@ import {
 } from 'lucide-react';
 import { HoverCard, HoverCardContent, HoverCardTrigger } from '@/components/ui/hover-card';
 import { Card, CardContent } from '@/components/ui/card';
+import { useTheme } from '@/context/ThemeContext';
 
 const Features = () => {
+  const { theme } = useTheme();
+  
   return (
     <Layout>
-      {/* Hero Section */}
-      <div className="relative overflow-hidden bg-gradient-to-b from-zordie-50 to-white">
+      {/* Hero Section with fixed background */}
+      <div className="relative overflow-hidden bg-gradient-to-b from-zordie-50 to-white dark:from-zordie-900 dark:to-zordie-950 transition-colors duration-300">
         <div className="absolute inset-0 z-0">
-          <div className="absolute inset-0 bg-grid-black/[0.02]" />
+          <div className="absolute inset-0 bg-grid-black/[0.02] dark:bg-grid-white/[0.02]" />
         </div>
         <div className="relative z-10 px-4 py-24 mx-auto max-w-7xl sm:px-6 lg:px-8">
           <motion.div 
@@ -28,13 +30,13 @@ const Features = () => {
             transition={{ duration: 0.5 }}
             className="text-center"
           >
-            <span className="inline-block px-4 py-1 mb-5 text-sm font-medium rounded-full bg-zordie-100 text-zordie-800">
+            <span className="inline-block px-4 py-1 mb-5 text-sm font-medium rounded-full bg-zordie-100 text-zordie-800 dark:bg-zordie-800 dark:text-zordie-100">
               Transforming Recruitment
             </span>
-            <h1 className="mb-6 text-5xl font-bold tracking-tight text-gray-900 md:text-6xl">
-              AI-Powered Features for <span className="text-zordie-600">Authentic Hiring</span>
+            <h1 className="mb-6 text-5xl font-bold tracking-tight text-gray-900 dark:text-white md:text-6xl">
+              AI-Powered Features for <span className="text-zordie-600 dark:text-zordie-400">Authentic Hiring</span>
             </h1>
-            <p className="max-w-2xl mx-auto mb-10 text-xl text-gray-600">
+            <p className="max-w-2xl mx-auto mb-10 text-xl text-gray-600 dark:text-gray-300">
               Discover the innovative solutions that make Zordie AI Hire the most trusted platform for verifying talent and streamlining recruitment.
             </p>
             <div className="flex flex-wrap justify-center gap-4">
@@ -46,16 +48,16 @@ const Features = () => {
               <HoverCard>
                 <HoverCardTrigger asChild>
                   <Link to="/pricing">
-                    <Button size="lg" variant="outline" className="shadow-sm border-zordie-200 hover:border-zordie-300 hover:bg-zordie-50">
+                    <Button size="lg" variant="outline" className="shadow-sm border-zordie-200 hover:border-zordie-300 hover:bg-zordie-50 dark:border-zordie-700 dark:hover:border-zordie-600 dark:bg-zordie-800/50 dark:hover:bg-zordie-800 dark:text-white">
                       View Pricing
                     </Button>
                   </Link>
                 </HoverCardTrigger>
-                <HoverCardContent className="w-80">
+                <HoverCardContent className="w-80 dark:bg-zordie-800 dark:border-zordie-700">
                   <div className="flex justify-between space-x-4">
                     <div>
-                      <h4 className="text-sm font-semibold">Flexible Pricing Options</h4>
-                      <p className="text-sm">
+                      <h4 className="text-sm font-semibold dark:text-white">Flexible Pricing Options</h4>
+                      <p className="text-sm dark:text-gray-300">
                         Choose from monthly or annual plans with up to 20% savings.
                       </p>
                     </div>

@@ -92,7 +92,24 @@
   }
 
   body {
-    @apply bg-background text-foreground font-sans;
+    @apply bg-background text-foreground font-sans transition-colors duration-300;
+  }
+  
+  /* Dark mode specific styles */
+  .dark .bg-white {
+    @apply bg-zordie-950;
+  }
+  
+  .dark .bg-gray-50 {
+    @apply bg-zordie-900;
+  }
+  
+  .dark .text-gray-900 {
+    @apply text-white;
+  }
+  
+  .dark .text-gray-600, .dark .text-gray-700 {
+    @apply text-gray-300;
   }
 }
 
@@ -102,15 +119,25 @@
   }
   
   .hero-title {
-    @apply bg-gradient-to-r from-zordie-700 to-accent1 bg-clip-text text-transparent;
+    @apply bg-gradient-to-r from-zordie-700 to-accent1 bg-clip-text text-transparent dark:from-zordie-400 dark:to-accent1;
   }
 
   .feature-card {
-    @apply relative p-6 rounded-xl border bg-white/50 shadow-sm hover:shadow-md transition-all duration-300;
+    @apply relative p-6 rounded-xl border bg-white/50 shadow-sm hover:shadow-md transition-all duration-300 dark:bg-zordie-800/50 dark:border-zordie-700;
   }
 
   .avatar-verified {
-    @apply after:content-[''] after:absolute after:bottom-0 after:right-0 after:h-5 after:w-5 after:rounded-full after:bg-green-500 after:ring-2 after:ring-white after:flex after:items-center after:justify-center;
+    @apply after:content-[''] after:absolute after:bottom-0 after:right-0 after:h-5 after:w-5 after:rounded-full after:bg-green-500 after:ring-2 after:ring-white after:flex after:items-center after:justify-center dark:after:ring-zordie-900;
+  }
+  
+  /* Dark mode card */
+  .dark-card {
+    @apply bg-zordie-800 border-zordie-700 text-white;
+  }
+  
+  /* Glass effect for dark mode */
+  .dark-glass {
+    @apply bg-zordie-800/80 backdrop-blur-sm border-zordie-700;
   }
 }
 
@@ -182,4 +209,9 @@
 
 .card-hover-effect {
   @apply transition-all duration-300 hover:shadow-lg hover:translate-y-[-4px];
+}
+
+/* Fix for "Meet Prime" blinking in hero section */
+.hover-scale-105 {
+  @apply hover:scale-105 transition-transform duration-300;
 }

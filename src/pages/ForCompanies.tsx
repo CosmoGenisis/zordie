@@ -1,4 +1,3 @@
-
 import React from 'react';
 import Layout from '@/components/layout/Layout';
 import { SectionHeading } from '@/components/ui/section-heading';
@@ -12,14 +11,17 @@ import {
   ShieldCheck, Bot, Clock, FileSearch, Zap, CreditCard, Sparkles,
   Award, Trophy, Target, TrendingUp, MessageSquare, CircleCheck
 } from 'lucide-react';
+import { useTheme } from '@/context/ThemeContext';
 
 const ForCompanies = () => {
+  const { theme } = useTheme();
+  
   return (
     <Layout>
-      {/* Hero Section */}
-      <div className="relative overflow-hidden bg-gradient-to-b from-zordie-50 to-white">
+      {/* Hero Section with fixed background and new image */}
+      <div className="relative overflow-hidden bg-gradient-to-b from-zordie-50 to-white dark:from-zordie-900 dark:to-zordie-950 transition-colors duration-300">
         <div className="absolute inset-0 z-0">
-          <div className="absolute inset-0 bg-grid-black/[0.02]" />
+          <div className="absolute inset-0 bg-grid-black/[0.02] dark:bg-grid-white/[0.02]" />
         </div>
         <div className="px-4 py-24 mx-auto max-w-7xl sm:px-6 lg:px-8 relative z-10">
           <div className="grid items-center grid-cols-1 gap-16 lg:grid-cols-2">
@@ -28,13 +30,13 @@ const ForCompanies = () => {
               animate={{ opacity: 1, x: 0 }}
               transition={{ duration: 0.6 }}
             >
-              <Badge className="mb-5 px-3 py-1 bg-zordie-100 text-zordie-800 hover:bg-zordie-100">
+              <Badge className="mb-5 px-3 py-1 bg-zordie-100 text-zordie-800 hover:bg-zordie-100 dark:bg-zordie-800 dark:text-zordie-100 dark:hover:bg-zordie-800">
                 For Companies
               </Badge>
-              <h1 className="mb-6 text-4xl font-bold tracking-tight text-gray-900 md:text-5xl lg:text-6xl">
-                Solve Your <span className="text-zordie-600">Hiring Challenges</span> with AI
+              <h1 className="mb-6 text-4xl font-bold tracking-tight text-gray-900 dark:text-white md:text-5xl lg:text-6xl">
+                Solve Your <span className="text-zordie-600 dark:text-zordie-400">Hiring Challenges</span> with AI
               </h1>
-              <p className="mb-8 text-lg text-gray-600 md:text-xl">
+              <p className="mb-8 text-lg text-gray-600 dark:text-gray-300 md:text-xl">
                 Eliminate fake resumes, verify skills, and hire authentic talent 73% faster with Zordie AI's advanced verification technology.
               </p>
               
@@ -45,15 +47,15 @@ const ForCompanies = () => {
                     initial={{ opacity: 0, y: 20 }}
                     animate={{ opacity: 1, y: 0 }}
                     transition={{ duration: 0.4, delay: 0.1 * index }}
-                    className="p-4 rounded-lg bg-white shadow-sm border border-gray-100"
+                    className="p-4 rounded-lg bg-white dark:bg-zordie-800 shadow-sm border border-gray-100 dark:border-zordie-700"
                   >
                     <div className="flex items-center mb-2">
-                      <div className="flex items-center justify-center w-8 h-8 mr-3 rounded-full bg-zordie-100">
-                        <stat.icon className="w-4 h-4 text-zordie-600" />
+                      <div className="flex items-center justify-center w-8 h-8 mr-3 rounded-full bg-zordie-100 dark:bg-zordie-700">
+                        <stat.icon className="w-4 h-4 text-zordie-600 dark:text-zordie-300" />
                       </div>
-                      <span className="text-2xl font-bold text-gray-900">{stat.value}</span>
+                      <span className="text-2xl font-bold text-gray-900 dark:text-white">{stat.value}</span>
                     </div>
-                    <p className="text-sm text-gray-600">{stat.label}</p>
+                    <p className="text-sm text-gray-600 dark:text-gray-300">{stat.label}</p>
                   </motion.div>
                 ))}
               </div>
@@ -65,7 +67,7 @@ const ForCompanies = () => {
                   </Button>
                 </Link>
                 <Link to="/pricing">
-                  <Button size="lg" variant="outline" className="shadow-sm border-zordie-200 hover:border-zordie-300 hover:bg-zordie-50">
+                  <Button size="lg" variant="outline" className="shadow-sm border-zordie-200 hover:border-zordie-300 hover:bg-zordie-50 dark:border-zordie-700 dark:hover:border-zordie-600 dark:bg-zordie-800/50 dark:hover:bg-zordie-800 dark:text-white">
                     View Pricing
                   </Button>
                 </Link>
@@ -80,26 +82,26 @@ const ForCompanies = () => {
             >
               <div className="relative overflow-hidden rounded-2xl shadow-2xl">
                 <img 
-                  src="https://images.unsplash.com/photo-1552581234-26160f608093?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=1200&q=80" 
+                  src="https://images.unsplash.com/photo-1522202176988-66273c2fd55f?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=1200&q=80" 
                   alt="Teams collaborating" 
                   className="w-full h-full object-cover"
                 />
-                <div className="absolute inset-0 bg-gradient-to-tr from-zordie-900/30 to-transparent"></div>
+                <div className="absolute inset-0 bg-gradient-to-tr from-zordie-900/30 to-transparent dark:from-zordie-950/50"></div>
               </div>
               
               <motion.div 
                 initial={{ opacity: 0, y: 20 }}
                 animate={{ opacity: 1, y: 0 }}
                 transition={{ duration: 0.5, delay: 0.3 }}
-                className="absolute -bottom-6 -right-6 bg-white rounded-lg p-4 shadow-lg border"
+                className="absolute -bottom-6 -right-6 bg-white dark:bg-zordie-800 rounded-lg p-4 shadow-lg border dark:border-zordie-700"
               >
                 <div className="flex items-center">
                   <div className="h-12 w-12 rounded-full bg-gradient-to-r from-zordie-500 to-accent1 flex items-center justify-center text-white font-bold">
                     73%
                   </div>
                   <div className="ml-3">
-                    <p className="font-semibold text-gray-900">Faster Hiring</p>
-                    <p className="text-xs text-gray-500">With Zordie AI</p>
+                    <p className="font-semibold text-gray-900 dark:text-white">Faster Hiring</p>
+                    <p className="text-xs text-gray-500 dark:text-gray-400">With Zordie AI</p>
                   </div>
                 </div>
               </motion.div>
@@ -108,15 +110,15 @@ const ForCompanies = () => {
                 initial={{ opacity: 0, y: -20 }}
                 animate={{ opacity: 1, y: 0 }}
                 transition={{ duration: 0.5, delay: 0.5 }}
-                className="absolute -top-6 -left-6 bg-white rounded-lg p-4 shadow-lg border"
+                className="absolute -top-6 -left-6 bg-white dark:bg-zordie-800 rounded-lg p-4 shadow-lg border dark:border-zordie-700"
               >
                 <div className="flex items-center">
                   <div className="h-12 w-12 rounded-full bg-gradient-to-r from-zordie-500 to-accent1 flex items-center justify-center text-white font-bold">
                     <ShieldCheck className="h-6 w-6" />
                   </div>
                   <div className="ml-3">
-                    <p className="font-semibold text-gray-900">Verified Talent</p>
-                    <p className="text-xs text-gray-500">Eliminate Fake Resumes</p>
+                    <p className="font-semibold text-gray-900 dark:text-white">Verified Talent</p>
+                    <p className="text-xs text-gray-500 dark:text-gray-400">Eliminate Fake Resumes</p>
                   </div>
                 </div>
               </motion.div>
@@ -126,7 +128,7 @@ const ForCompanies = () => {
       </div>
       
       {/* Problems We Solve Section */}
-      <div className="py-24 bg-white">
+      <div className="py-24 bg-white dark:bg-zordie-950 transition-colors duration-300">
         <div className="px-4 mx-auto max-w-7xl sm:px-6 lg:px-8">
           <SectionHeading
             title="Problems We Solve"
@@ -143,22 +145,22 @@ const ForCompanies = () => {
                 transition={{ duration: 0.4, delay: index * 0.1 }}
                 viewport={{ once: true }}
               >
-                <Card className="h-full overflow-hidden transition-all duration-300 border-0 hover-card-effect bg-gradient-to-tr from-white via-white to-gray-50">
+                <Card className="h-full overflow-hidden transition-all duration-300 border-0 hover-card-effect bg-gradient-to-tr from-white via-white to-gray-50 dark:from-zordie-800 dark:via-zordie-800 dark:to-zordie-850">
                   <CardContent className="p-8">
-                    <div className="flex items-center justify-center w-12 h-12 mb-5 rounded-lg bg-red-100">
-                      <problem.icon className="w-6 h-6 text-red-600" />
+                    <div className="flex items-center justify-center w-12 h-12 mb-5 rounded-lg bg-red-100 dark:bg-red-700">
+                      <problem.icon className="w-6 h-6 text-red-600 dark:text-red-200" />
                     </div>
-                    <h3 className="mb-3 text-xl font-semibold">{problem.title}</h3>
-                    <p className="text-gray-600">{problem.description}</p>
+                    <h3 className="mb-3 text-xl font-semibold text-gray-900 dark:text-white">{problem.title}</h3>
+                    <p className="text-gray-600 dark:text-gray-300">{problem.description}</p>
                     
-                    <div className="pt-5 mt-5 border-t border-gray-100">
+                    <div className="pt-5 mt-5 border-t border-gray-100 dark:border-zordie-700">
                       <div className="flex items-center">
-                        <div className="flex items-center justify-center w-8 h-8 mr-3 rounded-full bg-zordie-100">
-                          <problem.solutionIcon className="w-4 h-4 text-zordie-600" />
+                        <div className="flex items-center justify-center w-8 h-8 mr-3 rounded-full bg-zordie-100 dark:bg-zordie-700">
+                          <problem.solutionIcon className="w-4 h-4 text-zordie-600 dark:text-zordie-300" />
                         </div>
                         <div>
-                          <p className="font-medium text-zordie-700">Our Solution:</p>
-                          <p className="text-sm text-gray-600">{problem.solution}</p>
+                          <p className="font-medium text-zordie-700 dark:text-zordie-300">Our Solution:</p>
+                          <p className="text-sm text-gray-600 dark:text-gray-300">{problem.solution}</p>
                         </div>
                       </div>
                     </div>
@@ -171,7 +173,7 @@ const ForCompanies = () => {
       </div>
       
       {/* Key Benefits Section */}
-      <div className="py-24 bg-gray-50">
+      <div className="py-24 bg-gray-50 dark:bg-zordie-900 transition-colors duration-300">
         <div className="px-4 mx-auto max-w-7xl sm:px-6 lg:px-8">
           <div className="grid items-center grid-cols-1 gap-16 lg:grid-cols-2">
             <motion.div
@@ -180,13 +182,13 @@ const ForCompanies = () => {
               transition={{ duration: 0.5 }}
               viewport={{ once: true }}
             >
-              <Badge className="mb-5 px-3 py-1 bg-zordie-100 text-zordie-800 hover:bg-zordie-100">
+              <Badge className="mb-5 px-3 py-1 bg-zordie-100 text-zordie-800 hover:bg-zordie-100 dark:bg-zordie-800 dark:text-zordie-100 dark:hover:bg-zordie-800">
                 Business Benefits
               </Badge>
-              <h2 className="mb-6 text-3xl font-bold text-gray-900 md:text-4xl">
-                Transforming Recruitment for <span className="text-zordie-600">Better Results</span>
+              <h2 className="mb-6 text-3xl font-bold text-gray-900 dark:text-white md:text-4xl">
+                Transforming Recruitment for <span className="text-zordie-600 dark:text-zordie-400">Better Results</span>
               </h2>
-              <p className="mb-8 text-lg text-gray-600">
+              <p className="mb-8 text-lg text-gray-600 dark:text-gray-300">
                 From startups to enterprises, Zordie AI helps companies of all sizes streamline their hiring process, reduce costs, and improve the quality of hires.
               </p>
               
@@ -198,14 +200,14 @@ const ForCompanies = () => {
                     whileInView={{ opacity: 1, y: 0 }}
                     transition={{ duration: 0.3, delay: index * 0.1 }}
                     viewport={{ once: true }}
-                    className="flex p-4 transition-all duration-300 border border-transparent rounded-lg hover:border-zordie-100 hover:bg-white"
+                    className="flex p-4 transition-all duration-300 border border-transparent rounded-lg hover:border-zordie-100 hover:bg-white dark:hover:border-zordie-700 dark:hover:bg-zordie-800"
                   >
-                    <div className="flex items-center justify-center flex-shrink-0 w-10 h-10 mr-4 rounded-full bg-zordie-100">
-                      <benefit.icon className="w-5 h-5 text-zordie-600" />
+                    <div className="flex items-center justify-center flex-shrink-0 w-10 h-10 mr-4 rounded-full bg-zordie-100 dark:bg-zordie-700">
+                      <benefit.icon className="w-5 h-5 text-zordie-600 dark:text-zordie-300" />
                     </div>
                     <div>
-                      <h3 className="mb-1 text-lg font-medium">{benefit.title}</h3>
-                      <p className="text-gray-600">{benefit.description}</p>
+                      <h3 className="mb-1 text-lg font-medium text-gray-900 dark:text-white">{benefit.title}</h3>
+                      <p className="text-gray-600 dark:text-gray-300">{benefit.description}</p>
                     </div>
                   </motion.div>
                 ))}
@@ -234,17 +236,17 @@ const ForCompanies = () => {
                   whileInView={{ opacity: 1, y: 0 }}
                   transition={{ duration: 0.4, delay: 0.1 * index }}
                   viewport={{ once: true }}
-                  className="p-6 rounded-xl bg-white shadow-md border border-gray-100 hover-card-effect"
+                  className="p-6 rounded-xl bg-white dark:bg-zordie-800 shadow-md border border-gray-100 dark:border-zordie-700 hover-card-effect"
                 >
-                  <div className="flex items-center justify-center w-12 h-12 mb-4 rounded-lg bg-zordie-100">
-                    <card.icon className="w-6 h-6 text-zordie-600" />
+                  <div className="flex items-center justify-center w-12 h-12 mb-4 rounded-lg bg-zordie-100 dark:bg-zordie-700">
+                    <card.icon className="w-6 h-6 text-zordie-600 dark:text-zordie-300" />
                   </div>
-                  <h3 className="mb-2 text-xl font-semibold">{card.title}</h3>
-                  <p className="text-gray-600">{card.description}</p>
+                  <h3 className="mb-2 text-xl font-semibold text-gray-900 dark:text-white">{card.title}</h3>
+                  <p className="text-gray-600 dark:text-gray-300">{card.description}</p>
                   
-                  <div className="flex items-center pt-4 mt-4 border-t border-gray-100">
-                    <span className="mr-2 text-2xl font-bold text-zordie-600">{card.stat}</span>
-                    <span className="text-sm text-gray-600">{card.statLabel}</span>
+                  <div className="flex items-center pt-4 mt-4 border-t border-gray-100 dark:border-zordie-700">
+                    <span className="mr-2 text-2xl font-bold text-zordie-600 dark:text-zordie-300">{card.stat}</span>
+                    <span className="text-sm text-gray-600 dark:text-gray-300">{card.statLabel}</span>
                   </div>
                 </motion.div>
               ))}
@@ -254,7 +256,7 @@ const ForCompanies = () => {
       </div>
       
       {/* Industries Section */}
-      <div className="py-24 bg-white">
+      <div className="py-24 bg-white dark:bg-zordie-950 transition-colors duration-300">
         <div className="px-4 mx-auto max-w-7xl sm:px-6 lg:px-8">
           <SectionHeading
             title="Industries We Serve"
@@ -272,13 +274,13 @@ const ForCompanies = () => {
                 viewport={{ once: true }}
                 className="feature-card group transition-all duration-300"
               >
-                <div className="mb-4 text-zordie-600">
+                <div className="mb-4 text-zordie-600 dark:text-zordie-300">
                   <industry.icon className="w-10 h-10" />
                 </div>
-                <h3 className="mb-2 text-xl font-semibold">{industry.title}</h3>
-                <p className="mb-4 text-gray-600">{industry.description}</p>
-                <div className="pt-3 border-t border-gray-100">
-                  <span className="inline-block px-3 py-1 text-xs font-medium rounded-full bg-zordie-50 text-zordie-700">
+                <h3 className="mb-2 text-xl font-semibold text-gray-900 dark:text-white">{industry.title}</h3>
+                <p className="mb-4 text-gray-600 dark:text-gray-300">{industry.description}</p>
+                <div className="pt-3 border-t border-gray-100 dark:border-zordie-700">
+                  <span className="inline-block px-3 py-1 text-xs font-medium rounded-full bg-zordie-50 text-zordie-700 dark:bg-zordie-800 dark:text-zordie-200">
                     {industry.focus}
                   </span>
                 </div>
@@ -347,7 +349,7 @@ const ForCompanies = () => {
       </div>
       
       {/* CTA Section */}
-      <div className="py-24 bg-gray-50">
+      <div className="py-24 bg-gray-50 dark:bg-zordie-900 transition-colors duration-300">
         <div className="px-4 mx-auto max-w-7xl sm:px-6 lg:px-8">
           <motion.div 
             initial={{ opacity: 0, y: 20 }}
@@ -356,10 +358,10 @@ const ForCompanies = () => {
             viewport={{ once: true }}
             className="text-center"
           >
-            <h2 className="mb-6 text-3xl font-bold text-gray-900 md:text-4xl">
+            <h2 className="mb-6 text-3xl font-bold text-gray-900 dark:text-white md:text-4xl">
               Ready to transform your hiring?
             </h2>
-            <p className="max-w-2xl mx-auto mb-10 text-lg text-gray-600">
+            <p className="max-w-2xl mx-auto mb-10 text-lg text-gray-600 dark:text-gray-300">
               Join thousands of companies using Zordie AI to hire faster and smarter. Get started with a free trial today.
             </p>
             

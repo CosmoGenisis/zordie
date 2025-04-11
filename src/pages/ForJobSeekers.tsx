@@ -1,128 +1,50 @@
-
 import React from 'react';
 import Layout from '@/components/layout/Layout';
 import { SectionHeading } from '@/components/ui/section-heading';
 import { Button } from '@/components/ui/button';
-import { Card, CardContent } from '@/components/ui/card';
-import { Badge } from '@/components/ui/badge'; 
 import { Link } from 'react-router-dom';
 import { motion } from 'framer-motion';
-import { 
-  CheckCircle, ArrowRight, Award, BadgeCheck, Clock, Sparkles,
-  ShieldCheck, Zap, Target, TrendingUp, BarChart3, Briefcase,
-  FileCheck, Github, Users, ThumbsUp, MessageSquare, Brain
-} from 'lucide-react';
+import { useTheme } from '@/context/ThemeContext';
 
 const ForJobSeekers = () => {
+  const { theme } = useTheme();
+  
   return (
     <Layout>
-      {/* Hero Section */}
-      <div className="relative overflow-hidden bg-gradient-to-b from-zordie-50 to-white">
+      {/* Hero Section with fixed background */}
+      <div className="relative overflow-hidden bg-gradient-to-b from-zordie-50 to-white dark:from-zordie-900 dark:to-zordie-950 transition-colors duration-300">
         <div className="absolute inset-0 z-0">
-          <div className="absolute inset-0 bg-grid-black/[0.02]" />
+          <div className="absolute inset-0 bg-grid-black/[0.02] dark:bg-grid-white/[0.02]" />
         </div>
-        <div className="px-4 py-24 mx-auto max-w-7xl sm:px-6 lg:px-8 relative z-10">
-          <div className="grid items-center grid-cols-1 gap-16 lg:grid-cols-2">
-            <motion.div
-              initial={{ opacity: 0, x: -30 }}
-              animate={{ opacity: 1, x: 0 }}
-              transition={{ duration: 0.6 }}
-              className="order-2 lg:order-1"
-            >
-              <Badge className="mb-5 px-3 py-1 bg-zordie-100 text-zordie-800 hover:bg-zordie-100">
-                For Job Seekers
-              </Badge>
-              <h1 className="mb-6 text-4xl font-bold tracking-tight text-gray-900 md:text-5xl lg:text-6xl">
-                Stand Out with <span className="text-zordie-600">Verified Skills</span>
-              </h1>
-              <p className="mb-8 text-lg text-gray-600 md:text-xl">
-                Showcase your authentic talent, get noticed by top employers, and land your dream job faster with Zordie AI's verification platform.
-              </p>
-              
-              <div className="grid grid-cols-2 gap-5 mb-10">
-                {seekerStats.map((stat, index) => (
-                  <motion.div 
-                    key={index}
-                    initial={{ opacity: 0, y: 20 }}
-                    animate={{ opacity: 1, y: 0 }}
-                    transition={{ duration: 0.4, delay: 0.1 * index }}
-                    className="p-4 rounded-lg bg-white shadow-sm border border-gray-100"
-                  >
-                    <div className="flex items-center mb-2">
-                      <div className="flex items-center justify-center w-8 h-8 mr-3 rounded-full bg-zordie-100">
-                        <stat.icon className="w-4 h-4 text-zordie-600" />
-                      </div>
-                      <span className="text-2xl font-bold text-gray-900">{stat.value}</span>
-                    </div>
-                    <p className="text-sm text-gray-600">{stat.label}</p>
-                  </motion.div>
-                ))}
-              </div>
-              
-              <div className="flex flex-wrap gap-4">
-                <Link to="/signup">
-                  <Button size="lg" className="btn-gradient shadow-lg hover:shadow-zordie-200/50">
-                    Create Your Profile <ArrowRight className="ml-2 w-4 h-4" />
-                  </Button>
-                </Link>
-                <Link to="/features">
-                  <Button size="lg" variant="outline" className="shadow-sm border-zordie-200 hover:border-zordie-300 hover:bg-zordie-50">
-                    Learn More
-                  </Button>
-                </Link>
-              </div>
-            </motion.div>
-            
-            <motion.div 
-              initial={{ opacity: 0, scale: 0.95 }}
-              animate={{ opacity: 1, scale: 1 }}
-              transition={{ duration: 0.5 }}
-              className="relative lg:h-[600px] flex items-center justify-center order-1 lg:order-2"
-            >
-              <div className="relative overflow-hidden rounded-2xl shadow-2xl">
-                <img 
-                  src="https://images.unsplash.com/photo-1488590528505-98d2b5aba04b?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=1200&q=80" 
-                  alt="Professional with laptop" 
-                  className="w-full h-full object-cover"
-                />
-                <div className="absolute inset-0 bg-gradient-to-tr from-zordie-900/30 to-transparent"></div>
-              </div>
-              
-              <motion.div 
-                initial={{ opacity: 0, y: 20 }}
-                animate={{ opacity: 1, y: 0 }}
-                transition={{ duration: 0.5, delay: 0.3 }}
-                className="absolute -bottom-6 -left-6 bg-white rounded-lg p-4 shadow-lg border"
-              >
-                <div className="flex items-center">
-                  <div className="h-12 w-12 rounded-full bg-gradient-to-r from-zordie-500 to-accent1 flex items-center justify-center text-white font-bold">
-                    <BadgeCheck className="h-6 w-6" />
-                  </div>
-                  <div className="ml-3">
-                    <p className="font-semibold text-gray-900">Verified Profile</p>
-                    <p className="text-xs text-gray-500">2.5x more interviews</p>
-                  </div>
-                </div>
-              </motion.div>
-              
-              <motion.div 
-                initial={{ opacity: 0, y: -20 }}
-                animate={{ opacity: 1, y: 0 }}
-                transition={{ duration: 0.5, delay: 0.5 }}
-                className="absolute -top-6 -right-6 bg-white rounded-lg p-4 shadow-lg border"
-              >
-                <div className="flex items-center">
-                  <div className="h-12 w-12 rounded-full bg-gradient-to-r from-zordie-500 to-accent1 flex items-center justify-center text-white font-bold">
-                    <Zap className="h-6 w-6" />
-                  </div>
-                  <div className="ml-3">
-                    <p className="font-semibold text-gray-900">Stand Out</p>
-                    <p className="text-xs text-gray-500">From the competition</p>
-                  </div>
-                </div>
-              </motion.div>
-            </motion.div>
-          </div>
+        <div className="relative z-10 px-4 py-24 mx-auto max-w-7xl sm:px-6 lg:px-8">
+          <motion.div 
+            initial={{ opacity: 0, y: 20 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.5 }}
+            className="text-center"
+          >
+            <span className="inline-block px-4 py-1 mb-5 text-sm font-medium rounded-full bg-zordie-100 text-zordie-800 dark:bg-zordie-800 dark:text-zordie-100">
+              For Job Seekers
+            </span>
+            <h1 className="mb-6 text-5xl font-bold tracking-tight text-gray-900 dark:text-white md:text-6xl">
+              Showcase Your <span className="text-zordie-600 dark:text-zordie-400">Authentic Skills</span>
+            </h1>
+            <p className="max-w-2xl mx-auto mb-10 text-xl text-gray-600 dark:text-gray-300">
+              Stand out from the competition by verifying your skills and credentials with Zordie AI.
+            </p>
+            <div className="flex flex-wrap justify-center gap-4">
+              <Link to="/signup">
+                <Button size="lg" className="btn-gradient shadow-lg hover:shadow-zordie-200/50">
+                  Create Free Profile
+                </Button>
+              </Link>
+              <Link to="/features">
+                <Button size="lg" variant="outline" className="shadow-sm border-zordie-200 hover:border-zordie-300 hover:bg-zordie-50 dark:border-zordie-700 dark:hover:border-zordie-600 dark:bg-zordie-800/50 dark:hover:bg-zordie-800 dark:text-white">
+                  How It Works
+                </Button>
+              </Link>
+            </div>
+          </motion.div>
         </div>
       </div>
       

@@ -18,6 +18,7 @@ import { useToast } from "@/components/ui/use-toast";
 import Layout from "@/components/layout/Layout";
 import { useAuth } from "@/context/AuthContext";
 import LoadingScreen from "@/components/auth/LoadingScreen";
+import { supabase } from "@/integrations/supabase/client";
 
 const Login = () => {
   const [isLoading, setIsLoading] = useState(false);
@@ -85,12 +86,17 @@ const Login = () => {
         }
       });
       
-      if (error) throw error;
+      if (error) {
+        if (error.message.includes("provider is not enabled")) {
+          throw new Error("GitHub authentication is not enabled in the Supabase project settings. Please enable it in the Supabase dashboard.");
+        }
+        throw error;
+      }
       
       // The redirect happens automatically, so no need for additional code here
-    } catch (error) {
+    } catch (error: any) {
       console.error("GitHub sign in error:", error);
-      setError("Failed to sign in with GitHub. Please try again.");
+      setError(error.message || "Failed to sign in with GitHub. Please try again.");
       setIsLoading(false);
     }
   };

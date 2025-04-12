@@ -102,9 +102,9 @@ const Signup = () => {
       // Navigate to login page - user will need to confirm email before logging in
       navigate('/login');
       
-    } catch (error) {
+    } catch (error: any) {
       console.error("Signup error:", error);
-      setError("Failed to create account. Please try again.");
+      setError(error.message || "Failed to create account. Please try again.");
     } finally {
       setIsLoading(false);
     }
@@ -122,12 +122,17 @@ const Signup = () => {
         }
       });
       
-      if (error) throw error;
+      if (error) {
+        if (error.message.includes("provider is not enabled")) {
+          throw new Error("GitHub authentication is not enabled in the Supabase project settings. Please enable it in the Supabase dashboard.");
+        }
+        throw error;
+      }
       
       // The redirect happens automatically, so no need for additional code here
-    } catch (error) {
+    } catch (error: any) {
       console.error("GitHub sign up error:", error);
-      setError("Failed to sign up with GitHub. Please try again.");
+      setError(error.message || "Failed to sign up with GitHub. Please try again.");
       setIsLoading(false);
     }
   };

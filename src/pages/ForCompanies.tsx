@@ -76,7 +76,7 @@ const ForCompanies = () => {
         <div className="absolute inset-0 z-0">
           <div className="absolute inset-0 bg-grid-black/[0.02] dark:bg-grid-white/[0.02]" />
         </div>
-        <div className="px-4 py-28 mx-auto max-w-7xl sm:px-6 lg:px-8 relative z-10 bg-zinc-50">
+        <div className="px-4 py-28 mx-auto max-w-7xl sm:px-6 lg:px-8 relative z-10 bg-slate-50">
           <div className="grid items-center grid-cols-1 gap-16 lg:grid-cols-2">
             <motion.div initial="hidden" animate="visible" variants={slideIn('left')}>
               <Badge className="mb-5 px-4 py-1.5 text-sm font-medium bg-zordie-100/80 text-zordie-800 dark:bg-zordie-800/80 dark:text-zordie-100 backdrop-blur-sm border border-zordie-200/50 dark:border-zordie-700/50">

@@ -3,23 +3,10 @@ import Layout from '@/components/layout/Layout';
 import { SectionHeading } from '@/components/ui/section-heading';
 import { Button } from '@/components/ui/button';
 import { Card, CardContent } from '@/components/ui/card';
-import { 
-  Building, 
-  Shield, 
-  Users, 
-  BarChart, 
-  CheckCircle, 
-  Zap, 
-  Lock, 
-  Globe,
-  Cpu,
-  Layers
-} from 'lucide-react';
+import { Building, Shield, Users, BarChart, CheckCircle, Zap, Lock, Globe, Cpu, Layers } from 'lucide-react';
 import { Separator } from '@/components/ui/separator';
-
 const EnterpriseSolutions = () => {
-  return (
-    <Layout>
+  return <Layout>
       {/* Hero Section */}
       <section className="bg-gradient-to-r from-zordie-700 to-zordie-800 text-white py-24">
         <div className="container mx-auto px-4">
@@ -37,7 +24,7 @@ const EnterpriseSolutions = () => {
               <Button className="bg-white text-zordie-700 hover:bg-zordie-50 text-lg py-6 px-8">
                 Request Demo
               </Button>
-              <Button variant="outline" className="border-white/30 hover:bg-white/10 text-lg py-6 px-8">
+              <Button variant="outline" className="border-white/30 text-lg py-6 px-8 bg-zordie-950 hover:bg-zordie-800">
                 Contact Sales
               </Button>
             </div>
@@ -73,11 +60,7 @@ const EnterpriseSolutions = () => {
       {/* Key Features Section */}
       <section className="py-20">
         <div className="container mx-auto px-4">
-          <SectionHeading
-            title="Enterprise-Grade Features"
-            subtitle="Built for scale and security"
-            align="center"
-          />
+          <SectionHeading title="Enterprise-Grade Features" subtitle="Built for scale and security" align="center" />
           
           <div className="grid md:grid-cols-3 gap-8 mt-12">
             <Card className="border border-gray-200 hover:shadow-lg transition-all duration-300 h-full">
@@ -160,11 +143,7 @@ const EnterpriseSolutions = () => {
         <div className="container mx-auto px-4">
           <div className="grid md:grid-cols-2 gap-12 items-center">
             <div>
-              <SectionHeading
-                title="Tailored Enterprise Solutions"
-                subtitle="Customized to your specific needs"
-                align="left"
-              />
+              <SectionHeading title="Tailored Enterprise Solutions" subtitle="Customized to your specific needs" align="left" />
               <p className="text-gray-600 mb-6">
                 We understand that enterprise organizations have unique recruitment challenges. Our solutions are fully customizable to address your specific needs:
               </p>
@@ -178,11 +157,7 @@ const EnterpriseSolutions = () => {
               <Button className="btn-gradient">Learn More About Customization</Button>
             </div>
             <div className="relative">
-              <img 
-                src="https://images.unsplash.com/photo-1552664730-d307ca884978?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1170&q=80" 
-                alt="Enterprise Solutions" 
-                className="rounded-lg shadow-lg"
-              />
+              <img src="https://images.unsplash.com/photo-1552664730-d307ca884978?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1170&q=80" alt="Enterprise Solutions" className="rounded-lg shadow-lg" />
               <div className="absolute -bottom-6 -right-6 bg-white p-4 rounded-lg shadow-lg">
                 <div className="flex items-center space-x-2">
                   <CheckCircle className="h-5 w-5 text-green-500" />
@@ -197,11 +172,7 @@ const EnterpriseSolutions = () => {
       {/* Pricing Section */}
       <section className="py-20">
         <div className="container mx-auto px-4">
-          <SectionHeading
-            title="Enterprise Pricing"
-            subtitle="Flexible solutions for large organizations"
-            align="center"
-          />
+          <SectionHeading title="Enterprise Pricing" subtitle="Flexible solutions for large organizations" align="center" />
           
           <Card className="max-w-4xl mx-auto mt-12 border-gray-200">
             <CardContent className="p-8">
@@ -260,20 +231,12 @@ const EnterpriseSolutions = () => {
       {/* Case Studies Section */}
       <section className="py-20 bg-zordie-50">
         <div className="container mx-auto px-4">
-          <SectionHeading
-            title="Success Stories"
-            subtitle="How enterprises succeed with Zordie"
-            align="center"
-          />
+          <SectionHeading title="Success Stories" subtitle="How enterprises succeed with Zordie" align="center" />
           
           <div className="grid md:grid-cols-3 gap-8 mt-12">
             <Card className="border-0 shadow-md hover:shadow-xl transition-all duration-300">
               <CardContent className="p-6">
-                <img 
-                  src="https://images.unsplash.com/photo-1560179707-f14e90ef3623?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1074&q=80" 
-                  alt="Global Tech Corp" 
-                  className="w-full h-40 object-cover rounded-lg mb-6"
-                />
+                <img src="https://images.unsplash.com/photo-1560179707-f14e90ef3623?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1074&q=80" alt="Global Tech Corp" className="w-full h-40 object-cover rounded-lg mb-6" />
                 <div className="text-sm text-zordie-600 font-medium mb-2">CASE STUDY</div>
                 <h3 className="text-xl font-bold mb-2">Global Tech Corp</h3>
                 <p className="text-gray-600 mb-4">Reduced time-to-hire by 73% while improving quality of hires across 24 global offices.</p>
@@ -292,11 +255,7 @@ const EnterpriseSolutions = () => {
             
             <Card className="border-0 shadow-md hover:shadow-xl transition-all duration-300">
               <CardContent className="p-6">
-                <img 
-                  src="https://images.unsplash.com/photo-1504384308090-c894fdcc538d?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1170&q=80" 
-                  alt="FinServe Holdings" 
-                  className="w-full h-40 object-cover rounded-lg mb-6"
-                />
+                <img src="https://images.unsplash.com/photo-1504384308090-c894fdcc538d?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1170&q=80" alt="FinServe Holdings" className="w-full h-40 object-cover rounded-lg mb-6" />
                 <div className="text-sm text-zordie-600 font-medium mb-2">CASE STUDY</div>
                 <h3 className="text-xl font-bold mb-2">FinServe Holdings</h3>
                 <p className="text-gray-600 mb-4">Implemented AI screening to hire 2,000+ employees in compliance with financial regulations.</p>
@@ -315,11 +274,7 @@ const EnterpriseSolutions = () => {
             
             <Card className="border-0 shadow-md hover:shadow-xl transition-all duration-300">
               <CardContent className="p-6">
-                <img 
-                  src="https://images.unsplash.com/photo-1551076805-e1869033e561?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1332&q=80" 
-                  alt="HealthCare Network" 
-                  className="w-full h-40 object-cover rounded-lg mb-6"
-                />
+                <img src="https://images.unsplash.com/photo-1551076805-e1869033e561?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1332&q=80" alt="HealthCare Network" className="w-full h-40 object-cover rounded-lg mb-6" />
                 <div className="text-sm text-zordie-600 font-medium mb-2">CASE STUDY</div>
                 <h3 className="text-xl font-bold mb-2">HealthCare Network</h3>
                 <p className="text-gray-600 mb-4">Streamlined healthcare professional hiring across 120+ facilities while ensuring credential verification.</p>
@@ -362,17 +317,16 @@ const EnterpriseSolutions = () => {
           </div>
         </div>
       </section>
-    </Layout>
-  );
+    </Layout>;
 };
-
-const EnterpriseListItem = ({ text }: { text: string }) => {
-  return (
-    <li className="flex items-start">
+const EnterpriseListItem = ({
+  text
+}: {
+  text: string;
+}) => {
+  return <li className="flex items-start">
       <CheckCircle className="h-5 w-5 text-zordie-600 mr-3 shrink-0 mt-0.5" />
       <span>{text}</span>
-    </li>
-  );
+    </li>;
 };
-
 export default EnterpriseSolutions;

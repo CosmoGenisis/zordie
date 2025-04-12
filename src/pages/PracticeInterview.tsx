@@ -1,4 +1,3 @@
-
 import React, { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 import Layout from '@/components/layout/Layout';
@@ -22,7 +21,8 @@ import {
   MessageSquare,
   ArrowRight,
   ChevronRight,
-  AlertCircle
+  AlertCircle,
+  ChevronDown
 } from 'lucide-react';
 import {
   Select,
@@ -53,7 +53,6 @@ const PracticeInterview = () => {
   const { toast } = useToast();
   const navigate = useNavigate();
 
-  // Save interview session to database when interview starts
   const handleStartInterview = async () => {
     setIsLoading(true);
     
@@ -68,7 +67,6 @@ const PracticeInterview = () => {
     }
     
     try {
-      // Create a new interview session in the database
       const { error } = await supabase
         .from('interview_sessions')
         .insert({
@@ -82,7 +80,6 @@ const PracticeInterview = () => {
         
       if (error) throw error;
       
-      // Start the interview
       setIsInterviewStarted(true);
       toast({
         title: "Interview session started",

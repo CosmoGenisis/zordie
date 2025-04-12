@@ -1,4 +1,3 @@
-
 import React, { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 import Layout from '@/components/layout/Layout';
@@ -65,7 +64,6 @@ const UserDashboard = () => {
     const fetchUserData = async () => {
       setIsLoading(true);
       try {
-        // Fetch user profile
         const { data: profileData, error: profileError } = await supabase
           .from('profiles')
           .select('*')
@@ -75,7 +73,6 @@ const UserDashboard = () => {
         if (profileError) throw profileError;
         setProfile(profileData);
         
-        // Fetch interview sessions
         const { data: sessionsData, error: sessionsError } = await supabase
           .from('interview_sessions')
           .select('*')
@@ -169,7 +166,6 @@ const UserDashboard = () => {
       <div className="bg-gray-50 min-h-screen">
         <div className="container mx-auto px-4 py-8">
           
-          {/* Dashboard Header */}
           <div className="flex flex-col md:flex-row justify-between items-start md:items-center mb-8">
             <div className="flex items-center mb-4 md:mb-0">
               <Avatar className="h-12 w-12 mr-4">
@@ -193,10 +189,8 @@ const UserDashboard = () => {
             </div>
           </div>
           
-          {/* Dashboard Content */}
           <div className="grid grid-cols-1 md:grid-cols-4 gap-6">
             
-            {/* Sidebar */}
             <div className="md:col-span-1">
               <Card>
                 <CardContent className="p-0">
@@ -255,11 +249,9 @@ const UserDashboard = () => {
               </Card>
             </div>
             
-            {/* Main Content */}
             <div className="md:col-span-3">
               
-              <TabsContent value="overview" className="m-0 space-y-6" forceMount={activeTab === 'overview'}>
-                {/* Quick Stats */}
+              <TabsContent value="overview" className="m-0 space-y-6" forceMount={activeTab === 'overview' ? true : undefined}>
                 <div className="grid grid-cols-1 sm:grid-cols-3 gap-4">
                   <Card>
                     <CardContent className="p-6">
@@ -304,7 +296,6 @@ const UserDashboard = () => {
                   </Card>
                 </div>
                 
-                {/* Recent Activities */}
                 <Card>
                   <CardHeader>
                     <CardTitle>Recent Activities</CardTitle>
@@ -360,7 +351,6 @@ const UserDashboard = () => {
                   </CardContent>
                 </Card>
                 
-                {/* Recommended Practice */}
                 <Card>
                   <CardHeader>
                     <CardTitle>Recommended Practice</CardTitle>
@@ -397,7 +387,7 @@ const UserDashboard = () => {
                 </Card>
               </TabsContent>
               
-              <TabsContent value="sessions" className="m-0 space-y-6" forceMount={activeTab === 'sessions'}>
+              <TabsContent value="sessions" className="m-0 space-y-6" forceMount={activeTab === 'sessions' ? true : undefined}>
                 <Card>
                   <CardHeader className="flex flex-row items-center justify-between">
                     <CardTitle>Interview Sessions</CardTitle>
@@ -467,7 +457,7 @@ const UserDashboard = () => {
                 </Card>
               </TabsContent>
               
-              <TabsContent value="progress" className="m-0 space-y-6" forceMount={activeTab === 'progress'}>
+              <TabsContent value="progress" className="m-0 space-y-6" forceMount={activeTab === 'progress' ? true : undefined}>
                 <Card>
                   <CardHeader>
                     <CardTitle>Your Progress</CardTitle>
@@ -560,7 +550,7 @@ const UserDashboard = () => {
                 </Card>
               </TabsContent>
               
-              <TabsContent value="chats" className="m-0 space-y-6" forceMount={activeTab === 'chats'}>
+              <TabsContent value="chats" className="m-0 space-y-6" forceMount={activeTab === 'chats' ? true : undefined}>
                 <Card>
                   <CardHeader className="flex flex-row items-center justify-between">
                     <CardTitle>Chat History</CardTitle>
@@ -586,7 +576,7 @@ const UserDashboard = () => {
                 </Card>
               </TabsContent>
               
-              <TabsContent value="settings" className="m-0 space-y-6" forceMount={activeTab === 'settings'}>
+              <TabsContent value="settings" className="m-0 space-y-6" forceMount={activeTab === 'settings' ? true : undefined}>
                 <Card>
                   <CardHeader>
                     <CardTitle>Profile Settings</CardTitle>

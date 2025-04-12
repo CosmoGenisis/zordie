@@ -8,6 +8,7 @@ import { Link } from 'react-router-dom';
 import { motion } from 'framer-motion';
 import { CheckCircle, ArrowRight, Users, Building, Briefcase, BarChart, ShieldCheck, Bot, Clock, FileSearch, Zap, CreditCard, Sparkles, Award, Trophy, Target, TrendingUp, MessageSquare, CircleCheck, BarChart3, Brain, ScrollText, Database, Fingerprint } from 'lucide-react';
 import { useTheme } from '@/context/ThemeContext';
+
 const ForCompanies = () => {
   const {
     theme
@@ -70,13 +71,14 @@ const ForCompanies = () => {
       }
     }
   });
+
   return <Layout>
       {/* Hero Section with white background */}
       <div className="relative overflow-hidden bg-white dark:bg-zordie-950 transition-colors duration-300">
         <div className="absolute inset-0 z-0">
           <div className="absolute inset-0 bg-grid-black/[0.02] dark:bg-grid-white/[0.02]" />
         </div>
-        <div className="px-4 py-28 mx-auto max-w-7xl sm:px-6 lg:px-8 relative z-10 bg-slate-50">
+        <div className="px-4 py-28 mx-auto max-w-7xl sm:px-6 lg:px-8 relative z-10 bg-white dark:bg-zordie-950">
           <div className="grid items-center grid-cols-1 gap-16 lg:grid-cols-2">
             <motion.div initial="hidden" animate="visible" variants={slideIn('left')}>
               <Badge className="mb-5 px-4 py-1.5 text-sm font-medium bg-zordie-100/80 text-zordie-800 dark:bg-zordie-800/80 dark:text-zordie-100 backdrop-blur-sm border border-zordie-200/50 dark:border-zordie-700/50">
@@ -595,7 +597,7 @@ const benefitCards = [{
   statLabel: "faster offers"
 }];
 const testimonials = [{
-  avatar: "https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=256&q=80",
+  avatar: "https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=256&q=80",
   name: "Michael Thompson",
   role: "CTO",
   company: "TechCorp",
@@ -604,7 +606,7 @@ const testimonials = [{
   statDetail: "reduction in bad hires",
   icon: CheckCircle
 }, {
-  avatar: "https://images.unsplash.com/photo-1494790108377-be9c29b29330?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=256&q=80",
+  avatar: "https://images.unsplash.com/photo-1494790108377-be9c29b29330?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=256&q=80",
   name: "Sarah Johnson",
   role: "HR Director",
   company: "Innovate Inc.",
@@ -613,7 +615,7 @@ const testimonials = [{
   statDetail: "more efficient hiring pipeline",
   icon: Bot
 }, {
-  avatar: "https://images.unsplash.com/photo-1500648767791-00dcc994a43e?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=256&q=80",
+  avatar: "https://images.unsplash.com/photo-1500648767791-00dcc994a43e?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=256&q=80",
   name: "David Lee",
   role: "Recruitment Manager",
   company: "Global Solutions",

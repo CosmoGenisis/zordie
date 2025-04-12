@@ -6,6 +6,7 @@ import { Link } from 'react-router-dom';
 import { motion } from 'framer-motion';
 import { ArrowRight, BadgeCheck, Github, Award, ThumbsUp, Zap, Target, TrendingUp, Briefcase, Users, ShieldCheck, BarChart3, FileCheck, Badge, MessageSquare, Clock, Sparkles, Rocket, Brain, CheckCircle, LayoutDashboard, LucideIcon } from 'lucide-react';
 import { Card, CardHeader, CardFooter, CardTitle, CardDescription, CardContent } from '@/components/ui/card';
+
 const ForJobSeekers = () => {
   // Animation variants
   const fadeIn = {
@@ -64,13 +65,14 @@ const ForJobSeekers = () => {
       }
     }
   });
+
   return <Layout>
       {/* Hero Section with white background */}
       <div className="relative overflow-hidden bg-white dark:bg-zordie-950 transition-colors duration-300">
         <div className="absolute inset-0 z-0">
           <div className="absolute inset-0 bg-grid-black/[0.02] dark:bg-grid-white/[0.02]" />
         </div>
-        <div className="relative z-10 px-4 py-28 mx-auto max-w-7xl sm:px-6 lg:px-8 bg-slate-50">
+        <div className="px-4 py-28 mx-auto max-w-7xl sm:px-6 lg:px-8 relative z-10 bg-white dark:bg-zordie-950">
           <div className="grid items-center grid-cols-1 gap-16 lg:grid-cols-2">
             <motion.div initial="hidden" animate="visible" variants={slideIn('left')}>
               

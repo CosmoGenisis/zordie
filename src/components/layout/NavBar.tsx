@@ -2,7 +2,7 @@
 import React, { useState } from "react";
 import { Button } from "@/components/ui/button";
 import { Link, useLocation, useNavigate } from "react-router-dom";
-import { Menu, X, Globe, ChevronDown, User, LogOut } from "lucide-react";
+import { Menu, X, Globe, ChevronDown, User, LogOut, MessageSquare } from "lucide-react";
 import {
   DropdownMenu,
   DropdownMenuContent,
@@ -98,31 +98,44 @@ const NavBar = () => {
             </DropdownMenu>
             
             {user ? (
-              <DropdownMenu>
-                <DropdownMenuTrigger asChild>
-                  <Button variant="ghost" size="sm" className="flex items-center transition-all duration-200 hover:bg-gray-100">
-                    <Avatar className="h-8 w-8 mr-2">
-                      <AvatarImage src="https://randomuser.me/api/portraits/men/2.jpg" />
-                      <AvatarFallback>{user.email?.[0]?.toUpperCase() || 'U'}</AvatarFallback>
-                    </Avatar>
-                    <span className="font-medium">Account</span>
-                    <ChevronDown className="h-4 w-4 ml-1" />
-                  </Button>
-                </DropdownMenuTrigger>
-                <DropdownMenuContent align="end">
-                  <DropdownMenuItem asChild>
-                    <Link to="/dashboard">
-                      <User className="mr-2 h-4 w-4" />
-                      Dashboard
-                    </Link>
-                  </DropdownMenuItem>
-                  <DropdownMenuSeparator />
-                  <DropdownMenuItem onClick={handleLogout}>
-                    <LogOut className="mr-2 h-4 w-4" />
-                    Log out
-                  </DropdownMenuItem>
-                </DropdownMenuContent>
-              </DropdownMenu>
+              <>
+                <Button variant="outline" size="sm" className="flex items-center" onClick={() => navigate('/chat')}>
+                  <MessageSquare className="h-4 w-4 mr-2" />
+                  <span>Chat</span>
+                </Button>
+                
+                <DropdownMenu>
+                  <DropdownMenuTrigger asChild>
+                    <Button variant="ghost" size="sm" className="flex items-center transition-all duration-200 hover:bg-gray-100">
+                      <Avatar className="h-8 w-8 mr-2">
+                        <AvatarImage src="https://randomuser.me/api/portraits/men/2.jpg" />
+                        <AvatarFallback>{user.email?.[0]?.toUpperCase() || 'U'}</AvatarFallback>
+                      </Avatar>
+                      <span className="font-medium">Account</span>
+                      <ChevronDown className="h-4 w-4 ml-1" />
+                    </Button>
+                  </DropdownMenuTrigger>
+                  <DropdownMenuContent align="end">
+                    <DropdownMenuItem asChild>
+                      <Link to="/user-dashboard">
+                        <User className="mr-2 h-4 w-4" />
+                        My Dashboard
+                      </Link>
+                    </DropdownMenuItem>
+                    <DropdownMenuItem asChild>
+                      <Link to="/dashboard">
+                        <User className="mr-2 h-4 w-4" />
+                        Company Dashboard
+                      </Link>
+                    </DropdownMenuItem>
+                    <DropdownMenuSeparator />
+                    <DropdownMenuItem onClick={handleLogout}>
+                      <LogOut className="mr-2 h-4 w-4" />
+                      Log out
+                    </DropdownMenuItem>
+                  </DropdownMenuContent>
+                </DropdownMenu>
+              </>
             ) : (
               <>
                 <Link to="/login">
@@ -181,10 +194,22 @@ const NavBar = () => {
             <div className="flex flex-col space-y-3 pt-3">
               {user ? (
                 <>
+                  <Link to="/chat" className="w-full">
+                    <Button variant="outline" className="w-full transition-all duration-200 hover:shadow-md flex items-center" onClick={() => setMobileMenuOpen(false)}>
+                      <MessageSquare className="mr-2 h-4 w-4" />
+                      Chat Assistant
+                    </Button>
+                  </Link>
+                  <Link to="/user-dashboard" className="w-full">
+                    <Button variant="outline" className="w-full transition-all duration-200 hover:shadow-md flex items-center" onClick={() => setMobileMenuOpen(false)}>
+                      <User className="mr-2 h-4 w-4" />
+                      My Dashboard
+                    </Button>
+                  </Link>
                   <Link to="/dashboard" className="w-full">
                     <Button variant="outline" className="w-full transition-all duration-200 hover:shadow-md flex items-center" onClick={() => setMobileMenuOpen(false)}>
                       <User className="mr-2 h-4 w-4" />
-                      Dashboard
+                      Company Dashboard
                     </Button>
                   </Link>
                   <Button className="w-full btn-gradient transition-all duration-200 hover:shadow-md flex items-center" onClick={() => {

@@ -31,6 +31,8 @@ import PracticeInterview from "./pages/PracticeInterview";
 import Resources from "./pages/Resources";
 import ProtectedRoute from "./components/auth/ProtectedRoute";
 import AIInterview from "./pages/AIInterview";
+import UserDashboard from "./pages/UserDashboard";
+import Chatbot from "./pages/Chatbot";
 
 const queryClient = new QueryClient();
 
@@ -57,6 +59,18 @@ const App = () => (
                     <Dashboard />
                   </ProtectedRoute>
                 } 
+              />
+              <Route 
+                path="/user-dashboard" 
+                element={
+                  <ProtectedRoute>
+                    <UserDashboard />
+                  </ProtectedRoute>
+                } 
+              />
+              <Route 
+                path="/chat" 
+                element={<Chatbot />} 
               />
               <Route path="/post-job" element={<PostJob />} />
               <Route path="/about" element={<About />} />

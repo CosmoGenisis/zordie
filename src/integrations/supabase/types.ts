@@ -9,7 +9,108 @@ export type Json =
 export type Database = {
   public: {
     Tables: {
-      [_ in never]: never
+      chat_messages: {
+        Row: {
+          content: string
+          created_at: string | null
+          id: string
+          is_user: boolean
+          user_id: string
+        }
+        Insert: {
+          content: string
+          created_at?: string | null
+          id?: string
+          is_user: boolean
+          user_id: string
+        }
+        Update: {
+          content?: string
+          created_at?: string | null
+          id?: string
+          is_user?: boolean
+          user_id?: string
+        }
+        Relationships: []
+      }
+      interview_sessions: {
+        Row: {
+          created_at: string | null
+          difficulty: string | null
+          duration: number | null
+          feedback: Json | null
+          id: string
+          industry: string | null
+          interview_type: string
+          job_role: string | null
+          questions: Json | null
+          score: number | null
+          user_id: string
+        }
+        Insert: {
+          created_at?: string | null
+          difficulty?: string | null
+          duration?: number | null
+          feedback?: Json | null
+          id?: string
+          industry?: string | null
+          interview_type: string
+          job_role?: string | null
+          questions?: Json | null
+          score?: number | null
+          user_id: string
+        }
+        Update: {
+          created_at?: string | null
+          difficulty?: string | null
+          duration?: number | null
+          feedback?: Json | null
+          id?: string
+          industry?: string | null
+          interview_type?: string
+          job_role?: string | null
+          questions?: Json | null
+          score?: number | null
+          user_id?: string
+        }
+        Relationships: []
+      }
+      profiles: {
+        Row: {
+          avatar_url: string | null
+          company_name: string | null
+          company_size: string | null
+          created_at: string | null
+          first_name: string | null
+          id: string
+          last_name: string | null
+          updated_at: string | null
+          user_type: string
+        }
+        Insert: {
+          avatar_url?: string | null
+          company_name?: string | null
+          company_size?: string | null
+          created_at?: string | null
+          first_name?: string | null
+          id: string
+          last_name?: string | null
+          updated_at?: string | null
+          user_type: string
+        }
+        Update: {
+          avatar_url?: string | null
+          company_name?: string | null
+          company_size?: string | null
+          created_at?: string | null
+          first_name?: string | null
+          id?: string
+          last_name?: string | null
+          updated_at?: string | null
+          user_type?: string
+        }
+        Relationships: []
+      }
     }
     Views: {
       [_ in never]: never

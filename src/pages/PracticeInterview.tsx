@@ -1,4 +1,6 @@
-import React, { useState } from 'react';
+
+import React, { useState, useEffect } from 'react';
+import { useNavigate } from 'react-router-dom';
 import Layout from '@/components/layout/Layout';
 import { SectionHeading } from '@/components/ui/section-heading';
 import { Button } from '@/components/ui/button';
@@ -19,7 +21,8 @@ import {
   Sparkles,
   MessageSquare,
   ArrowRight,
-  ChevronRight
+  ChevronRight,
+  AlertCircle
 } from 'lucide-react';
 import {
   Select,
@@ -32,9 +35,70 @@ import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
 import { Badge } from '@/components/ui/badge';
 import { Progress } from '@/components/ui/progress';
 import { Separator } from '@/components/ui/separator';
+import { useToast } from '@/components/ui/use-toast';
+import { useAuth } from '@/context/AuthContext';
+import { supabase } from '@/integrations/supabase/client';
 
 const PracticeInterview = () => {
   const [isInterviewStarted, setIsInterviewStarted] = useState(false);
+  const [interviewType, setInterviewType] = useState('behavioral');
+  const [jobRole, setJobRole] = useState('product');
+  const [experienceLevel, setExperienceLevel] = useState('mid');
+  const [industry, setIndustry] = useState('');
+  const [duration, setDuration] = useState('20');
+  const [difficulty, setDifficulty] = useState('moderate');
+  const [isLoading, setIsLoading] = useState(false);
+  
+  const { user } = useAuth();
+  const { toast } = useToast();
+  const navigate = useNavigate();
+
+  // Save interview session to database when interview starts
+  const handleStartInterview = async () => {
+    setIsLoading(true);
+    
+    if (!user) {
+      toast({
+        title: "Authentication required",
+        description: "Please log in to start an interview session",
+        variant: "destructive"
+      });
+      navigate('/login');
+      return;
+    }
+    
+    try {
+      // Create a new interview session in the database
+      const { error } = await supabase
+        .from('interview_sessions')
+        .insert({
+          user_id: user.id,
+          interview_type: interviewType,
+          job_role: jobRole,
+          industry: industry || null,
+          difficulty,
+          duration: parseInt(duration)
+        });
+        
+      if (error) throw error;
+      
+      // Start the interview
+      setIsInterviewStarted(true);
+      toast({
+        title: "Interview session started",
+        description: "Your interview session has been created"
+      });
+    } catch (error) {
+      console.error("Error starting interview:", error);
+      toast({
+        title: "Failed to start interview",
+        description: "Please try again later",
+        variant: "destructive"
+      });
+    } finally {
+      setIsLoading(false);
+    }
+  };
   
   return (
     <Layout>
@@ -53,7 +117,10 @@ const PracticeInterview = () => {
                 Master your interview skills with our AI interviewer. Receive real-time feedback and actionable insights to prepare for your next job interview.
               </p>
               <div className="flex flex-col sm:flex-row gap-4">
-                <Button className="btn-gradient text-lg py-6 px-8" onClick={() => setIsInterviewStarted(true)}>
+                <Button 
+                  className="btn-gradient text-lg py-6 px-8" 
+                  onClick={() => user ? setIsInterviewStarted(true) : navigate('/login')}
+                >
                   Start Practice Interview
                 </Button>
                 <Button variant="outline" className="text-lg py-6 px-8">
@@ -97,9 +164,28 @@ const PracticeInterview = () => {
               <Card className="border-gray-200 shadow-md">
                 <CardContent className="p-8">
                   <div className="space-y-6">
+                    {!user && (
+                      <div className="bg-amber-50 border border-amber-200 rounded-md p-4 mb-6 flex items-start">
+                        <AlertCircle className="h-5 w-5 text-amber-500 mt-0.5 mr-3 flex-shrink-0" />
+                        <div>
+                          <h3 className="font-medium text-amber-800">Authentication Required</h3>
+                          <p className="text-amber-700 mt-1">
+                            To save your interview progress and get personalized recommendations, please{' '}
+                            <Button variant="link" className="p-0 h-auto text-zordie-600" onClick={() => navigate('/login')}>
+                              log in
+                            </Button>{' '}
+                            or{' '}
+                            <Button variant="link" className="p-0 h-auto text-zordie-600" onClick={() => navigate('/signup')}>
+                              sign up
+                            </Button>.
+                          </p>
+                        </div>
+                      </div>
+                    )}
+                  
                     <div>
                       <label className="block text-sm font-medium mb-2">Select Interview Type</label>
-                      <Select defaultValue="behavioral">
+                      <Select defaultValue={interviewType} onValueChange={setInterviewType}>
                         <SelectTrigger>
                           <SelectValue placeholder="Choose interview type" />
                         </SelectTrigger>
@@ -115,7 +201,7 @@ const PracticeInterview = () => {
                     
                     <div>
                       <label className="block text-sm font-medium mb-2">Job Role / Position</label>
-                      <Select defaultValue="product">
+                      <Select defaultValue={jobRole} onValueChange={setJobRole}>
                         <SelectTrigger>
                           <SelectValue placeholder="Select job role" />
                         </SelectTrigger>
@@ -135,7 +221,7 @@ const PracticeInterview = () => {
                     
                     <div>
                       <label className="block text-sm font-medium mb-2">Experience Level</label>
-                      <Select defaultValue="mid">
+                      <Select defaultValue={experienceLevel} onValueChange={setExperienceLevel}>
                         <SelectTrigger>
                           <SelectValue placeholder="Select experience level" />
                         </SelectTrigger>
@@ -150,7 +236,7 @@ const PracticeInterview = () => {
                     
                     <div>
                       <label className="block text-sm font-medium mb-2">Industry Focus (Optional)</label>
-                      <Select>
+                      <Select value={industry} onValueChange={setIndustry}>
                         <SelectTrigger>
                           <SelectValue placeholder="Select industry (optional)" />
                         </SelectTrigger>
@@ -169,7 +255,7 @@ const PracticeInterview = () => {
                     
                     <div>
                       <label className="block text-sm font-medium mb-2">Interview Duration</label>
-                      <Select defaultValue="20">
+                      <Select defaultValue={duration} onValueChange={setDuration}>
                         <SelectTrigger>
                           <SelectValue placeholder="Select duration" />
                         </SelectTrigger>
@@ -184,7 +270,7 @@ const PracticeInterview = () => {
                     
                     <div>
                       <label className="block text-sm font-medium mb-2">Difficulty Level</label>
-                      <Select defaultValue="moderate">
+                      <Select defaultValue={difficulty} onValueChange={setDifficulty}>
                         <SelectTrigger>
                           <SelectValue placeholder="Select difficulty" />
                         </SelectTrigger>
@@ -216,8 +302,12 @@ const PracticeInterview = () => {
                       </div>
                     </div>
                     
-                    <Button className="w-full btn-gradient py-6 text-lg" onClick={() => setIsInterviewStarted(true)}>
-                      Start Interview Practice
+                    <Button 
+                      className="w-full btn-gradient py-6 text-lg" 
+                      onClick={handleStartInterview}
+                      disabled={isLoading}
+                    >
+                      {isLoading ? "Setting Up Interview..." : "Start Interview Practice"}
                     </Button>
                   </div>
                 </CardContent>
@@ -743,35 +833,14 @@ const PracticeInterview = () => {
               question="Is my interview data private and secure?"
               answer="Yes, your privacy is our priority. All interview recordings and data are encrypted and stored securely. We do not share your information with third parties, and you can delete your interview recordings at any time. Our AI learning models use anonymized data to improve the system."
             />
-            
-            <FaqItem 
-              question="Can I access my previous interview recordings?"
-              answer="Yes, with our Pro and Premium plans, you can access all your previous interview recordings, feedback, and progress tracking. This allows you to review your improvement over time and continue working on specific areas that need attention."
-            />
           </div>
-        </div>
-      </section>
-
-      {/* CTA Section */}
-      <section className="py-16">
-        <div className="container mx-auto px-4 text-center">
-          <h2 className="text-3xl font-bold mb-6">Ready to Ace Your Next Interview?</h2>
-          <p className="text-lg text-gray-600 mb-8 max-w-2xl mx-auto">
-            Start practicing with our AI interviewer today and gain the confidence you need to succeed in any interview.
-          </p>
-          <Button className="btn-gradient text-lg py-6 px-8 group">
-            Start Free Practice Interview
-            <ArrowRight className="ml-2 h-5 w-5 transition-transform group-hover:translate-x-1" />
-          </Button>
-          <p className="text-sm text-gray-500 mt-4">
-            No credit card required. Start with 3 free practice interviews.
-          </p>
         </div>
       </section>
     </Layout>
   );
 };
 
+// Supporting components
 interface FeatureCardProps {
   icon: React.ReactNode;
   title: string;
@@ -780,12 +849,12 @@ interface FeatureCardProps {
 
 const FeatureCard = ({ icon, title, description }: FeatureCardProps) => {
   return (
-    <Card className="border border-gray-200 hover:shadow-lg transition-all duration-300 h-full">
+    <Card className="border-gray-200 hover:shadow-md transition-all duration-300">
       <CardContent className="p-6">
-        <div className="w-12 h-12 rounded-full bg-zordie-100 flex items-center justify-center mb-6">
+        <div className="w-12 h-12 bg-zordie-100 rounded-full flex items-center justify-center mb-4">
           {icon}
         </div>
-        <h3 className="text-xl font-semibold mb-3">{title}</h3>
+        <h3 className="text-lg font-semibold mb-2">{title}</h3>
         <p className="text-gray-600">{description}</p>
       </CardContent>
     </Card>
@@ -801,19 +870,18 @@ interface TestimonialCardProps {
 
 const TestimonialCard = ({ quote, name, title, image }: TestimonialCardProps) => {
   return (
-    <Card className="border border-gray-200 hover:shadow-lg transition-all duration-300 h-full">
-      <CardContent className="p-6 flex flex-col h-full">
-        <div className="mb-6 text-zordie-700">
-          <svg width="32" height="32" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
-            <path d="M10 11H6C6 11 6 9 6 7C6 4.79086 7.79086 3 10 3V11ZM22 11H18C18 11 18 9 18 7C18 4.79086 19.7909 3 22 3V11ZM22 11V15C22 15 20 15 18 15C15.7909 15 14 16.7909 14 19C14 21.2091 15.7909 23 18 23C20.2091 23 22 21.2091 22 19V15M10 11V15C10 15 8 15 6 15C3.79086 15 2 16.7909 2 19C2 21.2091 3.79086 23 6 23C8.20914 23 10 21.2091 10 19V15" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"/>
-          </svg>
+    <Card className="border-gray-200 hover:shadow-md transition-all duration-300">
+      <CardContent className="p-6">
+        <div className="mb-4">
+          <p className="text-gray-600 italic">"{quote}"</p>
         </div>
-        <p className="text-gray-600 mb-6 flex-grow">{quote}</p>
         <div className="flex items-center">
-          <img src={image} alt={name} className="w-12 h-12 rounded-full mr-4" />
+          <div className="mr-3">
+            <img src={image} alt={name} className="w-12 h-12 rounded-full" />
+          </div>
           <div>
-            <div className="font-semibold">{name}</div>
-            <div className="text-sm text-gray-500">{title}</div>
+            <h4 className="font-semibold">{name}</h4>
+            <p className="text-sm text-gray-500">{title}</p>
           </div>
         </div>
       </CardContent>
@@ -821,11 +889,15 @@ const TestimonialCard = ({ quote, name, title, image }: TestimonialCardProps) =>
   );
 };
 
-const PlanFeature = ({ text }: { text: string }) => {
+interface PlanFeatureProps {
+  text: string;
+}
+
+const PlanFeature = ({ text }: PlanFeatureProps) => {
   return (
-    <li className="flex items-center">
-      <CheckCircle className="h-4 w-4 text-zordie-600 mr-3 shrink-0" />
-      <span className="text-gray-700">{text}</span>
+    <li className="flex items-start">
+      <CheckCircle className="h-4 w-4 text-zordie-600 mr-2 mt-1 shrink-0" />
+      <span className="text-gray-600">{text}</span>
     </li>
   );
 };
@@ -839,22 +911,23 @@ const FaqItem = ({ question, answer }: FaqItemProps) => {
   const [isOpen, setIsOpen] = useState(false);
   
   return (
-    <Card className="border border-gray-200">
-      <CardContent className="p-0">
-        <button
-          className="flex items-center justify-between w-full p-6 text-left font-medium focus:outline-none"
-          onClick={() => setIsOpen(!isOpen)}
-        >
-          <span>{question}</span>
-          <ChevronRight className={`h-5 w-5 transition-transform ${isOpen ? 'rotate-90' : ''}`} />
-        </button>
-        <div className={`overflow-hidden transition-all duration-300 ${isOpen ? 'max-h-96' : 'max-h-0'}`}>
-          <div className="p-6 pt-0 text-gray-600">
-            {answer}
-          </div>
+    <div className="border rounded-lg overflow-hidden">
+      <button
+        className="flex justify-between items-center w-full p-4 text-left bg-white hover:bg-gray-50 transition-colors"
+        onClick={() => setIsOpen(!isOpen)}
+      >
+        <h3 className="font-medium">{question}</h3>
+        <div className={`transform transition-transform ${isOpen ? 'rotate-180' : ''}`}>
+          <ChevronDown className="h-5 w-5 text-gray-500" />
         </div>
-      </CardContent>
-    </Card>
+      </button>
+      
+      {isOpen && (
+        <div className="p-4 bg-gray-50 border-t">
+          <p className="text-gray-600">{answer}</p>
+        </div>
+      )}
+    </div>
   );
 };
 

@@ -70,7 +70,7 @@ const ForJobSeekers = () => {
         <div className="absolute inset-0 z-0">
           <div className="absolute inset-0 bg-grid-black/[0.02] dark:bg-grid-white/[0.02]" />
         </div>
-        <div className="relative z-10 px-4 py-28 mx-auto max-w-7xl sm:px-6 lg:px-8">
+        <div className="relative z-10 px-4 py-28 mx-auto max-w-7xl sm:px-6 lg:px-8 bg-slate-50">
           <div className="grid items-center grid-cols-1 gap-16 lg:grid-cols-2">
             <motion.div initial="hidden" animate="visible" variants={slideIn('left')}>
               
@@ -84,7 +84,7 @@ const ForJobSeekers = () => {
                   </span>
                 </span>
               </h1>
-              <p className="mb-8 text-lg md:text-xl text-zinc-50">
+              <p className="mb-8 text-lg md:text-xl text-stone-900">
                 Stand out from the competition by verifying your skills and credentials with Zordie AI. Get noticed by top employers looking for authentic talent.
               </p>
               

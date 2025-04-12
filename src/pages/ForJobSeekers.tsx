@@ -488,9 +488,7 @@ const ForJobSeekers = () => {
           }} viewport={{
             once: true
           }} className="order-1 lg:order-2">
-              <Badge className="mb-5 px-3 py-1.5 bg-zordie-100 text-zordie-800 dark:bg-zordie-800 dark:text-zordie-100">
-                Verified Profile Benefits
-              </Badge>
+              
               <h2 className="mb-6 text-3xl font-bold text-gray-900 dark:text-white md:text-4xl">
                 Stand Out with a <span className="text-zordie-600 dark:text-zordie-400">Verified Profile</span>
               </h2>

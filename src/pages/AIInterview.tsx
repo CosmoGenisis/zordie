@@ -1,4 +1,3 @@
-
 import React, { useState } from 'react';
 import Layout from '@/components/layout/Layout';
 import { SectionHeading } from '@/components/ui/section-heading';
@@ -29,7 +28,9 @@ import {
   Mic,
   ChevronRight,
   ChevronDown,
-  LucideIcon 
+  LucideIcon,
+  Building,
+  Briefcase 
 } from 'lucide-react';
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import {
@@ -193,7 +194,6 @@ const TestimonialCard: React.FC<TestimonialProps> = ({ name, role, company, quot
 const AIInterview = () => {
   const [progress, setProgress] = useState(70);
   
-  // Animation variants
   const fadeIn = {
     hidden: { opacity: 0, y: 20 },
     visible: { 
@@ -231,7 +231,6 @@ const AIInterview = () => {
   
   return (
     <Layout>
-      {/* Hero Section */}
       <div className="relative overflow-hidden bg-gradient-to-b from-zordie-900 to-zordie-800 text-white">
         <div className="absolute inset-0 z-0">
           <div className="absolute inset-0 bg-grid-white/[0.05]" />
@@ -359,7 +358,6 @@ const AIInterview = () => {
         </div>
       </div>
       
-      {/* Stats Section */}
       <div className="bg-white dark:bg-zordie-950 py-12">
         <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
           <div className="grid grid-cols-2 md:grid-cols-4 gap-8">
@@ -380,7 +378,6 @@ const AIInterview = () => {
         </div>
       </div>
       
-      {/* How It Works Section */}
       <div id="features" className="py-24 bg-white dark:bg-zordie-950">
         <div className="px-4 mx-auto max-w-7xl sm:px-6 lg:px-8">
           <SectionHeading
@@ -409,7 +406,6 @@ const AIInterview = () => {
         </div>
       </div>
       
-      {/* Practice Interview Showcase */}
       <div className="py-24 bg-gray-50 dark:bg-zordie-900">
         <div className="px-4 mx-auto max-w-7xl sm:px-6 lg:px-8">
           <SectionHeading
@@ -492,7 +488,6 @@ const AIInterview = () => {
         </div>
       </div>
       
-      {/* Feedback & Analytics Section */}
       <div className="py-24 bg-white dark:bg-zordie-950">
         <div className="px-4 mx-auto max-w-7xl sm:px-6 lg:px-8">
           <div className="grid grid-cols-1 gap-16 lg:grid-cols-2">
@@ -640,7 +635,6 @@ const AIInterview = () => {
         </div>
       </div>
       
-      {/* Testimonials */}
       <div className="py-24 bg-gray-50 dark:bg-zordie-900">
         <div className="px-4 mx-auto max-w-7xl sm:px-6 lg:px-8">
           <SectionHeading
@@ -671,7 +665,6 @@ const AIInterview = () => {
         </div>
       </div>
       
-      {/* FAQ Section */}
       <div className="py-24 bg-white dark:bg-zordie-950">
         <div className="px-4 mx-auto max-w-3xl sm:px-6 lg:px-8">
           <SectionHeading
@@ -696,7 +689,6 @@ const AIInterview = () => {
         </div>
       </div>
       
-      {/* CTA Section */}
       <div className="py-24 bg-zordie-900 bg-[url('https://images.unsplash.com/photo-1521737852567-6949f3f9f2b5?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=1200&q=80')] bg-no-repeat bg-cover bg-center">
         <div className="absolute inset-0 bg-zordie-900/80"></div>
         <div className="relative px-4 mx-auto max-w-7xl sm:px-6 lg:px-8">
@@ -735,7 +727,6 @@ const AIInterview = () => {
   );
 };
 
-// Data
 const interviewStats = [
   { value: "87%", label: "Increased confidence" },
   { value: "2.5x", label: "More job offers" },
@@ -776,7 +767,7 @@ const features = [
   }
 ];
 
-const technicalInterviews = [
+const technicalInterviews: PracticeCard[] = [
   {
     icon: Code,
     title: "Full-Stack Developer",
@@ -806,7 +797,7 @@ const technicalInterviews = [
   }
 ];
 
-const behavioralInterviews = [
+const behavioralInterviews: PracticeCard[] = [
   {
     icon: Users,
     title: "Leadership & Teamwork",
@@ -836,7 +827,7 @@ const behavioralInterviews = [
   }
 ];
 
-const industryInterviews = [
+const industryInterviews: PracticeCard[] = [
   {
     icon: Lightbulb,
     title: "Tech Startup Interview",
@@ -917,5 +908,4 @@ const faqItems = [
   }
 ];
 
-// Export component
 export default AIInterview;

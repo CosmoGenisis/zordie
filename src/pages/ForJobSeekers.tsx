@@ -84,7 +84,7 @@ const ForJobSeekers = () => {
                   </span>
                 </span>
               </h1>
-              <p className="mb-8 text-lg text-gray-600 dark:text-gray-300 md:text-xl">
+              <p className="mb-8 text-lg md:text-xl text-zinc-50">
                 Stand out from the competition by verifying your skills and credentials with Zordie AI. Get noticed by top employers looking for authentic talent.
               </p>
               

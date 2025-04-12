@@ -25,6 +25,8 @@ import { useToast } from "@/components/ui/use-toast";
 import Layout from "@/components/layout/Layout";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { useAuth } from "@/context/AuthContext";
+import { supabase } from "@/integrations/supabase/client";
+import LoadingScreen from "@/components/auth/LoadingScreen";
 
 const Signup = () => {
   const [isLoading, setIsLoading] = useState(false);
@@ -36,7 +38,7 @@ const Signup = () => {
   const [companySize, setCompanySize] = useState("");
   const [error, setError] = useState<string | null>(null);
 
-  const { signUp, user } = useAuth();
+  const { signUp, user, isLoading: authLoading } = useAuth();
   const { toast } = useToast();
   const navigate = useNavigate();
   
@@ -46,6 +48,11 @@ const Signup = () => {
       navigate('/dashboard');
     }
   }, [user, navigate]);
+
+  // Show loading screen while checking auth
+  if (authLoading) {
+    return <LoadingScreen />;
+  }
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
@@ -80,10 +87,10 @@ const Signup = () => {
         })
       };
       
-      const { error } = await signUp(email, password, userData);
+      const { error: signUpError } = await signUp(email, password, userData);
       
-      if (error) {
-        throw error;
+      if (signUpError) {
+        throw signUpError;
       }
       
       // Success
@@ -99,6 +106,28 @@ const Signup = () => {
       console.error("Signup error:", error);
       setError("Failed to create account. Please try again.");
     } finally {
+      setIsLoading(false);
+    }
+  };
+
+  const handleGithubSignUp = async () => {
+    setIsLoading(true);
+    setError(null);
+    
+    try {
+      const { data, error } = await supabase.auth.signInWithOAuth({
+        provider: 'github',
+        options: {
+          redirectTo: window.location.origin + '/dashboard'
+        }
+      });
+      
+      if (error) throw error;
+      
+      // The redirect happens automatically, so no need for additional code here
+    } catch (error) {
+      console.error("GitHub sign up error:", error);
+      setError("Failed to sign up with GitHub. Please try again.");
       setIsLoading(false);
     }
   };
@@ -122,7 +151,13 @@ const Signup = () => {
                 </TabsList>
               </Tabs>
               
-              <Button variant="outline" className="w-full" disabled={isLoading}>
+              <Button 
+                variant="outline" 
+                className="w-full" 
+                disabled={isLoading}
+                onClick={handleGithubSignUp}
+                type="button"
+              >
                 <Github className="mr-2 h-4 w-4" />
                 Continue with GitHub
               </Button>

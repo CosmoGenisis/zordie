@@ -17,6 +17,7 @@ import { Github, Loader2, AlertCircle } from "lucide-react";
 import { useToast } from "@/components/ui/use-toast";
 import Layout from "@/components/layout/Layout";
 import { useAuth } from "@/context/AuthContext";
+import LoadingScreen from "@/components/auth/LoadingScreen";
 
 const Login = () => {
   const [isLoading, setIsLoading] = useState(false);
@@ -24,7 +25,7 @@ const Login = () => {
   const [password, setPassword] = useState("");
   const [error, setError] = useState<string | null>(null);
   
-  const { signIn, user } = useAuth();
+  const { signIn, user, isLoading: authLoading } = useAuth();
   const { toast } = useToast();
   const navigate = useNavigate();
   
@@ -34,6 +35,11 @@ const Login = () => {
       navigate('/dashboard');
     }
   }, [user, navigate]);
+
+  // Show loading screen while checking auth
+  if (authLoading) {
+    return <LoadingScreen />;
+  }
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
@@ -47,10 +53,10 @@ const Login = () => {
     setIsLoading(true);
     
     try {
-      const { error } = await signIn(email, password);
+      const { error: signInError } = await signIn(email, password);
       
-      if (error) {
-        throw error;
+      if (signInError) {
+        throw signInError;
       }
       
       // Success - navigation will happen automatically via the useEffect
@@ -67,6 +73,28 @@ const Login = () => {
     }
   };
 
+  const handleGithubSignIn = async () => {
+    setIsLoading(true);
+    setError(null);
+    
+    try {
+      const { data, error } = await supabase.auth.signInWithOAuth({
+        provider: 'github',
+        options: {
+          redirectTo: window.location.origin + '/dashboard'
+        }
+      });
+      
+      if (error) throw error;
+      
+      // The redirect happens automatically, so no need for additional code here
+    } catch (error) {
+      console.error("GitHub sign in error:", error);
+      setError("Failed to sign in with GitHub. Please try again.");
+      setIsLoading(false);
+    }
+  };
+
   return (
     <Layout>
       <div className="min-h-screen py-12 flex items-center justify-center">
@@ -79,7 +107,13 @@ const Login = () => {
               </CardDescription>
             </CardHeader>
             <CardContent className="space-y-4">
-              <Button variant="outline" className="w-full" disabled={isLoading}>
+              <Button 
+                variant="outline" 
+                className="w-full" 
+                disabled={isLoading}
+                onClick={handleGithubSignIn}
+                type="button"
+              >
                 <Github className="mr-2 h-4 w-4" />
                 Continue with GitHub
               </Button>

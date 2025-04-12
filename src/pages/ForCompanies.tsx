@@ -1,10 +1,8 @@
 import React from 'react';
 import Layout from '@/components/layout/Layout';
-import { SectionHeading } from '@/components/ui/section-heading';
-import { Button } from '@/components/ui/button';
-import { Card, CardContent } from '@/components/ui/card';
-import { Badge } from '@/components/ui/badge';
 import { Link } from 'react-router-dom';
+import { Button } from '@/components/ui/button';
+import { Badge } from '@/components/ui/badge';
 import { motion } from 'framer-motion';
 import { CheckCircle, ArrowRight, Users, Building, Briefcase, BarChart, ShieldCheck, Bot, Clock, FileSearch, Zap, CreditCard, Sparkles, Award, Trophy, Target, TrendingUp, MessageSquare, CircleCheck, BarChart3, Brain, ScrollText, Database, Fingerprint } from 'lucide-react';
 import { useTheme } from '@/context/ThemeContext';
@@ -74,11 +72,11 @@ const ForCompanies = () => {
 
   return <Layout>
       {/* Hero Section with white background */}
-      <div className="relative overflow-hidden bg-white dark:bg-zordie-950 transition-colors duration-300">
+      <div className="relative overflow-hidden bg-white dark:bg-white transition-colors duration-300">
         <div className="absolute inset-0 z-0">
-          <div className="absolute inset-0 bg-grid-black/[0.02] dark:bg-grid-white/[0.02]" />
+          <div className="absolute inset-0 bg-grid-black/[0.02] dark:bg-grid-black/[0.02]" />
         </div>
-        <div className="px-4 py-28 mx-auto max-w-7xl sm:px-6 lg:px-8 relative z-10 bg-white dark:bg-zordie-950">
+        <div className="px-4 py-28 mx-auto max-w-7xl sm:px-6 lg:px-8 relative z-10 bg-white">
           <div className="grid items-center grid-cols-1 gap-16 lg:grid-cols-2">
             <motion.div initial="hidden" animate="visible" variants={slideIn('left')}>
               <Badge className="mb-5 px-4 py-1.5 text-sm font-medium bg-zordie-100/80 text-zordie-800 dark:bg-zordie-800/80 dark:text-zordie-100 backdrop-blur-sm border border-zordie-200/50 dark:border-zordie-700/50">

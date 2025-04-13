@@ -102,7 +102,7 @@ const Footer = () => {
                 <Link to="/verify-profile" className="text-gray-600 hover:text-zordie-700">Verify Profile</Link>
               </li>
               <li>
-                <Link to="/practice" className="text-gray-600 hover:text-zordie-700">Practice Interviews</Link>
+                <Link to="/practice-interview" className="text-gray-600 hover:text-zordie-700">Practice Interviews</Link>
               </li>
               <li>
                 <Link to="/resources" className="text-gray-600 hover:text-zordie-700">Resources</Link>

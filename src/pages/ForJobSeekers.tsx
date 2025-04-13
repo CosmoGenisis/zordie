@@ -8,7 +8,6 @@ import { Link } from 'react-router-dom';
 import { motion } from 'framer-motion';
 import { ArrowRight, BadgeCheck, Github, Award, ThumbsUp, Zap, Target, TrendingUp, Briefcase, Users, ShieldCheck, BarChart3, FileCheck, Badge as BadgeIcon, MessageSquare, Clock, Sparkles, Rocket, Brain, CheckCircle, LayoutDashboard, LucideIcon } from 'lucide-react';
 import { useTheme } from '@/context/ThemeContext';
-
 const ForJobSeekers = () => {
   // Animation variants
   const fadeIn = {
@@ -67,7 +66,6 @@ const ForJobSeekers = () => {
       }
     }
   });
-
   return <Layout>
       {/* Hero Section with white background */}
       <div className="relative overflow-hidden bg-white dark:bg-zordie-950 transition-colors duration-300">
@@ -597,7 +595,7 @@ const ForJobSeekers = () => {
                 </Button>
               </Link>
               <Link to="/features">
-                <Button size="lg" variant="outline" className="text-white border-white/30 hover:bg-white/10 transition-all duration-300">
+                <Button size="lg" variant="outline" className="bg-gradient-to-r from-zordie-600 to-zordie-500 hover:from-zordie-500 hover:to-zordie-600 text-white font-medium transition-all duration-300">
                   Learn More
                 </Button>
               </Link>

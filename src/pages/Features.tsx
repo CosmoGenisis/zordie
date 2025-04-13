@@ -582,7 +582,7 @@ const Features = () => {
                 </Button>
               </Link>
               <Link to="/contact">
-                <Button size="lg" variant="outline" className="text-white border-white/30 hover:bg-white/10 transition-all duration-300">
+                <Button size="lg" variant="outline" className="text-white border-white/30 transition-all duration-300 bg-[#0e61b4]">
                   Contact Sales
                 </Button>
               </Link>

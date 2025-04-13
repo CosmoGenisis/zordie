@@ -169,8 +169,10 @@ const Terms = () => {
                 If you have any questions about these Terms, please contact us at:
               </p>
               <p className="text-gray-700 dark:text-gray-300">
-                Email: legal@zordieai.com<br />
-                Address: 123 Innovation Drive, London, UK
+                Email: support@zordie.in<br />
+                Customer Support: customersupport@zordie.com<br />
+                Address: 273 Naveen nagar, Kakadeo, Kanpur, India 208025<br />
+                Phone: +91 63840 40088
               </p>
             </section>
           </motion.div>

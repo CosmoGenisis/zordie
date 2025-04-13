@@ -1,4 +1,3 @@
-
 import React from 'react';
 import Layout from '@/components/layout/Layout';
 import { motion } from 'framer-motion';
@@ -251,9 +250,10 @@ const Privacy = () => {
                 If you have any questions about this Privacy Policy, please contact us at:
               </p>
               <p className="text-gray-700 dark:text-gray-300">
-                Email: privacy@zordie.ai<br />
-                Address: 123 Tech Park, Bangalore, India 560001<br />
-                Phone: +91 80 1234 5678
+                Email: support@zordie.in<br />
+                Customer Support: customersupport@zordie.com<br />
+                Address: 273 Naveen nagar, Kakadeo, Kanpur, India 208025<br />
+                Phone: +91 63840 40088
               </p>
               <p className="mt-4 text-gray-700 dark:text-gray-300">
                 For data protection inquiries specifically, you can contact our Data Protection Officer at dpo@zordie.ai.

@@ -1,4 +1,3 @@
-
 import React from 'react';
 import Layout from '@/components/layout/Layout';
 import { SectionHeading } from '@/components/ui/section-heading';
@@ -133,6 +132,37 @@ const Contact = () => {
             </motion.div>
           </div>
         </div>
+      </div>
+
+      {/* Contact Details Update */}
+      <div>
+        <h3 className="font-semibold text-gray-900 mb-4">Contact Information</h3>
+        <ul className="space-y-2">
+          <li>
+            <div className="flex items-center text-gray-600">
+              <Mail className="mr-2 h-5 w-5" />
+              <span>support@zordie.in</span>
+            </div>
+          </li>
+          <li>
+            <div className="flex items-center text-gray-600">
+              <Mail className="mr-2 h-5 w-5" />
+              <span>customersupport@zordie.com</span>
+            </div>
+          </li>
+          <li>
+            <div className="flex items-center text-gray-600">
+              <Phone className="mr-2 h-5 w-5" />
+              <span>+91 63840 40088</span>
+            </div>
+          </li>
+          <li>
+            <div className="flex items-center text-gray-600">
+              <MapPin className="mr-2 h-5 w-5" />
+              <span>273 Naveen nagar, Kakadeo, Kanpur, India 208025</span>
+            </div>
+          </li>
+        </ul>
       </div>
     </Layout>
   );

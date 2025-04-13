@@ -8,7 +8,6 @@ import { Link } from 'react-router-dom';
 import { motion } from 'framer-motion';
 import { CheckCircle, ArrowRight, Users, Building, Briefcase, BarChart, ShieldCheck, Bot, Clock, FileSearch, Zap, CreditCard, Sparkles, Award, Trophy, Target, TrendingUp, MessageSquare, CircleCheck, BarChart3, Brain, ScrollText, Database, Fingerprint } from 'lucide-react';
 import { useTheme } from '@/context/ThemeContext';
-
 const ForCompanies = () => {
   const {
     theme
@@ -71,7 +70,6 @@ const ForCompanies = () => {
       }
     }
   });
-
   return <Layout>
       {/* Hero Section with white background */}
       <div className="relative overflow-hidden bg-white dark:bg-zordie-950 transition-colors duration-300">
@@ -477,7 +475,7 @@ const ForCompanies = () => {
                 </Button>
               </Link>
               <Link to="/contact">
-                <Button size="lg" variant="outline" className="text-white border-white/30 hover:bg-white/10 transition-all duration-300">
+                <Button size="lg" variant="outline" className="bg-gradient-to-r from-zordie-600 to-zordie-500 hover:from-zordie-500 hover:to-zordie-600 text-white font-medium transition-all duration-300">
                   Contact Sales
                 </Button>
               </Link>

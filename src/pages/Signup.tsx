@@ -1,4 +1,3 @@
-
 import { useState, useEffect } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import { Button } from "@/components/ui/button";
@@ -25,7 +24,6 @@ import { useToast } from "@/components/ui/use-toast";
 import Layout from "@/components/layout/Layout";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { useAuth } from "@/context/AuthContext";
-import { supabase } from "@/integrations/supabase/client";
 import LoadingScreen from "@/components/auth/LoadingScreen";
 
 const Signup = () => {
@@ -38,7 +36,7 @@ const Signup = () => {
   const [companySize, setCompanySize] = useState("");
   const [error, setError] = useState<string | null>(null);
 
-  const { signUp, user, isLoading: authLoading } = useAuth();
+  const { signUp, signInWithOAuth, user, isLoading: authLoading } = useAuth();
   const { toast } = useToast();
   const navigate = useNavigate();
   
@@ -111,16 +109,10 @@ const Signup = () => {
   };
 
   const handleGithubSignUp = async () => {
-    setIsLoading(true);
     setError(null);
     
     try {
-      const { data, error } = await supabase.auth.signInWithOAuth({
-        provider: 'github',
-        options: {
-          redirectTo: window.location.origin + '/dashboard'
-        }
-      });
+      const { error } = await signInWithOAuth('github');
       
       if (error) {
         if (error.message.includes("provider is not enabled")) {
@@ -133,7 +125,6 @@ const Signup = () => {
     } catch (error: any) {
       console.error("GitHub sign up error:", error);
       setError(error.message || "Failed to sign up with GitHub. Please try again.");
-      setIsLoading(false);
     }
   };
 

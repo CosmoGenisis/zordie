@@ -1,7 +1,8 @@
 
 import React, { createContext, useContext, useEffect, useState } from 'react';
 import { supabase } from '@/integrations/supabase/client';
-import { Session, User } from '@supabase/supabase-js';
+import { Session, User, Provider } from '@supabase/supabase-js';
+import { useToast } from '@/components/ui/use-toast';
 
 interface AuthContextType {
   session: Session | null;
@@ -15,6 +16,10 @@ interface AuthContextType {
     error: Error | null;
     data: Session | null;
   }>;
+  signInWithOAuth: (provider: Provider) => Promise<{
+    error: Error | null;
+    data: any;
+  }>;
   signOut: () => Promise<{ error: Error | null }>;
 }
 
@@ -24,6 +29,7 @@ export const AuthProvider = ({ children }: { children: React.ReactNode }) => {
   const [session, setSession] = useState<Session | null>(null);
   const [user, setUser] = useState<User | null>(null);
   const [isLoading, setIsLoading] = useState(true);
+  const { toast } = useToast();
 
   useEffect(() => {
     // Set up auth state listener FIRST
@@ -72,12 +78,46 @@ export const AuthProvider = ({ children }: { children: React.ReactNode }) => {
         email, 
         password,
         options: {
-          data: userData
+          data: userData,
+          emailRedirectTo: `${window.location.origin}/dashboard`
         }
       });
       setIsLoading(false);
+      
+      if (!result.error) {
+        toast({
+          title: "Verification email sent",
+          description: "Please check your inbox and verify your email.",
+        });
+      }
+      
       return {
         data: result.data.session,
+        error: result.error
+      };
+    } catch (error) {
+      setIsLoading(false);
+      return {
+        data: null,
+        error: error as Error
+      };
+    }
+  };
+
+  const signInWithOAuth = async (provider: Provider) => {
+    setIsLoading(true);
+    try {
+      const result = await supabase.auth.signInWithOAuth({
+        provider,
+        options: {
+          redirectTo: `${window.location.origin}/dashboard`
+        }
+      });
+      
+      // For OAuth, we don't set isLoading to false here because the page will redirect
+      
+      return {
+        data: result.data,
         error: result.error
       };
     } catch (error) {
@@ -111,6 +151,7 @@ export const AuthProvider = ({ children }: { children: React.ReactNode }) => {
     isLoading,
     signIn,
     signUp,
+    signInWithOAuth,
     signOut
   };
 

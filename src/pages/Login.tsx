@@ -18,7 +18,6 @@ import { useToast } from "@/components/ui/use-toast";
 import Layout from "@/components/layout/Layout";
 import { useAuth } from "@/context/AuthContext";
 import LoadingScreen from "@/components/auth/LoadingScreen";
-import { supabase } from "@/integrations/supabase/client";
 
 const Login = () => {
   const [isLoading, setIsLoading] = useState(false);
@@ -26,7 +25,7 @@ const Login = () => {
   const [password, setPassword] = useState("");
   const [error, setError] = useState<string | null>(null);
   
-  const { signIn, user, isLoading: authLoading } = useAuth();
+  const { signIn, signInWithOAuth, user, isLoading: authLoading } = useAuth();
   const { toast } = useToast();
   const navigate = useNavigate();
   
@@ -66,7 +65,7 @@ const Login = () => {
         description: "Redirecting to dashboard...",
       });
       
-    } catch (error) {
+    } catch (error: any) {
       console.error("Login error:", error);
       setError("Invalid email or password. Please try again.");
     } finally {
@@ -75,16 +74,10 @@ const Login = () => {
   };
 
   const handleGithubSignIn = async () => {
-    setIsLoading(true);
     setError(null);
     
     try {
-      const { data, error } = await supabase.auth.signInWithOAuth({
-        provider: 'github',
-        options: {
-          redirectTo: window.location.origin + '/dashboard'
-        }
-      });
+      const { error } = await signInWithOAuth('github');
       
       if (error) {
         if (error.message.includes("provider is not enabled")) {
@@ -97,7 +90,6 @@ const Login = () => {
     } catch (error: any) {
       console.error("GitHub sign in error:", error);
       setError(error.message || "Failed to sign in with GitHub. Please try again.");
-      setIsLoading(false);
     }
   };
 

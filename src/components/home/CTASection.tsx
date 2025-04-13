@@ -1,11 +1,8 @@
-
 import { Button } from "@/components/ui/button";
 import { Link } from "react-router-dom";
 import { ArrowRight } from "lucide-react";
-
 const CTASection = () => {
-  return (
-    <section className="py-16 bg-gradient-to-r from-zordie-700 to-accent1 text-white">
+  return <section className="py-16 bg-gradient-to-r from-zordie-700 to-accent1 text-white">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
         <h2 className="text-3xl md:text-4xl font-bold mb-6 max-w-3xl mx-auto">
           Ready to transform your hiring process with AI and verification?
@@ -20,14 +17,12 @@ const CTASection = () => {
             </Button>
           </Link>
           <Link to="/signup">
-            <Button size="lg" variant="outline" className="border-white text-white hover:bg-white/10">
+            <Button size="lg" variant="outline" className="border-white bg-[#0e0520]/0 text-inherit text-base">
               Create Account
             </Button>
           </Link>
         </div>
       </div>
-    </section>
-  );
+    </section>;
 };
-
 export default CTASection;

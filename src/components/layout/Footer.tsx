@@ -1,14 +1,10 @@
-
 import React from "react";
 import { Link } from "react-router-dom";
 import { Twitter, Linkedin, Github, Mail } from "lucide-react";
-
 const Footer = () => {
   const currentYear = new Date().getFullYear();
-  
-  return (
-    <footer className="bg-white border-t mt-auto">
-      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12">
+  return <footer className="bg-white border-t mt-auto">
+      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12 bg-zinc-50">
         <div className="grid grid-cols-1 md:grid-cols-4 gap-8">
           {/* Logo and description */}
           <div className="col-span-1 md:col-span-1">
@@ -20,34 +16,16 @@ const Footer = () => {
               AI-powered verified hiring platform that eliminates fake resumes and brings trust to the hiring process.
             </p>
             <div className="flex space-x-4 mt-6">
-              <a
-                href="https://twitter.com"
-                className="text-gray-500 hover:text-zordie-700"
-                target="_blank"
-                rel="noreferrer"
-              >
+              <a href="https://twitter.com" className="text-gray-500 hover:text-zordie-700" target="_blank" rel="noreferrer">
                 <Twitter className="h-5 w-5" />
               </a>
-              <a
-                href="https://linkedin.com"
-                className="text-gray-500 hover:text-zordie-700"
-                target="_blank"
-                rel="noreferrer"
-              >
+              <a href="https://linkedin.com" className="text-gray-500 hover:text-zordie-700" target="_blank" rel="noreferrer">
                 <Linkedin className="h-5 w-5" />
               </a>
-              <a
-                href="https://github.com"
-                className="text-gray-500 hover:text-zordie-700"
-                target="_blank"
-                rel="noreferrer"
-              >
+              <a href="https://github.com" className="text-gray-500 hover:text-zordie-700" target="_blank" rel="noreferrer">
                 <Github className="h-5 w-5" />
               </a>
-              <a
-                href="mailto:support@zordie.in"
-                className="text-gray-500 hover:text-zordie-700"
-              >
+              <a href="mailto:support@zordie.in" className="text-gray-500 hover:text-zordie-700">
                 <Mail className="h-5 w-5" />
               </a>
             </div>
@@ -131,8 +109,6 @@ const Footer = () => {
           </div>
         </div>
       </div>
-    </footer>
-  );
+    </footer>;
 };
-
 export default Footer;

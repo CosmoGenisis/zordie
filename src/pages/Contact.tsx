@@ -1,12 +1,9 @@
+
 import React from 'react';
 import Layout from '@/components/layout/Layout';
-import { SectionHeading } from '@/components/ui/section-heading';
-import { Button } from '@/components/ui/button';
-import { Input } from '@/components/ui/input';
-import { Textarea } from '@/components/ui/textarea';
 import { motion } from 'framer-motion';
-import { Mail, MessageSquare, Phone, MapPin, Clock, Users } from 'lucide-react';
-import { Card, CardContent } from '@/components/ui/card';
+import { ContactInfo, ContactDetails } from '@/components/contact/ContactInfo';
+import ContactForm from '@/components/contact/ContactForm';
 
 const Contact = () => {
   return (
@@ -43,55 +40,7 @@ const Contact = () => {
               transition={{ duration: 0.5 }}
               viewport={{ once: true }}
             >
-              <SectionHeading
-                title="Contact Us"
-                subtitle="We'd love to hear from you"
-                align="left"
-              />
-              
-              <p className="mb-8 text-lg text-gray-600 dark:text-gray-300">
-                Whether you're curious about our features, pricing, or need a demo, we're ready to answer all your questions.
-              </p>
-              
-              <form className="space-y-6">
-                <div className="grid grid-cols-1 gap-6 sm:grid-cols-2">
-                  <div>
-                    <label htmlFor="name" className="block mb-2 text-sm font-medium text-gray-700 dark:text-gray-300">
-                      Name
-                    </label>
-                    <Input id="name" placeholder="Your name" className="dark:bg-zordie-800 dark:border-zordie-700" />
-                  </div>
-                  <div>
-                    <label htmlFor="email" className="block mb-2 text-sm font-medium text-gray-700 dark:text-gray-300">
-                      Email
-                    </label>
-                    <Input id="email" type="email" placeholder="Your email" className="dark:bg-zordie-800 dark:border-zordie-700" />
-                  </div>
-                </div>
-                
-                <div>
-                  <label htmlFor="subject" className="block mb-2 text-sm font-medium text-gray-700 dark:text-gray-300">
-                    Subject
-                  </label>
-                  <Input id="subject" placeholder="What's this about?" className="dark:bg-zordie-800 dark:border-zordie-700" />
-                </div>
-                
-                <div>
-                  <label htmlFor="message" className="block mb-2 text-sm font-medium text-gray-700 dark:text-gray-300">
-                    Message
-                  </label>
-                  <Textarea 
-                    id="message" 
-                    placeholder="Tell us how we can help..." 
-                    rows={6}
-                    className="dark:bg-zordie-800 dark:border-zordie-700"
-                  />
-                </div>
-                
-                <Button type="submit" className="btn-gradient w-full sm:w-auto">
-                  Send Message
-                </Button>
-              </form>
+              <ContactForm />
             </motion.div>
             
             <motion.div
@@ -101,21 +50,7 @@ const Contact = () => {
               viewport={{ once: true }}
               className="lg:mt-12"
             >
-              <div className="grid grid-cols-1 gap-8 mt-12 sm:grid-cols-2 lg:mt-0">
-                {contactInfo.map((item, index) => (
-                  <Card key={index} className="bg-gray-50 dark:bg-zordie-800 border-0 hover-card-effect">
-                    <CardContent className="p-6">
-                      <div className="flex items-center mb-4">
-                        <div className="flex items-center justify-center w-10 h-10 mr-4 rounded-full bg-zordie-100 dark:bg-zordie-700">
-                          <item.icon className="w-5 h-5 text-zordie-600 dark:text-zordie-200" />
-                        </div>
-                        <h3 className="text-lg font-medium text-gray-900 dark:text-white">{item.title}</h3>
-                      </div>
-                      <p className="text-gray-600 dark:text-gray-300">{item.details}</p>
-                    </CardContent>
-                  </Card>
-                ))}
-              </div>
+              <ContactInfo className="mt-12 lg:mt-0" />
               
               <div className="mt-8 overflow-hidden rounded-lg shadow-xl">
                 <iframe 
@@ -134,61 +69,21 @@ const Contact = () => {
         </div>
       </div>
 
-      {/* Contact Details Update */}
-      <div>
-        <h3 className="font-semibold text-gray-900 mb-4">Contact Information</h3>
-        <ul className="space-y-2">
-          <li>
-            <div className="flex items-center text-gray-600">
-              <Mail className="mr-2 h-5 w-5" />
-              <span>support@zordie.in</span>
-            </div>
-          </li>
-          <li>
-            <div className="flex items-center text-gray-600">
-              <Mail className="mr-2 h-5 w-5" />
-              <span>customersupport@zordie.com</span>
-            </div>
-          </li>
-          <li>
-            <div className="flex items-center text-gray-600">
-              <Phone className="mr-2 h-5 w-5" />
-              <span>+91 63840 40088</span>
-            </div>
-          </li>
-          <li>
-            <div className="flex items-center text-gray-600">
-              <MapPin className="mr-2 h-5 w-5" />
-              <span>273 Naveen nagar, Kakadeo, Kanpur, India 208025</span>
-            </div>
-          </li>
-        </ul>
+      {/* Detailed Contact Information Section */}
+      <div className="py-12 bg-gray-50 dark:bg-zordie-900 transition-colors duration-300">
+        <div className="px-4 mx-auto max-w-7xl sm:px-6 lg:px-8">
+          <motion.div
+            initial={{ opacity: 0, y: 20 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.5 }}
+            viewport={{ once: true }}
+          >
+            <ContactDetails />
+          </motion.div>
+        </div>
       </div>
     </Layout>
   );
 };
-
-const contactInfo = [
-  {
-    icon: Mail,
-    title: "Email Us",
-    details: "support@zordie.in"
-  },
-  {
-    icon: Mail,
-    title: "Customer Support",
-    details: "customersupport@zordie.com"
-  },
-  {
-    icon: MapPin,
-    title: "Office",
-    details: "Kanpur, India"
-  },
-  {
-    icon: Clock,
-    title: "Working Hours",
-    details: "Monday-Friday: 9AM-6PM"
-  }
-];
 
 export default Contact;

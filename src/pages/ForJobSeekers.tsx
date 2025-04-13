@@ -2,10 +2,12 @@ import React from 'react';
 import Layout from '@/components/layout/Layout';
 import { SectionHeading } from '@/components/ui/section-heading';
 import { Button } from '@/components/ui/button';
+import { Card, CardHeader, CardFooter, CardTitle, CardDescription, CardContent } from '@/components/ui/card';
+import { Badge } from '@/components/ui/badge';
 import { Link } from 'react-router-dom';
 import { motion } from 'framer-motion';
-import { ArrowRight, BadgeCheck, Github, Award, ThumbsUp, Zap, Target, TrendingUp, Briefcase, Users, ShieldCheck, BarChart3, FileCheck, Badge, MessageSquare, Clock, Sparkles, Rocket, Brain, CheckCircle, LayoutDashboard, LucideIcon } from 'lucide-react';
-import { Card, CardHeader, CardFooter, CardTitle, CardDescription, CardContent } from '@/components/ui/card';
+import { ArrowRight, BadgeCheck, Github, Award, ThumbsUp, Zap, Target, TrendingUp, Briefcase, Users, ShieldCheck, BarChart3, FileCheck, Badge as BadgeIcon, MessageSquare, Clock, Sparkles, Rocket, Brain, CheckCircle, LayoutDashboard, LucideIcon } from 'lucide-react';
+import { useTheme } from '@/context/ThemeContext';
 
 const ForJobSeekers = () => {
   // Animation variants

@@ -1,3 +1,4 @@
+
 import React, { createContext, useContext, useEffect, useState } from 'react';
 import { supabase } from '@/integrations/supabase/client';
 import { Session, User, Provider, OAuthResponse, AuthError } from '@supabase/supabase-js';
@@ -21,6 +22,7 @@ interface AuthContextType {
     data: any;
   }>;
   signOut: () => Promise<{ error: Error | null }>;
+  getUserDashboardPath: () => string;
 }
 
 interface UserProfile {
@@ -124,7 +126,7 @@ export const AuthProvider = ({ children }: { children: React.ReactNode }) => {
         password,
         options: {
           data: userData,
-          emailRedirectTo: `${window.location.origin}/dashboard`
+          emailRedirectTo: `${window.location.origin}/verification`
         }
       });
       
@@ -154,7 +156,7 @@ export const AuthProvider = ({ children }: { children: React.ReactNode }) => {
       const options: { 
         redirectTo: string; 
       } = {
-        redirectTo: `${window.location.origin}/dashboard`
+        redirectTo: `${window.location.origin}/verification`
       };
       
       if (provider === 'linkedin_oidc') {
@@ -199,6 +201,30 @@ export const AuthProvider = ({ children }: { children: React.ReactNode }) => {
     }
   };
 
+  const getUserDashboardPath = () => {
+    // Determine which dashboard the user should see based on their user_type
+    if (userProfile) {
+      if (userProfile.user_type === 'company') {
+        return '/company-dashboard';
+      } else if (userProfile.user_type === 'candidate') {
+        return '/job-seeker-dashboard';
+      }
+    }
+    
+    // Check user metadata if profile isn't loaded yet
+    if (user?.user_metadata) {
+      const userType = user.user_metadata.user_type;
+      if (userType === 'company') {
+        return '/company-dashboard';
+      } else if (userType === 'candidate') {
+        return '/job-seeker-dashboard';
+      }
+    }
+    
+    // Default to a general dashboard if we can't determine the user type
+    return '/dashboard';
+  };
+
   const value = {
     session,
     user,
@@ -207,7 +233,8 @@ export const AuthProvider = ({ children }: { children: React.ReactNode }) => {
     signIn,
     signUp,
     signInWithOAuth,
-    signOut
+    signOut,
+    getUserDashboardPath
   };
 
   return <AuthContext.Provider value={value}>{children}</AuthContext.Provider>;

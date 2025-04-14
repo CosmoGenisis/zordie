@@ -12,7 +12,7 @@ import {
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { Separator } from "@/components/ui/separator";
-import { Loader2, AlertCircle, Mail } from "lucide-react";
+import { Loader2, AlertCircle } from "lucide-react";
 import { useToast } from "@/components/ui/use-toast";
 import Layout from "@/components/layout/Layout";
 import { useAuth } from "@/context/AuthContext";
@@ -26,15 +26,16 @@ const Login = () => {
   const [password, setPassword] = useState("");
   const [error, setError] = useState<string | null>(null);
   
-  const { signIn, signInWithOAuth, user, isLoading: authLoading } = useAuth();
+  const { signIn, signInWithOAuth, user, isLoading: authLoading, getUserDashboardPath } = useAuth();
   const { toast } = useToast();
   const navigate = useNavigate();
   
   useEffect(() => {
     if (user) {
-      navigate('/dashboard');
+      const dashboardPath = getUserDashboardPath();
+      navigate(dashboardPath);
     }
-  }, [user, navigate]);
+  }, [user, navigate, getUserDashboardPath]);
 
   if (authLoading) {
     return <LoadingScreen />;

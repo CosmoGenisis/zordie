@@ -34,6 +34,9 @@ import AIInterview from "./pages/AIInterview";
 import UserDashboard from "./pages/UserDashboard";
 import Chatbot from "./pages/Chatbot";
 import ResumeManager from "./pages/ResumeManager";
+import JobSeekerDashboard from "./pages/JobSeekerDashboard";
+import CompanyDashboard from "./pages/CompanyDashboard";
+import IntegrationSettings from "./pages/IntegrationSettings";
 
 const queryClient = new QueryClient();
 
@@ -66,6 +69,30 @@ const App = () => (
                 element={
                   <ProtectedRoute>
                     <UserDashboard />
+                  </ProtectedRoute>
+                } 
+              />
+              <Route 
+                path="/job-seeker-dashboard" 
+                element={
+                  <ProtectedRoute>
+                    <JobSeekerDashboard />
+                  </ProtectedRoute>
+                } 
+              />
+              <Route 
+                path="/company-dashboard" 
+                element={
+                  <ProtectedRoute>
+                    <CompanyDashboard />
+                  </ProtectedRoute>
+                } 
+              />
+              <Route 
+                path="/integration-settings" 
+                element={
+                  <ProtectedRoute>
+                    <IntegrationSettings />
                   </ProtectedRoute>
                 } 
               />

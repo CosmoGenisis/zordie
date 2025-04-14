@@ -38,15 +38,16 @@ const Signup = () => {
   const [companySize, setCompanySize] = useState("");
   const [error, setError] = useState<string | null>(null);
 
-  const { signUp, signInWithOAuth, user, isLoading: authLoading } = useAuth();
+  const { signUp, signInWithOAuth, user, isLoading: authLoading, getUserDashboardPath } = useAuth();
   const { toast } = useToast();
   const navigate = useNavigate();
   
   useEffect(() => {
     if (user) {
-      navigate('/dashboard');
+      const dashboardPath = getUserDashboardPath();
+      navigate(dashboardPath);
     }
-  }, [user, navigate]);
+  }, [user, navigate, getUserDashboardPath]);
 
   if (authLoading) {
     return <LoadingScreen />;
@@ -94,7 +95,7 @@ const Signup = () => {
         description: "Please check your email to confirm your account",
       });
       
-      navigate('/login');
+      navigate('/verification');
       
     } catch (error: any) {
       console.error("Signup error:", error);

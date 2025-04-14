@@ -2,7 +2,7 @@
 import React, { useState } from "react";
 import { Button } from "@/components/ui/button";
 import { Link, useLocation, useNavigate } from "react-router-dom";
-import { Menu, X, Globe, ChevronDown, User, LogOut, MessageSquare } from "lucide-react";
+import { Menu, X, Globe, ChevronDown, User, LogOut, MessageSquare, FileText } from "lucide-react";
 import {
   DropdownMenu,
   DropdownMenuContent,
@@ -24,9 +24,48 @@ const NavBar = () => {
   const location = useLocation();
   const navigate = useNavigate();
   const { toast } = useToast();
-  const { user, signOut } = useAuth();
+  const { user, userProfile, signOut } = useAuth();
   
   const isActive = (path: string) => location.pathname === path;
+
+  // Get user display name
+  const getUserDisplayName = () => {
+    // First check userProfile
+    if (userProfile?.first_name) {
+      return userProfile.first_name;
+    }
+    // Then check user meta data
+    else if (user?.user_metadata?.full_name) {
+      return user.user_metadata.full_name;
+    }
+    else if (user?.user_metadata?.name) {
+      return user.user_metadata.name;
+    }
+    // Fallback to email
+    else if (user?.email) {
+      return user.email.split('@')[0];
+    }
+    return 'User';
+  };
+
+  // Get avatar URL or fallback
+  const getAvatarUrl = () => {
+    return userProfile?.avatar_url || 
+           user?.user_metadata?.avatar_url || 
+           user?.user_metadata?.picture || 
+           null;
+  };
+
+  // Get avatar fallback (initials)
+  const getAvatarFallback = () => {
+    if (userProfile?.first_name && userProfile?.last_name) {
+      return `${userProfile.first_name[0]}${userProfile.last_name[0]}`.toUpperCase();
+    }
+    if (user?.email) {
+      return user.email[0].toUpperCase();
+    }
+    return 'U';
+  };
 
   // Navigation items
   const navigation = [
@@ -108,10 +147,10 @@ const NavBar = () => {
                   <DropdownMenuTrigger asChild>
                     <Button variant="ghost" size="sm" className="flex items-center transition-all duration-200 hover:bg-gray-100">
                       <Avatar className="h-8 w-8 mr-2">
-                        <AvatarImage src="https://randomuser.me/api/portraits/men/2.jpg" />
-                        <AvatarFallback>{user.email?.[0]?.toUpperCase() || 'U'}</AvatarFallback>
+                        <AvatarImage src={getAvatarUrl() || undefined} />
+                        <AvatarFallback>{getAvatarFallback()}</AvatarFallback>
                       </Avatar>
-                      <span className="font-medium">Account</span>
+                      <span className="font-medium">{getUserDisplayName()}</span>
                       <ChevronDown className="h-4 w-4 ml-1" />
                     </Button>
                   </DropdownMenuTrigger>
@@ -120,6 +159,12 @@ const NavBar = () => {
                       <Link to="/user-dashboard">
                         <User className="mr-2 h-4 w-4" />
                         My Dashboard
+                      </Link>
+                    </DropdownMenuItem>
+                    <DropdownMenuItem asChild>
+                      <Link to="/resumes">
+                        <FileText className="mr-2 h-4 w-4" />
+                        My Resumes
                       </Link>
                     </DropdownMenuItem>
                     <DropdownMenuItem asChild>
@@ -204,6 +249,12 @@ const NavBar = () => {
                     <Button variant="outline" className="w-full transition-all duration-200 hover:shadow-md flex items-center" onClick={() => setMobileMenuOpen(false)}>
                       <User className="mr-2 h-4 w-4" />
                       My Dashboard
+                    </Button>
+                  </Link>
+                  <Link to="/resumes" className="w-full">
+                    <Button variant="outline" className="w-full transition-all duration-200 hover:shadow-md flex items-center" onClick={() => setMobileMenuOpen(false)}>
+                      <FileText className="mr-2 h-4 w-4" />
+                      My Resumes
                     </Button>
                   </Link>
                   <Link to="/dashboard" className="w-full">

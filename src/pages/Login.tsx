@@ -1,4 +1,3 @@
-
 import { useState, useEffect } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import { Button } from "@/components/ui/button";
@@ -31,14 +30,12 @@ const Login = () => {
   const { toast } = useToast();
   const navigate = useNavigate();
   
-  // Redirect if user is already logged in
   useEffect(() => {
     if (user) {
       navigate('/dashboard');
     }
   }, [user, navigate]);
 
-  // Show loading screen while checking auth
   if (authLoading) {
     return <LoadingScreen />;
   }
@@ -61,7 +58,6 @@ const Login = () => {
         throw signInError;
       }
       
-      // Success - navigation will happen automatically via the useEffect
       toast({
         title: "Logged in successfully",
         description: "Redirecting to dashboard...",
@@ -85,7 +81,6 @@ const Login = () => {
         throw error;
       }
       
-      // The redirect happens automatically, so no need for additional code here
     } catch (error: any) {
       console.error("Google sign in error:", error);
       setError(error.message || "Failed to sign in with Google. Please try again.");
@@ -102,7 +97,6 @@ const Login = () => {
         throw error;
       }
       
-      // The redirect happens automatically, so no need for additional code here
     } catch (error: any) {
       console.error("LinkedIn sign in error:", error);
       setError(error.message || "Failed to sign in with LinkedIn. Please try again.");

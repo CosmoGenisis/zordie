@@ -1,4 +1,3 @@
-
 import { useState, useEffect } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import { Button } from "@/components/ui/button";
@@ -43,14 +42,12 @@ const Signup = () => {
   const { toast } = useToast();
   const navigate = useNavigate();
   
-  // Redirect if user is already logged in
   useEffect(() => {
     if (user) {
       navigate('/dashboard');
     }
   }, [user, navigate]);
 
-  // Show loading screen while checking auth
   if (authLoading) {
     return <LoadingScreen />;
   }
@@ -58,7 +55,6 @@ const Signup = () => {
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     
-    // Basic validation
     if (!email || !password || !name) {
       setError("Please fill out all required fields");
       return;
@@ -78,7 +74,6 @@ const Signup = () => {
     setIsLoading(true);
     
     try {
-      // Prepare user metadata based on user type
       const userData = {
         full_name: name,
         user_type: userType,
@@ -94,13 +89,11 @@ const Signup = () => {
         throw signUpError;
       }
       
-      // Success
       toast({
         title: "Account created successfully",
         description: "Please check your email to confirm your account",
       });
       
-      // Navigate to login page - user will need to confirm email before logging in
       navigate('/login');
       
     } catch (error: any) {
@@ -121,7 +114,6 @@ const Signup = () => {
         throw error;
       }
       
-      // The redirect happens automatically, so no need for additional code here
     } catch (error: any) {
       console.error("Google sign up error:", error);
       setError(error.message || "Failed to sign up with Google. Please try again.");
@@ -138,7 +130,6 @@ const Signup = () => {
         throw error;
       }
       
-      // The redirect happens automatically, so no need for additional code here
     } catch (error: any) {
       console.error("LinkedIn sign up error:", error);
       setError(error.message || "Failed to sign up with LinkedIn. Please try again.");

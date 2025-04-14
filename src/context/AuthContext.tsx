@@ -162,15 +162,26 @@ export const AuthProvider = ({ children }: { children: React.ReactNode }) => {
   const signInWithOAuth = async (provider: Provider) => {
     setIsLoading(true);
     try {
-      // For LinkedIn, ensure we're requesting the right scopes
-      const options = provider === 'linkedin_oidc' 
-        ? {
-            redirectTo: `${window.location.origin}/dashboard`,
-            scopes: 'openid profile email'
-          }
-        : {
-            redirectTo: `${window.location.origin}/dashboard`
-          };
+      // Set options based on provider
+      let options = {
+        redirectTo: `${window.location.origin}/dashboard`
+      };
+      
+      // Add specific scopes for LinkedIn
+      if (provider === 'linkedin_oidc') {
+        options = {
+          ...options,
+          scopes: 'openid profile email'
+        };
+      }
+      
+      // Add specific scopes for Google
+      if (provider === 'google') {
+        options = {
+          ...options,
+          scopes: 'email profile'
+        };
+      }
       
       const result = await supabase.auth.signInWithOAuth({
         provider,

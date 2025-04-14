@@ -1,6 +1,6 @@
 import React, { createContext, useContext, useEffect, useState } from 'react';
 import { supabase } from '@/integrations/supabase/client';
-import { Session, User, Provider, OAuthResponse } from '@supabase/supabase-js';
+import { Session, User, Provider, OAuthResponse, AuthError } from '@supabase/supabase-js';
 import { useToast } from '@/components/ui/use-toast';
 
 interface AuthContextType {
@@ -18,7 +18,7 @@ interface AuthContextType {
   }>;
   signInWithOAuth: (provider: Provider) => Promise<{
     error: Error | null;
-    data: OAuthResponse;
+    data: any;
   }>;
   signOut: () => Promise<{ error: Error | null }>;
 }
@@ -153,17 +153,16 @@ export const AuthProvider = ({ children }: { children: React.ReactNode }) => {
     try {
       const options: { 
         redirectTo: string; 
-        scopes?: string;
       } = {
         redirectTo: `${window.location.origin}/dashboard`
       };
       
       if (provider === 'linkedin_oidc') {
-        options.scopes = 'openid profile email';
+        (options as any).scopes = 'openid profile email';
       }
       
       if (provider === 'google') {
-        options.scopes = 'email profile';
+        (options as any).scopes = 'email profile';
       }
       
       const result = await supabase.auth.signInWithOAuth({

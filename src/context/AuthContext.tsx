@@ -1,7 +1,6 @@
-
 import React, { createContext, useContext, useEffect, useState } from 'react';
 import { supabase } from '@/integrations/supabase/client';
-import { Session, User, Provider } from '@supabase/supabase-js';
+import { Session, User, Provider, OAuthResponse } from '@supabase/supabase-js';
 import { useToast } from '@/components/ui/use-toast';
 
 interface AuthContextType {
@@ -19,7 +18,7 @@ interface AuthContextType {
   }>;
   signInWithOAuth: (provider: Provider) => Promise<{
     error: Error | null;
-    data: any;
+    data: OAuthResponse;
   }>;
   signOut: () => Promise<{ error: Error | null }>;
 }
@@ -46,7 +45,6 @@ export const AuthProvider = ({ children }: { children: React.ReactNode }) => {
   const [isLoading, setIsLoading] = useState(true);
   const { toast } = useToast();
 
-  // Fetch user profile from database
   const fetchUserProfile = async (userId: string) => {
     try {
       const { data, error } = await supabase
@@ -67,13 +65,11 @@ export const AuthProvider = ({ children }: { children: React.ReactNode }) => {
     }
   };
 
-  // Update user session and profile
   const handleSessionChange = async (currentSession: Session | null) => {
     setSession(currentSession);
     setUser(currentSession?.user ?? null);
     
     if (currentSession?.user) {
-      // Fetch user profile after session is updated
       const profile = await fetchUserProfile(currentSession.user.id);
       setUserProfile(profile);
     } else {
@@ -84,19 +80,16 @@ export const AuthProvider = ({ children }: { children: React.ReactNode }) => {
   };
 
   useEffect(() => {
-    // Set up auth state listener FIRST
     const { data: { subscription } } = supabase.auth.onAuthStateChange(
       (event, sessionData) => {
         console.log("Auth state changed:", event, sessionData);
         
-        // Use setTimeout to avoid potential deadlocks with Supabase auth
         setTimeout(() => {
           handleSessionChange(sessionData);
         }, 0);
       }
     );
 
-    // THEN check for existing session
     supabase.auth.getSession().then(({ data: { session: sessionData } }) => {
       console.log("Initial session check:", sessionData);
       handleSessionChange(sessionData);
@@ -109,8 +102,6 @@ export const AuthProvider = ({ children }: { children: React.ReactNode }) => {
     setIsLoading(true);
     try {
       const result = await supabase.auth.signInWithPassword({ email, password });
-      
-      // handleSessionChange will be triggered by onAuthStateChange
       
       return {
         data: result.data.session,
@@ -137,8 +128,6 @@ export const AuthProvider = ({ children }: { children: React.ReactNode }) => {
         }
       });
       
-      // handleSessionChange will be triggered by onAuthStateChange
-      
       if (!result.error) {
         toast({
           title: "Verification email sent",
@@ -162,33 +151,25 @@ export const AuthProvider = ({ children }: { children: React.ReactNode }) => {
   const signInWithOAuth = async (provider: Provider) => {
     setIsLoading(true);
     try {
-      // Set options based on provider
-      let options = {
+      const options: { 
+        redirectTo: string; 
+        scopes?: string;
+      } = {
         redirectTo: `${window.location.origin}/dashboard`
       };
       
-      // Add specific scopes for LinkedIn
       if (provider === 'linkedin_oidc') {
-        options = {
-          ...options,
-          scopes: 'openid profile email'
-        };
+        options.scopes = 'openid profile email';
       }
       
-      // Add specific scopes for Google
       if (provider === 'google') {
-        options = {
-          ...options,
-          scopes: 'email profile'
-        };
+        options.scopes = 'email profile';
       }
       
       const result = await supabase.auth.signInWithOAuth({
         provider,
         options
       });
-      
-      // For OAuth, we don't set isLoading to false here because the page will redirect
       
       return {
         data: result.data,
@@ -207,8 +188,6 @@ export const AuthProvider = ({ children }: { children: React.ReactNode }) => {
     setIsLoading(true);
     try {
       const result = await supabase.auth.signOut();
-      
-      // handleSessionChange will be triggered by onAuthStateChange
       
       return {
         error: result.error

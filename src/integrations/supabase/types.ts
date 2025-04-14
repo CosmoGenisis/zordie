@@ -77,6 +77,7 @@ export type Database = {
       }
       profiles: {
         Row: {
+          active_resume_id: string | null
           avatar_url: string | null
           company_name: string | null
           company_size: string | null
@@ -88,6 +89,7 @@ export type Database = {
           user_type: string
         }
         Insert: {
+          active_resume_id?: string | null
           avatar_url?: string | null
           company_name?: string | null
           company_size?: string | null
@@ -99,6 +101,7 @@ export type Database = {
           user_type: string
         }
         Update: {
+          active_resume_id?: string | null
           avatar_url?: string | null
           company_name?: string | null
           company_size?: string | null
@@ -108,6 +111,47 @@ export type Database = {
           last_name?: string | null
           updated_at?: string | null
           user_type?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "profiles_active_resume_id_fkey"
+            columns: ["active_resume_id"]
+            isOneToOne: false
+            referencedRelation: "user_resumes"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      user_resumes: {
+        Row: {
+          created_at: string | null
+          file_name: string
+          file_path: string
+          file_size: number
+          file_type: string
+          id: string
+          updated_at: string | null
+          user_id: string
+        }
+        Insert: {
+          created_at?: string | null
+          file_name: string
+          file_path: string
+          file_size: number
+          file_type: string
+          id?: string
+          updated_at?: string | null
+          user_id: string
+        }
+        Update: {
+          created_at?: string | null
+          file_name?: string
+          file_path?: string
+          file_size?: number
+          file_type?: string
+          id?: string
+          updated_at?: string | null
+          user_id?: string
         }
         Relationships: []
       }

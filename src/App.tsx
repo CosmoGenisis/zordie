@@ -33,6 +33,7 @@ import ProtectedRoute from "./components/auth/ProtectedRoute";
 import AIInterview from "./pages/AIInterview";
 import UserDashboard from "./pages/UserDashboard";
 import Chatbot from "./pages/Chatbot";
+import ResumeManager from "./pages/ResumeManager";
 
 const queryClient = new QueryClient();
 
@@ -65,6 +66,14 @@ const App = () => (
                 element={
                   <ProtectedRoute>
                     <UserDashboard />
+                  </ProtectedRoute>
+                } 
+              />
+              <Route 
+                path="/resumes" 
+                element={
+                  <ProtectedRoute>
+                    <ResumeManager />
                   </ProtectedRoute>
                 } 
               />

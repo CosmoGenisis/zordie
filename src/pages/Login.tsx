@@ -13,11 +13,13 @@ import {
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { Separator } from "@/components/ui/separator";
-import { Github, Loader2, AlertCircle } from "lucide-react";
+import { Loader2, AlertCircle, Mail } from "lucide-react";
 import { useToast } from "@/components/ui/use-toast";
 import Layout from "@/components/layout/Layout";
 import { useAuth } from "@/context/AuthContext";
 import LoadingScreen from "@/components/auth/LoadingScreen";
+import { FcGoogle } from "react-icons/fc";
+import { FaLinkedin } from "react-icons/fa";
 
 const Login = () => {
   const [isLoading, setIsLoading] = useState(false);
@@ -73,23 +75,37 @@ const Login = () => {
     }
   };
 
-  const handleGithubSignIn = async () => {
+  const handleGoogleSignIn = async () => {
     setError(null);
     
     try {
-      const { error } = await signInWithOAuth('github');
+      const { error } = await signInWithOAuth('google');
       
       if (error) {
-        if (error.message.includes("provider is not enabled")) {
-          throw new Error("GitHub authentication is not enabled in the Supabase project settings. Please enable it in the Supabase dashboard.");
-        }
         throw error;
       }
       
       // The redirect happens automatically, so no need for additional code here
     } catch (error: any) {
-      console.error("GitHub sign in error:", error);
-      setError(error.message || "Failed to sign in with GitHub. Please try again.");
+      console.error("Google sign in error:", error);
+      setError(error.message || "Failed to sign in with Google. Please try again.");
+    }
+  };
+
+  const handleLinkedInSignIn = async () => {
+    setError(null);
+    
+    try {
+      const { error } = await signInWithOAuth('linkedin_oidc');
+      
+      if (error) {
+        throw error;
+      }
+      
+      // The redirect happens automatically, so no need for additional code here
+    } catch (error: any) {
+      console.error("LinkedIn sign in error:", error);
+      setError(error.message || "Failed to sign in with LinkedIn. Please try again.");
     }
   };
 
@@ -105,16 +121,29 @@ const Login = () => {
               </CardDescription>
             </CardHeader>
             <CardContent className="space-y-4">
-              <Button 
-                variant="outline" 
-                className="w-full" 
-                disabled={isLoading}
-                onClick={handleGithubSignIn}
-                type="button"
-              >
-                <Github className="mr-2 h-4 w-4" />
-                Continue with GitHub
-              </Button>
+              <div className="grid grid-cols-2 gap-3">
+                <Button 
+                  variant="outline" 
+                  className="w-full" 
+                  disabled={isLoading}
+                  onClick={handleGoogleSignIn}
+                  type="button"
+                >
+                  <FcGoogle className="mr-2 h-5 w-5" />
+                  Google
+                </Button>
+                
+                <Button 
+                  variant="outline" 
+                  className="w-full" 
+                  disabled={isLoading}
+                  onClick={handleLinkedInSignIn}
+                  type="button"
+                >
+                  <FaLinkedin className="mr-2 h-5 w-5 text-blue-700" />
+                  LinkedIn
+                </Button>
+              </div>
               
               <div className="relative">
                 <div className="absolute inset-0 flex items-center">

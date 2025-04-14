@@ -1,5 +1,5 @@
 
-import { useState, useRef } from 'react';
+import { useState, useRef, useEffect } from 'react';
 import { supabase } from '@/integrations/supabase/client';
 import { useAuth } from '@/context/AuthContext';
 import { Button } from '@/components/ui/button';
@@ -7,11 +7,13 @@ import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { useToast } from '@/components/ui/use-toast';
 import { Loader2, Upload, File, Trash2 } from 'lucide-react';
 
+// Updated interface to match database fields
 interface ResumeFile {
   id: string;
-  name: string;
-  size: number;
-  type: string;
+  file_name: string;
+  file_size: number;
+  file_type: string;
+  file_path: string;
   created_at: string;
   url?: string;
 }
@@ -26,11 +28,11 @@ const ResumeUploader = () => {
   const fileInputRef = useRef<HTMLInputElement>(null);
 
   // Load user's resumes on component mount
-  useState(() => {
+  useEffect(() => {
     if (user) {
       loadUserResumes();
     }
-  });
+  }, [user]);
 
   const loadUserResumes = async () => {
     if (!user) return;
@@ -41,6 +43,7 @@ const ResumeUploader = () => {
       const { data, error } = await supabase
         .from('user_resumes')
         .select('*')
+        .eq('user_id', user.id)
         .order('created_at', { ascending: false });
       
       if (error) {
@@ -58,7 +61,7 @@ const ResumeUploader = () => {
           return {
             ...resume,
             url: urlData?.signedUrl
-          };
+          } as ResumeFile;
         })
       );
       
@@ -138,10 +141,12 @@ const ResumeUploader = () => {
         .createSignedUrl(filePath, 60 * 60); // 1 hour expiry
       
       // 4. Update the resumes list with the new resume
-      setResumes(prev => [{
+      const newResume: ResumeFile = {
         ...data,
         url: urlData?.signedUrl
-      }, ...prev]);
+      };
+      
+      setResumes(prev => [newResume, ...prev]);
       
       // 5. Show success message
       toast({
@@ -265,9 +270,9 @@ const ResumeUploader = () => {
                   <div className="flex items-center">
                     <File className="h-5 w-5 mr-3 text-blue-500" />
                     <div>
-                      <p className="font-medium text-sm">{resume.name}</p>
+                      <p className="font-medium text-sm">{resume.file_name}</p>
                       <p className="text-xs text-gray-500">
-                        {new Date(resume.created_at).toLocaleDateString()} • {(resume.size / 1024 / 1024).toFixed(2)}MB
+                        {new Date(resume.created_at).toLocaleDateString()} • {(resume.file_size / 1024 / 1024).toFixed(2)}MB
                       </p>
                     </div>
                   </div>

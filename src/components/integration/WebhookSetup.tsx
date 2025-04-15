@@ -43,9 +43,9 @@ const WebhookSetup: React.FC<WebhookSetupProps> = ({
     if (!user) return;
     
     try {
-      // Using a type assertion to tell TypeScript that we're querying the webhooks table
+      // Use a more generic query approach with type assertion
       const { data, error } = await supabase
-        .from('webhooks')
+        .from('webhooks' as any)
         .select('*')
         .eq('user_id', user.id)
         .single();
@@ -136,7 +136,7 @@ const WebhookSetup: React.FC<WebhookSetupProps> = ({
 
     try {
       // Prepare webhook configuration
-      const webhookConfig = {
+      const webhookConfig: WebhookConfig = {
         user_id: user.id,
         webhook_url: webhookUrl,
       };
@@ -146,13 +146,13 @@ const WebhookSetup: React.FC<WebhookSetupProps> = ({
       if (webhookId) {
         // Update existing webhook - using type assertion
         result = await supabase
-          .from('webhooks')
+          .from('webhooks' as any)
           .update({ webhook_url: webhookUrl })
           .eq('id', webhookId);
       } else {
         // Insert new webhook - using type assertion
         result = await supabase
-          .from('webhooks')
+          .from('webhooks' as any)
           .insert(webhookConfig as any);
       }
 
@@ -164,7 +164,7 @@ const WebhookSetup: React.FC<WebhookSetupProps> = ({
       if (!webhookId) {
         // Using type assertion
         const { data } = await supabase
-          .from('webhooks')
+          .from('webhooks' as any)
           .select('id')
           .eq('user_id', user.id)
           .single();

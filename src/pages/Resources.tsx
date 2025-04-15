@@ -361,7 +361,7 @@ const templates = [
   },
   {
     id: 't3',
-3 title: 'Job Interview Preparation Worksheet',
+    title: 'Job Interview Preparation Worksheet',
     description: 'Prepare your interview answers with this structured worksheet.',
     tags: ['Interview', 'Printable']
   }

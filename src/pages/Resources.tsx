@@ -1,4 +1,3 @@
-
 import React from 'react';
 import Layout from '@/components/layout/Layout';
 import { SectionHeading } from '@/components/ui/section-heading';
@@ -12,6 +11,7 @@ import {
   Podcast, 
   Download, 
   Calendar,
+  Clock,
   ArrowRight,
   ExternalLink,
   CheckCircle
@@ -361,7 +361,7 @@ const templates = [
   },
   {
     id: 't3',
-    title: 'Job Interview Preparation Worksheet',
+3 title: 'Job Interview Preparation Worksheet',
     description: 'Prepare your interview answers with this structured worksheet.',
     tags: ['Interview', 'Printable']
   }

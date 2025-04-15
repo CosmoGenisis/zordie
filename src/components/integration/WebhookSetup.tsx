@@ -56,9 +56,10 @@ const WebhookSetup: React.FC<WebhookSetupProps> = ({
       }
       
       if (data) {
-        // Safely access data using optional chaining and type assertion
-        setWebhookUrl(data.webhook_url as string);
-        setWebhookId(data.id as string);
+        // Safely access data with type assertion for the entire object
+        const webhookData = data as any;
+        setWebhookUrl(webhookData.webhook_url);
+        setWebhookId(webhookData.id);
       }
     } catch (error) {
       console.error('Error in fetchExistingWebhook:', error);
@@ -170,8 +171,9 @@ const WebhookSetup: React.FC<WebhookSetupProps> = ({
           .single();
           
         if (data && !error) {
-          // Safely access data using optional chaining and type assertion
-          setWebhookId((data as any).id);
+          // Safely access data with complete type assertion
+          const responseData = data as any;
+          setWebhookId(responseData.id);
         }
       }
 

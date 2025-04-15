@@ -48,17 +48,20 @@ const PricingSection = () => {
       if (error) throw error;
       
       // Also track the user selection in a separate table for analytics
-      await supabase
-        .from('user_actions' as any)
-        .insert({
-          user_id: user.id,
-          action_type: 'plan_selected',
-          action_details: JSON.stringify({
-            plan_name: planName,
-            billing_cycle: billingCycle
-          })
-        })
-        .catch(err => console.error("Error logging plan selection:", err));
+      try {
+        await supabase
+          .from('user_actions' as any)
+          .insert({
+            user_id: user.id,
+            action_type: 'plan_selected',
+            action_details: JSON.stringify({
+              plan_name: planName,
+              billing_cycle: billingCycle
+            })
+          });
+      } catch (err) {
+        console.error("Error logging plan selection:", err);
+      }
       
       toast({
         title: "Plan selected",

@@ -1,14 +1,72 @@
+
 import { useState } from "react";
 import { Button } from "@/components/ui/button";
 import { SectionHeading } from "@/components/ui/section-heading";
-import { Check, HelpCircle } from "lucide-react";
-import { Link } from "react-router-dom";
+import { Check, HelpCircle, Loader2 } from "lucide-react";
+import { Link, useNavigate } from "react-router-dom";
 import { HoverCard, HoverCardContent, HoverCardTrigger } from "@/components/ui/hover-card";
+import { useToast } from "@/components/ui/use-toast";
+import { supabase } from "@/integrations/supabase/client";
+import { useAuth } from "@/context/AuthContext";
+
 const PricingSection = () => {
   const [billingCycle, setBillingCycle] = useState<"monthly" | "annual">("monthly");
+  const [isLoading, setIsLoading] = useState<string | null>(null);
+  const { toast } = useToast();
+  const { user } = useAuth();
+  const navigate = useNavigate();
+  
   const handleBillingCycleChange = (cycle: "monthly" | "annual") => {
     setBillingCycle(cycle);
   };
+
+  const handlePlanSelection = async (planName: string) => {
+    setIsLoading(planName);
+    
+    try {
+      if (!user) {
+        // Not logged in, redirect to signup
+        toast({
+          title: "Authentication required",
+          description: "Please sign up or log in to choose a plan",
+        });
+        navigate("/signup");
+        return;
+      }
+      
+      // Save the user's plan selection to the database
+      const { error } = await supabase
+        .from('profiles')
+        .update({ 
+          selected_plan: planName,
+          billing_cycle: billingCycle
+        })
+        .eq('id', user.id);
+      
+      if (error) throw error;
+      
+      toast({
+        title: "Plan selected",
+        description: `You've selected the ${planName} plan with ${billingCycle} billing.`,
+      });
+      
+      if (planName === "Enterprise") {
+        navigate("/contact");
+      } else {
+        navigate("/signup");
+      }
+    } catch (error) {
+      console.error("Error selecting plan:", error);
+      toast({
+        title: "Error",
+        description: "There was a problem selecting your plan. Please try again.",
+        variant: "destructive",
+      });
+    } finally {
+      setIsLoading(null);
+    }
+  };
+  
   return <section className="py-16 bg-gray-50">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <SectionHeading title="Affordable Plans for Every Business" subtitle="Choose the plan that best fits your hiring needs" align="center" />
@@ -27,10 +85,46 @@ const PricingSection = () => {
         </div>
         
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8 mt-6 animate-fade-in">
-          <PricingCard name="Free" price={billingCycle === "monthly" ? "₹0" : "₹0"} period={billingCycle === "monthly" ? "/month" : "/year"} description="Perfect for trying out Zordie" features={["2 job posts", "Basic AI screening", "10 verified applications", "Email support"]} buttonText="Get Started" buttonVariant="outline" />
-          <PricingCard name="Startup" price={billingCycle === "monthly" ? "₹1,499" : "₹14,390"} period={billingCycle === "monthly" ? "/month" : "/year"} description="Ideal for growing teams" features={["15 job posts", "Full AI screening & ranking", "Unlimited verified applications", "AI video interviews", "Prime AI messaging", "Priority support"]} buttonText="Choose Startup" buttonVariant="default" highlighted />
-          <PricingCard name="Business" price={billingCycle === "monthly" ? "₹4,999" : "₹47,990"} period={billingCycle === "monthly" ? "/month" : "/year"} description="For scaling companies" features={["Unlimited job posts", "Advanced AI screening & ranking", "Custom interview templates", "Team collaboration tools", "Analytics dashboard", "API access", "Priority support"]} buttonText="Choose Business" buttonVariant="default" />
-          <PricingCard name="Enterprise" price="Custom" period="" description="Tailored for large organizations" features={["Everything in Business", "Custom integrations", "Dedicated account manager", "Custom AI training", "White-label options", "SLA guarantees", "Phone & priority support", <span key="custom-prime">
+          <PricingCard 
+            name="Free" 
+            price={billingCycle === "monthly" ? "₹0" : "₹0"} 
+            period={billingCycle === "monthly" ? "/month" : "/year"} 
+            description="Perfect for trying out Zordie" 
+            features={["2 job posts", "Basic AI screening", "10 verified applications", "Email support"]} 
+            buttonText="Get Started" 
+            buttonVariant="outline"
+            onSelect={() => handlePlanSelection("Free")}
+            isLoading={isLoading === "Free"}
+          />
+          <PricingCard 
+            name="Startup" 
+            price={billingCycle === "monthly" ? "₹1,499" : "₹14,390"} 
+            period={billingCycle === "monthly" ? "/month" : "/year"} 
+            description="Ideal for growing teams" 
+            features={["15 job posts", "Full AI screening & ranking", "Unlimited verified applications", "AI video interviews", "Prime AI messaging", "Priority support"]} 
+            buttonText="Choose Startup" 
+            buttonVariant="default" 
+            highlighted
+            onSelect={() => handlePlanSelection("Startup")}
+            isLoading={isLoading === "Startup"}
+          />
+          <PricingCard 
+            name="Business" 
+            price={billingCycle === "monthly" ? "₹4,999" : "₹47,990"} 
+            period={billingCycle === "monthly" ? "/month" : "/year"} 
+            description="For scaling companies" 
+            features={["Unlimited job posts", "Advanced AI screening & ranking", "Custom interview templates", "Team collaboration tools", "Analytics dashboard", "API access", "Priority support"]} 
+            buttonText="Choose Business" 
+            buttonVariant="default"
+            onSelect={() => handlePlanSelection("Business")}
+            isLoading={isLoading === "Business"}
+          />
+          <PricingCard 
+            name="Enterprise" 
+            price="Custom" 
+            period="" 
+            description="Tailored for large organizations" 
+            features={["Everything in Business", "Custom integrations", "Dedicated account manager", "Custom AI training", "White-label options", "SLA guarantees", "Phone & priority support", <span key="custom-prime">
                 Customized Prime AI{" "}
                 <HoverCard>
                   <HoverCardTrigger>
@@ -40,22 +134,31 @@ const PricingSection = () => {
                     Customize Prime AI's behavior, responses, and capabilities to match your company's hiring workflow and brand voice.
                   </HoverCardContent>
                 </HoverCard>
-              </span>]} buttonText="Contact Sales" buttonVariant="outline" />
+              </span>]} 
+            buttonText="Contact Sales" 
+            buttonVariant="outline"
+            onSelect={() => handlePlanSelection("Enterprise")}
+            isLoading={isLoading === "Enterprise"}
+          />
         </div>
         
         <div className="mt-12 text-center">
           <p className="text-lg text-gray-600 mb-6">
             Need a custom solution or have specific requirements?
           </p>
-          <Link to="/contact">
-            <Button variant="outline" size="lg" className="transition-all duration-200 hover:shadow-md bg-gradient-to-r text-base text-zinc-100 bg-[#494ee3]/[0.94] gradient">
-              Contact Our Team
-            </Button>
-          </Link>
+          <Button 
+            variant="outline" 
+            size="lg" 
+            className="transition-all duration-200 hover:shadow-md bg-gradient-to-r text-base text-zinc-100 bg-[#494ee3]/[0.94] gradient"
+            onClick={() => navigate("/contact")}
+          >
+            Contact Our Team
+          </Button>
         </div>
       </div>
     </section>;
 };
+
 interface PricingCardProps {
   name: string;
   price: string;
@@ -65,7 +168,10 @@ interface PricingCardProps {
   buttonText: string;
   buttonVariant: "default" | "outline";
   highlighted?: boolean;
+  onSelect: () => void;
+  isLoading?: boolean;
 }
+
 const PricingCard = ({
   name,
   price,
@@ -74,7 +180,9 @@ const PricingCard = ({
   features,
   buttonText,
   buttonVariant,
-  highlighted = false
+  highlighted = false,
+  onSelect,
+  isLoading = false
 }: PricingCardProps) => {
   return <div className={`rounded-xl border ${highlighted ? "border-zordie-500 shadow-lg shadow-zordie-100/50 relative overflow-hidden" : "border-gray-200"} bg-white p-8 transition-all duration-300 hover:shadow-md hover:translate-y-[-4px]`}>
       {highlighted && <div className="absolute top-0 right-0">
@@ -90,13 +198,23 @@ const PricingCard = ({
       </div>
       <p className="text-sm text-gray-600 mb-6">{description}</p>
       
-      <Link to="/signup" className="block mb-6">
-        <Button variant={buttonVariant} className={`w-full transition-all duration-200 hover:shadow-md ${highlighted && buttonVariant === "default" ? "btn-gradient" : ""}`}>
-          {buttonText}
-        </Button>
-      </Link>
+      <Button 
+        variant={buttonVariant} 
+        className={`w-full transition-all duration-200 hover:shadow-md ${highlighted && buttonVariant === "default" ? "btn-gradient" : ""}`}
+        onClick={onSelect}
+        disabled={isLoading}
+      >
+        {isLoading ? (
+          <>
+            <Loader2 className="mr-2 h-4 w-4 animate-spin" />
+            Processing...
+          </>
+        ) : (
+          buttonText
+        )}
+      </Button>
       
-      <ul className="space-y-3">
+      <ul className="space-y-3 mt-6">
         {features.map((feature, index) => <li key={index} className="flex items-start">
             <Check className="h-5 w-5 text-zordie-500 mr-2 shrink-0" />
             <span className="text-sm text-gray-600">{feature}</span>
@@ -104,4 +222,5 @@ const PricingCard = ({
       </ul>
     </div>;
 };
+
 export default PricingSection;

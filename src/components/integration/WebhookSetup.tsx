@@ -43,7 +43,6 @@ const WebhookSetup: React.FC<WebhookSetupProps> = ({
     if (!user) return;
     
     try {
-      // Use a more generic query approach with type assertion
       const { data, error } = await supabase
         .from('webhooks' as any)
         .select('*')
@@ -56,8 +55,8 @@ const WebhookSetup: React.FC<WebhookSetupProps> = ({
       }
       
       if (data) {
-        setWebhookUrl(data.webhook_url);
-        setWebhookId(data.id);
+        setWebhookUrl(data.webhook_url as string);
+        setWebhookId(data.id as string);
       }
     } catch (error) {
       console.error('Error in fetchExistingWebhook:', error);
@@ -144,13 +143,13 @@ const WebhookSetup: React.FC<WebhookSetupProps> = ({
       let result;
       
       if (webhookId) {
-        // Update existing webhook - using type assertion
+        // Update existing webhook
         result = await supabase
           .from('webhooks' as any)
           .update({ webhook_url: webhookUrl })
           .eq('id', webhookId);
       } else {
-        // Insert new webhook - using type assertion
+        // Insert new webhook
         result = await supabase
           .from('webhooks' as any)
           .insert(webhookConfig as any);
@@ -162,15 +161,14 @@ const WebhookSetup: React.FC<WebhookSetupProps> = ({
 
       // If this was an insert, get the new ID
       if (!webhookId) {
-        // Using type assertion
-        const { data } = await supabase
+        const { data, error } = await supabase
           .from('webhooks' as any)
           .select('id')
           .eq('user_id', user.id)
           .single();
           
-        if (data) {
-          setWebhookId(data.id);
+        if (data && !error) {
+          setWebhookId(data.id as string);
         }
       }
 

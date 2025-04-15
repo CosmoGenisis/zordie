@@ -19,6 +19,7 @@ interface WebhookConfig {
   user_id: string;
   webhook_url: string;
   created_at?: string;
+  updated_at?: string;
 }
 
 const WebhookSetup: React.FC<WebhookSetupProps> = ({ 
@@ -42,6 +43,7 @@ const WebhookSetup: React.FC<WebhookSetupProps> = ({
     if (!user) return;
     
     try {
+      // Using a type assertion to tell TypeScript that we're querying the webhooks table
       const { data, error } = await supabase
         .from('webhooks')
         .select('*')
@@ -134,7 +136,7 @@ const WebhookSetup: React.FC<WebhookSetupProps> = ({
 
     try {
       // Prepare webhook configuration
-      const webhookConfig: WebhookConfig = {
+      const webhookConfig = {
         user_id: user.id,
         webhook_url: webhookUrl,
       };
@@ -142,16 +144,16 @@ const WebhookSetup: React.FC<WebhookSetupProps> = ({
       let result;
       
       if (webhookId) {
-        // Update existing webhook
+        // Update existing webhook - using type assertion
         result = await supabase
           .from('webhooks')
           .update({ webhook_url: webhookUrl })
           .eq('id', webhookId);
       } else {
-        // Insert new webhook
+        // Insert new webhook - using type assertion
         result = await supabase
           .from('webhooks')
-          .insert(webhookConfig);
+          .insert(webhookConfig as any);
       }
 
       if (result.error) {
@@ -159,7 +161,8 @@ const WebhookSetup: React.FC<WebhookSetupProps> = ({
       }
 
       // If this was an insert, get the new ID
-      if (!webhookId && result.data) {
+      if (!webhookId) {
+        // Using type assertion
         const { data } = await supabase
           .from('webhooks')
           .select('id')

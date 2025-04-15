@@ -5,7 +5,7 @@ import { useAuth } from "@/context/AuthContext";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
 import WebhookSetup from "@/components/integration/WebhookSetup";
-import { Webhook, CalendarDays, Mail, Settings } from "lucide-react";
+import { Webhook, CalendarDays, Mail, Settings, BadgeCheck } from "lucide-react";
 import LoadingScreen from "@/components/auth/LoadingScreen";
 
 const IntegrationSettings = () => {
@@ -36,6 +36,10 @@ const IntegrationSettings = () => {
             <TabsTrigger value="email" className="flex-1">
               <Mail className="mr-2 h-4 w-4" />
               Email
+            </TabsTrigger>
+            <TabsTrigger value="verification" className="flex-1">
+              <BadgeCheck className="mr-2 h-4 w-4" />
+              Verification
             </TabsTrigger>
           </TabsList>
 
@@ -91,6 +95,20 @@ const IntegrationSettings = () => {
               <CardContent>
                 <p className="text-center py-8 text-gray-500">
                   Email notification settings will be available in an upcoming update.
+                </p>
+              </CardContent>
+            </Card>
+          </TabsContent>
+
+          <TabsContent value="verification" className="space-y-6">
+            <Card>
+              <CardHeader>
+                <CardTitle>Identity Verification</CardTitle>
+                <CardDescription>Verify your identity to access advanced features</CardDescription>
+              </CardHeader>
+              <CardContent>
+                <p className="text-center py-8 text-gray-500">
+                  Identity verification options will be available soon to enhance account security.
                 </p>
               </CardContent>
             </Card>

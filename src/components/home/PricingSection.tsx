@@ -23,7 +23,7 @@ const PricingSection = () => {
     setIsLoading(planName);
     
     try {
-      if (!user) {
+      if (!user && planName !== "Free" && planName !== "Enterprise") {
         // Not logged in, redirect to signup
         toast({
           title: "Authentication required",
@@ -33,45 +33,39 @@ const PricingSection = () => {
         return;
       }
       
-      // Save the user's plan selection to the database
-      // Using update with metadata to store selected plan and billing cycle
-      const { error } = await supabase
-        .from('profiles')
-        .update({ 
-          // Using custom metadata fields that don't conflict with the table schema
-          updated_at: new Date().toISOString(),
-          // Store plan selection in the user metadata through a custom column
-          // This will be added to the database later when needed
-        } as any)
-        .eq('id', user.id);
-      
-      if (error) throw error;
-      
-      // Also track the user selection in a separate table for analytics
-      try {
-        await supabase
-          .from('user_actions' as any)
-          .insert({
-            user_id: user.id,
-            action_type: 'plan_selected',
-            action_details: JSON.stringify({
-              plan_name: planName,
-              billing_cycle: billingCycle
-            })
-          });
-      } catch (err) {
-        console.error("Error logging plan selection:", err);
+      if (planName === "Free") {
+        // Free plan doesn't require payment
+        navigate("/dashboard");
+        return;
       }
       
-      toast({
-        title: "Plan selected",
-        description: `You've selected the ${planName} plan with ${billingCycle} billing.`,
+      if (planName === "Enterprise") {
+        // Enterprise plan requires contacting sales
+        navigate("/contact");
+        return;
+      }
+      
+      // For paid plans, create a checkout session
+      const { data, error } = await supabase.functions.invoke('create-checkout', {
+        body: { plan: planName, billingCycle }
       });
       
-      if (planName === "Enterprise") {
-        navigate("/contact");
-      } else {
-        navigate("/signup");
+      if (error) {
+        throw new Error(error.message);
+      }
+      
+      if (data.url) {
+        // Redirect to Stripe checkout
+        window.location.href = data.url;
+      } else if (data.message) {
+        toast({
+          title: "Information",
+          description: data.message,
+        });
+        
+        if (data.url) {
+          navigate(data.url);
+        }
       }
     } catch (error) {
       console.error("Error selecting plan:", error);

@@ -75,7 +75,7 @@ const App = () => (
               <Route 
                 path="/job-seeker-dashboard" 
                 element={
-                  <ProtectedRoute>
+                  <ProtectedRoute requiredUserType="candidate">
                     <JobSeekerDashboard />
                   </ProtectedRoute>
                 } 
@@ -83,7 +83,7 @@ const App = () => (
               <Route 
                 path="/company-dashboard" 
                 element={
-                  <ProtectedRoute>
+                  <ProtectedRoute requiredUserType="company">
                     <CompanyDashboard />
                   </ProtectedRoute>
                 } 
@@ -99,16 +99,27 @@ const App = () => (
               <Route 
                 path="/resumes" 
                 element={
-                  <ProtectedRoute>
+                  <ProtectedRoute requiredUserType="candidate">
                     <ResumeManager />
                   </ProtectedRoute>
                 } 
               />
               <Route 
                 path="/chat" 
-                element={<Chatbot />} 
+                element={
+                  <ProtectedRoute>
+                    <Chatbot />
+                  </ProtectedRoute>
+                } 
               />
-              <Route path="/post-job" element={<PostJob />} />
+              <Route 
+                path="/post-job" 
+                element={
+                  <ProtectedRoute requiredUserType="company">
+                    <PostJob />
+                  </ProtectedRoute>
+                } 
+              />
               <Route path="/about" element={<About />} />
               <Route path="/contact" element={<Contact />} />
               <Route path="/privacy" element={<Privacy />} />
@@ -120,8 +131,22 @@ const App = () => (
               <Route path="/ai-screening" element={<AiScreening />} />
               <Route path="/find-jobs" element={<FindJobs />} />
               <Route path="/verify-profile" element={<VerifyProfile />} />
-              <Route path="/practice-interview" element={<PracticeInterview />} />
-              <Route path="/ai-interview" element={<AIInterview />} />
+              <Route 
+                path="/practice-interview" 
+                element={
+                  <ProtectedRoute requiredUserType="candidate">
+                    <PracticeInterview />
+                  </ProtectedRoute>
+                } 
+              />
+              <Route 
+                path="/ai-interview" 
+                element={
+                  <ProtectedRoute requiredUserType="candidate">
+                    <AIInterview />
+                  </ProtectedRoute>
+                } 
+              />
               <Route path="/resources" element={<Resources />} />
               <Route path="*" element={<NotFound />} />
             </Routes>

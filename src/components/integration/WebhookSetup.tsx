@@ -1,15 +1,24 @@
 
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { Loader2 } from "lucide-react";
 import { useToast } from "@/components/ui/use-toast";
 import { Card, CardContent, CardDescription, CardFooter, CardHeader, CardTitle } from "@/components/ui/card";
+import { supabase } from "@/integrations/supabase/client";
+import { useAuth } from "@/context/AuthContext";
 
 interface WebhookSetupProps {
   title?: string;
   description?: string;
+}
+
+interface WebhookConfig {
+  id?: string;
+  user_id: string;
+  webhook_url: string;
+  created_at?: string;
 }
 
 const WebhookSetup: React.FC<WebhookSetupProps> = ({ 
@@ -18,7 +27,40 @@ const WebhookSetup: React.FC<WebhookSetupProps> = ({
 }) => {
   const [webhookUrl, setWebhookUrl] = useState("");
   const [isLoading, setIsLoading] = useState(false);
+  const [isSaving, setIsSaving] = useState(false);
+  const [webhookId, setWebhookId] = useState<string | null>(null);
   const { toast } = useToast();
+  const { user } = useAuth();
+
+  useEffect(() => {
+    if (user) {
+      fetchExistingWebhook();
+    }
+  }, [user]);
+
+  const fetchExistingWebhook = async () => {
+    if (!user) return;
+    
+    try {
+      const { data, error } = await supabase
+        .from('webhooks')
+        .select('*')
+        .eq('user_id', user.id)
+        .single();
+      
+      if (error && error.code !== 'PGRST116') {
+        console.error('Error fetching webhook:', error);
+        return;
+      }
+      
+      if (data) {
+        setWebhookUrl(data.webhook_url);
+        setWebhookId(data.id);
+      }
+    } catch (error) {
+      console.error('Error in fetchExistingWebhook:', error);
+    }
+  };
 
   const handleTrigger = async (e: React.FormEvent) => {
     e.preventDefault();
@@ -69,7 +111,7 @@ const WebhookSetup: React.FC<WebhookSetupProps> = ({
     }
   };
 
-  const handleSave = () => {
+  const handleSave = async () => {
     if (!webhookUrl) {
       toast({
         title: "Error",
@@ -79,11 +121,70 @@ const WebhookSetup: React.FC<WebhookSetupProps> = ({
       return;
     }
 
-    // Here you would typically save the webhook URL to your backend
-    toast({
-      title: "Webhook Saved",
-      description: "Your webhook URL has been saved successfully.",
-    });
+    if (!user) {
+      toast({
+        title: "Authentication Required",
+        description: "Please log in to save webhook settings",
+        variant: "destructive",
+      });
+      return;
+    }
+
+    setIsSaving(true);
+
+    try {
+      // Prepare webhook configuration
+      const webhookConfig: WebhookConfig = {
+        user_id: user.id,
+        webhook_url: webhookUrl,
+      };
+
+      let result;
+      
+      if (webhookId) {
+        // Update existing webhook
+        result = await supabase
+          .from('webhooks')
+          .update({ webhook_url: webhookUrl })
+          .eq('id', webhookId);
+      } else {
+        // Insert new webhook
+        result = await supabase
+          .from('webhooks')
+          .insert(webhookConfig);
+      }
+
+      if (result.error) {
+        throw result.error;
+      }
+
+      // If this was an insert, get the new ID
+      if (!webhookId && result.data) {
+        const { data } = await supabase
+          .from('webhooks')
+          .select('id')
+          .eq('user_id', user.id)
+          .single();
+          
+        if (data) {
+          setWebhookId(data.id);
+        }
+      }
+
+      toast({
+        title: "Webhook Saved",
+        description: "Your webhook URL has been saved successfully.",
+      });
+    } catch (error) {
+      console.error("Error saving webhook:", error);
+      toast({
+        title: "Error",
+        description: "Failed to save webhook configuration. Please try again.",
+        variant: "destructive",
+      });
+    } finally {
+      setIsSaving(false);
+    }
   };
 
   return (
@@ -134,8 +235,9 @@ const WebhookSetup: React.FC<WebhookSetupProps> = ({
         <Button
           type="button"
           onClick={handleSave}
-          disabled={isLoading || !webhookUrl}
+          disabled={isSaving || !webhookUrl}
         >
+          {isSaving && <Loader2 className="mr-2 h-4 w-4 animate-spin" />}
           Save Configuration
         </Button>
       </CardFooter>

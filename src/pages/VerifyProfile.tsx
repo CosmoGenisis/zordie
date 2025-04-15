@@ -1,4 +1,3 @@
-
 import React, { useState } from 'react';
 import Layout from '@/components/layout/Layout';
 import { SectionHeading } from '@/components/ui/section-heading';
@@ -23,10 +22,108 @@ import {
 } from 'lucide-react';
 import { Progress } from '@/components/ui/progress';
 import { Textarea } from '@/components/ui/textarea';
+import { useToast } from '@/hooks/use-toast';
+import { supabase } from '@/integrations/supabase/client';
+import { useNavigate } from 'react-router-dom';
 
 const VerifyProfile = () => {
   const [currentStep, setCurrentStep] = useState(1);
-  
+  const { toast } = useToast();
+  const navigate = useNavigate();
+
+  const handleButtonClick = async (actionType: string, details: any = {}) => {
+    try {
+      const { data: sessionData } = await supabase.auth.getSession();
+      const userId = sessionData.session?.user?.id;
+
+      if (userId) {
+        // Log the user action
+        await supabase
+          .from('user_actions' as any)
+          .insert({
+            user_id: userId,
+            action_type: actionType,
+            action_details: JSON.stringify({
+              ...details,
+              current_step: currentStep
+            }),
+            page: 'verify_profile'
+          });
+        
+        // Show toast notification
+        toast({
+          title: "Action recorded",
+          description: details.description || "Your verification data has been saved."
+        });
+        
+        // Handle navigation or step changes
+        if (actionType === 'start_verification') {
+          setCurrentStep(1);
+          window.scrollTo({ top: document.getElementById('verification-form')?.offsetTop || 0, behavior: 'smooth' });
+        } else if (actionType === 'submit_verification') {
+          navigate('/user-dashboard');
+        } else if (actionType === 'go_to_dashboard') {
+          navigate('/user-dashboard');
+        }
+      } else {
+        // User is not logged in
+        toast({
+          title: "Login required",
+          description: "Please login to continue with verification.",
+          variant: "destructive"
+        });
+        navigate('/login');
+      }
+    } catch (error) {
+      console.error('Error logging action:', error);
+      toast({
+        title: "Something went wrong",
+        description: "Please try again later.",
+        variant: "destructive"
+      });
+    }
+  };
+
+  const handleStepChange = async (nextStep: number) => {
+    try {
+      const { data: sessionData } = await supabase.auth.getSession();
+      const userId = sessionData.session?.user?.id;
+
+      if (userId) {
+        // Save current step data (in a real app, we would save the form fields)
+        await supabase
+          .from('user_actions' as any)
+          .insert({
+            user_id: userId,
+            action_type: 'save_verification_step',
+            action_details: JSON.stringify({
+              from_step: currentStep,
+              to_step: nextStep,
+              timestamp: new Date().toISOString()
+            }),
+            page: 'verify_profile'
+          });
+        
+        setCurrentStep(nextStep);
+        
+        // Show success toast only when moving forward
+        if (nextStep > currentStep) {
+          toast({
+            title: "Progress saved",
+            description: `Step ${currentStep} completed successfully.`
+          });
+        }
+      }
+    } catch (error) {
+      console.error('Error saving step data:', error);
+      toast({
+        title: "Couldn't save progress",
+        description: "Please try again.",
+        variant: "destructive"
+      });
+    }
+  };
+
   return (
     <Layout>
       {/* Hero Section */}
@@ -42,7 +139,7 @@ const VerifyProfile = () => {
             <p className="text-lg text-zordie-600 mb-8">
               Enhance your credibility and stand out to employers by verifying your skills, experience, and credentials.
             </p>
-            <Button className="btn-gradient text-lg py-6 px-8">
+            <Button className="btn-gradient text-lg py-6 px-8" onClick={() => handleButtonClick('start_verification', { description: "Started verification process" })}>
               Start Verification
             </Button>
           </div>
@@ -99,7 +196,7 @@ const VerifyProfile = () => {
       </section>
 
       {/* Verification Form Section */}
-      <section className="py-16 bg-gray-50">
+      <section className="py-16 bg-gray-50" id="verification-form">
         <div className="container mx-auto px-4">
           <div className="max-w-4xl mx-auto">
             <Card className="border-gray-200 shadow-lg">
@@ -154,7 +251,7 @@ const VerifyProfile = () => {
                       </div>
                       
                       <div className="flex justify-end">
-                        <Button onClick={() => setCurrentStep(2)}>
+                        <Button onClick={() => handleStepChange(2)}>
                           Continue <ChevronRight className="ml-1 h-4 w-4" />
                         </Button>
                       </div>
@@ -223,10 +320,10 @@ const VerifyProfile = () => {
                       </Button>
                       
                       <div className="flex justify-between">
-                        <Button variant="outline" onClick={() => setCurrentStep(1)}>
+                        <Button variant="outline" onClick={() => handleStepChange(1)}>
                           Back
                         </Button>
-                        <Button onClick={() => setCurrentStep(3)}>
+                        <Button onClick={() => handleStepChange(3)}>
                           Continue <ChevronRight className="ml-1 h-4 w-4" />
                         </Button>
                       </div>
@@ -291,10 +388,10 @@ const VerifyProfile = () => {
                       </Button>
                       
                       <div className="flex justify-between">
-                        <Button variant="outline" onClick={() => setCurrentStep(2)}>
+                        <Button variant="outline" onClick={() => handleStepChange(2)}>
                           Back
                         </Button>
-                        <Button onClick={() => setCurrentStep(4)}>
+                        <Button onClick={() => handleStepChange(4)}>
                           Continue <ChevronRight className="ml-1 h-4 w-4" />
                         </Button>
                       </div>
@@ -369,10 +466,13 @@ const VerifyProfile = () => {
                       </Button>
                       
                       <div className="flex justify-between">
-                        <Button variant="outline" onClick={() => setCurrentStep(3)}>
+                        <Button variant="outline" onClick={() => handleStepChange(3)}>
                           Back
                         </Button>
-                        <Button onClick={() => setCurrentStep(5)} className="btn-gradient">
+                        <Button onClick={() => {
+                          handleStepChange(5);
+                          handleButtonClick('submit_verification', { description: "Verification submission complete" });
+                        }} className="btn-gradient">
                           Submit for Verification
                         </Button>
                       </div>
@@ -401,7 +501,7 @@ const VerifyProfile = () => {
                       </div>
                       
                       <div className="flex justify-center">
-                        <Button>
+                        <Button onClick={() => handleButtonClick('go_to_dashboard', { description: "User navigated to dashboard after verification" })}>
                           Go to Dashboard
                         </Button>
                       </div>
@@ -551,7 +651,7 @@ const VerifyProfile = () => {
           <p className="text-lg text-gray-600 mb-8 max-w-2xl mx-auto">
             Get your professional credentials verified and increase your chances of landing your dream job.
           </p>
-          <Button className="btn-gradient text-lg py-6 px-8 group">
+          <Button className="btn-gradient text-lg py-6 px-8 group" onClick={() => handleButtonClick('start_verification_cta', { source: 'cta_section' })}>
             Start Verification Process
             <ArrowRight className="ml-2 h-5 w-5 transition-transform group-hover:translate-x-1" />
           </Button>

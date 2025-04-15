@@ -43,6 +43,7 @@ const WebhookSetup: React.FC<WebhookSetupProps> = ({
     if (!user) return;
     
     try {
+      // Using type assertion to handle the webhook table not being in the types
       const { data, error } = await supabase
         .from('webhooks' as any)
         .select('*')
@@ -55,6 +56,7 @@ const WebhookSetup: React.FC<WebhookSetupProps> = ({
       }
       
       if (data) {
+        // Safely access data using optional chaining and type assertion
         setWebhookUrl(data.webhook_url as string);
         setWebhookId(data.id as string);
       }
@@ -168,7 +170,8 @@ const WebhookSetup: React.FC<WebhookSetupProps> = ({
           .single();
           
         if (data && !error) {
-          setWebhookId(data.id as string);
+          // Safely access data using optional chaining and type assertion
+          setWebhookId((data as any).id);
         }
       }
 

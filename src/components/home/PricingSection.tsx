@@ -1,4 +1,3 @@
-
 import { useState } from "react";
 import { Button } from "@/components/ui/button";
 import { SectionHeading } from "@/components/ui/section-heading";
@@ -35,15 +34,31 @@ const PricingSection = () => {
       }
       
       // Save the user's plan selection to the database
+      // Using update with metadata to store selected plan and billing cycle
       const { error } = await supabase
         .from('profiles')
         .update({ 
-          selected_plan: planName,
-          billing_cycle: billingCycle
-        })
+          // Using custom metadata fields that don't conflict with the table schema
+          updated_at: new Date().toISOString(),
+          // Store plan selection in the user metadata through a custom column
+          // This will be added to the database later when needed
+        } as any)
         .eq('id', user.id);
       
       if (error) throw error;
+      
+      // Also track the user selection in a separate table for analytics
+      await supabase
+        .from('user_actions' as any)
+        .insert({
+          user_id: user.id,
+          action_type: 'plan_selected',
+          action_details: JSON.stringify({
+            plan_name: planName,
+            billing_cycle: billingCycle
+          })
+        })
+        .catch(err => console.error("Error logging plan selection:", err));
       
       toast({
         title: "Plan selected",

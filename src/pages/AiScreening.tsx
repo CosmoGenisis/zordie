@@ -1,3 +1,4 @@
+
 import React from 'react';
 import Layout from '@/components/layout/Layout';
 import { SectionHeading } from '@/components/ui/section-heading';
@@ -17,73 +18,8 @@ import {
   ArrowRight
 } from 'lucide-react';
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
-import { useToast } from '@/hooks/use-toast';
-import { supabase } from '@/integrations/supabase/client';
-import { useNavigate } from 'react-router-dom';
 
 const AiScreening = () => {
-  const { toast } = useToast();
-  const navigate = useNavigate();
-
-  const handleButtonClick = async (actionType: string, details: any = {}) => {
-    try {
-      const { data: sessionData } = await supabase.auth.getSession();
-      const userId = sessionData.session?.user?.id;
-
-      if (userId) {
-        // Log the user action
-        await supabase
-          .from('user_actions' as any)
-          .insert({
-            user_id: userId,
-            action_type: actionType,
-            action_details: JSON.stringify(details),
-            page: 'ai_screening'
-          });
-        
-        // Show toast notification
-        toast({
-          title: "Request received",
-          description: details.description || "Your request has been processed."
-        });
-        
-        // Handle navigation based on action type
-        if (actionType === 'try_free') {
-          navigate('/signup');
-        } else if (actionType === 'watch_demo') {
-          // In a real app, this might open a modal or navigate to a demo page
-          toast({
-            title: "Demo",
-            description: "Watch demo functionality will be available soon."
-          });
-        } else if (actionType === 'plan_selected') {
-          navigate('/pricing');
-        } else if (actionType === 'free_trial') {
-          navigate(`/pricing?plan=${details.plan}`);
-        } else if (actionType === 'contact_sales') {
-          navigate('/contact-sales');
-        } else if (actionType === 'get_started') {
-          navigate('/signup');
-        }
-      } else {
-        // User is not logged in
-        toast({
-          title: "Login required",
-          description: "Please login to continue.",
-          variant: "destructive"
-        });
-        navigate('/login');
-      }
-    } catch (error) {
-      console.error('Error logging action:', error);
-      toast({
-        title: "Something went wrong",
-        description: "Please try again later.",
-        variant: "destructive"
-      });
-    }
-  };
-
   return (
     <Layout>
       {/* Hero Section */}
@@ -101,10 +37,10 @@ const AiScreening = () => {
                 Our advanced AI algorithms revolutionize your hiring process by efficiently screening candidates, identifying the best talent, and reducing time-to-hire.
               </p>
               <div className="flex flex-col sm:flex-row gap-4">
-                <Button className="btn-gradient text-lg py-6 px-8" onClick={() => handleButtonClick('try_free', { description: "Starting your free trial" })}>
+                <Button className="btn-gradient text-lg py-6 px-8">
                   Try It Free
                 </Button>
-                <Button variant="outline" className="text-lg py-6 px-8" onClick={() => handleButtonClick('watch_demo', { description: "Demo request received" })}>
+                <Button variant="outline" className="text-lg py-6 px-8">
                   Watch Demo
                 </Button>
               </div>
@@ -397,7 +333,7 @@ const AiScreening = () => {
                   <PricingListItem text="Standard analytics" />
                   <PricingListItem text="1 user account" />
                 </ul>
-                <Button variant="outline" className="w-full" onClick={() => handleButtonClick('free_trial', { plan: 'starter' })}>Start Free Trial</Button>
+                <Button variant="outline" className="w-full">Start Free Trial</Button>
               </CardContent>
             </Card>
             
@@ -422,7 +358,7 @@ const AiScreening = () => {
                   <PricingListItem text="Bias reduction tools" />
                   <PricingListItem text="ATS integration" />
                 </ul>
-                <Button className="w-full btn-gradient" onClick={() => handleButtonClick('free_trial', { plan: 'professional' })}>Start Free Trial</Button>
+                <Button className="w-full btn-gradient">Start Free Trial</Button>
               </CardContent>
             </Card>
             
@@ -443,7 +379,7 @@ const AiScreening = () => {
                   <PricingListItem text="Enterprise-grade security" />
                   <PricingListItem text="Custom integrations" />
                 </ul>
-                <Button variant="outline" className="w-full" onClick={() => handleButtonClick('contact_sales', { plan: 'enterprise' })}>Contact Sales</Button>
+                <Button variant="outline" className="w-full">Contact Sales</Button>
               </CardContent>
             </Card>
           </div>
@@ -457,7 +393,7 @@ const AiScreening = () => {
           <p className="text-lg text-zordie-100 mb-8 max-w-2xl mx-auto">
             Join thousands of companies using Zordie's AI screening to find the best talent faster.
           </p>
-          <Button className="bg-white text-zordie-700 hover:bg-zordie-50 text-lg py-6 px-8 group" onClick={() => handleButtonClick('get_started', { source: 'cta_section' })}>
+          <Button className="bg-white text-zordie-700 hover:bg-zordie-50 text-lg py-6 px-8 group">
             Get Started Free
             <ArrowRight className="ml-2 h-5 w-5 transition-transform group-hover:translate-x-1" />
           </Button>

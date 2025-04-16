@@ -21,31 +21,17 @@ const CTASection = () => {
       if (user) {
         // Track user action in analytics
         await supabase
-          .from('user_actions')
+          .from('user_actions' as any)
           .insert({
             user_id: user.id,
             action_type: 'cta_click',
-            action_details: JSON.stringify({
-              button: 'post_job_cta',
-              location: 'homepage_cta',
-              timestamp: new Date().toISOString()
-            })
+            action_details: 'post_job_cta'
           });
       }
-      
-      toast({
-        title: "Great choice!",
-        description: "Let's get your job posted and find the right candidates."
-      });
       
       navigate("/post-job");
     } catch (error) {
       console.error("Error logging CTA click:", error);
-      toast({
-        title: "Something went wrong",
-        description: "Please try again later",
-        variant: "destructive"
-      });
     } finally {
       setIsLoadingJob(false);
     }
@@ -64,34 +50,9 @@ const CTASection = () => {
         return;
       }
       
-      if (user) {
-        // Track user action in analytics
-        await supabase
-          .from('user_actions')
-          .insert({
-            user_id: user.id,
-            action_type: 'cta_click',
-            action_details: JSON.stringify({
-              button: 'create_account_cta',
-              location: 'homepage_cta',
-              timestamp: new Date().toISOString()
-            })
-          });
-      }
-
-      toast({
-        title: "Let's get started!",
-        description: "Create your account to access all features."
-      });
-      
       navigate("/signup");
     } catch (error) {
       console.error("Error navigating to signup:", error);
-      toast({
-        title: "Something went wrong",
-        description: "Please try again later",
-        variant: "destructive"
-      });
     } finally {
       setIsLoadingAccount(false);
     }

@@ -1,4 +1,3 @@
-
 import * as React from "react"
 import { Slot } from "@radix-ui/react-slot"
 import { cva, type VariantProps } from "class-variance-authority"
@@ -53,19 +52,5 @@ const Button = React.forwardRef<HTMLButtonElement, ButtonProps>(
   }
 )
 Button.displayName = "Button"
-
-// Add the styles for btn-gradient class which is used in our pages
-const styles = document.createElement('style');
-styles.innerHTML = `
-  .btn-gradient {
-    background: linear-gradient(90deg, #3b82f6 0%, #7c3aed 100%);
-    transition: transform 0.2s ease, box-shadow 0.2s ease;
-  }
-  .btn-gradient:hover {
-    transform: translateY(-2px);
-    box-shadow: 0 10px 15px -3px rgba(59, 130, 246, 0.3), 0 4px 6px -2px rgba(124, 58, 237, 0.2);
-  }
-`;
-document.head.appendChild(styles);
 
 export { Button, buttonVariants }

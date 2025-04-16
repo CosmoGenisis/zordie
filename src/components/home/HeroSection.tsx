@@ -1,70 +1,12 @@
-
 import React, { useEffect, useRef } from "react";
 import { Button } from "@/components/ui/button";
-import { Link, useNavigate } from "react-router-dom";
+import { Link } from "react-router-dom";
 import { ArrowRight, CheckCircle, Users, Zap, ShieldCheck } from "lucide-react";
 import * as THREE from "three";
-import { useToast } from "@/components/ui/use-toast";
-import { supabase } from "@/integrations/supabase/client";
-import { useAuth } from "@/context/AuthContext";
 
 const HeroSection = () => {
   const containerRef = useRef<HTMLDivElement>(null);
   const canvasRef = useRef<HTMLCanvasElement>(null);
-  const navigate = useNavigate();
-  const { toast } = useToast();
-  const { user } = useAuth();
-
-  const handlePostJob = async () => {
-    try {
-      if (user) {
-        // Track user action
-        await supabase
-          .from('user_actions')
-          .insert({
-            user_id: user.id,
-            action_type: 'hero_click',
-            action_details: JSON.stringify({
-              button: 'post_job',
-              location: 'hero_section',
-              timestamp: new Date().toISOString()
-            })
-          });
-      }
-      
-      toast({
-        title: "Great choice!",
-        description: "Let's get your job posted and find the right candidates."
-      });
-      
-      navigate("/post-job");
-    } catch (error) {
-      console.error("Error handling post job:", error);
-    }
-  };
-
-  const handleExploreFeatures = async () => {
-    try {
-      if (user) {
-        // Track user action
-        await supabase
-          .from('user_actions')
-          .insert({
-            user_id: user.id,
-            action_type: 'hero_click',
-            action_details: JSON.stringify({
-              button: 'explore_features',
-              location: 'hero_section',
-              timestamp: new Date().toISOString()
-            })
-          });
-      }
-      
-      navigate("/features");
-    } catch (error) {
-      console.error("Error handling explore features:", error);
-    }
-  };
 
   useEffect(() => {
     if (!canvasRef.current) return;
@@ -240,21 +182,16 @@ const HeroSection = () => {
             </div>
             
             <div className="flex flex-col sm:flex-row space-y-4 sm:space-y-0 sm:space-x-4 animate-fade-in" style={{ animationDelay: "600ms" }}>
-              <Button 
-                size="lg" 
-                className="btn-gradient w-full sm:w-auto transition-all duration-300 hover:shadow-lg hover:scale-105"
-                onClick={handlePostJob}
-              >
-                Post a Job <ArrowRight className="ml-2 h-4 w-4" />
-              </Button>
-              <Button 
-                size="lg" 
-                variant="outline" 
-                className="w-full sm:w-auto transition-all duration-300 hover:shadow-lg hover:scale-105"
-                onClick={handleExploreFeatures}
-              >
-                Explore Features
-              </Button>
+              <Link to="/post-job">
+                <Button size="lg" className="btn-gradient w-full sm:w-auto transition-all duration-300 hover:shadow-lg hover:scale-105">
+                  Post a Job <ArrowRight className="ml-2 h-4 w-4" />
+                </Button>
+              </Link>
+              <Link to="/features">
+                <Button size="lg" variant="outline" className="w-full sm:w-auto transition-all duration-300 hover:shadow-lg hover:scale-105">
+                  Explore Features
+                </Button>
+              </Link>
             </div>
           </div>
           

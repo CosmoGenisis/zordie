@@ -1,4 +1,3 @@
-
 import React from 'react';
 import Layout from '@/components/layout/Layout';
 import { SectionHeading } from '@/components/ui/section-heading';
@@ -16,8 +15,59 @@ import {
   Clock,
   ArrowRight
 } from 'lucide-react';
+import { useToast } from '@/hooks/use-toast';
+import { supabase } from '@/integrations/supabase/client';
+import { useNavigate } from 'react-router-dom';
 
 const Verification = () => {
+  const { toast } = useToast();
+  const navigate = useNavigate();
+
+  const handleButtonClick = async (actionType: string, details: any = {}) => {
+    try {
+      const { data: sessionData } = await supabase.auth.getSession();
+      const userId = sessionData.session?.user?.id;
+
+      if (userId) {
+        // Log the user action
+        await supabase
+          .from('user_actions' as any)
+          .insert({
+            user_id: userId,
+            action_type: actionType,
+            action_details: JSON.stringify(details),
+            page: 'verification'
+          });
+        
+        // Show toast notification
+        toast({
+          title: "Request received",
+          description: "We're processing your verification request."
+        });
+        
+        // Navigate based on action type
+        if (actionType === 'start_verification') {
+          navigate('/verify-profile');
+        }
+      } else {
+        // User is not logged in
+        toast({
+          title: "Login required",
+          description: "Please login to continue with verification.",
+          variant: "destructive"
+        });
+        navigate('/login');
+      }
+    } catch (error) {
+      console.error('Error logging action:', error);
+      toast({
+        title: "Something went wrong",
+        description: "Please try again later.",
+        variant: "destructive"
+      });
+    }
+  };
+
   return (
     <Layout>
       {/* Hero Section */}
@@ -33,7 +83,7 @@ const Verification = () => {
             <p className="text-lg text-zordie-600 mb-8">
               Trust and transparency in the recruitment process. Our verification tools provide accurate and reliable information for both employers and candidates.
             </p>
-            <Button className="btn-gradient text-lg py-6 px-8">
+            <Button className="btn-gradient text-lg py-6 px-8" onClick={() => handleButtonClick('start_verification')}>
               Get Started
             </Button>
           </div>
@@ -259,10 +309,10 @@ const Verification = () => {
             Start using our verification tools today to ensure transparent and reliable recruitment processes.
           </p>
           <div className="flex flex-col sm:flex-row gap-4 justify-center">
-            <Button className="btn-gradient text-lg py-6 px-8">
+            <Button className="btn-gradient text-lg py-6 px-8" onClick={() => handleButtonClick('employer_verification', { user_type: 'employer' })}>
               For Employers
             </Button>
-            <Button variant="outline" className="text-lg py-6 px-8">
+            <Button variant="outline" className="text-lg py-6 px-8" onClick={() => handleButtonClick('candidate_verification', { user_type: 'candidate' })}>
               For Candidates
             </Button>
           </div>

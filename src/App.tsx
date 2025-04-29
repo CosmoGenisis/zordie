@@ -2,10 +2,10 @@
 import { Toaster } from "@/components/ui/toaster";
 import { Toaster as Sonner } from "@/components/ui/sonner";
 import { TooltipProvider } from "@/components/ui/tooltip";
-import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
+import { useQueryClient, QueryClientProvider } from "@tanstack/react-query";
 import { BrowserRouter, Routes, Route } from "react-router-dom";
 import { ThemeProvider } from "./context/ThemeContext";
-import { AuthProvider } from "./context/AuthContext";
+// import { AuthProvider } from "./context/AuthContext";
 import Index from "./pages/Index";
 import Login from "./pages/Login";
 import Signup from "./pages/Signup";
@@ -26,7 +26,7 @@ import Verification from "./pages/Verification";
 import EnterpriseSolutions from "./pages/EnterpriseSolutions";
 import AiScreening from "./pages/AiScreening";
 import FindJobs from "./pages/FindJobs";
-import VerifyProfile from "./pages/VerifyProfile";
+// import VerifyProfile from "./pages/VerifyProfile";
 import PracticeInterview from "./pages/PracticeInterview";
 import Resources from "./pages/Resources";
 import ProtectedRoute from "./components/auth/ProtectedRoute";
@@ -38,20 +38,20 @@ import JobSeekerDashboard from "./pages/JobSeekerDashboard";
 import CompanyDashboard from "./pages/CompanyDashboard";
 import IntegrationSettings from "./pages/IntegrationSettings";
 
-const queryClient = new QueryClient();
+const queryClient = useQueryClient();
 
 const App = () => (
   <QueryClientProvider client={queryClient}>
     <ThemeProvider>
-      <AuthProvider>
+      {/* <AuthProvider> */}
         <TooltipProvider>
           <Toaster />
           <Sonner />
           <BrowserRouter>
             <Routes>
               <Route path="/" element={<Index />} />
-              <Route path="/login" element={<Login />} />
-              <Route path="/signup" element={<Signup />} />
+              {/* <Route path="/login" element={<Login />} /> */}
+              {/* <Route path="/signup" element={<Signup />} /> */}
               <Route path="/pricing" element={<Pricing />} />
               <Route path="/features" element={<Features />} />
               <Route path="/companies" element={<ForCompanies />} />
@@ -59,65 +59,65 @@ const App = () => (
               <Route 
                 path="/dashboard" 
                 element={
-                  <ProtectedRoute>
+                
                     <Dashboard />
-                  </ProtectedRoute>
+         
                 } 
               />
               <Route 
                 path="/user-dashboard" 
                 element={
-                  <ProtectedRoute>
+                 
                     <UserDashboard />
-                  </ProtectedRoute>
+          
                 } 
               />
               <Route 
                 path="/job-seeker-dashboard" 
                 element={
-                  <ProtectedRoute requiredUserType="candidate">
+                
                     <JobSeekerDashboard />
-                  </ProtectedRoute>
+     
                 } 
               />
               <Route 
                 path="/company-dashboard" 
                 element={
-                  <ProtectedRoute requiredUserType="company">
+             
                     <CompanyDashboard />
-                  </ProtectedRoute>
+            
                 } 
               />
               <Route 
                 path="/integration-settings" 
                 element={
-                  <ProtectedRoute>
+              
                     <IntegrationSettings />
-                  </ProtectedRoute>
+                
                 } 
               />
               <Route 
                 path="/resumes" 
                 element={
-                  <ProtectedRoute requiredUserType="candidate">
+              
                     <ResumeManager />
-                  </ProtectedRoute>
+           
                 } 
               />
               <Route 
                 path="/chat" 
                 element={
-                  <ProtectedRoute>
+              
                     <Chatbot />
-                  </ProtectedRoute>
+             
                 } 
               />
               <Route 
                 path="/post-job" 
                 element={
-                  <ProtectedRoute requiredUserType="company">
+                  
                     <PostJob />
-                  </ProtectedRoute>
+                 
                 } 
               />
               <Route path="/about" element={<About />} />
@@ -134,17 +134,17 @@ const App = () => (
               <Route 
                 path="/practice-interview" 
                 element={
-                  <ProtectedRoute requiredUserType="candidate">
+                 
                     <PracticeInterview />
-                  </ProtectedRoute>
+               
                 } 
               />
               <Route 
                 path="/ai-interview" 
                 element={
-                  <ProtectedRoute requiredUserType="candidate">
+                 
                     <AIInterview />
-                  </ProtectedRoute>
+                
                 } 
               />
               <Route path="/resources" element={<Resources />} />
@@ -152,7 +152,7 @@ const App = () => (
             </Routes>
           </BrowserRouter>
         </TooltipProvider>
-      </AuthProvider>
+      {/* </AuthProvider> */}
     </ThemeProvider>
   </QueryClientProvider>
 );

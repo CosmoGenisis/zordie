@@ -183,14 +183,14 @@ const NavBar = () => {
               </>
             ) : (
               <>
-                <Link to="/login">
+                {/* <Link to="/login">
                   <Button variant="outline" size="sm" className="transition-all duration-200 hover:shadow-md hover:border-zordie-300">
                     Login
                   </Button>
-                </Link>
-                <Link to="/signup">
+                </Link> */}
+                <Link to="/dashboard">
                   <Button size="sm" className="btn-gradient transition-all duration-200 hover:shadow-md">
-                    Sign Up
+                    Get Started
                   </Button>
                 </Link>
               </>

@@ -1,304 +1,172 @@
-
-import { useState, useRef, useEffect } from 'react';
-import { supabase } from '@/integrations/supabase/client';
-import { useAuth } from '@/context/AuthContext';
+import { useState } from 'react';
 import { Button } from '@/components/ui/button';
-import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { useToast } from '@/components/ui/use-toast';
-import { Loader2, Upload, File, Trash2 } from 'lucide-react';
+import { Card, CardContent } from '@/components/ui/card';
+import { CloudUpload, FileType, X, Check, FileCheck, Trash2 } from 'lucide-react';
+import { Progress } from '@/components/ui/progress';
+import { Separator } from '@/components/ui/separator';
 
-// Updated interface to match database fields
-interface ResumeFile {
-  id: string;
-  file_name: string;
-  file_size: number;
-  file_type: string;
-  file_path: string;
-  created_at: string;
-  url?: string;
+interface UploadedFile {
+  name: string;
+  size: number;
+  type: string;
+  status: 'uploading' | 'success' | 'error';
+  progress: number;
 }
 
 const ResumeUploader = () => {
+  const [uploadedFiles, setUploadedFiles] = useState<UploadedFile[]>([]);
+  const [uploadProgress, setUploadProgress] = useState(0);
   const [isUploading, setIsUploading] = useState(false);
-  const [resumes, setResumes] = useState<ResumeFile[]>([]);
-  const [isLoading, setIsLoading] = useState(true);
-  
-  const { user } = useAuth();
   const { toast } = useToast();
-  const fileInputRef = useRef<HTMLInputElement>(null);
 
-  // Load user's resumes on component mount
-  useEffect(() => {
-    if (user) {
-      loadUserResumes();
-    }
-  }, [user]);
+  const handleFileSelect = (event: React.ChangeEvent<HTMLInputElement>) => {
+    const files = event.target.files;
+    if (!files) return;
 
-  const loadUserResumes = async () => {
-    if (!user) return;
-    
-    setIsLoading(true);
-    try {
-      // Fetch resumes from the database
-      const { data, error } = await supabase
-        .from('user_resumes')
-        .select('*')
-        .eq('user_id', user.id)
-        .order('created_at', { ascending: false });
-      
-      if (error) {
-        throw error;
-      }
-      
-      // Get signed URLs for each resume
-      const resumesWithUrls = await Promise.all(
-        data.map(async (resume) => {
-          const { data: urlData } = await supabase
-            .storage
-            .from('resumes')
-            .createSignedUrl(`${user.id}/${resume.file_name}`, 60 * 60); // 1 hour expiry
-          
-          return {
-            ...resume,
-            url: urlData?.signedUrl
-          } as ResumeFile;
-        })
-      );
-      
-      setResumes(resumesWithUrls);
-    } catch (error) {
-      console.error('Error loading resumes:', error);
-      toast({
-        title: 'Error loading resumes',
-        description: 'Failed to load your resumes. Please try again.',
-        variant: 'destructive',
-      });
-    } finally {
-      setIsLoading(false);
-    }
-  };
+    const fileArray = Array.from(files);
 
-  const handleFileChange = async (e: React.ChangeEvent<HTMLInputElement>) => {
-    const file = e.target.files?.[0];
-    if (!file || !user) return;
-    
-    // Validate file type (PDF, DOC, DOCX)
-    const validTypes = ['application/pdf', 'application/msword', 'application/vnd.openxmlformats-officedocument.wordprocessingml.document'];
-    if (!validTypes.includes(file.type)) {
-      toast({
-        title: 'Invalid file type',
-        description: 'Please upload a PDF, DOC, or DOCX file.',
-        variant: 'destructive',
-      });
-      return;
-    }
-    
-    // Validate file size (max 5MB)
-    const maxSize = 5 * 1024 * 1024; // 5MB
-    if (file.size > maxSize) {
-      toast({
-        title: 'File too large',
-        description: 'Maximum file size is 5MB.',
-        variant: 'destructive',
-      });
-      return;
-    }
-    
-    setIsUploading(true);
-    try {
-      // 1. Upload file to storage
-      const filePath = `${user.id}/${file.name}`;
-      const { error: uploadError } = await supabase
-        .storage
-        .from('resumes')
-        .upload(filePath, file, { upsert: true });
-      
-      if (uploadError) {
-        throw uploadError;
+    fileArray.forEach(file => {
+      if (file.size > 5 * 1024 * 1024) {
+        toast({
+          title: "File too large",
+          description: "File size must be less than 5MB.",
+          variant: "destructive",
+        });
+        return;
       }
-      
-      // 2. Create record in user_resumes table
-      const { data, error: dbError } = await supabase
-        .from('user_resumes')
-        .insert({
-          user_id: user.id,
-          file_path: filePath,
-          file_name: file.name,
-          file_type: file.type,
-          file_size: file.size
-        })
-        .select('*')
-        .single();
-      
-      if (dbError) {
-        throw dbError;
+
+      if (!['application/pdf', 'application/msword', 'application/vnd.openxmlformats-officedocument.wordprocessingml.document'].includes(file.type)) {
+        toast({
+          title: "Invalid file type",
+          description: "File type must be PDF, DOC, or DOCX.",
+          variant: "destructive",
+        });
+        return;
       }
-      
-      // 3. Get signed URL for the file
-      const { data: urlData } = await supabase
-        .storage
-        .from('resumes')
-        .createSignedUrl(filePath, 60 * 60); // 1 hour expiry
-      
-      // 4. Update the resumes list with the new resume
-      const newResume: ResumeFile = {
-        ...data,
-        url: urlData?.signedUrl
+
+      const newFile: UploadedFile = {
+        name: file.name,
+        size: file.size,
+        type: file.type,
+        status: 'uploading',
+        progress: 0,
       };
-      
-      setResumes(prev => [newResume, ...prev]);
-      
-      // 5. Show success message
-      toast({
-        title: 'Resume uploaded',
-        description: 'Your resume has been uploaded successfully.'
-      });
-      
-      // 6. Reset file input
-      if (fileInputRef.current) {
-        fileInputRef.current.value = '';
+
+      setUploadedFiles(prevFiles => [...prevFiles, newFile]);
+      uploadFile(file, newFile);
+    });
+  };
+
+  const uploadFile = (file: File, uploadedFile: UploadedFile) => {
+    setIsUploading(true);
+    // Simulate upload progress
+    let progress = 0;
+    const interval = setInterval(() => {
+      progress += 10;
+      setUploadProgress(progress);
+      setUploadedFiles(prevFiles =>
+        prevFiles.map(f =>
+          f.name === uploadedFile.name ? { ...f, progress: progress } : f
+        )
+      );
+
+      if (progress >= 100) {
+        clearInterval(interval);
+        setUploadedFiles(prevFiles =>
+          prevFiles.map(f =>
+            f.name === uploadedFile.name ? { ...f, status: 'success', progress: 100 } : f
+          )
+        );
+        setIsUploading(false);
+        toast({
+          title: "Upload complete",
+          description: `${file.name} has been uploaded successfully.`,
+        });
       }
-    } catch (error: any) {
-      console.error('Error uploading resume:', error);
-      toast({
-        title: 'Upload failed',
-        description: error.message || 'Failed to upload resume. Please try again.',
-        variant: 'destructive',
-      });
-    } finally {
-      setIsUploading(false);
+    }, 200);
+  };
+
+  const handleRemoveFile = (fileName: string) => {
+    setUploadedFiles(prevFiles => prevFiles.filter(file => file.name !== fileName));
+  };
+
+  const getFileTypeIcon = (fileType: string) => {
+    if (fileType === 'application/pdf') {
+      return <FileType className="h-4 w-4 mr-2 text-red-500" />;
+    } else if (fileType === 'application/msword' || fileType === 'application/vnd.openxmlformats-officedocument.wordprocessingml.document') {
+      return <FileType className="h-4 w-4 mr-2 text-blue-500" />;
+    } else {
+      return <FileType className="h-4 w-4 mr-2 text-gray-500" />;
     }
   };
 
-  const handleDeleteResume = async (resumeId: string, filePath: string) => {
-    if (!user) return;
-    
-    try {
-      // 1. Delete file from storage
-      const { error: storageError } = await supabase
-        .storage
-        .from('resumes')
-        .remove([filePath]);
-      
-      if (storageError) {
-        throw storageError;
-      }
-      
-      // 2. Delete record from user_resumes table
-      const { error: dbError } = await supabase
-        .from('user_resumes')
-        .delete()
-        .eq('id', resumeId);
-      
-      if (dbError) {
-        throw dbError;
-      }
-      
-      // 3. Update the resumes list
-      setResumes(prev => prev.filter(resume => resume.id !== resumeId));
-      
-      // 4. Show success message
-      toast({
-        title: 'Resume deleted',
-        description: 'Your resume has been deleted successfully.'
-      });
-    } catch (error: any) {
-      console.error('Error deleting resume:', error);
-      toast({
-        title: 'Delete failed',
-        description: error.message || 'Failed to delete resume. Please try again.',
-        variant: 'destructive',
-      });
-    }
+  const getTotalUploadedSize = () => {
+    const totalSize = uploadedFiles.reduce((acc, file) => acc + file.size, 0);
+    return (totalSize / (1024 * 1024)).toFixed(2); // Convert to MB
   };
 
   return (
-    <Card>
-      <CardHeader>
-        <CardTitle className="text-xl">Resume Management</CardTitle>
-      </CardHeader>
-      <CardContent className="space-y-4">
-        {/* Upload Button */}
-        <div className="flex items-center justify-center w-full">
-          <label htmlFor="resume-upload" className="flex flex-col items-center justify-center w-full h-32 border-2 border-dashed rounded-lg cursor-pointer bg-gray-50 hover:bg-gray-100 border-gray-300">
-            <div className="flex flex-col items-center justify-center pt-5 pb-6">
-              <Upload className="w-8 h-8 mb-3 text-gray-500" />
-              <p className="mb-2 text-sm text-gray-500">
-                <span className="font-semibold">Click to upload</span> or drag and drop
-              </p>
-              <p className="text-xs text-gray-500">PDF, DOC, or DOCX (Max 5MB)</p>
-            </div>
-            <input 
-              id="resume-upload" 
-              type="file" 
-              className="hidden" 
-              ref={fileInputRef}
-              onChange={handleFileChange}
-              accept=".pdf,.doc,.docx,application/pdf,application/msword,application/vnd.openxmlformats-officedocument.wordprocessingml.document"
-              disabled={isUploading}
-            />
+    <Card className="border-gray-200 shadow-sm">
+      <CardContent className="p-6">
+        <div className="mb-4">
+          <label htmlFor="resume-upload" className="block text-sm font-medium text-gray-700">
+            Upload Resumes
           </label>
+          <p className="text-sm text-gray-500 mt-1">
+            Supported formats: PDF, DOC, DOCX (Max. 5MB)
+          </p>
         </div>
-        
-        {isUploading && (
-          <div className="flex items-center justify-center p-4">
-            <Loader2 className="h-6 w-6 animate-spin mr-2" />
-            <span>Uploading resume...</span>
+
+        <input
+          type="file"
+          id="resume-upload"
+          className="hidden"
+          multiple
+          onChange={handleFileSelect}
+        />
+
+        <label htmlFor="resume-upload">
+          <Button asChild variant="outline" disabled={isUploading}>
+            <span className="flex items-center">
+              <CloudUpload className="h-4 w-4 mr-2" />
+              <span>Choose Files</span>
+            </span>
+          </Button>
+        </label>
+
+        {uploadedFiles.length > 0 && (
+          <div className="mt-6">
+            <Separator />
+            <div className="mt-4">
+              <h4 className="text-sm font-semibold mb-2">Uploaded Files</h4>
+              <ul className="space-y-3">
+                {uploadedFiles.map((file) => (
+                  <li key={file.name} className="flex items-center justify-between">
+                    <div className="flex items-center">
+                      {getFileTypeIcon(file.type)}
+                      <span>{file.name}</span>
+                      {file.status === 'success' && <Check className="h-4 w-4 ml-1 text-green-500" />}
+                    </div>
+                    <div className="flex items-center">
+                      {file.status === 'uploading' && (
+                        <Progress value={file.progress} className="w-24 mr-2" />
+                      )}
+                      <Button variant="ghost" size="icon" onClick={() => handleRemoveFile(file.name)}>
+                        <Trash2 className="h-4 w-4" />
+                      </Button>
+                    </div>
+                  </li>
+                ))}
+              </ul>
+              <div className="mt-4">
+                <p className="text-sm text-gray-500">
+                  Total uploaded size: {getTotalUploadedSize()} MB
+                </p>
+              </div>
+            </div>
           </div>
         )}
-        
-        {/* Resumes List */}
-        <div className="mt-6">
-          <h3 className="text-lg font-medium mb-2">Your Resumes</h3>
-          
-          {isLoading ? (
-            <div className="flex items-center justify-center p-4">
-              <Loader2 className="h-6 w-6 animate-spin mr-2" />
-              <span>Loading resumes...</span>
-            </div>
-          ) : resumes.length === 0 ? (
-            <p className="text-sm text-gray-500 text-center py-6">
-              You haven't uploaded any resumes yet.
-            </p>
-          ) : (
-            <div className="space-y-3">
-              {resumes.map((resume) => (
-                <div 
-                  key={resume.id} 
-                  className="flex items-center justify-between p-3 bg-gray-50 rounded-md"
-                >
-                  <div className="flex items-center">
-                    <File className="h-5 w-5 mr-3 text-blue-500" />
-                    <div>
-                      <p className="font-medium text-sm">{resume.file_name}</p>
-                      <p className="text-xs text-gray-500">
-                        {new Date(resume.created_at).toLocaleDateString()} • {(resume.file_size / 1024 / 1024).toFixed(2)}MB
-                      </p>
-                    </div>
-                  </div>
-                  <div className="flex space-x-2">
-                    {resume.url && (
-                      <Button 
-                        variant="outline" 
-                        size="sm"
-                        asChild
-                      >
-                        <a href={resume.url} target="_blank" rel="noopener noreferrer">View</a>
-                      </Button>
-                    )}
-                    <Button 
-                      variant="outline" 
-                      size="sm"
-                      onClick={() => handleDeleteResume(resume.id, resume.file_path)}
-                    >
-                      <Trash2 className="h-4 w-4 text-red-500" />
-                    </Button>
-                  </div>
-                </div>
-              ))}
-            </div>
-          )}
-        </div>
       </CardContent>
     </Card>
   );

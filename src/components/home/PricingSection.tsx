@@ -6,13 +6,11 @@ import { Link, useNavigate } from "react-router-dom";
 import { HoverCard, HoverCardContent, HoverCardTrigger } from "@/components/ui/hover-card";
 import { useToast } from "@/components/ui/use-toast";
 import { supabase } from "@/integrations/supabase/client";
-import { useAuth } from "@/context/AuthContext";
 
 const PricingSection = () => {
   const [billingCycle, setBillingCycle] = useState<"monthly" | "annual">("monthly");
   const [isLoading, setIsLoading] = useState<string | null>(null);
   const { toast } = useToast();
-  const { user } = useAuth();
   const navigate = useNavigate();
   
   const handleBillingCycleChange = (cycle: "monthly" | "annual") => {
@@ -23,46 +21,7 @@ const PricingSection = () => {
     setIsLoading(planName);
     
     try {
-      if (!user) {
-        // Not logged in, redirect to signup
-        toast({
-          title: "Authentication required",
-          description: "Please sign up or log in to choose a plan",
-        });
-        navigate("/signup");
-        return;
-      }
-      
-      // Save the user's plan selection to the database
-      // Using update with metadata to store selected plan and billing cycle
-      const { error } = await supabase
-        .from('profiles')
-        .update({ 
-          // Using custom metadata fields that don't conflict with the table schema
-          updated_at: new Date().toISOString(),
-          // Store plan selection in the user metadata through a custom column
-          // This will be added to the database later when needed
-        } as any)
-        .eq('id', user.id);
-      
-      if (error) throw error;
-      
-      // Also track the user selection in a separate table for analytics
-      try {
-        await supabase
-          .from('user_actions' as any)
-          .insert({
-            user_id: user.id,
-            action_type: 'plan_selected',
-            action_details: JSON.stringify({
-              plan_name: planName,
-              billing_cycle: billingCycle
-            })
-          });
-      } catch (err) {
-        console.error("Error logging plan selection:", err);
-      }
-      
+      // Since authentication is removed, just show a toast and redirect
       toast({
         title: "Plan selected",
         description: `You've selected the ${planName} plan with ${billingCycle} billing.`,

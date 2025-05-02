@@ -34,6 +34,7 @@ import ResumeManager from "./pages/ResumeManager";
 import JobSeekerDashboard from "./pages/JobSeekerDashboard";
 import CompanyDashboard from "./pages/CompanyDashboard";
 import IntegrationSettings from "./pages/IntegrationSettings";
+import VerifyProfile from "./pages/VerifyProfile";
 
 const queryClient = useQueryClient();
 

@@ -4,34 +4,20 @@ import { ArrowRight, Loader2 } from "lucide-react";
 import { useNavigate } from "react-router-dom";
 import { useState } from "react";
 import { useToast } from "@/components/ui/use-toast";
-import { supabase } from "@/integrations/supabase/client";
-import { useAuth } from "@/context/AuthContext";
 
 const CTASection = () => {
   const navigate = useNavigate();
   const [isLoadingJob, setIsLoadingJob] = useState(false);
   const [isLoadingAccount, setIsLoadingAccount] = useState(false);
   const { toast } = useToast();
-  const { user } = useAuth();
 
   const handlePostJob = async () => {
     setIsLoadingJob(true);
     
     try {
-      if (user) {
-        // Track user action in analytics
-        await supabase
-          .from('user_actions' as any)
-          .insert({
-            user_id: user.id,
-            action_type: 'cta_click',
-            action_details: 'post_job_cta'
-          });
-      }
-      
       navigate("/post-job");
     } catch (error) {
-      console.error("Error logging CTA click:", error);
+      console.error("Error navigating to post job:", error);
     } finally {
       setIsLoadingJob(false);
     }
@@ -41,15 +27,6 @@ const CTASection = () => {
     setIsLoadingAccount(true);
     
     try {
-      if (user) {
-        toast({
-          title: "You're already logged in",
-          description: "You already have an account with us."
-        });
-        navigate("/dashboard");
-        return;
-      }
-      
       navigate("/signup");
     } catch (error) {
       console.error("Error navigating to signup:", error);
@@ -58,7 +35,8 @@ const CTASection = () => {
     }
   };
 
-  return <section className="py-16 bg-gradient-to-r from-zordie-700 to-accent1 text-white">
+  return (
+    <section className="py-16 bg-gradient-to-r from-zordie-700 to-accent1 text-white">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
         <h2 className="text-3xl md:text-4xl font-bold mb-6 max-w-3xl mx-auto">
           Ready to transform your hiring process with AI and verification?
@@ -103,7 +81,8 @@ const CTASection = () => {
           </Button>
         </div>
       </div>
-    </section>;
+    </section>
+  );
 };
 
 export default CTASection;

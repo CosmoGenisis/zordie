@@ -1,26 +1,8 @@
 
-import { useEffect } from 'react';
-import { useNavigate } from 'react-router-dom';
-import { useAuth } from '@/context/AuthContext';
 import Layout from '@/components/layout/Layout';
 import ResumeUploader from '@/components/resume/ResumeUploader';
-import LoadingScreen from '@/components/auth/LoadingScreen';
 
 const ResumeManager = () => {
-  const { user, isLoading } = useAuth();
-  const navigate = useNavigate();
-  
-  // Redirect to login if not authenticated
-  useEffect(() => {
-    if (!isLoading && !user) {
-      navigate('/login');
-    }
-  }, [user, isLoading, navigate]);
-  
-  if (isLoading) {
-    return <LoadingScreen />;
-  }
-  
   return (
     <Layout>
       <div className="container max-w-4xl py-12">

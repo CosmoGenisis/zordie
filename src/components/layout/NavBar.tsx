@@ -2,70 +2,23 @@
 import React, { useState } from "react";
 import { Button } from "@/components/ui/button";
 import { Link, useLocation, useNavigate } from "react-router-dom";
-import { Menu, X, Globe, ChevronDown, User, LogOut, MessageSquare, FileText } from "lucide-react";
+import { Menu, X, Globe, ChevronDown } from "lucide-react";
 import {
   DropdownMenu,
   DropdownMenuContent,
   DropdownMenuItem,
   DropdownMenuTrigger,
-  DropdownMenuSeparator,
 } from "@/components/ui/dropdown-menu";
-import {
-  Avatar,
-  AvatarFallback,
-  AvatarImage,
-} from "@/components/ui/avatar";
 import { useToast } from "@/components/ui/use-toast";
 import ZordieLogo from "@/components/common/ZordieLogo";
-import { useAuth } from "@/context/AuthContext";
 
 const NavBar = () => {
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
   const location = useLocation();
   const navigate = useNavigate();
   const { toast } = useToast();
-  const { user, userProfile, signOut } = useAuth();
   
   const isActive = (path: string) => location.pathname === path;
-
-  // Get user display name
-  const getUserDisplayName = () => {
-    // First check userProfile
-    if (userProfile?.first_name) {
-      return userProfile.first_name;
-    }
-    // Then check user meta data
-    else if (user?.user_metadata?.full_name) {
-      return user.user_metadata.full_name;
-    }
-    else if (user?.user_metadata?.name) {
-      return user.user_metadata.name;
-    }
-    // Fallback to email
-    else if (user?.email) {
-      return user.email.split('@')[0];
-    }
-    return 'User';
-  };
-
-  // Get avatar URL or fallback
-  const getAvatarUrl = () => {
-    return userProfile?.avatar_url || 
-           user?.user_metadata?.avatar_url || 
-           user?.user_metadata?.picture || 
-           null;
-  };
-
-  // Get avatar fallback (initials)
-  const getAvatarFallback = () => {
-    if (userProfile?.first_name && userProfile?.last_name) {
-      return `${userProfile.first_name[0]}${userProfile.last_name[0]}`.toUpperCase();
-    }
-    if (user?.email) {
-      return user.email[0].toUpperCase();
-    }
-    return 'U';
-  };
 
   // Navigation items
   const navigation = [
@@ -75,25 +28,6 @@ const NavBar = () => {
     { name: "For Companies", href: "/companies" },
     { name: "For Job Seekers", href: "/candidates" },
   ];
-  
-  const handleLogout = async () => {
-    try {
-      const { error } = await signOut();
-      if (error) throw error;
-      
-      toast({
-        title: "Logged out successfully",
-      });
-      navigate('/');
-    } catch (error) {
-      console.error('Logout error:', error);
-      toast({
-        title: "Logout failed",
-        description: "Please try again",
-        variant: "destructive",
-      });
-    }
-  };
 
   return (
     <nav className="bg-white sticky top-0 z-40 w-full border-b">
@@ -136,65 +70,11 @@ const NavBar = () => {
               </DropdownMenuContent>
             </DropdownMenu>
             
-            {user ? (
-              <>
-                <Button variant="outline" size="sm" className="flex items-center" onClick={() => navigate('/chat')}>
-                  <MessageSquare className="h-4 w-4 mr-2" />
-                  <span>Chat</span>
-                </Button>
-                
-                <DropdownMenu>
-                  <DropdownMenuTrigger asChild>
-                    <Button variant="ghost" size="sm" className="flex items-center transition-all duration-200 hover:bg-gray-100">
-                      <Avatar className="h-8 w-8 mr-2">
-                        <AvatarImage src={getAvatarUrl() || undefined} />
-                        <AvatarFallback>{getAvatarFallback()}</AvatarFallback>
-                      </Avatar>
-                      <span className="font-medium">{getUserDisplayName()}</span>
-                      <ChevronDown className="h-4 w-4 ml-1" />
-                    </Button>
-                  </DropdownMenuTrigger>
-                  <DropdownMenuContent align="end">
-                    <DropdownMenuItem asChild>
-                      <Link to="/user-dashboard">
-                        <User className="mr-2 h-4 w-4" />
-                        My Dashboard
-                      </Link>
-                    </DropdownMenuItem>
-                    <DropdownMenuItem asChild>
-                      <Link to="/resumes">
-                        <FileText className="mr-2 h-4 w-4" />
-                        My Resumes
-                      </Link>
-                    </DropdownMenuItem>
-                    <DropdownMenuItem asChild>
-                      <Link to="/dashboard">
-                        <User className="mr-2 h-4 w-4" />
-                        Company Dashboard
-                      </Link>
-                    </DropdownMenuItem>
-                    <DropdownMenuSeparator />
-                    <DropdownMenuItem onClick={handleLogout}>
-                      <LogOut className="mr-2 h-4 w-4" />
-                      Log out
-                    </DropdownMenuItem>
-                  </DropdownMenuContent>
-                </DropdownMenu>
-              </>
-            ) : (
-              <>
-                {/* <Link to="/login">
-                  <Button variant="outline" size="sm" className="transition-all duration-200 hover:shadow-md hover:border-zordie-300">
-                    Login
-                  </Button>
-                </Link> */}
-                <Link to="/dashboard">
-                  <Button size="sm" className="btn-gradient transition-all duration-200 hover:shadow-md">
-                    Get Started
-                  </Button>
-                </Link>
-              </>
-            )}
+            <Link to="/dashboard">
+              <Button size="sm" className="btn-gradient transition-all duration-200 hover:shadow-md">
+                Get Started
+              </Button>
+            </Link>
           </div>
 
           {/* Mobile menu button */}
@@ -237,54 +117,11 @@ const NavBar = () => {
           ))}
           <div className="px-3 py-3 border-t">
             <div className="flex flex-col space-y-3 pt-3">
-              {user ? (
-                <>
-                  <Link to="/chat" className="w-full">
-                    <Button variant="outline" className="w-full transition-all duration-200 hover:shadow-md flex items-center" onClick={() => setMobileMenuOpen(false)}>
-                      <MessageSquare className="mr-2 h-4 w-4" />
-                      Chat Assistant
-                    </Button>
-                  </Link>
-                  <Link to="/user-dashboard" className="w-full">
-                    <Button variant="outline" className="w-full transition-all duration-200 hover:shadow-md flex items-center" onClick={() => setMobileMenuOpen(false)}>
-                      <User className="mr-2 h-4 w-4" />
-                      My Dashboard
-                    </Button>
-                  </Link>
-                  <Link to="/resumes" className="w-full">
-                    <Button variant="outline" className="w-full transition-all duration-200 hover:shadow-md flex items-center" onClick={() => setMobileMenuOpen(false)}>
-                      <FileText className="mr-2 h-4 w-4" />
-                      My Resumes
-                    </Button>
-                  </Link>
-                  <Link to="/dashboard" className="w-full">
-                    <Button variant="outline" className="w-full transition-all duration-200 hover:shadow-md flex items-center" onClick={() => setMobileMenuOpen(false)}>
-                      <User className="mr-2 h-4 w-4" />
-                      Company Dashboard
-                    </Button>
-                  </Link>
-                  <Button className="w-full btn-gradient transition-all duration-200 hover:shadow-md flex items-center" onClick={() => {
-                    handleLogout();
-                    setMobileMenuOpen(false);
-                  }}>
-                    <LogOut className="mr-2 h-4 w-4" />
-                    Log Out
-                  </Button>
-                </>
-              ) : (
-                <>
-                  <Link to="/login" className="w-full">
-                    <Button variant="outline" className="w-full transition-all duration-200 hover:shadow-md" onClick={() => setMobileMenuOpen(false)}>
-                      Login
-                    </Button>
-                  </Link>
-                  <Link to="/signup" className="w-full">
-                    <Button className="w-full btn-gradient transition-all duration-200 hover:shadow-md" onClick={() => setMobileMenuOpen(false)}>
-                      Sign Up
-                    </Button>
-                  </Link>
-                </>
-              )}
+              <Link to="/dashboard" className="w-full">
+                <Button className="w-full btn-gradient transition-all duration-200 hover:shadow-md" onClick={() => setMobileMenuOpen(false)}>
+                  Get Started
+                </Button>
+              </Link>
             </div>
           </div>
         </div>

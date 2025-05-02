@@ -5,9 +5,10 @@ import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { 
   PlusCircle, Users, Briefcase, CheckCircle, X, Clock, ChevronRight, 
-  Search, Filter, Bell, User, Settings, LogOut, Edit, Trash2
+  Search, Filter, Bell, User, Settings, LogOut, Edit, Trash2,
+  FileText, MessageSquare, BarChart, Award
 } from "lucide-react";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import {
   DropdownMenu,
   DropdownMenuContent,
@@ -22,8 +23,11 @@ import {
   AvatarImage,
 } from "@/components/ui/avatar";
 import { Progress } from "@/components/ui/progress";
+import AssessmentGenerator from "@/components/assessment/AssessmentGenerator";
+import PrimeHRChatbot from "@/components/chatbot/PrimeHRChatbot";
 
 const Dashboard = () => {
+  const navigate = useNavigate();
   const [activeTab, setActiveTab] = useState("overview");
 
   return (
@@ -41,7 +45,7 @@ const Dashboard = () => {
           <div className="space-y-1">
             <p className="px-3 text-xs font-semibold text-gray-500 uppercase">Main</p>
             <NavButton 
-              icon={<Users size={18} />} 
+              icon={<BarChart size={18} />} 
               label="Overview" 
               active={activeTab === "overview"} 
               onClick={() => setActiveTab("overview")} 
@@ -59,10 +63,28 @@ const Dashboard = () => {
               active={activeTab === "candidates"} 
               onClick={() => setActiveTab("candidates")} 
             />
+            <NavButton 
+              icon={<Award size={18} />} 
+              label="Assessments" 
+              active={activeTab === "assessments"} 
+              onClick={() => setActiveTab("assessments")} 
+            />
           </div>
           
           <div className="space-y-1">
             <p className="px-3 text-xs font-semibold text-gray-500 uppercase">Tools</p>
+            <NavButton 
+              icon={<FileText size={18} />} 
+              label="Resume Manager" 
+              active={activeTab === "resumes"} 
+              onClick={() => navigate("/resumes")}
+            />
+            <NavButton 
+              icon={<MessageSquare size={18} />} 
+              label="Prime AI Chat" 
+              active={activeTab === "chat"} 
+              onClick={() => navigate("/chat")}
+            />
             <NavButton 
               icon={<Bell size={18} />} 
               label="Notifications" 
@@ -74,7 +96,7 @@ const Dashboard = () => {
               icon={<Settings size={18} />} 
               label="Settings" 
               active={activeTab === "settings"} 
-              onClick={() => setActiveTab("settings")} 
+              onClick={() => navigate("/integration-settings")}
             />
           </div>
         </div>
@@ -127,6 +149,10 @@ const Dashboard = () => {
             </div>
             
             <div className="flex items-center space-x-4">
+              <Button variant="outline" size="sm" onClick={() => navigate("/chat")}>
+                <MessageSquare size={18} className="mr-2" />
+                Prime AI
+              </Button>
               <Button variant="outline" size="sm">
                 <Bell size={18} className="mr-2" />
                 Notifications
@@ -169,6 +195,7 @@ const Dashboard = () => {
               <TabsTrigger value="overview">Overview</TabsTrigger>
               <TabsTrigger value="jobs">Jobs</TabsTrigger>
               <TabsTrigger value="candidates">Candidates</TabsTrigger>
+              <TabsTrigger value="assessments">Assessments</TabsTrigger>
             </TabsList>
             
             <TabsContent value="overview" className="space-y-6">
@@ -197,12 +224,12 @@ const Dashboard = () => {
                 
                 <Card>
                   <CardHeader className="flex flex-row items-center justify-between pb-2">
-                    <CardTitle className="text-sm font-medium">Shortlisted</CardTitle>
-                    <CheckCircle size={16} className="text-muted-foreground" />
+                    <CardTitle className="text-sm font-medium">Assessments Sent</CardTitle>
+                    <Award size={16} className="text-muted-foreground" />
                   </CardHeader>
                   <CardContent>
-                    <div className="text-2xl font-bold">12</div>
-                    <p className="text-xs text-muted-foreground">28% success rate</p>
+                    <div className="text-2xl font-bold">15</div>
+                    <p className="text-xs text-muted-foreground">80% completion rate</p>
                   </CardContent>
                 </Card>
               </div>
@@ -234,7 +261,12 @@ const Dashboard = () => {
                     />
                     
                     <div className="pt-2">
-                      <Button variant="link" size="sm" className="text-zordie-600 p-0">
+                      <Button 
+                        variant="link" 
+                        size="sm" 
+                        className="text-zordie-600 p-0"
+                        onClick={() => setActiveTab("jobs")}
+                      >
                         View all jobs <ChevronRight size={16} className="ml-1" />
                       </Button>
                     </div>
@@ -269,7 +301,12 @@ const Dashboard = () => {
                     />
                     
                     <div className="pt-2">
-                      <Button variant="link" size="sm" className="text-zordie-600 p-0">
+                      <Button 
+                        variant="link" 
+                        size="sm" 
+                        className="text-zordie-600 p-0"
+                        onClick={() => setActiveTab("candidates")}
+                      >
                         View all candidates <ChevronRight size={16} className="ml-1" />
                       </Button>
                     </div>
@@ -295,7 +332,13 @@ const Dashboard = () => {
                         Would you like me to schedule initial AI interviews for them?
                       </p>
                       <div className="flex space-x-2 mt-3">
-                        <Button size="sm">Yes, schedule them</Button>
+                        <Button 
+                          size="sm" 
+                          className="bg-zordie-600 hover:bg-zordie-700"
+                          onClick={() => setActiveTab("assessments")}
+                        >
+                          Create Assessment
+                        </Button>
                         <Button size="sm" variant="outline">Not now</Button>
                       </div>
                     </div>
@@ -311,8 +354,23 @@ const Dashboard = () => {
                         Based on the candidates, I suggest adjusting the job requirements to attract more qualified applicants.
                       </p>
                       <div className="flex space-x-2 mt-3">
-                        <Button size="sm">View suggestions</Button>
+                        <Button size="sm" className="bg-zordie-600 hover:bg-zordie-700">View suggestions</Button>
                         <Button size="sm" variant="outline">Dismiss</Button>
+                      </div>
+                    </div>
+                  </div>
+                  
+                  <div className="flex items-start space-x-4">
+                    <div className="h-10 w-10 rounded-full bg-gradient-to-r from-zordie-500 to-accent1 flex items-center justify-center text-white font-bold">
+                      AI
+                    </div>
+                    <div className="flex-1 bg-gray-50 rounded-lg p-4">
+                      <p className="text-gray-700">
+                        12 candidates have completed their assessments for the Frontend Developer position. The top 3 candidates scored above 85% match rate. Would you like me to schedule interviews with them?
+                      </p>
+                      <div className="flex space-x-2 mt-3">
+                        <Button size="sm" className="bg-zordie-600 hover:bg-zordie-700">Schedule Interviews</Button>
+                        <Button size="sm" variant="outline">Review Assessments</Button>
                       </div>
                     </div>
                   </div>
@@ -336,7 +394,10 @@ const Dashboard = () => {
                   </Button>
                 </div>
                 
-                <Button className="btn-gradient">
+                <Button 
+                  className="bg-gradient-to-r from-zordie-600 to-accent1 hover:from-zordie-700 hover:to-accent1 text-white"
+                  onClick={() => navigate("/post-job")}
+                >
                   <PlusCircle className="h-4 w-4 mr-2" /> Post New Job
                 </Button>
               </div>
@@ -428,6 +489,13 @@ const Dashboard = () => {
                     <Filter className="h-4 w-4" />
                   </Button>
                 </div>
+                
+                <Button 
+                  className="bg-gradient-to-r from-zordie-600 to-accent1 hover:from-zordie-700 hover:to-accent1 text-white"
+                  onClick={() => setActiveTab("assessments")}
+                >
+                  <Award className="h-4 w-4 mr-2" /> Send Assessment
+                </Button>
               </div>
               
               <div className="bg-white rounded-lg border overflow-hidden">
@@ -513,9 +581,16 @@ const Dashboard = () => {
                 </div>
               </div>
             </TabsContent>
+            
+            <TabsContent value="assessments" className="space-y-6">
+              <AssessmentGenerator />
+            </TabsContent>
           </Tabs>
         </main>
       </div>
+      
+      {/* Prime HR AI Chatbot */}
+      <PrimeHRChatbot initiallyOpen={false} />
     </div>
   );
 };
@@ -593,6 +668,11 @@ const CandidateItem = ({ name, role, matchScore, verified, avatarUrl }: Candidat
             <AvatarImage src={avatarUrl} />
             <AvatarFallback>{name[0]}</AvatarFallback>
           </Avatar>
+          {verified && (
+            <div className="absolute -bottom-1 -right-1 bg-green-500 text-white rounded-full w-5 h-5 flex items-center justify-center text-xs border-2 border-white">
+              <CheckCircle size={12} />
+            </div>
+          )}
         </div>
         <div>
           <h4 className="font-medium">{name}</h4>
@@ -670,10 +750,15 @@ const CandidateTableRow = ({ name, role, matchScore, status, date, avatarUrl, ve
       <div className="col-span-3">
         <div className="flex items-center">
           <div className="relative">
-            <Avatar className={`h-8 w-8 mr-3 ${verified ? "avatar-verified" : ""}`}>
+            <Avatar className="h-8 w-8 mr-3">
               <AvatarImage src={avatarUrl} />
               <AvatarFallback>{name[0]}</AvatarFallback>
             </Avatar>
+            {verified && (
+              <div className="absolute -bottom-1 -right-1 bg-green-500 text-white rounded-full w-4 h-4 flex items-center justify-center text-xs border-2 border-white">
+                <CheckCircle size={10} />
+              </div>
+            )}
           </div>
           <span className="font-medium">{name}</span>
         </div>

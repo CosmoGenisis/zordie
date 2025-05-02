@@ -6,7 +6,11 @@ import { FileUploader } from './FileUploader';
 import { useToast } from '@/hooks/use-toast';
 import { Loader2 } from 'lucide-react';
 
-const ResumeUploader = () => {
+interface ResumeUploaderProps {
+  onUpload?: (files: File[]) => void;
+}
+
+const ResumeUploader = ({ onUpload }: ResumeUploaderProps = {}) => {
   const [isUploading, setIsUploading] = useState(false);
   const [uploadProgress, setUploadProgress] = useState(0);
   const { toast } = useToast();
@@ -35,6 +39,11 @@ const ResumeUploader = () => {
               description: "Your resume is ready for use in job applications.",
             });
             setIsUploading(false);
+            
+            // Call the onUpload callback if provided
+            if (onUpload) {
+              onUpload(files);
+            }
           }, 500);
         }
       }, 300);

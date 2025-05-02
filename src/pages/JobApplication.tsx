@@ -1,4 +1,3 @@
-
 import React, { useState } from 'react';
 import { useNavigate, useParams } from 'react-router-dom';
 import Layout from '@/components/layout/Layout';
@@ -17,7 +16,7 @@ import {
   User, CheckCircle, Loader2
 } from 'lucide-react';
 import { useToast } from '@/hooks/use-toast';
-import { ResumeUploader } from '@/components/resume/ResumeUploader';
+import ResumeUploader from '@/components/resume/ResumeUploader';
 
 // Job details mock data (in a real app, this would be fetched from a database)
 const jobData = {

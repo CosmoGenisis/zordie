@@ -1,7 +1,6 @@
 
 import React, { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
-import { useAuth } from "@/context/AuthContext";
 import Layout from "@/components/layout/Layout";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { Card, CardContent, CardDescription, CardFooter, CardHeader, CardTitle } from "@/components/ui/card";
@@ -33,7 +32,6 @@ interface Activity {
 }
 
 const JobSeekerDashboard = () => {
-  const { user, userProfile, isLoading } = useAuth();
   const navigate = useNavigate();
   const { toast } = useToast();
   const [activeResumes, setActiveResumes] = useState(0);
@@ -43,33 +41,23 @@ const JobSeekerDashboard = () => {
   const [activities, setActivities] = useState<Activity[]>([]);
   const [isLoadingData, setIsLoadingData] = useState(true);
 
+  // Demo user profile data instead of auth
+  const demoUserProfile = { first_name: "Demo" };
+  
   useEffect(() => {
-    // If user is not a candidate, redirect to company dashboard
-    if (userProfile && userProfile.user_type === "company") {
-      navigate("/company-dashboard");
-    }
-    
     // Fetch dashboard data
     const fetchData = async () => {
       setIsLoadingData(true);
       try {
-        // In a real app, these would be real database queries
-        // For this demo, we're using mock data
+        // For this demo, we're using mock data since auth is removed
         
-        // Check if user has any resumes
-        const { data: resumesData, error: resumesError } = await supabase
-          .from('user_resumes')
-          .select('id')
-          .eq('user_id', user?.id || '');
-          
-        if (resumesError) {
-          console.error("Error fetching resumes:", resumesError);
-        } else {
-          setActiveResumes(resumesData?.length || 0);
-        }
+        // Mock resume count
+        setActiveResumes(2);
         
-        // For now, use mock data for other metrics
+        // Mock applied jobs count
         setAppliedJobs(3);
+        
+        // Mock interview count
         setInterviewsScheduled(2);
         
         // Mock recommended jobs
@@ -143,16 +131,14 @@ const JobSeekerDashboard = () => {
       }
     };
     
-    if (user) {
-      fetchData();
-    }
-  }, [user, userProfile, navigate, toast]);
+    fetchData();
+  }, [toast]);
 
-  if (isLoading) {
+  if (isLoadingData) {
     return <LoadingScreen />;
   }
 
-  const firstName = userProfile?.first_name || user?.user_metadata?.full_name?.split(' ')[0] || "Candidate";
+  const firstName = demoUserProfile?.first_name || "Candidate";
   
   const formatDate = (dateString: string) => {
     const date = new Date(dateString);

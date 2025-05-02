@@ -1,269 +1,198 @@
 
-import React, { useState, useEffect, useRef } from "react";
-import { useNavigate } from "react-router-dom";
-import Layout from "@/components/layout/Layout";
-import { Card, CardContent, CardDescription, CardFooter, CardHeader, CardTitle } from "@/components/ui/card";
-import { Button } from "@/components/ui/button";
-import { Input } from "@/components/ui/input";
-import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
-import { Send, Loader2, Bot, User } from "lucide-react";
-import { useToast } from "@/components/ui/use-toast";
-import { useAuth } from "@/context/AuthContext";
-import { supabase } from "@/integrations/supabase/client";
-import LoadingScreen from "@/components/auth/LoadingScreen";
-import { Separator } from "@/components/ui/separator";
+import React, { useState, useRef, useEffect } from 'react';
+import Layout from '@/components/layout/Layout';
+import { Button } from '@/components/ui/button';
+import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
+import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/avatar';
+import { Input } from '@/components/ui/input';
+import { Send, Bot, User } from 'lucide-react';
+import { SectionHeading } from '@/components/ui/section-heading';
+import { useToast } from '@/hooks/use-toast';
+
+// Removed useAuth import
 
 interface Message {
   id: string;
-  content: string;
-  is_user: boolean;
-  created_at: string;
+  text: string;
+  sender: 'user' | 'bot';
+  timestamp: Date;
 }
 
 const Chatbot = () => {
-  const [messages, setMessages] = useState<Message[]>([]);
-  const [inputValue, setInputValue] = useState("");
+  const [messages, setMessages] = useState<Message[]>([
+    {
+      id: '1',
+      text: "Hello! I'm your AI assistant for job search and interview preparation. How can I help you today?",
+      sender: 'bot',
+      timestamp: new Date(),
+    },
+  ]);
+  
+  const [input, setInput] = useState('');
   const [isLoading, setIsLoading] = useState(false);
-  const [isFetchingHistory, setIsFetchingHistory] = useState(true);
-  const { user, isLoading: authLoading } = useAuth();
-  const { toast } = useToast();
-  const navigate = useNavigate();
   const messagesEndRef = useRef<HTMLDivElement>(null);
-
-  useEffect(() => {
-    if (!user && !authLoading) {
-      navigate("/login");
-      return;
-    }
-
-    if (user) {
-      fetchChatHistory();
-    }
-  }, [user, authLoading, navigate]);
-
+  const { toast } = useToast();
+  
+  // Use a placeholder username instead of auth
+  const username = "User";
+  
   useEffect(() => {
     scrollToBottom();
   }, [messages]);
-
-  const fetchChatHistory = async () => {
-    setIsFetchingHistory(true);
-    try {
-      const { data, error } = await supabase
-        .from('chat_messages')
-        .select('*')
-        .eq('user_id', user?.id)
-        .order('created_at', { ascending: true });
-
-      if (error) {
-        throw error;
-      }
-
-      if (data && data.length > 0) {
-        setMessages(data);
-      } else {
-        // Add welcome message if no chat history
-        const welcomeMessage: Message = {
-          id: 'welcome',
-          content: "Hi there! I'm Zordie's AI assistant. How can I help you with your job search or recruitment needs today?",
-          is_user: false,
-          created_at: new Date().toISOString()
-        };
-        setMessages([welcomeMessage]);
-      }
-    } catch (error) {
-      console.error('Error fetching chat history:', error);
-      toast({
-        title: 'Error',
-        description: 'Failed to load chat history. Please try again.',
-        variant: 'destructive'
-      });
-    } finally {
-      setIsFetchingHistory(false);
-    }
-  };
-
+  
   const scrollToBottom = () => {
     messagesEndRef.current?.scrollIntoView({ behavior: 'smooth' });
   };
-
-  const handleSendMessage = async (e: React.FormEvent) => {
-    e.preventDefault();
+  
+  const handleSendMessage = async () => {
+    if (!input.trim()) return;
     
-    if (!inputValue.trim() || isLoading) return;
+    // Prevent sending new message while processing
+    if (isLoading) return;
     
     const userMessage: Message = {
-      id: `user-${Date.now()}`,
-      content: inputValue,
-      is_user: true,
-      created_at: new Date().toISOString()
+      id: Date.now().toString(),
+      text: input,
+      sender: 'user',
+      timestamp: new Date(),
     };
     
-    setMessages(prev => [...prev, userMessage]);
-    setInputValue("");
+    setMessages((prev) => [...prev, userMessage]);
+    setInput('');
     setIsLoading(true);
     
     try {
-      // Save user message to database
-      const { error: insertError } = await supabase
-        .from('chat_messages')
-        .insert({
-          user_id: user?.id,
-          content: userMessage.content,
-          is_user: true
-        });
-        
-      if (insertError) {
-        throw insertError;
+      // Simulate API delay
+      await new Promise((resolve) => setTimeout(resolve, 1500));
+      
+      // Generate a response based on the user's message
+      let response = '';
+      
+      if (input.toLowerCase().includes('interview')) {
+        response = "To prepare for an interview, make sure to research the company, practice common questions, and prepare examples from your experience. Would you like some specific interview tips?";
+      } else if (input.toLowerCase().includes('resume')) {
+        response = "For your resume, focus on highlighting your achievements with quantifiable results. Keep it concise and tailored to each job application. Would you like me to provide a resume checklist?";
+      } else if (input.toLowerCase().includes('job')) {
+        response = "When searching for jobs, use targeted keywords, set up job alerts, and leverage your professional network. Would you like me to suggest some job search strategies?";
+      } else {
+        response = "I'm here to help with your job search and interview preparation. You can ask me about resume tips, interview techniques, job search strategies, or career advice.";
       }
       
-      // Simulate bot response (in a real app, you'd call an API)
-      setTimeout(async () => {
-        const botResponses: Record<string, string> = {
-          "hello": "Hello! How can I assist you with your job search or recruitment needs today?",
-          "help": "I can help with resume tips, interview preparation, job search strategies, and recruitment best practices. What specific advice are you looking for?",
-          "interview": "Preparing for an interview? Make sure to research the company, practice common questions, prepare examples of your accomplishments, and have questions ready for the interviewer.",
-          "resume": "For an effective resume, highlight your achievements with measurable results, tailor it to each job application, keep it concise (1-2 pages), and proofread carefully.",
-          "job": "Looking for job opportunities? Be sure to utilize our job board, set up job alerts, optimize your profile with relevant keywords, and network with industry professionals."
-        };
-        
-        // Check if the user message contains any of the keywords
-        let botResponseText = "I'm here to help with your career questions. Feel free to ask about resume tips, interview preparation, or job search strategies!";
-        
-        for (const [keyword, response] of Object.entries(botResponses)) {
-          if (userMessage.content.toLowerCase().includes(keyword)) {
-            botResponseText = response;
-            break;
-          }
-        }
-        
-        const botMessage: Message = {
-          id: `bot-${Date.now()}`,
-          content: botResponseText,
-          is_user: false,
-          created_at: new Date().toISOString()
-        };
-        
-        // Save bot response to database
-        const { error: botInsertError } = await supabase
-          .from('chat_messages')
-          .insert({
-            user_id: user?.id,
-            content: botMessage.content,
-            is_user: false
-          });
-          
-        if (botInsertError) {
-          console.error('Error saving bot message:', botInsertError);
-        }
-        
-        setMessages(prev => [...prev, botMessage]);
-        setIsLoading(false);
-      }, 1000);
+      const botMessage: Message = {
+        id: (Date.now() + 1).toString(),
+        text: response,
+        sender: 'bot',
+        timestamp: new Date(),
+      };
       
+      setMessages((prev) => [...prev, botMessage]);
     } catch (error) {
-      console.error('Error sending message:', error);
+      console.error('Error generating response:', error);
       toast({
         title: 'Error',
-        description: 'Failed to send message. Please try again.',
-        variant: 'destructive'
+        description: 'Failed to generate a response. Please try again.',
+        variant: 'destructive',
       });
+    } finally {
       setIsLoading(false);
     }
   };
-
-  const formatTime = (dateString: string) => {
-    const date = new Date(dateString);
-    return date.toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' });
+  
+  const handleKeyDown = (e: React.KeyboardEvent) => {
+    if (e.key === 'Enter' && !e.shiftKey) {
+      e.preventDefault();
+      handleSendMessage();
+    }
   };
-
-  if (authLoading || isFetchingHistory) {
-    return <LoadingScreen />;
-  }
-
+  
   return (
     <Layout>
-      <div className="container mx-auto py-8 px-4 max-w-4xl">
-        <Card className="shadow-md">
+      <div className="container max-w-4xl py-12">
+        <SectionHeading
+          title="AI Career Assistant"
+          subtitle="Get personalized job search and interview preparation help"
+          align="center"
+        />
+        
+        <Card className="mt-8 h-[600px] flex flex-col">
           <CardHeader>
-            <CardTitle className="flex items-center">
-              <Bot className="mr-2 h-5 w-5 text-zordie-600" />
+            <CardTitle className="text-xl flex items-center">
+              <Bot className="mr-2 h-5 w-5" />
               Career Assistant
             </CardTitle>
-            <CardDescription>
-              Get personalized career advice and job search help
-            </CardDescription>
           </CardHeader>
-          <Separator />
-          <CardContent className="p-0">
-            <div className="h-[60vh] overflow-y-auto p-4">
+          
+          <CardContent className="flex-1 overflow-hidden flex flex-col">
+            <div className="flex-1 overflow-y-auto mb-4 pr-2">
               {messages.map((message) => (
-                <div 
-                  key={message.id} 
-                  className={`flex mb-4 ${message.is_user ? 'justify-end' : 'justify-start'}`}
+                <div
+                  key={message.id}
+                  className={`flex mb-4 ${
+                    message.sender === 'user' ? 'justify-end' : 'justify-start'
+                  }`}
                 >
-                  <div 
-                    className={`flex max-w-[80%] ${message.is_user ? 'flex-row-reverse' : 'flex-row'}`}
-                  >
-                    <Avatar className={`h-8 w-8 ${message.is_user ? 'ml-2' : 'mr-2'}`}>
-                      {message.is_user ? (
-                        <AvatarFallback className="bg-zordie-100 text-zordie-700">U</AvatarFallback>
-                      ) : (
-                        <AvatarFallback className="bg-zordie-100 text-zordie-700">Z</AvatarFallback>
-                      )}
+                  {message.sender === 'bot' && (
+                    <Avatar className="h-8 w-8 mr-2 mt-1">
+                      <AvatarImage src="/placeholder.svg" />
+                      <AvatarFallback className="bg-zordie-600 text-white">
+                        AI
+                      </AvatarFallback>
                     </Avatar>
-                    <div 
-                      className={`p-3 rounded-lg ${
-                        message.is_user 
-                          ? 'bg-zordie-600 text-white' 
-                          : 'bg-gray-100 text-gray-800'
+                  )}
+                  
+                  <div
+                    className={`max-w-[80%] rounded-lg px-4 py-2 ${
+                      message.sender === 'user'
+                        ? 'bg-zordie-600 text-white'
+                        : 'bg-gray-100'
+                    }`}
+                  >
+                    <p>{message.text}</p>
+                    <div
+                      className={`text-xs mt-1 ${
+                        message.sender === 'user'
+                          ? 'text-zordie-100'
+                          : 'text-gray-500'
                       }`}
                     >
-                      <p className="text-sm">{message.content}</p>
-                      <p className={`text-xs mt-1 ${message.is_user ? 'text-zordie-100' : 'text-gray-500'}`}>
-                        {formatTime(message.created_at)}
-                      </p>
+                      {message.timestamp.toLocaleTimeString([], {
+                        hour: '2-digit',
+                        minute: '2-digit',
+                      })}
                     </div>
                   </div>
+                  
+                  {message.sender === 'user' && (
+                    <Avatar className="h-8 w-8 ml-2 mt-1">
+                      <AvatarImage src="/placeholder.svg" />
+                      <AvatarFallback className="bg-gray-400 text-white">
+                        <User className="h-5 w-5" />
+                      </AvatarFallback>
+                    </Avatar>
+                  )}
                 </div>
               ))}
-              {isLoading && (
-                <div className="flex justify-start mb-4">
-                  <div className="flex flex-row">
-                    <Avatar className="h-8 w-8 mr-2">
-                      <AvatarFallback className="bg-zordie-100 text-zordie-700">Z</AvatarFallback>
-                    </Avatar>
-                    <div className="p-3 rounded-lg bg-gray-100 flex items-center">
-                      <Loader2 className="h-4 w-4 animate-spin text-zordie-600" />
-                      <span className="ml-2 text-sm">Typing...</span>
-                    </div>
-                  </div>
-                </div>
-              )}
               <div ref={messagesEndRef} />
             </div>
-          </CardContent>
-          <CardFooter className="p-4 border-t">
-            <form onSubmit={handleSendMessage} className="w-full flex space-x-2">
+            
+            <div className="flex items-center">
               <Input
                 placeholder="Type your message..."
-                value={inputValue}
-                onChange={(e) => setInputValue(e.target.value)}
+                value={input}
+                onChange={(e) => setInput(e.target.value)}
+                onKeyDown={handleKeyDown}
                 disabled={isLoading}
-                className="flex-1"
+                className="flex-1 mr-2"
               />
-              <Button 
-                type="submit" 
-                disabled={isLoading || !inputValue.trim()}
+              <Button
+                onClick={handleSendMessage}
+                disabled={isLoading}
+                className="btn-gradient"
               >
-                {isLoading ? (
-                  <Loader2 className="h-4 w-4 animate-spin" />
-                ) : (
-                  <Send className="h-4 w-4" />
-                )}
-                <span className="ml-2">Send</span>
+                <Send className="h-4 w-4" />
               </Button>
-            </form>
-          </CardFooter>
+            </div>
+          </CardContent>
         </Card>
       </div>
     </Layout>

@@ -3,251 +3,373 @@ import React, { useState, useEffect } from "react";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
-import { Loader2 } from "lucide-react";
-import { useToast } from "@/components/ui/use-toast";
 import { Card, CardContent, CardDescription, CardFooter, CardHeader, CardTitle } from "@/components/ui/card";
+import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
+import { Separator } from "@/components/ui/separator";
+import { Switch } from "@/components/ui/switch";
+import { Copy, Key, Trash2 } from "lucide-react";
+import { Badge } from "@/components/ui/badge";
+import { useToast } from "@/components/ui/use-toast";
 import { supabase } from "@/integrations/supabase/client";
-import { useAuth } from "@/context/AuthContext";
 
-interface WebhookSetupProps {
-  title?: string;
-  description?: string;
+// Removed useAuth import
+
+interface Webhook {
+  id: string;
+  name: string;
+  url: string;
+  events: string[];
+  created_at: string;
+  is_active: boolean;
 }
 
-interface WebhookConfig {
-  id?: string;
-  user_id: string;
-  webhook_url: string;
-  created_at?: string;
-  updated_at?: string;
-}
-
-const WebhookSetup: React.FC<WebhookSetupProps> = ({ 
-  title = "Webhook Integration", 
-  description = "Connect your Zapier or other webhook-based integrations" 
-}) => {
+const WebhookSetup = () => {
+  const [webhooks, setWebhooks] = useState<Webhook[]>([]);
+  const [isLoading, setIsLoading] = useState(true);
+  const [webhookName, setWebhookName] = useState("");
   const [webhookUrl, setWebhookUrl] = useState("");
-  const [isLoading, setIsLoading] = useState(false);
-  const [isSaving, setIsSaving] = useState(false);
-  const [webhookId, setWebhookId] = useState<string | null>(null);
+  const [selectedEvents, setSelectedEvents] = useState<string[]>(["application.created"]);
+  const [isCreating, setIsCreating] = useState(false);
+  const [secretKey, setSecretKey] = useState("");
+  const [showSecret, setShowSecret] = useState(false);
+  
   const { toast } = useToast();
-  const { user } = useAuth();
+  
+  // Dummy user ID for demo purposes
+  const demoUserId = "demo-user-id";
 
   useEffect(() => {
-    if (user) {
-      fetchExistingWebhook();
-    }
-  }, [user]);
+    fetchWebhooks();
+  }, []);
 
-  const fetchExistingWebhook = async () => {
-    if (!user) return;
-    
-    try {
-      // Using type assertion to handle the webhook table not being in the types
-      const { data, error } = await supabase
-        .from('webhooks' as any)
-        .select('*')
-        .eq('user_id', user.id)
-        .single();
-      
-      if (error && error.code !== 'PGRST116') {
-        console.error('Error fetching webhook:', error);
-        return;
-      }
-      
-      if (data) {
-        // Safely access data with type assertion for the entire object
-        const webhookData = data as any;
-        setWebhookUrl(webhookData.webhook_url);
-        setWebhookId(webhookData.id);
-      }
-    } catch (error) {
-      console.error('Error in fetchExistingWebhook:', error);
-    }
-  };
-
-  const handleTrigger = async (e: React.FormEvent) => {
-    e.preventDefault();
-    
-    if (!webhookUrl) {
-      toast({
-        title: "Error",
-        description: "Please enter your webhook URL",
-        variant: "destructive",
-      });
-      return;
-    }
-
+  const fetchWebhooks = async () => {
     setIsLoading(true);
-    console.log("Triggering webhook:", webhookUrl);
-
     try {
-      const response = await fetch(webhookUrl, {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
+      // In a real app, this would fetch from the database
+      // Simulated API call
+      await new Promise(resolve => setTimeout(resolve, 1000));
+      
+      // Mock data
+      const mockWebhooks: Webhook[] = [
+        {
+          id: "1",
+          name: "Application Notifications",
+          url: "https://example.com/webhooks/applications",
+          events: ["application.created", "application.updated"],
+          created_at: new Date().toISOString(),
+          is_active: true
         },
-        mode: "no-cors", // Add this to handle CORS
-        body: JSON.stringify({
-          timestamp: new Date().toISOString(),
-          triggered_from: window.location.origin,
-          event: "test_webhook",
-          data: {
-            message: "This is a test webhook from Zordie"
-          }
-        }),
-      });
-
-      // Since we're using no-cors, we won't get a proper response status
-      toast({
-        title: "Request Sent",
-        description: "The webhook test was sent. Please check your integration to confirm it was triggered.",
-      });
+        {
+          id: "2",
+          name: "Candidate Updates",
+          url: "https://example.com/webhooks/candidates",
+          events: ["candidate.created", "interview.scheduled"],
+          created_at: new Date().toISOString(),
+          is_active: false
+        }
+      ];
+      
+      setWebhooks(mockWebhooks);
     } catch (error) {
-      console.error("Error triggering webhook:", error);
+      console.error("Error fetching webhooks:", error);
       toast({
         title: "Error",
-        description: "Failed to trigger the webhook. Please check the URL and try again.",
-        variant: "destructive",
+        description: "Failed to load webhooks. Please try again.",
+        variant: "destructive"
       });
     } finally {
       setIsLoading(false);
     }
   };
-
-  const handleSave = async () => {
-    if (!webhookUrl) {
+  
+  const createWebhook = async () => {
+    if (!webhookName || !webhookUrl || selectedEvents.length === 0) {
       toast({
-        title: "Error",
-        description: "Please enter a webhook URL to save",
-        variant: "destructive",
+        title: "Validation Error",
+        description: "Please fill in all required fields.",
+        variant: "destructive"
       });
       return;
     }
-
-    if (!user) {
-      toast({
-        title: "Authentication Required",
-        description: "Please log in to save webhook settings",
-        variant: "destructive",
-      });
-      return;
-    }
-
-    setIsSaving(true);
-
+    
+    setIsCreating(true);
     try {
-      // Prepare webhook configuration
-      const webhookConfig: WebhookConfig = {
-        user_id: user.id,
-        webhook_url: webhookUrl,
-      };
-
-      let result;
+      // In a real app, this would save to the database
+      // Generate webhook secret
+      const newSecret = Array(32).fill(0).map(() => Math.random().toString(36).charAt(2)).join('');
+      setSecretKey(newSecret);
       
-      if (webhookId) {
-        // Update existing webhook
-        result = await supabase
-          .from('webhooks' as any)
-          .update({ webhook_url: webhookUrl })
-          .eq('id', webhookId);
-      } else {
-        // Insert new webhook
-        result = await supabase
-          .from('webhooks' as any)
-          .insert(webhookConfig as any);
-      }
-
-      if (result.error) {
-        throw result.error;
-      }
-
-      // If this was an insert, get the new ID
-      if (!webhookId) {
-        const { data, error } = await supabase
-          .from('webhooks' as any)
-          .select('id')
-          .eq('user_id', user.id)
-          .single();
-          
-        if (data && !error) {
-          // Safely access data with complete type assertion
-          const responseData = data as any;
-          setWebhookId(responseData.id);
-        }
-      }
-
+      // Simulated API call
+      await new Promise(resolve => setTimeout(resolve, 1500));
+      
+      const newWebhook: Webhook = {
+        id: `webhook-${Date.now()}`,
+        name: webhookName,
+        url: webhookUrl,
+        events: selectedEvents,
+        created_at: new Date().toISOString(),
+        is_active: true
+      };
+      
+      setWebhooks([...webhooks, newWebhook]);
+      
       toast({
-        title: "Webhook Saved",
-        description: "Your webhook URL has been saved successfully.",
+        title: "Webhook Created",
+        description: "Your new webhook has been created successfully."
       });
+      
+      // Reset form
+      setWebhookName("");
+      setWebhookUrl("");
+      setSelectedEvents(["application.created"]);
+      setShowSecret(true);
     } catch (error) {
-      console.error("Error saving webhook:", error);
+      console.error("Error creating webhook:", error);
       toast({
         title: "Error",
-        description: "Failed to save webhook configuration. Please try again.",
-        variant: "destructive",
+        description: "Failed to create webhook. Please try again.",
+        variant: "destructive"
       });
     } finally {
-      setIsSaving(false);
+      setIsCreating(false);
+    }
+  };
+  
+  const toggleWebhookStatus = async (webhookId: string, currentStatus: boolean) => {
+    try {
+      // In a real app, this would update the database
+      // Simulated API call
+      await new Promise(resolve => setTimeout(resolve, 500));
+      
+      setWebhooks(webhooks.map(webhook => 
+        webhook.id === webhookId 
+          ? {...webhook, is_active: !currentStatus} 
+          : webhook
+      ));
+      
+      toast({
+        title: currentStatus ? "Webhook Disabled" : "Webhook Enabled",
+        description: `The webhook has been ${currentStatus ? "disabled" : "enabled"} successfully.`
+      });
+    } catch (error) {
+      console.error("Error updating webhook status:", error);
+      toast({
+        title: "Error",
+        description: "Failed to update webhook status. Please try again.",
+        variant: "destructive"
+      });
+    }
+  };
+  
+  const deleteWebhook = async (webhookId: string) => {
+    try {
+      // In a real app, this would delete from the database
+      // Simulated API call
+      await new Promise(resolve => setTimeout(resolve, 1000));
+      
+      setWebhooks(webhooks.filter(webhook => webhook.id !== webhookId));
+      
+      toast({
+        title: "Webhook Deleted",
+        description: "The webhook has been deleted successfully."
+      });
+    } catch (error) {
+      console.error("Error deleting webhook:", error);
+      toast({
+        title: "Error",
+        description: "Failed to delete webhook. Please try again.",
+        variant: "destructive"
+      });
+    }
+  };
+  
+  const copySecret = () => {
+    navigator.clipboard.writeText(secretKey);
+    toast({
+      title: "Secret Copied",
+      description: "The webhook secret has been copied to clipboard."
+    });
+  };
+  
+  const events = [
+    { value: "application.created", label: "Application Created" },
+    { value: "application.updated", label: "Application Updated" },
+    { value: "application.status_changed", label: "Application Status Changed" },
+    { value: "candidate.created", label: "Candidate Created" },
+    { value: "candidate.updated", label: "Candidate Updated" },
+    { value: "interview.scheduled", label: "Interview Scheduled" },
+    { value: "interview.completed", label: "Interview Completed" },
+    { value: "offer.created", label: "Offer Created" },
+    { value: "offer.accepted", label: "Offer Accepted" },
+    { value: "offer.rejected", label: "Offer Rejected" }
+  ];
+  
+  const toggleEvent = (event: string) => {
+    if (selectedEvents.includes(event)) {
+      setSelectedEvents(selectedEvents.filter(e => e !== event));
+    } else {
+      setSelectedEvents([...selectedEvents, event]);
     }
   };
 
   return (
-    <Card>
-      <CardHeader>
-        <CardTitle>{title}</CardTitle>
-        <CardDescription>{description}</CardDescription>
-      </CardHeader>
-      <CardContent>
-        <form onSubmit={handleTrigger}>
-          <div className="space-y-4">
+    <div className="space-y-8">
+      <Card>
+        <CardHeader>
+          <CardTitle className="text-xl">Create Webhook</CardTitle>
+          <CardDescription>
+            Set up webhooks to receive real-time updates about events in your account.
+          </CardDescription>
+        </CardHeader>
+        <CardContent className="space-y-4">
+          <div className="grid grid-cols-1 gap-4">
             <div className="space-y-2">
-              <Label htmlFor="webhookUrl">Webhook URL</Label>
-              <Input
-                id="webhookUrl"
-                type="url"
-                placeholder="https://hooks.zapier.com/hooks/catch/..."
+              <Label htmlFor="webhook-name">Webhook Name</Label>
+              <Input 
+                id="webhook-name" 
+                placeholder="e.g., Application Notifications" 
+                value={webhookName}
+                onChange={(e) => setWebhookName(e.target.value)}
+              />
+            </div>
+            
+            <div className="space-y-2">
+              <Label htmlFor="webhook-url">Payload URL</Label>
+              <Input 
+                id="webhook-url" 
+                placeholder="https://example.com/webhook" 
                 value={webhookUrl}
                 onChange={(e) => setWebhookUrl(e.target.value)}
-                className="w-full"
               />
               <p className="text-sm text-gray-500">
-                Enter the webhook URL from your integration platform (e.g., Zapier, Integromat)
+                The URL where webhook payloads will be delivered.
               </p>
             </div>
             
-            <div className="flex flex-col space-y-2">
-              <p className="text-sm font-medium">When this webhook will be triggered:</p>
-              <ul className="list-disc list-inside text-sm text-gray-600 space-y-1 ml-2">
-                <li>New candidate applies for a job</li>
-                <li>Interview is scheduled</li>
-                <li>Candidate status is updated</li>
-              </ul>
+            <div className="space-y-2">
+              <Label>Webhook Events</Label>
+              <div className="border rounded-md p-4 space-y-2">
+                <p className="text-sm text-gray-500 mb-3">
+                  Select the events that should trigger this webhook.
+                </p>
+                <div className="grid grid-cols-1 md:grid-cols-2 gap-2">
+                  {events.map((event) => (
+                    <div key={event.value} className="flex items-center space-x-2">
+                      <input
+                        type="checkbox"
+                        id={`event-${event.value}`}
+                        checked={selectedEvents.includes(event.value)}
+                        onChange={() => toggleEvent(event.value)}
+                        className="rounded border-gray-300 text-zordie-600 focus:ring-zordie-500"
+                      />
+                      <Label htmlFor={`event-${event.value}`} className="text-sm cursor-pointer">
+                        {event.label}
+                      </Label>
+                    </div>
+                  ))}
+                </div>
+              </div>
             </div>
           </div>
-        </form>
-      </CardContent>
-      <CardFooter className="flex justify-between">
-        <Button
-          type="button"
-          variant="outline"
-          onClick={handleTrigger}
-          disabled={isLoading || !webhookUrl}
-        >
-          {isLoading && <Loader2 className="mr-2 h-4 w-4 animate-spin" />}
-          Test Webhook
-        </Button>
-        <Button
-          type="button"
-          onClick={handleSave}
-          disabled={isSaving || !webhookUrl}
-        >
-          {isSaving && <Loader2 className="mr-2 h-4 w-4 animate-spin" />}
-          Save Configuration
-        </Button>
-      </CardFooter>
-    </Card>
+        </CardContent>
+        <CardFooter>
+          <Button 
+            className="w-full" 
+            onClick={createWebhook}
+            disabled={isCreating}
+          >
+            {isCreating ? "Creating..." : "Create Webhook"}
+          </Button>
+        </CardFooter>
+      </Card>
+      
+      {showSecret && (
+        <Card className="bg-gray-50 border-gray-300 border-dashed">
+          <CardHeader>
+            <CardTitle className="text-lg flex items-center">
+              <Key className="w-5 h-5 mr-2" />
+              Webhook Secret
+            </CardTitle>
+            <CardDescription>
+              Store this secret safely. It will be used to validate webhook payloads.
+            </CardDescription>
+          </CardHeader>
+          <CardContent>
+            <div className="bg-white p-3 border rounded-md flex justify-between items-center">
+              <code className="text-sm">
+                {secretKey}
+              </code>
+              <Button variant="ghost" size="sm" onClick={copySecret}>
+                <Copy className="w-4 h-4" />
+              </Button>
+            </div>
+            <p className="text-sm text-red-500 mt-2">
+              Note: This secret will only be shown once.
+            </p>
+          </CardContent>
+        </Card>
+      )}
+      
+      <div className="space-y-4">
+        <h3 className="text-lg font-medium">Your Webhooks</h3>
+        
+        {isLoading ? (
+          <div className="text-center py-8">Loading webhooks...</div>
+        ) : webhooks.length === 0 ? (
+          <div className="text-center py-8 text-gray-500">
+            No webhooks configured yet. Create one to get started.
+          </div>
+        ) : (
+          <div className="space-y-4">
+            {webhooks.map((webhook) => (
+              <Card key={webhook.id}>
+                <CardHeader className="pb-2">
+                  <div className="flex justify-between items-start">
+                    <div>
+                      <CardTitle className="text-lg">{webhook.name}</CardTitle>
+                      <CardDescription className="truncate max-w-md">{webhook.url}</CardDescription>
+                    </div>
+                    <Badge variant={webhook.is_active ? "default" : "outline"}>
+                      {webhook.is_active ? "Active" : "Disabled"}
+                    </Badge>
+                  </div>
+                </CardHeader>
+                <CardContent className="pb-2">
+                  <div className="flex flex-wrap gap-2">
+                    {webhook.events.map((event, index) => (
+                      <Badge key={index} variant="secondary">
+                        {event.replace('.', ' ')}
+                      </Badge>
+                    ))}
+                  </div>
+                </CardContent>
+                <CardFooter>
+                  <div className="flex justify-between items-center w-full">
+                    <div className="flex items-center">
+                      <Switch 
+                        checked={webhook.is_active} 
+                        onCheckedChange={() => toggleWebhookStatus(webhook.id, webhook.is_active)}
+                      />
+                      <span className="ml-2 text-sm">
+                        {webhook.is_active ? "Enabled" : "Disabled"}
+                      </span>
+                    </div>
+                    <Button
+                      variant="ghost"
+                      size="sm"
+                      className="text-red-500 hover:text-red-700 hover:bg-red-50"
+                      onClick={() => deleteWebhook(webhook.id)}
+                    >
+                      <Trash2 className="w-4 h-4" />
+                    </Button>
+                  </div>
+                </CardFooter>
+              </Card>
+            ))}
+          </div>
+        )}
+      </div>
+    </div>
   );
 };
 

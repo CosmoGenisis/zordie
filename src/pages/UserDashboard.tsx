@@ -1,3 +1,4 @@
+
 import React, { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 import Layout from '@/components/layout/Layout';
@@ -8,8 +9,7 @@ import {
   User, Settings, Calendar, FileText, Award, BarChart2, Clock, Play, 
   CheckCircle, BarChart, ChevronRight, PlusCircle, FileBarChart, MessageSquare
 } from 'lucide-react';
-import { useToast } from '@/components/ui/use-toast';
-import { useAuth } from '@/context/AuthContext';
+import { useToast } from '@/hooks/use-toast';
 import { supabase } from '@/integrations/supabase/client';
 import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/avatar';
 import { Progress } from '@/components/ui/progress';
@@ -47,41 +47,62 @@ interface InterviewSession {
 
 const UserDashboard = () => {
   const [activeTab, setActiveTab] = useState('overview');
-  const [profile, setProfile] = useState<UserProfile | null>(null);
+  const [profile, setProfile] = useState<UserProfile | null>({
+    id: 'demo-user-id',
+    first_name: 'Demo',
+    last_name: 'User',
+    user_type: 'candidate',
+    company_name: null,
+    company_size: null,
+    avatar_url: null
+  });
   const [sessions, setSessions] = useState<InterviewSession[]>([]);
   const [isLoading, setIsLoading] = useState(true);
   
-  const { user } = useAuth();
   const { toast } = useToast();
   const navigate = useNavigate();
   
   useEffect(() => {
-    if (!user) {
-      navigate('/login');
-      return;
-    }
-    
     const fetchUserData = async () => {
       setIsLoading(true);
       try {
-        const { data: profileData, error: profileError } = await supabase
-          .from('profiles')
-          .select('*')
-          .eq('id', user.id)
-          .single();
+        // Use mock data since auth is removed
         
-        if (profileError) throw profileError;
-        setProfile(profileData);
+        // Mock session data
+        const mockSessions = [
+          {
+            id: '1',
+            interview_type: 'behavioral',
+            job_role: 'Product Manager',
+            industry: 'Technology',
+            difficulty: 'moderate',
+            duration: 20,
+            score: 82,
+            created_at: '2023-04-15T10:30:00Z'
+          },
+          {
+            id: '2',
+            interview_type: 'technical',
+            job_role: 'Frontend Developer',
+            industry: 'Technology',
+            difficulty: 'challenging',
+            duration: 25,
+            score: 76,
+            created_at: '2023-04-17T14:00:00Z'
+          },
+          {
+            id: '3',
+            interview_type: 'leadership',
+            job_role: 'Team Lead',
+            industry: 'Finance',
+            difficulty: 'expert',
+            duration: 30,
+            score: 68,
+            created_at: '2023-04-19T11:15:00Z'
+          }
+        ];
         
-        const { data: sessionsData, error: sessionsError } = await supabase
-          .from('interview_sessions')
-          .select('*')
-          .eq('user_id', user.id)
-          .order('created_at', { ascending: false });
-        
-        if (sessionsError) throw sessionsError;
-        setSessions(sessionsData);
-        
+        setSessions(mockSessions);
       } catch (error) {
         console.error('Error fetching user data:', error);
         toast({
@@ -95,16 +116,14 @@ const UserDashboard = () => {
     };
     
     fetchUserData();
-  }, [user, navigate, toast]);
+  }, [toast]);
   
   const getInitials = () => {
     if (profile?.first_name && profile?.last_name) {
       return `${profile.first_name[0]}${profile.last_name[0]}`.toUpperCase();
     } else if (profile?.first_name) {
       return profile.first_name[0].toUpperCase();
-    } else if (user?.email) {
-      return user.email[0].toUpperCase();
-    }
+    } 
     return 'U';
   };
   
@@ -113,9 +132,7 @@ const UserDashboard = () => {
       return `${profile.first_name} ${profile.last_name}`;
     } else if (profile?.first_name) {
       return profile.first_name;
-    } else if (user?.email) {
-      return user.email;
-    }
+    } 
     return 'User';
   };
   
@@ -607,7 +624,7 @@ const UserDashboard = () => {
                           <input 
                             type="email" 
                             className="w-full p-2 border rounded-md" 
-                            value={user?.email || ''} 
+                            value="demo@example.com" 
                             readOnly 
                           />
                         </div>

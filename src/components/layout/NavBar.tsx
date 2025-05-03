@@ -8,17 +8,26 @@ import {
   DropdownMenuItem,
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
-import { useToast } from "@/components/ui/use-toast";
+import { useToast } from "@/hooks/use-toast";
 import ZordieLogo from "@/components/common/ZordieLogo";
-import { useTheme, useMobile } from "@/components/hooks";
-import { NavigationMenu, NavigationMenuList, NavigationMenuItem, NavigationMenuTrigger, NavigationMenuLink, NavigationMenuContent } from "@/components/ui/navigation-menu";
+import { useTheme } from "@/context/ThemeContext";
+import { useIsMobile } from "@/hooks/use-mobile";
+import { 
+  NavigationMenu, 
+  NavigationMenuList, 
+  NavigationMenuItem, 
+  NavigationMenuTrigger, 
+  NavigationMenuLink, 
+  NavigationMenuContent,
+  navigationMenuTriggerStyle
+} from "@/components/ui/navigation-menu";
 import ThemeToggle from "@/components/ui/theme-toggle";
 
 const NavBar = () => {
   const { theme } = useTheme();
   const [isOpen, setIsOpen] = useState(false);
   const [scrolled, setScrolled] = useState(false);
-  const isMobile = useMobile();
+  const isMobile = useIsMobile();
   const location = useLocation();
 
   useEffect(() => {
@@ -41,6 +50,11 @@ const NavBar = () => {
     setIsOpen(false);
   }, [location]);
 
+  // Helper function to check if a link is active
+  const isActive = (href: string): boolean => {
+    return location.pathname === href;
+  };
+
   // Navigation items
   const navigation = [
     { name: "Home", href: "/" },
@@ -62,7 +76,7 @@ const NavBar = () => {
         <div className="flex h-16 items-center justify-between">
           <div className="flex items-center">
             <Link to="/" className="flex items-center mr-6">
-              <ZordieLogo color={theme === 'dark' ? 'white' : 'default'} />
+              <ZordieLogo variant={theme === 'dark' ? 'light' : 'default'} />
             </Link>
 
             {/* Desktop Navigation */}
@@ -96,7 +110,36 @@ const NavBar = () => {
                             </a>
                           </NavigationMenuLink>
                         </li>
-                        {/* ... keep existing code (menu items) */}
+                        <li>
+                          <NavigationMenuLink asChild>
+                            <a
+                              className="flex h-full w-full select-none flex-col justify-end rounded-md bg-white p-6 no-underline outline-none focus:shadow-md"
+                              href="/companies"
+                            >
+                              <div className="mt-4 mb-2 text-lg font-medium text-zordie-700">
+                                For Companies
+                              </div>
+                              <p className="text-sm leading-tight text-gray-500">
+                                Find the perfect candidates faster than ever.
+                              </p>
+                            </a>
+                          </NavigationMenuLink>
+                        </li>
+                        <li>
+                          <NavigationMenuLink asChild>
+                            <a
+                              className="flex h-full w-full select-none flex-col justify-end rounded-md bg-white p-6 no-underline outline-none focus:shadow-md"
+                              href="/candidates"
+                            >
+                              <div className="mt-4 mb-2 text-lg font-medium text-zordie-700">
+                                For Job Seekers
+                              </div>
+                              <p className="text-sm leading-tight text-gray-500">
+                                Get matched with top companies and land your dream job.
+                              </p>
+                            </a>
+                          </NavigationMenuLink>
+                        </li>
                       </ul>
                     </NavigationMenuContent>
                   </NavigationMenuItem>
@@ -113,7 +156,36 @@ const NavBar = () => {
                     <NavigationMenuTrigger>Resources</NavigationMenuTrigger>
                     <NavigationMenuContent>
                       <ul className="grid gap-3 p-4 md:w-[400px] lg:w-[500px] lg:grid-cols-2">
-                        {/* ... keep existing code (resources menu items) */}
+                        <li>
+                          <NavigationMenuLink asChild>
+                            <a
+                              className="flex h-full w-full select-none flex-col justify-end rounded-md bg-white p-6 no-underline outline-none focus:shadow-md"
+                              href="/blog"
+                            >
+                              <div className="mt-4 mb-2 text-lg font-medium text-zordie-700">
+                                Blog
+                              </div>
+                              <p className="text-sm leading-tight text-gray-500">
+                                Insights and tips for hiring and job searching.
+                              </p>
+                            </a>
+                          </NavigationMenuLink>
+                        </li>
+                        <li>
+                          <NavigationMenuLink asChild>
+                            <a
+                              className="flex h-full w-full select-none flex-col justify-end rounded-md bg-white p-6 no-underline outline-none focus:shadow-md"
+                              href="/resources"
+                            >
+                              <div className="mt-4 mb-2 text-lg font-medium text-zordie-700">
+                                Resources
+                              </div>
+                              <p className="text-sm leading-tight text-gray-500">
+                                Guides, templates, and tools to help you succeed.
+                              </p>
+                            </a>
+                          </NavigationMenuLink>
+                        </li>
                       </ul>
                     </NavigationMenuContent>
                   </NavigationMenuItem>

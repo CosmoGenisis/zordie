@@ -190,7 +190,7 @@ const Pricing = () => {
                 <PricingFeature available={true} text="Custom integrations" />
                 <PricingFeature available={true} text="Dedicated account manager" />
                 <PricingFeature available={true} text="Custom AI training" />
-                <PricingFeature available={true} text=""Pay as You Go" model" />
+                <PricingFeature available={true} text={'Pay as You Go model'} />
                 <PricingFeature available={true} text="Tailored pricing" />
                 <PricingFeature available={true} text="Phone & priority support" />
               </ul>

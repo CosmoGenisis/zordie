@@ -36,6 +36,7 @@ import CompanyDashboard from "./pages/CompanyDashboard";
 import IntegrationSettings from "./pages/IntegrationSettings";
 import VerifyProfile from "./pages/VerifyProfile";
 import JobApplication from "./pages/JobApplication";
+import DashboardSelector from "./components/dashboard/DashboardSelector";
 
 // Create a new QueryClient instance for each component render
 const App = () => {
@@ -57,6 +58,7 @@ const App = () => {
               <Route path="/features" element={<Features />} />
               <Route path="/companies" element={<ForCompanies />} />
               <Route path="/candidates" element={<ForJobSeekers />} />
+              <Route path="/dashboard-selector" element={<DashboardSelector />} />
               <Route path="/dashboard" element={<Dashboard />} />
               <Route path="/user-dashboard" element={<UserDashboard />} />
               <Route path="/job-seeker-dashboard" element={<JobSeekerDashboard />} />

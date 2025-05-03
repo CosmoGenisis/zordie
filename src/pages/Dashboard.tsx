@@ -30,6 +30,15 @@ const Dashboard = () => {
   const navigate = useNavigate();
   const [activeTab, setActiveTab] = useState("overview");
 
+  // Handle navigation to different sections
+  const handleNavigation = (path: string) => {
+    navigate(path);
+  };
+
+  const returnToDashboardSelector = () => {
+    navigate("/dashboard-selector");
+  };
+
   return (
     <div className="flex h-screen bg-gray-50">
       {/* Sidebar */}
@@ -77,13 +86,13 @@ const Dashboard = () => {
               icon={<FileText size={18} />} 
               label="Resume Manager" 
               active={activeTab === "resumes"} 
-              onClick={() => navigate("/resumes")}
+              onClick={() => handleNavigation("/resumes")}
             />
             <NavButton 
               icon={<MessageSquare size={18} />} 
               label="Prime AI Chat" 
               active={activeTab === "chat"} 
-              onClick={() => navigate("/chat")}
+              onClick={() => handleNavigation("/chat")}
             />
             <NavButton 
               icon={<Bell size={18} />} 
@@ -96,7 +105,7 @@ const Dashboard = () => {
               icon={<Settings size={18} />} 
               label="Settings" 
               active={activeTab === "settings"} 
-              onClick={() => navigate("/integration-settings")}
+              onClick={() => handleNavigation("/integration-settings")}
             />
           </div>
         </div>
@@ -121,18 +130,18 @@ const Dashboard = () => {
             <DropdownMenuContent align="end" className="w-56">
               <DropdownMenuLabel>My Account</DropdownMenuLabel>
               <DropdownMenuSeparator />
-              <DropdownMenuItem>
+              <DropdownMenuItem onClick={() => handleNavigation("/user-dashboard")}>
                 <User className="mr-2 h-4 w-4" />
                 <span>Profile</span>
               </DropdownMenuItem>
-              <DropdownMenuItem>
+              <DropdownMenuItem onClick={() => handleNavigation("/integration-settings")}>
                 <Settings className="mr-2 h-4 w-4" />
                 <span>Settings</span>
               </DropdownMenuItem>
               <DropdownMenuSeparator />
-              <DropdownMenuItem>
+              <DropdownMenuItem onClick={returnToDashboardSelector}>
                 <LogOut className="mr-2 h-4 w-4" />
-                <span>Log out</span>
+                <span>Switch Dashboard</span>
               </DropdownMenuItem>
             </DropdownMenuContent>
           </DropdownMenu>

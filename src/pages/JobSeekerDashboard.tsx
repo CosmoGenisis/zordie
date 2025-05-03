@@ -1,214 +1,104 @@
-
-import React, { useEffect, useState } from "react";
-import { useNavigate } from "react-router-dom";
-import Layout from "@/components/layout/Layout";
-import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
-import { Card, CardContent, CardDescription, CardFooter, CardHeader, CardTitle } from "@/components/ui/card";
-import { Button } from "@/components/ui/button";
-import { Separator } from "@/components/ui/separator";
-import { Badge } from "@/components/ui/badge";
-import { FileText, Search, Calendar, Award, BriefcaseIcon, MessageSquare, BookOpen } from "lucide-react";
-import { useToast } from "@/hooks/use-toast";
-import LoadingScreen from "@/components/auth/LoadingScreen";
-import PrimeHRChatbot from "@/components/chatbot/PrimeHRChatbot";
-
-interface Job {
-  id: string;
-  title: string;
-  company: string;
-  location: string;
-  description: string;
-  posted_at: string;
-  skills: string[];
-  is_remote: boolean;
-}
-
-interface Activity {
-  id: string;
-  type: 'application' | 'interview' | 'resume' | 'assessment';
-  description: string;
-  date: string;
-  icon: React.ReactNode;
-}
-
-interface Assessment {
-  id: string;
-  title: string;
-  company: string;
-  status: 'pending' | 'completed' | 'expired';
-  dueDate: string;
-  score?: number;
-}
+import React, { useState, useEffect } from 'react';
+import { useNavigate } from 'react-router-dom';
+import Layout from '@/components/layout/Layout';
+import { Button } from '@/components/ui/button';
+import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
+import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
+import { 
+  User, Settings, Calendar, FileText, Award, BarChart2, Clock, Play, 
+  CheckCircle, BarChart, ChevronRight, PlusCircle, FileBarChart, MessageSquare,
+  Briefcase, Search, Home, LogOut
+} from 'lucide-react';
+import { useToast } from '@/hooks/use-toast';
+import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/avatar';
+import { Progress } from '@/components/ui/progress';
+import { Badge } from '@/components/ui/badge';
+import { Separator } from '@/components/ui/separator';
+import {
+  DropdownMenu,
+  DropdownMenuContent,
+  DropdownMenuItem,
+  DropdownMenuLabel,
+  DropdownMenuSeparator,
+  DropdownMenuTrigger,
+} from "@/components/ui/dropdown-menu";
 
 const JobSeekerDashboard = () => {
-  const navigate = useNavigate();
+  const [activeTab, setActiveTab] = useState('overview');
+  const [profile, setProfile] = useState({
+    id: 'demo-user-id',
+    first_name: 'Demo',
+    last_name: 'User',
+    user_type: 'candidate',
+    company_name: null,
+    company_size: null,
+    avatar_url: null
+  });
+  const [sessions, setSessions] = useState([
+    {
+      id: '1',
+      interview_type: 'behavioral',
+      job_role: 'Product Manager',
+      industry: 'Technology',
+      difficulty: 'moderate',
+      duration: 20,
+      score: 82,
+      created_at: '2023-04-15T10:30:00Z'
+    },
+    {
+      id: '2',
+      interview_type: 'technical',
+      job_role: 'Frontend Developer',
+      industry: 'Technology',
+      difficulty: 'challenging',
+      duration: 25,
+      score: 76,
+      created_at: '2023-04-17T14:00:00Z'
+    },
+    {
+      id: '3',
+      interview_type: 'leadership',
+      job_role: 'Team Lead',
+      industry: 'Finance',
+      difficulty: 'expert',
+      duration: 30,
+      score: 68,
+      created_at: '2023-04-19T11:15:00Z'
+    }
+  ]);
+  const [isLoading, setIsLoading] = useState(true);
+  
   const { toast } = useToast();
-  const [activeResumes, setActiveResumes] = useState(0);
-  const [appliedJobs, setAppliedJobs] = useState(0);
-  const [interviewsScheduled, setInterviewsScheduled] = useState(0);
-  const [assessmentsCompleted, setAssessmentsCompleted] = useState(0);
-  const [recommendedJobs, setRecommendedJobs] = useState<Job[]>([]);
-  const [activities, setActivities] = useState<Activity[]>([]);
-  const [pendingAssessments, setPendingAssessments] = useState<Assessment[]>([]);
-  const [completedAssessments, setCompletedAssessments] = useState<Assessment[]>([]);
-  const [isLoadingData, setIsLoadingData] = useState(true);
-
-  // Demo user profile data instead of auth
-  const demoUserProfile = { first_name: "Demo" };
+  const navigate = useNavigate();
   
   useEffect(() => {
-    // Fetch dashboard data
-    const fetchData = async () => {
-      setIsLoadingData(true);
-      try {
-        // For this demo, we're using mock data since auth is removed
-        
-        // Mock resume count
-        setActiveResumes(2);
-        
-        // Mock applied jobs count
-        setAppliedJobs(3);
-        
-        // Mock interview count
-        setInterviewsScheduled(2);
-
-        // Mock assessments count
-        setAssessmentsCompleted(3);
-        
-        // Mock recommended jobs
-        setRecommendedJobs([
-          {
-            id: '1',
-            title: 'Senior Frontend Developer',
-            company: 'TechCorp Inc.',
-            location: 'San Francisco, CA',
-            description: 'Looking for an experienced developer with React, TypeScript and modern frontend frameworks.',
-            posted_at: '2025-04-13T10:00:00Z',
-            skills: ['React', 'TypeScript', 'Remote'],
-            is_remote: true
-          },
-          {
-            id: '2',
-            title: 'UX/UI Designer',
-            company: 'Creative Labs',
-            location: 'New York, NY',
-            description: 'Join our team designing beautiful and intuitive interfaces for enterprise clients.',
-            posted_at: '2025-04-14T09:30:00Z',
-            skills: ['Figma', 'UI Design', 'User Research'],
-            is_remote: false
-          },
-          {
-            id: '3',
-            title: 'Full Stack Engineer',
-            company: 'StartupX',
-            location: 'Remote',
-            description: 'Help build our next-generation SaaS platform using React and Node.js.',
-            posted_at: '2025-04-15T14:45:00Z',
-            skills: ['React', 'Node.js', 'MongoDB'],
-            is_remote: true
-          }
-        ]);
-
-        // Mock pending assessments
-        setPendingAssessments([
-          {
-            id: '1',
-            title: 'Frontend Developer Skills Assessment',
-            company: 'TechCorp Inc.',
-            status: 'pending',
-            dueDate: '2025-05-05T23:59:59Z'
-          },
-          {
-            id: '2',
-            title: 'Problem Solving & Logic Test',
-            company: 'StartupX',
-            status: 'pending',
-            dueDate: '2025-05-03T23:59:59Z'
-          }
-        ]);
-
-        // Mock completed assessments
-        setCompletedAssessments([
-          {
-            id: '3',
-            title: 'React Skills Assessment',
-            company: 'Creative Labs',
-            status: 'completed',
-            dueDate: '2025-04-29T23:59:59Z',
-            score: 92
-          },
-          {
-            id: '4',
-            title: 'Frontend Developer Technical Test',
-            company: 'WebDev Solutions',
-            status: 'completed',
-            dueDate: '2025-04-27T23:59:59Z',
-            score: 85
-          },
-          {
-            id: '5',
-            title: 'JavaScript Fundamentals',
-            company: 'TechCorp Inc.',
-            status: 'completed',
-            dueDate: '2025-04-25T23:59:59Z',
-            score: 78
-          }
-        ]);
-        
-        // Mock activities
-        setActivities([
-          {
-            id: '1',
-            type: 'application',
-            description: 'Applied to UI/UX Designer at Creative Labs',
-            date: '2025-04-14T14:30:00Z',
-            icon: <BriefcaseIcon className="h-5 w-5 text-zordie-600 mt-1" />
-          },
-          {
-            id: '2',
-            type: 'interview',
-            description: 'Scheduled interview with TechCorp Inc.',
-            date: '2025-04-17T10:00:00Z',
-            icon: <Calendar className="h-5 w-5 text-zordie-600 mt-1" />
-          },
-          {
-            id: '3',
-            type: 'assessment',
-            description: 'Completed React Skills Assessment - Scored 92%',
-            date: '2025-04-15T11:15:00Z',
-            icon: <Award className="h-5 w-5 text-zordie-600 mt-1" />
-          },
-          {
-            id: '4',
-            type: 'resume',
-            description: 'Updated your resume',
-            date: '2025-04-15T09:15:00Z',
-            icon: <FileText className="h-5 w-5 text-zordie-600 mt-1" />
-          }
-        ]);
-        
-      } catch (error) {
-        console.error("Error fetching data:", error);
-        toast({
-          title: "Error",
-          description: "Failed to load your dashboard data. Please try again later.",
-          variant: "destructive"
-        });
-      } finally {
-        setIsLoadingData(false);
-      }
-    };
+    // Simulate loading delay
+    const timer = setTimeout(() => {
+      setIsLoading(false);
+    }, 1000);
     
-    fetchData();
+    return () => clearTimeout(timer);
   }, [toast]);
-
-  if (isLoadingData) {
-    return <LoadingScreen />;
-  }
-
-  const firstName = demoUserProfile?.first_name || "Candidate";
   
-  const formatDate = (dateString: string) => {
+  const getInitials = () => {
+    if (profile?.first_name && profile?.last_name) {
+      return `${profile.first_name[0]}${profile.last_name[0]}`.toUpperCase();
+    } else if (profile?.first_name) {
+      return profile.first_name[0].toUpperCase();
+    } 
+    return 'U';
+  };
+  
+  const getFullName = () => {
+    if (profile?.first_name && profile?.last_name) {
+      return `${profile.first_name} ${profile.last_name}`;
+    } else if (profile?.first_name) {
+      return profile.first_name;
+    } 
+    return 'User';
+  };
+  
+  const formatDate = (dateString) => {
     const date = new Date(dateString);
     return new Intl.DateTimeFormat('en-US', {
       month: 'short',
@@ -217,338 +107,652 @@ const JobSeekerDashboard = () => {
     }).format(date);
   };
   
-  const getTimeSince = (dateString: string) => {
-    const now = new Date();
-    const postedDate = new Date(dateString);
-    const diffDays = Math.floor((now.getTime() - postedDate.getTime()) / (1000 * 60 * 60 * 24));
-    
-    if (diffDays === 0) return "Today";
-    if (diffDays === 1) return "Yesterday";
-    return `${diffDays} days ago`;
+  const getInterviewTypeLabel = (type) => {
+    const labels = {
+      'behavioral': 'Behavioral',
+      'technical': 'Technical',
+      'situational': 'Situational',
+      'leadership': 'Leadership',
+      'case': 'Case Study'
+    };
+    return labels[type] || type;
+  };
+  
+  const getDifficultyColor = (difficulty) => {
+    const colors = {
+      'beginner': 'bg-green-100 text-green-700',
+      'moderate': 'bg-blue-100 text-blue-700',
+      'challenging': 'bg-orange-100 text-orange-700',
+      'expert': 'bg-red-100 text-red-700'
+    };
+    return colors[difficulty] || 'bg-gray-100 text-gray-700';
+  };
+  
+  const handleNavigation = (path) => {
+    navigate(path);
+  };
+  
+  const returnToDashboardSelector = () => {
+    navigate("/dashboard-selector");
+  };
+  
+  const handleStartPractice = () => {
+    navigate('/practice-interview');
+  };
+  
+  const handleStartAIInterview = () => {
+    navigate('/ai-interview');
+  };
+  
+  const handleOpenChatbot = () => {
+    navigate('/chat');
   };
 
-  const getDueText = (dateString: string) => {
-    const now = new Date();
-    const dueDate = new Date(dateString);
-    const diffDays = Math.floor((dueDate.getTime() - now.getTime()) / (1000 * 60 * 60 * 24));
-    
-    if (diffDays < 0) return "Overdue";
-    if (diffDays === 0) return "Due Today";
-    if (diffDays === 1) return "Due Tomorrow";
-    return `Due in ${diffDays} days`;
-  };
+  if (isLoading) {
+    return (
+      <div className="min-h-screen flex items-center justify-center">
+        <div className="animate-spin rounded-full h-12 w-12 border-t-2 border-b-2 border-zordie-600"></div>
+      </div>
+    );
+  }
   
-  const handleManageResumesClick = () => {
-    navigate("/resumes");
-  };
-  
-  const handleFindJobsClick = () => {
-    navigate("/find-jobs");
-  };
-  
-  const handlePracticeInterviewClick = () => {
-    navigate("/practice-interview");
-  };
-  
-  const handleChatNowClick = () => {
-    navigate("/chat");
-  };
-  
-  const handleStartAssessment = (id: string) => {
-    toast({
-      title: "Assessment Started",
-      description: "You're being redirected to the assessment platform.",
-    });
-  };
-  
-  const handleApplyClick = (jobId: string) => {
-    navigate(`/job-application/${jobId}`);
-  };
-
   return (
-    <Layout>
-      <div className="container mx-auto py-8 px-4">
-        <div className="flex flex-col md:flex-row justify-between items-start md:items-center mb-8">
-          <div>
-            <h1 className="text-3xl font-bold">Welcome, {firstName}!</h1>
-            <p className="text-gray-600 mt-1">Track your job search progress and manage your career</p>
+    <div className="bg-gray-50 min-h-screen">
+      <div className="flex h-screen overflow-hidden">
+        {/* Sidebar */}
+        <div className="hidden md:flex flex-col w-64 bg-white border-r">
+          <div className="p-5 border-b">
+            <div className="flex items-center">
+              <span className="text-xl font-bold text-zordie-700">Zordie</span>
+              <span className="ml-1 text-xl font-bold text-accent1">.</span>
+            </div>
           </div>
-          <Button onClick={handleManageResumesClick} className="mt-4 md:mt-0 bg-gradient-to-r from-zordie-600 to-accent1 hover:from-zordie-700 hover:to-accent1 text-white">
-            <FileText className="mr-2 h-4 w-4" />
-            Manage Resumes
-          </Button>
-        </div>
-
-        <div className="grid grid-cols-1 md:grid-cols-4 gap-6 mb-8">
-          <Card>
-            <CardHeader className="pb-2">
-              <CardTitle className="text-lg">Active Resumes</CardTitle>
-            </CardHeader>
-            <CardContent>
-              <div className="flex items-center space-x-2">
-                <FileText className="h-5 w-5 text-zordie-600" />
-                <span className="text-3xl font-bold">{activeResumes}</span>
-              </div>
-            </CardContent>
-            <CardFooter>
-              <Button variant="outline" size="sm" className="w-full" onClick={handleManageResumesClick}>
-                View Resumes
-              </Button>
-            </CardFooter>
-          </Card>
-
-          <Card>
-            <CardHeader className="pb-2">
-              <CardTitle className="text-lg">Applied Jobs</CardTitle>
-            </CardHeader>
-            <CardContent>
-              <div className="flex items-center space-x-2">
-                <BriefcaseIcon className="h-5 w-5 text-zordie-600" />
-                <span className="text-3xl font-bold">{appliedJobs}</span>
-              </div>
-            </CardContent>
-            <CardFooter>
-              <Button variant="outline" size="sm" className="w-full" onClick={handleFindJobsClick}>
-                Find More Jobs
-              </Button>
-            </CardFooter>
-          </Card>
-
-          <Card>
-            <CardHeader className="pb-2">
-              <CardTitle className="text-lg">Interviews</CardTitle>
-            </CardHeader>
-            <CardContent>
-              <div className="flex items-center space-x-2">
-                <Calendar className="h-5 w-5 text-zordie-600" />
-                <span className="text-3xl font-bold">{interviewsScheduled}</span>
-              </div>
-            </CardContent>
-            <CardFooter>
-              <Button variant="outline" size="sm" className="w-full" onClick={handlePracticeInterviewClick}>
-                Practice Interview
-              </Button>
-            </CardFooter>
-          </Card>
-
-          <Card>
-            <CardHeader className="pb-2">
-              <CardTitle className="text-lg">Assessments</CardTitle>
-            </CardHeader>
-            <CardContent>
-              <div className="flex items-center space-x-2">
-                <Award className="h-5 w-5 text-zordie-600" />
-                <span className="text-3xl font-bold">{assessmentsCompleted}</span>
-              </div>
-            </CardContent>
-            <CardFooter>
-              <Button variant="outline" size="sm" className="w-full" onClick={() => {}}>
-                View Results
-              </Button>
-            </CardFooter>
-          </Card>
-        </div>
-
-        <Tabs defaultValue="jobs" className="mb-8">
-          <TabsList className="mb-4 w-full max-w-md">
-            <TabsTrigger value="jobs" className="flex-1">Recommended Jobs</TabsTrigger>
-            <TabsTrigger value="assessments" className="flex-1">My Assessments</TabsTrigger>
-            <TabsTrigger value="activities" className="flex-1">Recent Activities</TabsTrigger>
-            <TabsTrigger value="resources" className="flex-1">Resources</TabsTrigger>
-          </TabsList>
           
-          <TabsContent value="jobs">
-            <div className="grid grid-cols-1 gap-4">
-              {recommendedJobs.map((job) => (
-                <Card key={job.id}>
-                  <CardHeader>
-                    <div className="flex justify-between items-start">
-                      <div>
-                        <CardTitle>{job.title}</CardTitle>
-                        <CardDescription>{job.company} • {job.location}</CardDescription>
-                      </div>
-                      <Badge>New</Badge>
+          <div className="flex-1 overflow-y-auto py-4 px-3 space-y-6">
+            <div className="space-y-1">
+              <p className="px-3 text-xs font-semibold text-gray-500 uppercase">Main</p>
+              <NavButton 
+                icon={<Home size={18} />} 
+                label="Overview" 
+                active={activeTab === "overview"} 
+                onClick={() => setActiveTab("overview")} 
+              />
+              <NavButton 
+                icon={<Briefcase size={18} />} 
+                label="My Applications" 
+                active={activeTab === "applications"} 
+                onClick={() => setActiveTab("applications")}
+              />
+              <NavButton 
+                icon={<Search size={18} />} 
+                label="Find Jobs" 
+                active={activeTab === "find-jobs"} 
+                onClick={() => handleNavigation("/find-jobs")} 
+              />
+              <NavButton 
+                icon={<Award size={18} />} 
+                label="Assessments" 
+                active={activeTab === "assessments"} 
+                onClick={() => setActiveTab("assessments")} 
+              />
+            </div>
+            
+            <div className="space-y-1">
+              <p className="px-3 text-xs font-semibold text-gray-500 uppercase">Tools</p>
+              <NavButton 
+                icon={<FileText size={18} />} 
+                label="My Resume" 
+                active={activeTab === "resume"} 
+                onClick={() => handleNavigation("/resumes")}
+              />
+              <NavButton 
+                icon={<Play size={18} />} 
+                label="Practice Interview" 
+                active={activeTab === "practice"} 
+                onClick={() => handleNavigation("/practice-interview")}
+              />
+              <NavButton 
+                icon={<MessageSquare size={18} />} 
+                label="AI Chat Assistant" 
+                active={activeTab === "chat"} 
+                onClick={() => handleNavigation("/chat")}
+              />
+              <NavButton 
+                icon={<Settings size={18} />} 
+                label="Settings" 
+                active={activeTab === "settings"} 
+                onClick={() => setActiveTab("settings")}
+              />
+            </div>
+          </div>
+          
+          <div className="border-t p-3">
+            <DropdownMenu>
+              <DropdownMenuTrigger asChild>
+                <Button variant="ghost" className="w-full flex items-center justify-between">
+                  <div className="flex items-center">
+                    <Avatar className="h-8 w-8 mr-2">
+                      <AvatarImage src={profile?.avatar_url || ''} />
+                      <AvatarFallback>{getInitials()}</AvatarFallback>
+                    </Avatar>
+                    <div className="text-left">
+                      <p className="text-sm font-medium">{getFullName()}</p>
+                      <p className="text-xs text-gray-500">Job Seeker</p>
                     </div>
+                  </div>
+                  <ChevronRight size={16} />
+                </Button>
+              </DropdownMenuTrigger>
+              <DropdownMenuContent align="end" className="w-56">
+                <DropdownMenuLabel>My Account</DropdownMenuLabel>
+                <DropdownMenuSeparator />
+                <DropdownMenuItem onClick={() => setActiveTab("settings")}>
+                  <User className="mr-2 h-4 w-4" />
+                  <span>Profile</span>
+                </DropdownMenuItem>
+                <DropdownMenuItem onClick={() => setActiveTab("settings")}>
+                  <Settings className="mr-2 h-4 w-4" />
+                  <span>Settings</span>
+                </DropdownMenuItem>
+                <DropdownMenuSeparator />
+                <DropdownMenuItem onClick={returnToDashboardSelector}>
+                  <LogOut className="mr-2 h-4 w-4" />
+                  <span>Switch Dashboard</span>
+                </DropdownMenuItem>
+              </DropdownMenuContent>
+            </DropdownMenu>
+          </div>
+        </div>
+      
+        {/* Main content */}
+        <div className="flex-1 flex flex-col overflow-hidden">
+          {/* Header */}
+          <header className="bg-white border-b px-6 py-3">
+            <div className="flex items-center justify-between">
+              <div className="flex items-center md:hidden">
+                <span className="text-xl font-bold text-zordie-700">Zordie</span>
+              </div>
+              
+              <div className="flex items-center">
+                <h1 className="text-xl font-semibold hidden md:block">Dashboard</h1>
+              </div>
+              
+              <div className="flex items-center space-x-4">
+                <Button variant="outline" size="sm" onClick={() => handleNavigation("/chat")}>
+                  <MessageSquare size={18} className="mr-2" />
+                  Chat Assistant
+                </Button>
+                <Button variant="outline" size="sm" onClick={() => handleNavigation("/find-jobs")}>
+                  <Search size={18} className="mr-2" />
+                  Find Jobs
+                </Button>
+                
+                {/* Mobile menu avatar */}
+                <div className="md:hidden">
+                  <DropdownMenu>
+                    <DropdownMenuTrigger asChild>
+                      <Button variant="ghost" size="icon" className="rounded-full">
+                        <Avatar className="h-8 w-8">
+                          <AvatarImage src={profile?.avatar_url || ''} />
+                          <AvatarFallback>{getInitials()}</AvatarFallback>
+                        </Avatar>
+                      </Button>
+                    </DropdownMenuTrigger>
+                    <DropdownMenuContent align="end">
+                      <DropdownMenuLabel>{getFullName()}</DropdownMenuLabel>
+                      <DropdownMenuSeparator />
+                      <DropdownMenuItem onClick={() => setActiveTab("overview")}>
+                        <Home className="mr-2 h-4 w-4" />
+                        <span>Overview</span>
+                      </DropdownMenuItem>
+                      <DropdownMenuItem onClick={() => setActiveTab("applications")}>
+                        <Briefcase className="mr-2 h-4 w-4" />
+                        <span>My Applications</span>
+                      </DropdownMenuItem>
+                      <DropdownMenuItem onClick={() => handleNavigation("/resumes")}>
+                        <FileText className="mr-2 h-4 w-4" />
+                        <span>My Resume</span>
+                      </DropdownMenuItem>
+                      <DropdownMenuItem onClick={() => setActiveTab("settings")}>
+                        <Settings className="mr-2 h-4 w-4" />
+                        <span>Settings</span>
+                      </DropdownMenuItem>
+                      <DropdownMenuSeparator />
+                      <DropdownMenuItem onClick={returnToDashboardSelector}>
+                        <LogOut className="mr-2 h-4 w-4" />
+                        <span>Switch Dashboard</span>
+                      </DropdownMenuItem>
+                    </DropdownMenuContent>
+                  </DropdownMenu>
+                </div>
+              </div>
+            </div>
+          </header>
+
+          {/* Content */}
+          <main className="flex-1 overflow-y-auto p-6">
+            {/* Dashboard content based on activeTab */}
+            {activeTab === 'overview' && (
+              <div className="space-y-6">
+                {/* Welcome section */}
+                <div className="flex flex-col md:flex-row justify-between items-start md:items-center mb-8">
+                  <div className="flex items-center mb-4 md:mb-0">
+                    <Avatar className="h-12 w-12 mr-4">
+                      <AvatarImage src={profile?.avatar_url || ''} />
+                      <AvatarFallback>{getInitials()}</AvatarFallback>
+                    </Avatar>
+                    <div>
+                      <h1 className="text-2xl font-bold">Welcome, {profile?.first_name || 'there'}!</h1>
+                      <p className="text-gray-500">Ready to improve your interview skills today?</p>
+                    </div>
+                  </div>
+                  <div className="flex space-x-3">
+                    <Button variant="outline" onClick={() => handleNavigation("/chat")}>
+                      <MessageSquare className="mr-2 h-4 w-4" />
+                      Chat Assistant
+                    </Button>
+                    <Button onClick={() => handleNavigation("/practice-interview")}>
+                      <Play className="mr-2 h-4 w-4" />
+                      Start Practice
+                    </Button>
+                  </div>
+                </div>
+              
+                {/* Stats cards */}
+                <div className="grid grid-cols-1 sm:grid-cols-3 gap-4">
+                  <Card>
+                    <CardContent className="p-6">
+                      <div className="flex items-center justify-between">
+                        <div>
+                          <p className="text-sm text-gray-500">Total Practice Sessions</p>
+                          <h2 className="text-3xl font-bold">{sessions.length}</h2>
+                        </div>
+                        <div className="w-12 h-12 bg-zordie-100 rounded-full flex items-center justify-center">
+                          <Calendar className="h-6 w-6 text-zordie-700" />
+                        </div>
+                      </div>
+                    </CardContent>
+                  </Card>
+                  
+                  <Card>
+                    <CardContent className="p-6">
+                      <div className="flex items-center justify-between">
+                        <div>
+                          <p className="text-sm text-gray-500">Average Score</p>
+                          <h2 className="text-3xl font-bold">78%</h2>
+                        </div>
+                        <div className="w-12 h-12 bg-zordie-100 rounded-full flex items-center justify-center">
+                          <BarChart2 className="h-6 w-6 text-zordie-700" />
+                        </div>
+                      </div>
+                    </CardContent>
+                  </Card>
+                  
+                  <Card>
+                    <CardContent className="p-6">
+                      <div className="flex items-center justify-between">
+                        <div>
+                          <p className="text-sm text-gray-500">Practice Time</p>
+                          <h2 className="text-3xl font-bold">3.5h</h2>
+                        </div>
+                        <div className="w-12 h-12 bg-zordie-100 rounded-full flex items-center justify-center">
+                          <Clock className="h-6 w-6 text-zordie-700" />
+                        </div>
+                      </div>
+                    </CardContent>
+                  </Card>
+                </div>
+                
+                {/* Recent Activities */}
+                <Card>
+                  <CardHeader>
+                    <CardTitle>Recent Activities</CardTitle>
                   </CardHeader>
                   <CardContent>
-                    <p className="text-sm text-gray-600">
-                      {job.description}
-                    </p>
-                    <div className="flex flex-wrap gap-2 mt-3">
-                      {job.skills.map((skill, index) => (
-                        <Badge key={index} variant="outline">{skill}</Badge>
+                    <div className="space-y-4">
+                      {sessions.slice(0, 5).map((session) => (
+                        <div key={session.id} className="flex items-center justify-between p-3 border rounded-md">
+                          <div className="flex items-center">
+                            <div className="w-10 h-10 bg-zordie-100 rounded-full flex items-center justify-center mr-3">
+                              <Play className="h-5 w-5 text-zordie-700" />
+                            </div>
+                            <div>
+                              <h3 className="font-medium">{getInterviewTypeLabel(session.interview_type)} Interview</h3>
+                              <p className="text-sm text-gray-500">
+                                {session.job_role || 'General'} • {formatDate(session.created_at)}
+                              </p>
+                            </div>
+                          </div>
+                          <div className="flex items-center">
+                            {session.score && (
+                              <div className="mr-4 text-right">
+                                <p className="font-medium">{session.score}%</p>
+                                <p className="text-xs text-gray-500">score</p>
+                              </div>
+                            )}
+                            <Button variant="outline" size="sm">View</Button>
+                          </div>
+                        </div>
                       ))}
+                      
+                      {sessions.length === 0 && (
+                        <div className="text-center py-6">
+                          <div className="w-16 h-16 bg-gray-100 rounded-full flex items-center justify-center mx-auto mb-4">
+                            <Calendar className="h-8 w-8 text-gray-400" />
+                          </div>
+                          <h3 className="font-medium text-gray-700 mb-2">No Interview Sessions Yet</h3>
+                          <p className="text-gray-500 mb-4">Start your first practice interview to see your progress here.</p>
+                          <Button onClick={handleStartPractice}>
+                            Start Practice Interview
+                          </Button>
+                        </div>
+                      )}
+                      
+                      {sessions.length > 0 && (
+                        <div className="flex justify-end mt-2">
+                          <Button variant="link" className="text-zordie-600 p-0" onClick={() => setActiveTab('sessions')}>
+                            View all sessions <ChevronRight className="h-4 w-4 ml-1" />
+                          </Button>
+                        </div>
+                      )}
                     </div>
                   </CardContent>
-                  <CardFooter className="flex justify-between">
-                    <span className="text-sm text-gray-500">Posted {getTimeSince(job.posted_at)}</span>
-                    <Button 
-                      size="sm" 
-                      className="bg-zordie-600 hover:bg-zordie-700"
-                      onClick={() => handleApplyClick(job.id)}
-                    >
-                      Apply Now
-                    </Button>
-                  </CardFooter>
                 </Card>
-              ))}
-            </div>
-          </TabsContent>
-
-          <TabsContent value="assessments">
-            <div className="space-y-6">
-              {pendingAssessments.length > 0 && (
-                <div>
-                  <h3 className="text-lg font-semibold mb-3">Pending Assessments</h3>
-                  <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-                    {pendingAssessments.map((assessment) => (
-                      <Card key={assessment.id}>
-                        <CardHeader className="pb-2">
-                          <div className="flex justify-between items-start">
-                            <CardTitle className="text-base">{assessment.title}</CardTitle>
-                            <Badge variant="outline" className="bg-amber-100 text-amber-700 hover:bg-amber-100">
-                              {getDueText(assessment.dueDate)}
-                            </Badge>
+                
+                {/* Recommended Practice section */}
+                <Card>
+                  <CardHeader>
+                    <CardTitle>Recommended Practice</CardTitle>
+                  </CardHeader>
+                  <CardContent>
+                    <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+                      <div className="border rounded-md p-4 hover:shadow-md transition-shadow">
+                        <div className="flex items-start">
+                          <div className="w-10 h-10 bg-zordie-100 rounded-full flex items-center justify-center mr-3">
+                            <Award className="h-5 w-5 text-zordie-700" />
                           </div>
-                          <CardDescription>{assessment.company}</CardDescription>
-                        </CardHeader>
-                        <CardContent className="pb-2">
-                          <p className="text-sm text-gray-600">
-                            This assessment will help evaluate your skills and qualifications for the position.
-                          </p>
-                        </CardContent>
-                        <CardFooter>
-                          <Button 
-                            className="w-full bg-zordie-600 hover:bg-zordie-700"
-                            onClick={() => handleStartAssessment(assessment.id)}
-                          >
-                            Start Assessment
-                          </Button>
-                        </CardFooter>
-                      </Card>
-                    ))}
-                  </div>
-                </div>
-              )}
-
-              {completedAssessments.length > 0 && (
-                <div>
-                  <h3 className="text-lg font-semibold mb-3">Completed Assessments</h3>
-                  <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-                    {completedAssessments.map((assessment) => (
-                      <Card key={assessment.id}>
-                        <CardHeader className="pb-2">
-                          <div className="flex justify-between items-start">
-                            <CardTitle className="text-base">{assessment.title}</CardTitle>
-                            <Badge variant="outline" className="bg-green-100 text-green-700 hover:bg-green-100">
-                              {assessment.score}% Score
-                            </Badge>
+                          <div>
+                            <h3 className="font-medium mb-1">Leadership Interview</h3>
+                            <p className="text-sm text-gray-500 mb-4">Practice leadership scenarios and team management questions.</p>
+                            <Button size="sm" onClick={handleStartAIInterview}>Start Practice</Button>
                           </div>
-                          <CardDescription>{assessment.company}</CardDescription>
-                        </CardHeader>
-                        <CardContent className="pb-2">
-                          <div className="w-full bg-gray-200 rounded-full h-2.5 mb-2">
-                            <div 
-                              className={`h-2.5 rounded-full ${
-                                (assessment.score || 0) >= 90 ? "bg-green-600" : 
-                                (assessment.score || 0) >= 75 ? "bg-blue-600" : 
-                                "bg-amber-500"
-                              }`}
-                              style={{ width: `${assessment.score}%` }}
-                            ></div>
-                          </div>
-                          <p className="text-sm text-gray-600">
-                            Completed on {formatDate(assessment.dueDate)}
-                          </p>
-                        </CardContent>
-                        <CardFooter>
-                          <Button variant="outline" className="w-full">
-                            View Detailed Results
-                          </Button>
-                        </CardFooter>
-                      </Card>
-                    ))}
-                  </div>
-                </div>
-              )}
-            </div>
-          </TabsContent>
-          
-          <TabsContent value="activities">
-            <Card>
-              <CardContent className="pt-6">
-                <ul className="space-y-4">
-                  {activities.map((activity) => (
-                    <li key={activity.id} className="flex items-start space-x-4 pb-4 border-b last:border-0">
-                      {activity.icon}
-                      <div>
-                        <p className="font-medium">{activity.description}</p>
-                        <p className="text-sm text-gray-500">{formatDate(activity.date)}</p>
+                        </div>
                       </div>
-                    </li>
-                  ))}
-                </ul>
-              </CardContent>
-            </Card>
-          </TabsContent>
-          
-          <TabsContent value="resources">
-            <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-              <Card>
-                <CardHeader>
-                  <CardTitle className="text-lg flex items-center">
-                    <BookOpen className="h-5 w-5 mr-2 text-zordie-600" />
-                    Interview Preparation
-                  </CardTitle>
-                </CardHeader>
-                <CardContent>
-                  <p className="text-sm text-gray-600">
-                    Practice with our AI-powered interview simulator to build confidence.
-                  </p>
-                </CardContent>
-                <CardFooter>
-                  <Button 
-                    variant="outline" 
-                    size="sm" 
-                    className="w-full" 
-                    onClick={handlePracticeInterviewClick}
-                  >
-                    Start Practice
-                  </Button>
-                </CardFooter>
-              </Card>
-              
-              <Card>
-                <CardHeader>
-                  <CardTitle className="text-lg flex items-center">
-                    <MessageSquare className="h-5 w-5 mr-2 text-zordie-600" />
-                    Career Chatbot
-                  </CardTitle>
-                </CardHeader>
-                <CardContent>
-                  <p className="text-sm text-gray-600">
-                    Get personalized career advice and resume tips from our AI assistant.
-                  </p>
-                </CardContent>
-                <CardFooter>
-                  <Button 
-                    variant="outline" 
-                    size="sm" 
-                    className="w-full" 
-                    onClick={handleChatNowClick}
-                  >
-                    Chat Now
-                  </Button>
-                </CardFooter>
-              </Card>
-            </div>
-          </TabsContent>
-        </Tabs>
-      </div>
+                      
+                      <div className="border rounded-md p-4 hover:shadow-md transition-shadow">
+                        <div className="flex items-start">
+                          <div className="w-10 h-10 bg-zordie-100 rounded-full flex items-center justify-center mr-3">
+                            <FileBarChart className="h-5 w-5 text-zordie-700" />
+                          </div>
+                          <div>
+                            <h3 className="font-medium mb-1">Case Study Analysis</h3>
+                            <p className="text-sm text-gray-500 mb-4">Improve your analytical skills with industry-specific case studies.</p>
+                            <Button size="sm" onClick={handleStartAIInterview}>Start Practice</Button>
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                  </CardContent>
+                </Card>
+              </div>
+            )}
 
-      {/* Prime AI Chatbot */}
-      <PrimeHRChatbot initiallyOpen={false} />
-    </Layout>
+            {activeTab === 'applications' && (
+              <div className="space-y-6">
+                <Card>
+                  <CardHeader className="flex flex-row items-center justify-between">
+                    <CardTitle>My Applications</CardTitle>
+                    <Button onClick={() => handleNavigation("/find-jobs")}>
+                      <Search className="mr-2 h-4 w-4" />
+                      Find Jobs
+                    </Button>
+                  </CardHeader>
+                  <CardContent>
+                    <div className="space-y-4">
+                      {/* Application items would go here */}
+                      <div className="text-center py-8">
+                        <div className="w-16 h-16 bg-gray-100 rounded-full flex items-center justify-center mx-auto mb-4">
+                          <Briefcase className="h-8 w-8 text-gray-400" />
+                        </div>
+                        <h3 className="font-medium text-gray-700 mb-2">No Applications Yet</h3>
+                        <p className="text-gray-500 mb-4">Start applying for jobs to track your applications here.</p>
+                        <Button onClick={() => handleNavigation("/find-jobs")}>
+                          Browse Jobs
+                        </Button>
+                      </div>
+                    </div>
+                  </CardContent>
+                </Card>
+              </div>
+            )}
+            
+            {activeTab === 'assessments' && (
+              <div className="space-y-6">
+                <Card>
+                  <CardHeader className="flex flex-row items-center justify-between">
+                    <CardTitle>My Assessments</CardTitle>
+                    <Button onClick={() => handleNavigation("/practice-interview")}>
+                      <Play className="mr-2 h-4 w-4" />
+                      Practice Assessment
+                    </Button>
+                  </CardHeader>
+                  <CardContent>
+                    <div className="space-y-4">
+                      <div className="text-center py-8">
+                        <div className="w-16 h-16 bg-gray-100 rounded-full flex items-center justify-center mx-auto mb-4">
+                          <Award className="h-8 w-8 text-gray-400" />
+                        </div>
+                        <h3 className="font-medium text-gray-700 mb-2">No Assessments Yet</h3>
+                        <p className="text-gray-500 mb-4">Complete assessments sent by employers or practice to improve your skills.</p>
+                        <Button onClick={() => handleNavigation("/practice-interview")}>
+                          Start Practice Assessment
+                        </Button>
+                      </div>
+                    </div>
+                  </CardContent>
+                </Card>
+              </div>
+            )}
+            
+            {/* Progress tab content */}
+            <TabsContent value="progress" className="m-0 space-y-6" forceMount={activeTab === 'settings' ? true : undefined}>
+              <Card>
+                <CardHeader>
+                  <CardTitle>Your Progress</CardTitle>
+                </CardHeader>
+                <CardContent>
+                  <div className="space-y-6">
+                    <div>
+                      <h3 className="font-medium mb-4">Skills Assessment</h3>
+                      <div className="space-y-4">
+                        <div>
+                          <div className="flex justify-between items-center mb-1">
+                            <label className="text-sm font-medium">Communication</label>
+                            <span className="text-sm text-gray-500">Good</span>
+                          </div>
+                          <Progress value={75} className="h-2" />
+                        </div>
+                        <div>
+                          <div className="flex justify-between items-center mb-1">
+                            <label className="text-sm font-medium">Technical Knowledge</label>
+                            <span className="text-sm text-gray-500">Excellent</span>
+                          </div>
+                          <Progress value={90} className="h-2" />
+                        </div>
+                        <div>
+                          <div className="flex justify-between items-center mb-1">
+                            <label className="text-sm font-medium">Problem Solving</label>
+                            <span className="text-sm text-gray-500">Good</span>
+                          </div>
+                          <Progress value={70} className="h-2" />
+                        </div>
+                        <div>
+                          <div className="flex justify-between items-center mb-1">
+                            <label className="text-sm font-medium">Leadership</label>
+                            <span className="text-sm text-gray-500">Needs Improvement</span>
+                          </div>
+                          <Progress value={45} className="h-2" />
+                        </div>
+                        <div>
+                          <div className="flex justify-between items-center mb-1">
+                            <label className="text-sm font-medium">Cultural Fit</label>
+                            <span className="text-sm text-gray-500">Good</span>
+                          </div>
+                          <Progress value={80} className="h-2" />
+                        </div>
+                      </div>
+                    </div>
+                    
+                    <Separator />
+                    
+                    <div>
+                      <h3 className="font-medium mb-4">Interview Performance Over Time</h3>
+                      <div className="h-48 flex items-center justify-center bg-gray-50 rounded-md">
+                        <p className="text-gray-500">Performance graph will be displayed here</p>
+                      </div>
+                    </div>
+                    
+                    <Separator />
+                    
+                    <div>
+                      <h3 className="font-medium mb-4">Achievements</h3>
+                      <div className="grid grid-cols-2 sm:grid-cols-4 gap-4">
+                        <div className="border rounded-md p-3 text-center">
+                          <div className="w-12 h-12 rounded-full bg-zordie-100 text-zordie-700 flex items-center justify-center mx-auto mb-2">
+                            <CheckCircle className="h-6 w-6" />
+                          </div>
+                          <p className="text-sm font-medium">First Interview</p>
+                        </div>
+                        <div className="border rounded-md p-3 text-center">
+                          <div className="w-12 h-12 rounded-full bg-gray-100 text-gray-500 flex items-center justify-center mx-auto mb-2">
+                            <Award className="h-6 w-6" />
+                          </div>
+                          <p className="text-sm font-medium text-gray-500">Perfect Score</p>
+                        </div>
+                        <div className="border rounded-md p-3 text-center">
+                          <div className="w-12 h-12 rounded-full bg-gray-100 text-gray-500 flex items-center justify-center mx-auto mb-2">
+                            <Calendar className="h-6 w-6" />
+                          </div>
+                          <p className="text-sm font-medium text-gray-500">10 Sessions</p>
+                        </div>
+                        <div className="border rounded-md p-3 text-center">
+                          <div className="w-12 h-12 rounded-full bg-gray-100 text-gray-500 flex items-center justify-center mx-auto mb-2">
+                            <Clock className="h-6 w-6" />
+                          </div>
+                          <p className="text-sm font-medium text-gray-500">5 Hour Club</p>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                </CardContent>
+              </TabsContent>
+            
+            {/* Chats tab content */}
+            <TabsContent value="chats" className="m-0 space-y-6" forceMount={activeTab === 'settings' ? true : undefined}>
+              <Card>
+                <CardHeader className="flex flex-row items-center justify-between">
+                  <CardTitle>Chat History</CardTitle>
+                  <Button onClick={handleOpenChatbot}>
+                    <MessageSquare className="mr-2 h-4 w-4" />
+                    New Chat
+                  </Button>
+                </CardHeader>
+                <CardContent>
+                  <div className="space-y-4">
+                    <div className="text-center py-8">
+                      <div className="w-16 h-16 bg-gray-100 rounded-full flex items-center justify-center mx-auto mb-4">
+                        <MessageSquare className="h-8 w-8 text-gray-400" />
+                      </div>
+                      <h3 className="font-medium text-gray-700 mb-2">No Chat History Yet</h3>
+                      <p className="text-gray-500 mb-4">Start a conversation with our AI assistant to get interview tips and guidance.</p>
+                      <Button onClick={handleOpenChatbot}>
+                        Start New Chat
+                      </Button>
+                    </div>
+                  </div>
+                </CardContent>
+              </Card>
+            </TabsContent>
+            
+            {/* Settings tab content */}
+            <TabsContent value="settings" className="m-0 space-y-6" forceMount={activeTab === 'settings' ? true : undefined}>
+              <Card>
+                <CardHeader>
+                  <CardTitle>Profile Settings</CardTitle>
+                </CardHeader>
+                <CardContent>
+                  <div className="space-y-4">
+                    <div className="text-center">
+                      <Avatar className="h-24 w-24 mx-auto mb-4">
+                        <AvatarImage src={profile?.avatar_url || ''} />
+                        <AvatarFallback>{getInitials()}</AvatarFallback>
+                      </Avatar>
+                      <Button variant="outline" size="sm">Change Avatar</Button>
+                    </div>
+                    
+                    <div className="grid grid-cols-1 gap-4 mt-6">
+                      <div>
+                        <label className="block text-sm font-medium mb-1">Full Name</label>
+                        <input 
+                          type="text" 
+                          className="w-full p-2 border rounded-md" 
+                          value={getFullName()} 
+                          readOnly 
+                        />
+                      </div>
+                      
+                      <div>
+                        <label className="block text-sm font-medium mb-1">Email</label>
+                        <input 
+                          type="email" 
+                          className="w-full p-2 border rounded-md" 
+                          value="demo@example.com" 
+                          readOnly 
+                        />
+                      </div>
+                      
+                      <div className="mt-4">
+                        <Button>Save Changes</Button>
+                      </div>
+                    </div>
+                  </div>
+                </CardContent>
+              </Card>
+            </TabsContent>
+          </main>
+        </div>
+      </div>
+    </div>
+  );
+};
+
+// NavButton component
+interface NavButtonProps {
+  icon: React.ReactNode;
+  label: string;
+  active: boolean;
+  onClick: () => void;
+  badge?: string;
+}
+
+const NavButton = ({ icon, label, active, onClick, badge }: NavButtonProps) => {
+  return (
+    <button
+      className={`flex items-center justify-between w-full px-3 py-2 rounded-md mb-1 ${
+        active ? "bg-zordie-50 text-zordie-700" : "text-gray-700 hover:bg-gray-100"
+      }`}
+      onClick={onClick}
+    >
+      <div className="flex items-center">
+        <span className="mr-3">{icon}</span>
+        <span>{label}</span>
+      </div>
+      {badge && (
+        <span className="bg-zordie-100 text-zordie-700 text-xs font-semibold py-0.5 px-2 rounded-full">
+          {badge}
+        </span>
+      )}
+    </button>
   );
 };
 

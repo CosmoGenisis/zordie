@@ -15,17 +15,23 @@ const ProtectedRoute: React.FC<ProtectedRouteProps> = ({
 }) => {
   const location = useLocation();
   const navigate = useNavigate();
-  const { user } = useAuth();
+  const { user, isLoading } = useAuth();
   
   useEffect(() => {
-    if (!user) {
+    if (!isLoading && !user) {
       toast({
         title: "Authentication required",
         description: "Please login to access this page",
         variant: "destructive"
       });
     }
-  }, [user]);
+  }, [user, isLoading]);
+
+  if (isLoading) {
+    return <div className="flex justify-center items-center min-h-screen">
+      <div className="animate-spin rounded-full h-8 w-8 border-b-2 border-zordie-500"></div>
+    </div>;
+  }
 
   if (redirectToDashboardSelector && location.pathname === '/dashboard') {
     return <Navigate to="/dashboard-selector" replace />;

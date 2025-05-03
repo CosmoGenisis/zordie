@@ -1,5 +1,6 @@
 
 import { createContext, useContext, useState, useEffect, ReactNode } from 'react';
+import { toast } from '@/components/ui/use-toast';
 
 // Define types for our context
 interface UserProfile {
@@ -16,7 +17,6 @@ interface AuthContextType {
   isLoading: boolean;
   signIn: (email: string, password: string) => Promise<{ error: Error | null; data: any }>;
   signUp: (email: string, password: string) => Promise<{ error: Error | null; data: any }>;
-  signInWithOAuth: () => Promise<{ error: Error | null; data: any }>;
   signOut: () => Promise<{ error: null }>;
   getUserDashboardPath: () => string;
 }
@@ -29,7 +29,6 @@ const AuthContext = createContext<AuthContextType>({
   isLoading: false,
   signIn: async () => ({ error: null, data: null }),
   signUp: async () => ({ error: null, data: null }),
-  signInWithOAuth: async () => ({ error: null, data: null }),
   signOut: async () => ({ error: null }),
   getUserDashboardPath: () => '/dashboard-selector'
 });
@@ -58,15 +57,20 @@ export const AuthProvider = ({ children }: { children: ReactNode }) => {
   const signIn = async (email: string, password: string) => {
     setIsLoading(true);
     try {
+      // Check if email contains any role hint
+      const role = email.includes('hr') ? 'hr' as const : 'jobseeker' as const;
+      
       // For demo purposes, we'll consider any email/password as valid
       const mockUser = {
         id: 'user-' + Math.random().toString(36).substring(2, 9),
         displayName: email.split('@')[0],
         email,
-        role: email.includes('hr') ? 'hr' as const : 'jobseeker' as const
+        role
       };
+      
       localStorage.setItem('zordie_user', JSON.stringify(mockUser));
       setUser(mockUser);
+      
       return { error: null, data: mockUser };
     } catch (error: any) {
       return { error, data: null };
@@ -77,21 +81,22 @@ export const AuthProvider = ({ children }: { children: ReactNode }) => {
 
   // Demo sign up function
   const signUp = async (email: string, password: string) => {
-    return signIn(email, password); // For demo, signup is same as signin
-  };
-
-  // Mock OAuth sign in
-  const signInWithOAuth = async () => {
     setIsLoading(true);
     try {
+      // Determine role from email for demo purposes
+      const role = email.includes('hr') ? 'hr' as const : 'jobseeker' as const;
+      
+      // Create new user
       const mockUser = {
-        id: 'oauth-user-' + Math.random().toString(36).substring(2, 9),
-        displayName: 'OAuth User',
-        email: 'oauth@example.com',
-        role: 'jobseeker' as const
+        id: 'user-' + Math.random().toString(36).substring(2, 9),
+        displayName: email.split('@')[0],
+        email,
+        role
       };
+      
       localStorage.setItem('zordie_user', JSON.stringify(mockUser));
       setUser(mockUser);
+      
       return { error: null, data: mockUser };
     } catch (error: any) {
       return { error, data: null };
@@ -104,12 +109,16 @@ export const AuthProvider = ({ children }: { children: ReactNode }) => {
   const signOut = async () => {
     localStorage.removeItem('zordie_user');
     setUser(null);
+    toast({
+      title: "Logged out",
+      description: "You have been successfully logged out."
+    });
     return { error: null };
   };
 
   // Get dashboard path based on user role
   const getUserDashboardPath = () => {
-    if (!user) return '/dashboard-selector';
+    if (!user) return '/login';
     return user.role === 'hr' ? '/dashboard' : '/job-seeker-dashboard';
   };
 
@@ -122,7 +131,6 @@ export const AuthProvider = ({ children }: { children: ReactNode }) => {
         isLoading,
         signIn,
         signUp,
-        signInWithOAuth,
         signOut,
         getUserDashboardPath
       }}

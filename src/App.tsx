@@ -29,6 +29,7 @@ import FindJobs from "./pages/FindJobs";
 import PracticeInterview from "./pages/PracticeInterview";
 import Resources from "./pages/Resources";
 import AIInterview from "./pages/AIInterview";
+import AIVideoInterview from "./pages/AIVideoInterview";
 import UserDashboard from "./pages/UserDashboard";
 import Chatbot from "./pages/Chatbot";
 import ResumeManager from "./pages/ResumeManager";
@@ -113,6 +114,11 @@ const App = () => {
                 <Route path="/ai-screening" element={
                   <ProtectedRoute requiresRole="hr">
                     <AiScreening />
+                  </ProtectedRoute>
+                } />
+                <Route path="/ai-video-interview" element={
+                  <ProtectedRoute requiresRole="hr">
+                    <AIVideoInterview />
                   </ProtectedRoute>
                 } />
                 <Route path="/find-jobs" element={<FindJobs />} />

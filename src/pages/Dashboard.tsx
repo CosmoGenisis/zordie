@@ -1,4 +1,6 @@
+
 import { useState } from "react";
+import { useNavigate } from "react-router-dom";
 import Layout from "@/components/layout/Layout";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
@@ -16,13 +18,19 @@ import {
   Upload, 
   UserPlus, 
   CalendarCheck, 
-  Star 
+  Star, 
+  Brain, 
+  Video,
+  MessageSquare,
+  Download
 } from "lucide-react";
 import { SectionHeading } from "@/components/ui/section-heading";
 import { toast } from "@/components/ui/use-toast";
 import ProtectedRoute from "@/components/auth/ProtectedRoute";
 import { useAuth } from "@/context/AuthContext";
-import { useNavigate } from "react-router-dom";
+import ResumeScorer from "@/components/resume/ResumeScorer";
+import FeedbackGenerator from "@/components/feedback/FeedbackGenerator";
+import QuestionGenerator from "@/components/interview/QuestionGenerator";
 
 const Dashboard = () => {
   const navigate = useNavigate();
@@ -43,6 +51,14 @@ const Dashboard = () => {
   const handleSignOut = async () => {
     await signOut();
     navigate("/login");
+  };
+
+  const handleAIScreening = () => {
+    navigate("/ai-screening");
+  };
+
+  const handleAIVideoInterview = () => {
+    navigate("/ai-video-interview");
   };
   
   // Demo activities for the timeline
@@ -72,6 +88,42 @@ const Dashboard = () => {
     { id: 1, name: "John Smith", position: "Frontend Developer", status: "Interview Scheduled", score: 87, source: "LinkedIn" },
     { id: 2, name: "Sarah Lee", position: "UX Designer", status: "Technical Assessment", score: 92, source: "Indeed" },
     { id: 3, name: "Mike Johnson", position: "Frontend Developer", status: "New Application", score: 78, source: "Direct" },
+  ];
+
+  // Demo interviews
+  const interviews = [
+    { 
+      id: 1, 
+      candidate: "Sarah Lee", 
+      position: "UX Designer", 
+      date: "Today at 2:00 PM", 
+      type: "Live",
+      status: "Scheduled" 
+    },
+    { 
+      id: 2, 
+      candidate: "John Smith", 
+      position: "Frontend Developer", 
+      date: "Tomorrow at 10:00 AM", 
+      type: "Live",
+      status: "Scheduled" 
+    },
+    { 
+      id: 3, 
+      candidate: "Mike Johnson", 
+      position: "Frontend Developer", 
+      date: "Completed May 1", 
+      type: "AI",
+      status: "Completed" 
+    },
+    { 
+      id: 4, 
+      candidate: "Emily Roberts", 
+      position: "UX Designer", 
+      date: "In Progress", 
+      type: "AI",
+      status: "In Progress" 
+    },
   ];
 
   return (
@@ -249,11 +301,11 @@ const Dashboard = () => {
                     <Button variant="outline" className="justify-start" onClick={() => toast({ title: "Feature Coming Soon" })}>
                       <Search className="mr-2 h-4 w-4" /> Search Candidates
                     </Button>
-                    <Button variant="outline" className="justify-start" onClick={() => navigate("/ai-screening")}>
+                    <Button variant="outline" className="justify-start" onClick={handleAIScreening}>
                       <FileEdit className="mr-2 h-4 w-4" /> Generate Job Description
                     </Button>
-                    <Button variant="outline" className="justify-start" onClick={() => toast({ title: "Feature Coming Soon" })}>
-                      <Upload className="mr-2 h-4 w-4" /> Import Candidates
+                    <Button variant="outline" className="justify-start" onClick={handleAIVideoInterview}>
+                      <Video className="mr-2 h-4 w-4" /> AI Video Interview
                     </Button>
                   </CardContent>
                 </Card>
@@ -436,166 +488,235 @@ const Dashboard = () => {
                 align="left"
               />
               
-              <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
-                <Card className="hover:shadow-md transition-shadow cursor-pointer" onClick={() => toast({ title: "Feature Coming Soon" })}>
+              <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
+                <ResumeScorer jobTitle="Frontend Developer" />
+                <FeedbackGenerator />
+              </div>
+              
+              <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
+                <QuestionGenerator />
+                <Card className="shadow-md">
                   <CardHeader>
-                    <div className="bg-zordie-100 w-12 h-12 rounded-full flex items-center justify-center mb-2">
-                      <FileEdit className="h-6 w-6 text-zordie-600" />
-                    </div>
-                    <CardTitle>JD Generator</CardTitle>
+                    <CardTitle className="text-lg flex items-center">
+                      <Brain className="h-5 w-5 mr-2 text-zordie-600" />
+                      AI Interview Video Analysis
+                    </CardTitle>
                   </CardHeader>
-                  <CardContent>
-                    <p className="text-sm text-gray-600">Generate optimized job descriptions based on role requirements and company culture.</p>
-                  </CardContent>
-                </Card>
-                
-                <Card className="hover:shadow-md transition-shadow cursor-pointer" onClick={() => toast({ title: "Feature Coming Soon" })}>
-                  <CardHeader>
-                    <div className="bg-zordie-100 w-12 h-12 rounded-full flex items-center justify-center mb-2">
-                      <FileText className="h-6 w-6 text-zordie-600" />
+                  <CardContent className="space-y-4">
+                    <p className="text-sm text-gray-600">
+                      Conduct AI-powered video interviews that provide comprehensive analysis 
+                      of candidate responses, including technical skills assessment, personality traits,
+                      and cultural fit.
+                    </p>
+                    <div className="p-4 bg-zordie-50 border border-zordie-100 rounded-md">
+                      <h3 className="font-medium text-zordie-800 mb-2">Key Features</h3>
+                      <ul className="space-y-2 text-sm">
+                        <li className="flex items-start">
+                          <span className="h-1.5 w-1.5 rounded-full bg-zordie-500 mt-1.5 mr-1.5 flex-shrink-0"></span>
+                          <span>Automatic video recording and transcription</span>
+                        </li>
+                        <li className="flex items-start">
+                          <span className="h-1.5 w-1.5 rounded-full bg-zordie-500 mt-1.5 mr-1.5 flex-shrink-0"></span>
+                          <span>AI-guided interview process with dynamic questioning</span>
+                        </li>
+                        <li className="flex items-start">
+                          <span className="h-1.5 w-1.5 rounded-full bg-zordie-500 mt-1.5 mr-1.5 flex-shrink-0"></span>
+                          <span>Comprehensive skills and personality assessment</span>
+                        </li>
+                        <li className="flex items-start">
+                          <span className="h-1.5 w-1.5 rounded-full bg-zordie-500 mt-1.5 mr-1.5 flex-shrink-0"></span>
+                          <span>Cultural fit evaluation based on company values</span>
+                        </li>
+                      </ul>
                     </div>
-                    <CardTitle>Resume Scorer</CardTitle>
-                  </CardHeader>
-                  <CardContent>
-                    <p className="text-sm text-gray-600">Automatically evaluate and score resumes against job requirements.</p>
-                  </CardContent>
-                </Card>
-                
-                <Card className="hover:shadow-md transition-shadow cursor-pointer" onClick={() => toast({ title: "Feature Coming Soon" })}>
-                  <CardHeader>
-                    <div className="bg-zordie-100 w-12 h-12 rounded-full flex items-center justify-center mb-2">
-                      <Calendar className="h-6 w-6 text-zordie-600" />
-                    </div>
-                    <CardTitle>Question Generator</CardTitle>
-                  </CardHeader>
-                  <CardContent>
-                    <p className="text-sm text-gray-600">Create tailored interview questions based on job requirements and candidate profile.</p>
-                  </CardContent>
-                </Card>
-                
-                <Card className="hover:shadow-md transition-shadow cursor-pointer" onClick={() => toast({ title: "Feature Coming Soon" })}>
-                  <CardHeader>
-                    <div className="bg-zordie-100 w-12 h-12 rounded-full flex items-center justify-center mb-2">
-                      <FileEdit className="h-6 w-6 text-zordie-600" />
-                    </div>
-                    <CardTitle>Feedback Generator</CardTitle>
-                  </CardHeader>
-                  <CardContent>
-                    <p className="text-sm text-gray-600">Generate personalized candidate feedback based on interview performance.</p>
-                  </CardContent>
-                </Card>
-                
-                <Card className="hover:shadow-md transition-shadow cursor-pointer" onClick={() => toast({ title: "Feature Coming Soon" })}>
-                  <CardHeader>
-                    <div className="bg-zordie-100 w-12 h-12 rounded-full flex items-center justify-center mb-2">
-                      <Users className="h-6 w-6 text-zordie-600" />
-                    </div>
-                    <CardTitle>Psychometric Analysis</CardTitle>
-                  </CardHeader>
-                  <CardContent>
-                    <p className="text-sm text-gray-600">Analyze candidate soft skills and cultural fit based on interview responses.</p>
-                  </CardContent>
-                </Card>
-                
-                <Card className="hover:shadow-md transition-shadow cursor-pointer" onClick={() => toast({ title: "Feature Coming Soon" })}>
-                  <CardHeader>
-                    <div className="bg-zordie-100 w-12 h-12 rounded-full flex items-center justify-center mb-2">
-                      <ChartBar className="h-6 w-6 text-zordie-600" />
-                    </div>
-                    <CardTitle>AI Logs & Analytics</CardTitle>
-                  </CardHeader>
-                  <CardContent>
-                    <p className="text-sm text-gray-600">View detailed logs and analytics of AI tool usage and performance.</p>
+                    <Button className="w-full" onClick={handleAIVideoInterview}>
+                      <Video className="mr-2 h-4 w-4" />
+                      Start AI Video Interview
+                    </Button>
                   </CardContent>
                 </Card>
               </div>
+              
+              <Card>
+                <CardHeader>
+                  <CardTitle>AI Logs & Analytics</CardTitle>
+                </CardHeader>
+                <CardContent className="space-y-4">
+                  <div className="flex justify-between">
+                    <h3 className="font-medium">Recent AI Tool Usage</h3>
+                    <Button variant="outline" size="sm">
+                      <Download className="h-4 w-4 mr-2" />
+                      Export Logs
+                    </Button>
+                  </div>
+                  
+                  <div className="overflow-x-auto">
+                    <table className="w-full">
+                      <thead>
+                        <tr className="bg-gray-50">
+                          <th className="text-left py-3 px-4 font-medium">Tool</th>
+                          <th className="text-left py-3 px-4 font-medium">User</th>
+                          <th className="text-left py-3 px-4 font-medium">Date</th>
+                          <th className="text-left py-3 px-4 font-medium">Status</th>
+                        </tr>
+                      </thead>
+                      <tbody>
+                        <tr className="border-t">
+                          <td className="py-3 px-4">Resume Scorer</td>
+                          <td className="py-3 px-4">John Doe</td>
+                          <td className="py-3 px-4">May 2, 2025</td>
+                          <td className="py-3 px-4">
+                            <span className="py-1 px-2 rounded text-xs bg-green-100 text-green-800">
+                              Completed
+                            </span>
+                          </td>
+                        </tr>
+                        <tr className="border-t">
+                          <td className="py-3 px-4">JD Generator</td>
+                          <td className="py-3 px-4">John Doe</td>
+                          <td className="py-3 px-4">May 1, 2025</td>
+                          <td className="py-3 px-4">
+                            <span className="py-1 px-2 rounded text-xs bg-green-100 text-green-800">
+                              Completed
+                            </span>
+                          </td>
+                        </tr>
+                        <tr className="border-t">
+                          <td className="py-3 px-4">Video Interview</td>
+                          <td className="py-3 px-4">Jane Smith</td>
+                          <td className="py-3 px-4">May 1, 2025</td>
+                          <td className="py-3 px-4">
+                            <span className="py-1 px-2 rounded text-xs bg-green-100 text-green-800">
+                              Completed
+                            </span>
+                          </td>
+                        </tr>
+                        <tr className="border-t">
+                          <td className="py-3 px-4">Feedback Generator</td>
+                          <td className="py-3 px-4">Jane Smith</td>
+                          <td className="py-3 px-4">Apr 29, 2025</td>
+                          <td className="py-3 px-4">
+                            <span className="py-1 px-2 rounded text-xs bg-green-100 text-green-800">
+                              Completed
+                            </span>
+                          </td>
+                        </tr>
+                      </tbody>
+                    </table>
+                  </div>
+                </CardContent>
+              </Card>
             </TabsContent>
 
-            {/* Placeholder content for other tabs */}
+            {/* Interviews Tab */}
             <TabsContent value="interviews" className="space-y-6">
               <SectionHeading
                 title="Interview Management"
                 subtitle="Schedule and manage candidate interviews"
                 align="left"
               />
+              
+              <div className="flex justify-between flex-wrap gap-3 mb-4">
+                <div className="flex gap-2">
+                  <Button variant="outline" className="flex-grow sm:flex-grow-0">
+                    <Calendar className="h-4 w-4 mr-2" />
+                    Schedule Interview
+                  </Button>
+                  <Button variant="outline" className="flex-grow sm:flex-grow-0" onClick={handleAIVideoInterview}>
+                    <Video className="h-4 w-4 mr-2" />
+                    AI Video Interview
+                  </Button>
+                </div>
+                <div className="flex gap-2">
+                  <Button variant="outline">
+                    <Calendar className="h-4 w-4 mr-2" />
+                    View Calendar
+                  </Button>
+                </div>
+              </div>
+              
+              <Card>
+                <CardHeader>
+                  <CardTitle>Upcoming Interviews</CardTitle>
+                </CardHeader>
+                <CardContent className="p-0">
+                  <div className="overflow-x-auto">
+                    <table className="w-full">
+                      <thead>
+                        <tr className="bg-gray-50">
+                          <th className="text-left py-3 px-4 font-medium">Candidate</th>
+                          <th className="text-left py-3 px-4 font-medium">Position</th>
+                          <th className="text-left py-3 px-4 font-medium">Date/Time</th>
+                          <th className="text-left py-3 px-4 font-medium">Type</th>
+                          <th className="text-left py-3 px-4 font-medium">Status</th>
+                          <th className="text-left py-3 px-4 font-medium">Actions</th>
+                        </tr>
+                      </thead>
+                      <tbody>
+                        {interviews.map((interview) => (
+                          <tr key={interview.id} className="border-t">
+                            <td className="py-3 px-4">{interview.candidate}</td>
+                            <td className="py-3 px-4">{interview.position}</td>
+                            <td className="py-3 px-4">{interview.date}</td>
+                            <td className="py-3 px-4">
+                              <span className={`py-1 px-2 rounded text-xs ${
+                                interview.type === "Live" ? "bg-blue-100 text-blue-800" : 
+                                "bg-purple-100 text-purple-800"
+                              }`}>
+                                {interview.type}
+                              </span>
+                            </td>
+                            <td className="py-3 px-4">
+                              <span className={`py-1 px-2 rounded text-xs ${
+                                interview.status === "Completed" ? "bg-green-100 text-green-800" :
+                                interview.status === "In Progress" ? "bg-amber-100 text-amber-800" : 
+                                "bg-gray-100 text-gray-800"
+                              }`}>
+                                {interview.status}
+                              </span>
+                            </td>
+                            <td className="py-3 px-4 space-x-2">
+                              {interview.status === "Scheduled" && (
+                                <Button size="sm" variant="outline">
+                                  {interview.type === "Live" ? "Join" : "Start"}
+                                </Button>
+                              )}
+                              {interview.status === "Completed" && (
+                                <Button size="sm" variant="outline">
+                                  <FileText className="h-4 w-4 mr-2" />
+                                  View
+                                </Button>
+                              )}
+                              {interview.status === "In Progress" && (
+                                <Button size="sm" variant="outline" disabled>
+                                  In Progress
+                                </Button>
+                              )}
+                            </td>
+                          </tr>
+                        ))}
+                      </tbody>
+                    </table>
+                  </div>
+                </CardContent>
+              </Card>
+              
               <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
                 <Card>
                   <CardHeader>
-                    <CardTitle>Upcoming Interviews</CardTitle>
+                    <CardTitle>Interview Calendar</CardTitle>
                   </CardHeader>
-                  <CardContent>
-                    <div className="space-y-3">
-                      <div className="flex justify-between items-center border-b pb-3">
-                        <div>
-                          <p className="font-medium">Sarah Lee - UX Designer</p>
-                          <div className="flex items-center text-sm text-gray-500">
-                            <CalendarCheck className="h-3 w-3 mr-1" />
-                            <span>Today at 2:00 PM</span>
-                          </div>
-                        </div>
-                        <Button size="sm">Join</Button>
-                      </div>
-                      <div className="flex justify-between items-center border-b pb-3">
-                        <div>
-                          <p className="font-medium">John Smith - Frontend Developer</p>
-                          <div className="flex items-center text-sm text-gray-500">
-                            <CalendarCheck className="h-3 w-3 mr-1" />
-                            <span>Tomorrow at 10:00 AM</span>
-                          </div>
-                        </div>
-                        <Button size="sm" variant="outline">Prepare</Button>
-                      </div>
-                      <Button variant="outline" className="w-full">
-                        <Calendar className="mr-2 h-4 w-4" />
-                        Schedule New Interview
-                      </Button>
-                    </div>
+                  <CardContent className="h-64 flex items-center justify-center">
+                    <p className="text-gray-500">Calendar view coming soon</p>
                   </CardContent>
                 </Card>
-
+                
                 <Card>
                   <CardHeader>
-                    <CardTitle>Auto-Interview Status</CardTitle>
+                    <CardTitle>Interview Analytics</CardTitle>
                   </CardHeader>
-                  <CardContent>
-                    <div className="space-y-3">
-                      <div className="flex justify-between items-center border-b pb-3">
-                        <div>
-                          <p className="font-medium">Mike Johnson - Frontend Developer</p>
-                          <div className="flex items-center text-sm text-gray-500">
-                            <span className="flex items-center">
-                              <span className="h-2 w-2 bg-green-500 rounded-full mr-1"></span>
-                              Completed
-                            </span>
-                          </div>
-                        </div>
-                        <Button size="sm">View Results</Button>
-                      </div>
-                      <div className="flex justify-between items-center border-b pb-3">
-                        <div>
-                          <p className="font-medium">Emily Roberts - UX Designer</p>
-                          <div className="flex items-center text-sm text-gray-500">
-                            <span className="flex items-center">
-                              <span className="h-2 w-2 bg-amber-500 rounded-full mr-1"></span>
-                              In Progress
-                            </span>
-                          </div>
-                        </div>
-                        <Button size="sm" variant="outline" disabled>Waiting</Button>
-                      </div>
-                      <div className="flex justify-between items-center">
-                        <div>
-                          <p className="font-medium">Alex Wong - Backend Developer</p>
-                          <div className="flex items-center text-sm text-gray-500">
-                            <span className="flex items-center">
-                              <span className="h-2 w-2 bg-blue-500 rounded-full mr-1"></span>
-                              Scheduled for tomorrow
-                            </span>
-                          </div>
-                        </div>
-                        <Button size="sm" variant="outline">Edit</Button>
-                      </div>
-                    </div>
+                  <CardContent className="h-64 flex items-center justify-center">
+                    <p className="text-gray-500">Analytics visualization coming soon</p>
                   </CardContent>
                 </Card>
               </div>

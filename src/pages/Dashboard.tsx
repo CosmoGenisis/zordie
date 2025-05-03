@@ -1,4 +1,3 @@
-
 import { useState } from "react";
 import Layout from "@/components/layout/Layout";
 import { Button } from "@/components/ui/button";
@@ -13,7 +12,7 @@ import {
   ChartBar, 
   Search, 
   Bell, 
-  FileTextEdit, 
+  FileEdit, 
   Upload, 
   UserPlus, 
   CalendarCheck, 
@@ -251,7 +250,7 @@ const Dashboard = () => {
                       <Search className="mr-2 h-4 w-4" /> Search Candidates
                     </Button>
                     <Button variant="outline" className="justify-start" onClick={() => navigate("/ai-screening")}>
-                      <FileTextEdit className="mr-2 h-4 w-4" /> Generate Job Description
+                      <FileEdit className="mr-2 h-4 w-4" /> Generate Job Description
                     </Button>
                     <Button variant="outline" className="justify-start" onClick={() => toast({ title: "Feature Coming Soon" })}>
                       <Upload className="mr-2 h-4 w-4" /> Import Candidates
@@ -441,7 +440,7 @@ const Dashboard = () => {
                 <Card className="hover:shadow-md transition-shadow cursor-pointer" onClick={() => toast({ title: "Feature Coming Soon" })}>
                   <CardHeader>
                     <div className="bg-zordie-100 w-12 h-12 rounded-full flex items-center justify-center mb-2">
-                      <FileTextEdit className="h-6 w-6 text-zordie-600" />
+                      <FileEdit className="h-6 w-6 text-zordie-600" />
                     </div>
                     <CardTitle>JD Generator</CardTitle>
                   </CardHeader>
@@ -477,7 +476,7 @@ const Dashboard = () => {
                 <Card className="hover:shadow-md transition-shadow cursor-pointer" onClick={() => toast({ title: "Feature Coming Soon" })}>
                   <CardHeader>
                     <div className="bg-zordie-100 w-12 h-12 rounded-full flex items-center justify-center mb-2">
-                      <FileTextEdit className="h-6 w-6 text-zordie-600" />
+                      <FileEdit className="h-6 w-6 text-zordie-600" />
                     </div>
                     <CardTitle>Feedback Generator</CardTitle>
                   </CardHeader>

@@ -38,6 +38,7 @@ import IntegrationSettings from "./pages/IntegrationSettings";
 import VerifyProfile from "./pages/VerifyProfile";
 import JobApplication from "./pages/JobApplication";
 import DashboardSelector from "./components/dashboard/DashboardSelector";
+import ProtectedRoute from "./components/auth/ProtectedRoute";
 
 // Create a new QueryClient instance for each component render
 const App = () => {
@@ -61,14 +62,46 @@ const App = () => {
                 <Route path="/companies" element={<ForCompanies />} />
                 <Route path="/candidates" element={<ForJobSeekers />} />
                 <Route path="/dashboard-selector" element={<DashboardSelector />} />
-                <Route path="/dashboard" element={<Dashboard />} />
-                <Route path="/user-dashboard" element={<UserDashboard />} />
-                <Route path="/job-seeker-dashboard" element={<JobSeekerDashboard />} />
-                <Route path="/company-dashboard" element={<CompanyDashboard />} />
-                <Route path="/integration-settings" element={<IntegrationSettings />} />
-                <Route path="/resumes" element={<ResumeManager />} />
-                <Route path="/chat" element={<Chatbot />} />
-                <Route path="/post-job" element={<PostJob />} />
+                <Route path="/dashboard" element={
+                  <ProtectedRoute requiresRole="hr">
+                    <Dashboard />
+                  </ProtectedRoute>
+                } />
+                <Route path="/user-dashboard" element={
+                  <ProtectedRoute>
+                    <UserDashboard />
+                  </ProtectedRoute>
+                } />
+                <Route path="/job-seeker-dashboard" element={
+                  <ProtectedRoute requiresRole="jobseeker">
+                    <JobSeekerDashboard />
+                  </ProtectedRoute>
+                } />
+                <Route path="/company-dashboard" element={
+                  <ProtectedRoute requiresRole="hr">
+                    <CompanyDashboard />
+                  </ProtectedRoute>
+                } />
+                <Route path="/integration-settings" element={
+                  <ProtectedRoute requiresRole="hr">
+                    <IntegrationSettings />
+                  </ProtectedRoute>
+                } />
+                <Route path="/resumes" element={
+                  <ProtectedRoute>
+                    <ResumeManager />
+                  </ProtectedRoute>
+                } />
+                <Route path="/chat" element={
+                  <ProtectedRoute>
+                    <Chatbot />
+                  </ProtectedRoute>
+                } />
+                <Route path="/post-job" element={
+                  <ProtectedRoute requiresRole="hr">
+                    <PostJob />
+                  </ProtectedRoute>
+                } />
                 <Route path="/about" element={<About />} />
                 <Route path="/contact" element={<Contact />} />
                 <Route path="/privacy" element={<Privacy />} />
@@ -77,13 +110,33 @@ const App = () => {
                 <Route path="/blog" element={<Blog />} />
                 <Route path="/verification" element={<Verification />} />
                 <Route path="/enterprise" element={<EnterpriseSolutions />} />
-                <Route path="/ai-screening" element={<AiScreening />} />
+                <Route path="/ai-screening" element={
+                  <ProtectedRoute requiresRole="hr">
+                    <AiScreening />
+                  </ProtectedRoute>
+                } />
                 <Route path="/find-jobs" element={<FindJobs />} />
-                <Route path="/verify-profile" element={<VerifyProfile />} />
-                <Route path="/practice-interview" element={<PracticeInterview />} />
-                <Route path="/ai-interview" element={<AIInterview />} />
+                <Route path="/verify-profile" element={
+                  <ProtectedRoute>
+                    <VerifyProfile />
+                  </ProtectedRoute>
+                } />
+                <Route path="/practice-interview" element={
+                  <ProtectedRoute requiresRole="jobseeker">
+                    <PracticeInterview />
+                  </ProtectedRoute>
+                } />
+                <Route path="/ai-interview" element={
+                  <ProtectedRoute>
+                    <AIInterview />
+                  </ProtectedRoute>
+                } />
                 <Route path="/resources" element={<Resources />} />
-                <Route path="/job-application/:jobId" element={<JobApplication />} />
+                <Route path="/job-application/:jobId" element={
+                  <ProtectedRoute>
+                    <JobApplication />
+                  </ProtectedRoute>
+                } />
                 <Route path="*" element={<NotFound />} />
               </Routes>
             </BrowserRouter>

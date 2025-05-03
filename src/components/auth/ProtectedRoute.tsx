@@ -6,16 +6,16 @@ import { toast } from '@/components/ui/use-toast';
 
 interface ProtectedRouteProps {
   children: React.ReactNode;
-  redirectToDashboardSelector?: boolean;
+  requiresRole?: 'hr' | 'jobseeker';
 }
 
 const ProtectedRoute: React.FC<ProtectedRouteProps> = ({ 
   children,
-  redirectToDashboardSelector = false
+  requiresRole
 }) => {
   const location = useLocation();
   const navigate = useNavigate();
-  const { user, isLoading } = useAuth();
+  const { user, isLoading, getUserDashboardPath } = useAuth();
   
   useEffect(() => {
     if (!isLoading && !user) {
@@ -32,14 +32,20 @@ const ProtectedRoute: React.FC<ProtectedRouteProps> = ({
       <div className="animate-spin rounded-full h-8 w-8 border-b-2 border-zordie-500"></div>
     </div>;
   }
-
-  if (redirectToDashboardSelector && location.pathname === '/dashboard') {
-    return <Navigate to="/dashboard-selector" replace />;
-  }
   
   // If not authenticated, redirect to login
   if (!user) {
     return <Navigate to="/login" state={{ from: location }} replace />;
+  }
+  
+  // If role requirement is specified and user doesn't have that role, redirect
+  if (requiresRole && user.role !== requiresRole) {
+    toast({
+      title: "Access denied",
+      description: `This section requires ${requiresRole} privileges`,
+      variant: "destructive"
+    });
+    return <Navigate to={getUserDashboardPath()} replace />;
   }
   
   return <>{children}</>;

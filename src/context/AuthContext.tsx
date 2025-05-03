@@ -16,7 +16,7 @@ interface AuthContextType {
   userProfile: any | null;
   isLoading: boolean;
   signIn: (email: string, password: string) => Promise<{ error: Error | null; data: any }>;
-  signUp: (email: string, password: string) => Promise<{ error: Error | null; data: any }>;
+  signUp: (email: string, password: string, role: 'hr' | 'jobseeker') => Promise<{ error: Error | null; data: any }>;
   signOut: () => Promise<{ error: null }>;
   getUserDashboardPath: () => string;
 }
@@ -57,15 +57,22 @@ export const AuthProvider = ({ children }: { children: ReactNode }) => {
   const signIn = async (email: string, password: string) => {
     setIsLoading(true);
     try {
-      // Check if email contains any role hint
-      const role = email.includes('hr') ? 'hr' as const : 'jobseeker' as const;
+      const storedUsers = localStorage.getItem('zordie_users');
+      const users = storedUsers ? JSON.parse(storedUsers) : [];
       
-      // For demo purposes, we'll consider any email/password as valid
+      // Find user by email
+      const foundUser = users.find((u: any) => u.email === email);
+      
+      if (!foundUser) {
+        return { error: new Error('User not found'), data: null };
+      }
+      
+      // For demo purposes, we're not really checking passwords
       const mockUser = {
-        id: 'user-' + Math.random().toString(36).substring(2, 9),
-        displayName: email.split('@')[0],
-        email,
-        role
+        id: foundUser.id,
+        displayName: foundUser.displayName,
+        email: foundUser.email,
+        role: foundUser.role
       };
       
       localStorage.setItem('zordie_user', JSON.stringify(mockUser));
@@ -80,24 +87,35 @@ export const AuthProvider = ({ children }: { children: ReactNode }) => {
   };
 
   // Demo sign up function
-  const signUp = async (email: string, password: string) => {
+  const signUp = async (email: string, password: string, role: 'hr' | 'jobseeker') => {
     setIsLoading(true);
     try {
-      // Determine role from email for demo purposes
-      const role = email.includes('hr') ? 'hr' as const : 'jobseeker' as const;
+      // Get existing users or initialize empty array
+      const storedUsers = localStorage.getItem('zordie_users');
+      const users = storedUsers ? JSON.parse(storedUsers) : [];
+      
+      // Check if user already exists
+      if (users.some((user: any) => user.email === email)) {
+        return { error: new Error('User already exists'), data: null };
+      }
       
       // Create new user
-      const mockUser = {
+      const newUser = {
         id: 'user-' + Math.random().toString(36).substring(2, 9),
         displayName: email.split('@')[0],
         email,
         role
       };
       
-      localStorage.setItem('zordie_user', JSON.stringify(mockUser));
-      setUser(mockUser);
+      // Add to users collection
+      users.push(newUser);
+      localStorage.setItem('zordie_users', JSON.stringify(users));
       
-      return { error: null, data: mockUser };
+      // Set as current user
+      localStorage.setItem('zordie_user', JSON.stringify(newUser));
+      setUser(newUser);
+      
+      return { error: null, data: newUser };
     } catch (error: any) {
       return { error, data: null };
     } finally {

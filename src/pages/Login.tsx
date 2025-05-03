@@ -17,7 +17,7 @@ import { toast } from "@/components/ui/use-toast";
 
 const Login = () => {
   const navigate = useNavigate();
-  const { signIn } = useAuth();
+  const { signIn, getUserDashboardPath } = useAuth();
   const [isLoading, setIsLoading] = useState(false);
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
@@ -50,7 +50,8 @@ const Login = () => {
           title: "Welcome back!",
           description: "You have successfully logged in"
         });
-        navigate("/dashboard-selector");
+        // Redirect to the appropriate dashboard based on user role
+        navigate(getUserDashboardPath());
       }
     } catch (error: any) {
       toast({

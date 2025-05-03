@@ -52,13 +52,7 @@ const Signup = () => {
     setIsLoading(true);
     
     try {
-      // Add the account type to the user metadata
-      const userMetadata = {
-        full_name: name,
-        role: accountType
-      };
-      
-      const { error, data } = await signUp(email, password);
+      const { error, data } = await signUp(email, password, accountType);
       
       if (error) {
         toast({
@@ -71,7 +65,13 @@ const Signup = () => {
           title: "Account created",
           description: "Your account has been successfully created!"
         });
-        navigate("/dashboard-selector");
+        
+        // Redirect directly to the appropriate dashboard based on role
+        if (accountType === 'hr') {
+          navigate("/dashboard");
+        } else {
+          navigate("/job-seeker-dashboard");
+        }
       }
     } catch (error: any) {
       toast({

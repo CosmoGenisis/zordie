@@ -1,852 +1,846 @@
+
 import { useState } from "react";
+import Layout from "@/components/layout/Layout";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { 
-  PlusCircle, Users, Briefcase, CheckCircle, X, Clock, ChevronRight, 
-  Search, Filter, Bell, User, Settings, LogOut, Edit, Trash2,
-  FileText, MessageSquare, BarChart, Award, ArrowLeft, Home
+  BriefcaseIcon, 
+  Users, 
+  FileText, 
+  Calendar, 
+  Settings, 
+  ChartBar, 
+  Search, 
+  Bell, 
+  FileTextEdit, 
+  Upload, 
+  UserPlus, 
+  CalendarCheck, 
+  Star 
 } from "lucide-react";
-import { Link, useNavigate } from "react-router-dom";
-import {
-  DropdownMenu,
-  DropdownMenuContent,
-  DropdownMenuItem,
-  DropdownMenuLabel,
-  DropdownMenuSeparator,
-  DropdownMenuTrigger,
-} from "@/components/ui/dropdown-menu";
-import {
-  Avatar,
-  AvatarFallback,
-  AvatarImage,
-} from "@/components/ui/avatar";
-import { Progress } from "@/components/ui/progress";
-import AssessmentGenerator from "@/components/assessment/AssessmentGenerator";
-import PrimeHRChatbot from "@/components/chatbot/PrimeHRChatbot";
-import { useAuth } from "@/context/AuthContext";
+import { SectionHeading } from "@/components/ui/section-heading";
+import { toast } from "@/components/ui/use-toast";
 import ProtectedRoute from "@/components/auth/ProtectedRoute";
+import { useAuth } from "@/context/AuthContext";
+import { useNavigate } from "react-router-dom";
 
 const Dashboard = () => {
   const navigate = useNavigate();
+  const { user, signOut } = useAuth();
   const [activeTab, setActiveTab] = useState("overview");
-  const { signOut } = useAuth();
-
-  // Handle navigation to different sections
-  const handleNavigation = (path: string) => {
-    navigate(path);
-  };
-
-  const returnToDashboardSelector = () => {
-    navigate("/dashboard-selector");
+  
+  // Demo metrics data
+  const [activeJobs, setActiveJobs] = useState(3);
+  const [candidatesInPipeline, setCandidatesInPipeline] = useState(24);
+  const [scheduledInterviews, setScheduledInterviews] = useState(5);
+  const [autoInterviews, setAutoInterviews] = useState(12);
+  const [offersSent, setOffersSent] = useState(2);
+  
+  const handlePostJob = () => {
+    navigate("/post-job");
   };
 
   const handleSignOut = async () => {
     await signOut();
     navigate("/login");
   };
+  
+  // Demo activities for the timeline
+  const recentActivities = [
+    { id: 1, type: "optimized", title: "Senior Developer JD Optimized", time: "2 hours ago" },
+    { id: 2, type: "candidate", title: "New candidate applied: John Smith", time: "Yesterday" },
+    { id: 3, type: "interview", title: "Interview scheduled with Sarah Lee", time: "2 days ago" },
+    { id: 4, type: "feedback", title: "AI Feedback generated for 3 candidates", time: "3 days ago" },
+  ];
+
+  // Demo notifications
+  const notifications = [
+    { id: 1, title: "New Application", description: "Frontend Developer - 3 new applications", time: "1 hour ago" },
+    { id: 2, title: "Interview Ready", description: "AI interview with Mark Johnson is ready for review", time: "3 hours ago" },
+    { id: 3, title: "Job Post Expiring", description: "UX Designer job post expires in 2 days", time: "Yesterday" },
+  ];
+
+  // Demo job posts
+  const jobPosts = [
+    { id: 1, title: "Senior Frontend Developer", location: "Remote", status: "Active", applicants: 12, posted: "2 weeks ago" },
+    { id: 2, title: "UX Designer", location: "New York", status: "Active", applicants: 8, posted: "1 week ago" },
+    { id: 3, title: "Backend Developer", location: "Remote", status: "Draft", applicants: 0, posted: "Not posted" },
+  ];
+
+  // Demo candidates
+  const candidates = [
+    { id: 1, name: "John Smith", position: "Frontend Developer", status: "Interview Scheduled", score: 87, source: "LinkedIn" },
+    { id: 2, name: "Sarah Lee", position: "UX Designer", status: "Technical Assessment", score: 92, source: "Indeed" },
+    { id: 3, name: "Mike Johnson", position: "Frontend Developer", status: "New Application", score: 78, source: "Direct" },
+  ];
 
   return (
-    <ProtectedRoute>
-      <div className="flex h-screen bg-gray-50">
-        {/* Sidebar */}
-        <div className="hidden md:flex flex-col w-64 bg-white border-r">
-          <div className="p-5 border-b">
-            <Link to="/" className="flex items-center">
-              <span className="text-xl font-bold text-zordie-700">Zordie</span>
-              <span className="ml-1 text-xl font-bold text-accent1">.</span>
-            </Link>
-          </div>
-          
-          <div className="flex-1 overflow-y-auto py-4 px-3 space-y-6">
-            <div className="space-y-1">
-              <p className="px-3 text-xs font-semibold text-gray-500 uppercase">Main</p>
-              <NavButton 
-                icon={<Home size={18} />} 
-                label="Dashboard Selector" 
-                active={false} 
-                onClick={returnToDashboardSelector} 
-              />
-              <NavButton 
-                icon={<BarChart size={18} />} 
-                label="Overview" 
-                active={activeTab === "overview"} 
-                onClick={() => setActiveTab("overview")} 
-              />
-              <NavButton 
-                icon={<Briefcase size={18} />} 
-                label="Jobs" 
-                active={activeTab === "jobs"} 
-                onClick={() => setActiveTab("jobs")}
-                badge="3" 
-              />
-              <NavButton 
-                icon={<Users size={18} />} 
-                label="Candidates" 
-                active={activeTab === "candidates"} 
-                onClick={() => setActiveTab("candidates")} 
-              />
-              <NavButton 
-                icon={<Award size={18} />} 
-                label="Assessments" 
-                active={activeTab === "assessments"} 
-                onClick={() => setActiveTab("assessments")} 
-              />
+    <ProtectedRoute requiresRole="hr">
+      <Layout>
+        <div className="container mx-auto py-8 px-4">
+          <div className="flex flex-col md:flex-row justify-between items-start md:items-center mb-8">
+            <div>
+              <h1 className="text-3xl font-bold">HR Dashboard</h1>
+              {user && <p className="text-gray-600 mt-1">Welcome back, {user.displayName}</p>}
             </div>
-            
-            <div className="space-y-1">
-              <p className="px-3 text-xs font-semibold text-gray-500 uppercase">Tools</p>
-              <NavButton 
-                icon={<FileText size={18} />} 
-                label="Resume Manager" 
-                active={activeTab === "resumes"} 
-                onClick={() => handleNavigation("/resumes")}
-              />
-              <NavButton 
-                icon={<MessageSquare size={18} />} 
-                label="Prime AI Chat" 
-                active={activeTab === "chat"} 
-                onClick={() => handleNavigation("/chat")}
-              />
-              <NavButton 
-                icon={<Bell size={18} />} 
-                label="Notifications" 
-                active={activeTab === "notifications"} 
-                onClick={() => setActiveTab("notifications")}
-                badge="5" 
-              />
-              <NavButton 
-                icon={<Settings size={18} />} 
-                label="Settings" 
-                active={activeTab === "settings"} 
-                onClick={() => handleNavigation("/integration-settings")}
-              />
+            <div className="flex flex-col sm:flex-row gap-3 mt-4 md:mt-0">
+              <Button onClick={handlePostJob} className="btn-gradient">
+                <BriefcaseIcon className="mr-2 h-4 w-4" />
+                Post New Job
+              </Button>
+              <Button variant="outline" onClick={handleSignOut}>
+                Sign Out
+              </Button>
             </div>
           </div>
-          
-          <div className="border-t p-3">
-            <DropdownMenu>
-              <DropdownMenuTrigger asChild>
-                <Button variant="ghost" className="w-full flex items-center justify-between">
-                  <div className="flex items-center">
-                    <Avatar className="h-8 w-8 mr-2">
-                      <AvatarImage src="https://randomuser.me/api/portraits/men/2.jpg" />
-                      <AvatarFallback>JD</AvatarFallback>
-                    </Avatar>
-                    <div className="text-left">
-                      <p className="text-sm font-medium">John Doe</p>
-                      <p className="text-xs text-gray-500">Admin</p>
+
+          {/* KPIs at a glance */}
+          <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-5 gap-4 mb-8">
+            <Card>
+              <CardHeader className="pb-2">
+                <CardTitle className="text-lg">Active Jobs</CardTitle>
+              </CardHeader>
+              <CardContent>
+                <div className="flex items-center space-x-2">
+                  <BriefcaseIcon className="h-5 w-5 text-zordie-600" />
+                  <span className="text-3xl font-bold">{activeJobs}</span>
+                </div>
+              </CardContent>
+            </Card>
+
+            <Card>
+              <CardHeader className="pb-2">
+                <CardTitle className="text-lg">Candidates</CardTitle>
+              </CardHeader>
+              <CardContent>
+                <div className="flex items-center space-x-2">
+                  <Users className="h-5 w-5 text-zordie-600" />
+                  <span className="text-3xl font-bold">{candidatesInPipeline}</span>
+                </div>
+              </CardContent>
+            </Card>
+
+            <Card>
+              <CardHeader className="pb-2">
+                <CardTitle className="text-lg">Interviews</CardTitle>
+              </CardHeader>
+              <CardContent>
+                <div className="flex items-center space-x-2">
+                  <Calendar className="h-5 w-5 text-zordie-600" />
+                  <span className="text-3xl font-bold">{scheduledInterviews}</span>
+                </div>
+              </CardContent>
+            </Card>
+
+            <Card>
+              <CardHeader className="pb-2">
+                <CardTitle className="text-lg">Auto-Interviews</CardTitle>
+              </CardHeader>
+              <CardContent>
+                <div className="flex items-center space-x-2">
+                  <FileText className="h-5 w-5 text-zordie-600" />
+                  <span className="text-3xl font-bold">{autoInterviews}</span>
+                </div>
+              </CardContent>
+            </Card>
+
+            <Card>
+              <CardHeader className="pb-2">
+                <CardTitle className="text-lg">Offers Sent</CardTitle>
+              </CardHeader>
+              <CardContent>
+                <div className="flex items-center space-x-2">
+                  <FileText className="h-5 w-5 text-zordie-600" />
+                  <span className="text-3xl font-bold">{offersSent}</span>
+                </div>
+              </CardContent>
+            </Card>
+          </div>
+
+          <Tabs value={activeTab} onValueChange={setActiveTab} className="space-y-6">
+            <TabsList className="grid grid-cols-2 sm:grid-cols-4 md:grid-cols-8 h-auto">
+              <TabsTrigger value="overview" className="py-2">
+                Overview
+              </TabsTrigger>
+              <TabsTrigger value="jobs" className="py-2">
+                Jobs
+              </TabsTrigger>
+              <TabsTrigger value="candidates" className="py-2">
+                Candidates
+              </TabsTrigger>
+              <TabsTrigger value="ai-tools" className="py-2">
+                AI Tools
+              </TabsTrigger>
+              <TabsTrigger value="interviews" className="py-2">
+                Interviews
+              </TabsTrigger>
+              <TabsTrigger value="documents" className="py-2">
+                Documents
+              </TabsTrigger>
+              <TabsTrigger value="analytics" className="py-2">
+                Analytics
+              </TabsTrigger>
+              <TabsTrigger value="settings" className="py-2">
+                Settings
+              </TabsTrigger>
+            </TabsList>
+
+            {/* Overview Tab */}
+            <TabsContent value="overview" className="space-y-6">
+              <SectionHeading
+                title="Dashboard Overview"
+                subtitle="Key metrics and recent activity"
+                align="left"
+              />
+              
+              <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
+                {/* Recent Activity Timeline */}
+                <Card className="md:col-span-2">
+                  <CardHeader>
+                    <CardTitle className="text-lg">Recent Activity</CardTitle>
+                  </CardHeader>
+                  <CardContent>
+                    <div className="space-y-4">
+                      {recentActivities.map((activity) => (
+                        <div key={activity.id} className="flex">
+                          <div className="mr-4 flex flex-col items-center">
+                            <div className="h-3 w-3 rounded-full bg-zordie-500"></div>
+                            {activity.id !== recentActivities.length && <div className="h-full w-0.5 bg-gray-200"></div>}
+                          </div>
+                          <div className="pb-4">
+                            <p className="text-sm font-medium">{activity.title}</p>
+                            <p className="text-xs text-gray-500">{activity.time}</p>
+                          </div>
+                        </div>
+                      ))}
                     </div>
-                  </div>
-                  <ChevronRight size={16} />
-                </Button>
-              </DropdownMenuTrigger>
-              <DropdownMenuContent align="end" className="w-56">
-                <DropdownMenuLabel>My Account</DropdownMenuLabel>
-                <DropdownMenuSeparator />
-                <DropdownMenuItem onClick={() => handleNavigation("/user-dashboard")}>
-                  <User className="mr-2 h-4 w-4" />
-                  <span>Profile</span>
-                </DropdownMenuItem>
-                <DropdownMenuItem onClick={() => handleNavigation("/integration-settings")}>
-                  <Settings className="mr-2 h-4 w-4" />
-                  <span>Settings</span>
-                </DropdownMenuItem>
-                <DropdownMenuSeparator />
-                <DropdownMenuItem onClick={returnToDashboardSelector}>
-                  <Home className="mr-2 h-4 w-4" />
-                  <span>Dashboard Selector</span>
-                </DropdownMenuItem>
-                <DropdownMenuItem onClick={handleSignOut}>
-                  <LogOut className="mr-2 h-4 w-4" />
-                  <span>Sign Out</span>
-                </DropdownMenuItem>
-              </DropdownMenuContent>
-            </DropdownMenu>
-          </div>
-        </div>
-      
-        {/* Main content */}
-        <div className="flex-1 flex flex-col overflow-hidden">
-          {/* Header */}
-          <header className="bg-white border-b px-6 py-3">
-            <div className="flex items-center justify-between">
-              <div className="flex items-center">
-                <Button
-                  variant="ghost"
-                  size="icon"
-                  className="mr-2 md:hidden"
-                  onClick={returnToDashboardSelector}
-                >
-                  <ArrowLeft size={18} />
-                </Button>
-                <h1 className="text-xl font-semibold">Dashboard</h1>
-              </div>
-              
-              <div className="flex items-center space-x-4">
-                <Button variant="outline" size="sm" onClick={() => navigate("/chat")}>
-                  <MessageSquare size={18} className="mr-2" />
-                  Prime AI
-                </Button>
-                <Button variant="outline" size="sm">
-                  <Bell size={18} className="mr-2" />
-                  Notifications
-                </Button>
-                <DropdownMenu>
-                  <DropdownMenuTrigger asChild>
-                    <Button variant="ghost" size="icon" className="rounded-full">
-                      <Avatar className="h-8 w-8">
-                        <AvatarImage src="https://randomuser.me/api/portraits/men/2.jpg" />
-                        <AvatarFallback>JD</AvatarFallback>
-                      </Avatar>
-                    </Button>
-                  </DropdownMenuTrigger>
-                  <DropdownMenuContent align="end">
-                    <DropdownMenuLabel>My Account</DropdownMenuLabel>
-                    <DropdownMenuSeparator />
-                    <DropdownMenuItem onClick={returnToDashboardSelector}>
-                      <Home className="mr-2 h-4 w-4" />
-                      <span>Dashboard Selector</span>
-                    </DropdownMenuItem>
-                    <DropdownMenuItem>
-                      <User className="mr-2 h-4 w-4" />
-                      <span>Profile</span>
-                    </DropdownMenuItem>
-                    <DropdownMenuItem>
-                      <Settings className="mr-2 h-4 w-4" />
-                      <span>Settings</span>
-                    </DropdownMenuItem>
-                    <DropdownMenuSeparator />
-                    <DropdownMenuItem onClick={handleSignOut}>
-                      <LogOut className="mr-2 h-4 w-4" />
-                      <span>Sign out</span>
-                    </DropdownMenuItem>
-                  </DropdownMenuContent>
-                </DropdownMenu>
-              </div>
-            </div>
-          </header>
-          
-          {/* Content */}
-          <main className="flex-1 overflow-y-auto bg-gray-50 p-6">
-            <Tabs defaultValue="overview" className="space-y-6">
-              <TabsList>
-                <TabsTrigger value="overview" onClick={() => setActiveTab("overview")}>Overview</TabsTrigger>
-                <TabsTrigger value="jobs" onClick={() => setActiveTab("jobs")}>Jobs</TabsTrigger>
-                <TabsTrigger value="candidates" onClick={() => setActiveTab("candidates")}>Candidates</TabsTrigger>
-                <TabsTrigger value="assessments" onClick={() => setActiveTab("assessments")}>Assessments</TabsTrigger>
-              </TabsList>
-              
-              <TabsContent value="overview" className="space-y-6">
-                <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
-                  <Card>
-                    <CardHeader className="flex flex-row items-center justify-between pb-2">
-                      <CardTitle className="text-sm font-medium">Active Jobs</CardTitle>
-                      <Briefcase size={16} className="text-muted-foreground" />
-                    </CardHeader>
-                    <CardContent>
-                      <div className="text-2xl font-bold">3</div>
-                      <p className="text-xs text-muted-foreground">+1 from last week</p>
-                    </CardContent>
-                  </Card>
-                  
-                  <Card>
-                    <CardHeader className="flex flex-row items-center justify-between pb-2">
-                      <CardTitle className="text-sm font-medium">Total Applications</CardTitle>
-                      <Users size={16} className="text-muted-foreground" />
-                    </CardHeader>
-                    <CardContent>
-                      <div className="text-2xl font-bold">42</div>
-                      <p className="text-xs text-muted-foreground">+8 from last week</p>
-                    </CardContent>
-                  </Card>
-                  
-                  <Card>
-                    <CardHeader className="flex flex-row items-center justify-between pb-2">
-                      <CardTitle className="text-sm font-medium">Assessments Sent</CardTitle>
-                      <Award size={16} className="text-muted-foreground" />
-                    </CardHeader>
-                    <CardContent>
-                      <div className="text-2xl font-bold">15</div>
-                      <p className="text-xs text-muted-foreground">80% completion rate</p>
-                    </CardContent>
-                  </Card>
-                </div>
-                
-                <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
-                  <Card>
-                    <CardHeader>
-                      <CardTitle>Recent Job Postings</CardTitle>
-                    </CardHeader>
-                    <CardContent className="space-y-4">
-                      <JobItem 
-                        title="Senior Frontend Developer" 
-                        applications={15} 
-                        department="Engineering"
-                        daysAgo={3}
-                      />
-                      <JobItem 
-                        title="Product Manager" 
-                        applications={23} 
-                        department="Product"
-                        daysAgo={5}
-                      />
-                      <JobItem 
-                        title="UI/UX Designer" 
-                        applications={4} 
-                        department="Design"
-                        daysAgo={1}
-                        status="new"
-                      />
-                      
-                      <div className="pt-2">
-                        <Button 
-                          variant="link" 
-                          size="sm" 
-                          className="text-zordie-600 p-0"
-                          onClick={() => setActiveTab("jobs")}
-                        >
-                          View all jobs <ChevronRight size={16} className="ml-1" />
-                        </Button>
-                      </div>
-                    </CardContent>
-                  </Card>
-                  
-                  <Card>
-                    <CardHeader>
-                      <CardTitle>Top Candidates</CardTitle>
-                    </CardHeader>
-                    <CardContent className="space-y-4">
-                      <CandidateItem 
-                        name="Sarah Johnson"
-                        role="Frontend Developer"
-                        matchScore={92}
-                        verified
-                        avatarUrl="https://randomuser.me/api/portraits/women/12.jpg"
-                      />
-                      <CandidateItem 
-                        name="Michael Chen"
-                        role="Product Manager"
-                        matchScore={87}
-                        verified
-                        avatarUrl="https://randomuser.me/api/portraits/men/22.jpg"
-                      />
-                      <CandidateItem 
-                        name="Jessica Williams"
-                        role="UI/UX Designer"
-                        matchScore={85}
-                        verified
-                        avatarUrl="https://randomuser.me/api/portraits/women/44.jpg"
-                      />
-                      
-                      <div className="pt-2">
-                        <Button 
-                          variant="link" 
-                          size="sm" 
-                          className="text-zordie-600 p-0"
-                          onClick={() => setActiveTab("candidates")}
-                        >
-                          View all candidates <ChevronRight size={16} className="ml-1" />
-                        </Button>
-                      </div>
-                    </CardContent>
-                  </Card>
-                </div>
-                
+                  </CardContent>
+                </Card>
+
+                {/* Notifications Panel */}
                 <Card>
                   <CardHeader className="flex flex-row items-center justify-between">
-                    <CardTitle>Prime AI Assistant</CardTitle>
-                    <div className="bg-zordie-100 text-zordie-700 text-xs font-semibold py-1 px-2 rounded-full">
-                      AI Powered
-                    </div>
+                    <CardTitle className="text-lg">Notifications</CardTitle>
+                    <Bell className="h-5 w-5 text-gray-500" />
                   </CardHeader>
-                  <CardContent className="space-y-4">
-                    <div className="flex items-start space-x-4">
-                      <div className="h-10 w-10 rounded-full bg-gradient-to-r from-zordie-500 to-accent1 flex items-center justify-center text-white font-bold">
-                        AI
-                      </div>
-                      <div className="flex-1 bg-gray-50 rounded-lg p-4">
-                        <p className="text-gray-700">
-                          Good morning, John! You have <strong>5 new candidates</strong> for the Frontend Developer position. 
-                          Would you like me to schedule initial AI interviews for them?
-                        </p>
-                        <div className="flex space-x-2 mt-3">
-                          <Button 
-                            size="sm" 
-                            className="bg-zordie-600 hover:bg-zordie-700"
-                            onClick={() => setActiveTab("assessments")}
-                          >
-                            Create Assessment
-                          </Button>
-                          <Button size="sm" variant="outline">Not now</Button>
+                  <CardContent>
+                    <div className="space-y-4">
+                      {notifications.map((notification) => (
+                        <div key={notification.id} className="border-b pb-3 last:border-0 last:pb-0">
+                          <p className="font-medium text-sm">{notification.title}</p>
+                          <p className="text-xs text-gray-600">{notification.description}</p>
+                          <p className="text-xs text-gray-500 mt-1">{notification.time}</p>
                         </div>
-                      </div>
+                      ))}
                     </div>
-                    
-                    <div className="flex items-start space-x-4">
-                      <div className="h-10 w-10 rounded-full bg-gradient-to-r from-zordie-500 to-accent1 flex items-center justify-center text-white font-bold">
-                        AI
-                      </div>
-                      <div className="flex-1 bg-gray-50 rounded-lg p-4">
-                        <p className="text-gray-700">
-                          The Product Manager job post is performing well with <strong>23 applications</strong> so far. 
-                          Based on the candidates, I suggest adjusting the job requirements to attract more qualified applicants.
-                        </p>
-                        <div className="flex space-x-2 mt-3">
-                          <Button size="sm" className="bg-zordie-600 hover:bg-zordie-700">View suggestions</Button>
-                          <Button size="sm" variant="outline">Dismiss</Button>
+                  </CardContent>
+                </Card>
+              </div>
+
+              <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+                <Card>
+                  <CardHeader>
+                    <CardTitle className="text-lg">Quick Actions</CardTitle>
+                  </CardHeader>
+                  <CardContent className="grid grid-cols-1 sm:grid-cols-2 gap-3">
+                    <Button variant="outline" className="justify-start" onClick={handlePostJob}>
+                      <BriefcaseIcon className="mr-2 h-4 w-4" /> Post a New Job
+                    </Button>
+                    <Button variant="outline" className="justify-start" onClick={() => toast({ title: "Feature Coming Soon" })}>
+                      <Search className="mr-2 h-4 w-4" /> Search Candidates
+                    </Button>
+                    <Button variant="outline" className="justify-start" onClick={() => navigate("/ai-screening")}>
+                      <FileTextEdit className="mr-2 h-4 w-4" /> Generate Job Description
+                    </Button>
+                    <Button variant="outline" className="justify-start" onClick={() => toast({ title: "Feature Coming Soon" })}>
+                      <Upload className="mr-2 h-4 w-4" /> Import Candidates
+                    </Button>
+                  </CardContent>
+                </Card>
+
+                <Card>
+                  <CardHeader>
+                    <CardTitle className="text-lg">Upcoming Interviews</CardTitle>
+                  </CardHeader>
+                  <CardContent>
+                    <div className="space-y-3">
+                      <div className="flex justify-between items-start pb-2 border-b">
+                        <div>
+                          <p className="font-medium">Sarah Lee - UX Designer</p>
+                          <p className="text-sm text-gray-500">Today at 2:00 PM</p>
                         </div>
+                        <Button size="sm" variant="outline">Prepare</Button>
                       </div>
-                    </div>
-                    
-                    <div className="flex items-start space-x-4">
-                      <div className="h-10 w-10 rounded-full bg-gradient-to-r from-zordie-500 to-accent1 flex items-center justify-center text-white font-bold">
-                        AI
-                      </div>
-                      <div className="flex-1 bg-gray-50 rounded-lg p-4">
-                        <p className="text-gray-700">
-                          12 candidates have completed their assessments for the Frontend Developer position. The top 3 candidates scored above 85% match rate. Would you like me to schedule interviews with them?
-                        </p>
-                        <div className="flex space-x-2 mt-3">
-                          <Button size="sm" className="bg-zordie-600 hover:bg-zordie-700">Schedule Interviews</Button>
-                          <Button size="sm" variant="outline">Review Assessments</Button>
+                      <div className="flex justify-between items-start">
+                        <div>
+                          <p className="font-medium">John Smith - Frontend Developer</p>
+                          <p className="text-sm text-gray-500">Tomorrow at 10:00 AM</p>
                         </div>
+                        <Button size="sm" variant="outline">Prepare</Button>
                       </div>
                     </div>
                   </CardContent>
                 </Card>
-              </TabsContent>
-              
-              <TabsContent value="jobs" className="space-y-6">
-                <div className="flex items-center justify-between">
-                  <div className="flex items-center space-x-2">
-                    <div className="relative">
-                      <Search className="absolute left-2.5 top-2.5 h-4 w-4 text-gray-500" />
-                      <input 
-                        type="text" 
-                        placeholder="Search jobs..." 
-                        className="pl-10 pr-4 py-2 rounded-md border border-gray-200 focus:outline-none focus:ring-2 focus:ring-zordie-500 focus:border-transparent" 
-                      />
-                    </div>
-                    <Button variant="outline" size="icon">
-                      <Filter className="h-4 w-4" />
-                    </Button>
-                  </div>
-                  
-                  <Button 
-                    className="bg-gradient-to-r from-zordie-600 to-accent1 hover:from-zordie-700 hover:to-accent1 text-white"
-                    onClick={() => navigate("/post-job")}
-                  >
-                    <PlusCircle className="h-4 w-4 mr-2" /> Post New Job
-                  </Button>
-                </div>
-                
-                <div className="bg-white rounded-lg border overflow-hidden">
-                  <div className="grid grid-cols-12 gap-4 p-4 bg-gray-50 font-medium text-gray-700 border-b">
-                    <div className="col-span-4">Job Title</div>
-                    <div className="col-span-2">Department</div>
-                    <div className="col-span-1 text-center">Applications</div>
-                    <div className="col-span-2 text-center">Status</div>
-                    <div className="col-span-2">Posted</div>
-                    <div className="col-span-1 text-right">Actions</div>
-                  </div>
-                  
-                  <JobTableRow 
-                    title="Senior Frontend Developer"
-                    department="Engineering"
-                    applications={15}
-                    status="active"
-                    postedDate="Apr 7, 2025"
-                  />
-                  
-                  <JobTableRow 
-                    title="Product Manager"
-                    department="Product"
-                    applications={23}
-                    status="active"
-                    postedDate="Apr 5, 2025"
-                  />
-                  
-                  <JobTableRow 
-                    title="UI/UX Designer"
-                    department="Design"
-                    applications={4}
-                    status="active"
-                    postedDate="Apr 9, 2025"
-                  />
-                  
-                  <JobTableRow 
-                    title="Full Stack Developer"
-                    department="Engineering"
-                    applications={11}
-                    status="draft"
-                    postedDate="Apr 2, 2025"
-                  />
-                  
-                  <JobTableRow 
-                    title="Marketing Specialist"
-                    department="Marketing"
-                    applications={18}
-                    status="closed"
-                    postedDate="Mar 25, 2025"
-                  />
-                  
-                  <JobTableRow 
-                    title="Customer Support Representative"
-                    department="Support"
-                    applications={32}
-                    status="closed"
-                    postedDate="Mar 15, 2025"
-                  />
-                </div>
-                
-                <div className="flex items-center justify-between">
-                  <p className="text-sm text-gray-500">Showing 6 of 12 jobs</p>
-                  <div className="flex items-center space-x-2">
-                    <Button variant="outline" size="sm" disabled>
-                      Previous
-                    </Button>
-                    <Button variant="outline" size="sm">
-                      Next
-                    </Button>
-                  </div>
-                </div>
-              </TabsContent>
-              
-              <TabsContent value="candidates" className="space-y-6">
-                <div className="flex items-center justify-between">
-                  <div className="flex items-center space-x-2">
-                    <div className="relative">
-                      <Search className="absolute left-2.5 top-2.5 h-4 w-4 text-gray-500" />
-                      <input 
-                        type="text" 
-                        placeholder="Search candidates..." 
-                        className="pl-10 pr-4 py-2 rounded-md border border-gray-200 focus:outline-none focus:ring-2 focus:ring-zordie-500 focus:border-transparent" 
-                      />
-                    </div>
-                    <Button variant="outline" size="icon">
-                      <Filter className="h-4 w-4" />
-                    </Button>
-                  </div>
-                  
-                  <Button 
-                    className="bg-gradient-to-r from-zordie-600 to-accent1 hover:from-zordie-700 hover:to-accent1 text-white"
-                    onClick={() => setActiveTab("assessments")}
-                  >
-                    <Award className="h-4 w-4 mr-2" /> Send Assessment
-                  </Button>
-                </div>
-                
-                <div className="bg-white rounded-lg border overflow-hidden">
-                  <div className="grid grid-cols-12 gap-4 p-4 bg-gray-50 font-medium text-gray-700 border-b">
-                    <div className="col-span-3">Candidate</div>
-                    <div className="col-span-2">Position</div>
-                    <div className="col-span-2">Match Score</div>
-                    <div className="col-span-2 text-center">Status</div>
-                    <div className="col-span-2">Applied</div>
-                    <div className="col-span-1 text-right">Actions</div>
-                  </div>
-                  
-                  <CandidateTableRow 
-                    name="Sarah Johnson"
-                    role="Frontend Developer"
-                    matchScore={92}
-                    status="interview"
-                    date="Apr 8, 2025"
-                    avatarUrl="https://randomuser.me/api/portraits/women/12.jpg"
-                    verified
-                  />
-                  
-                  <CandidateTableRow 
-                    name="Michael Chen"
-                    role="Product Manager"
-                    matchScore={87}
-                    status="screening"
-                    date="Apr 6, 2025"
-                    avatarUrl="https://randomuser.me/api/portraits/men/22.jpg"
-                    verified
-                  />
-                  
-                  <CandidateTableRow 
-                    name="Jessica Williams"
-                    role="UI/UX Designer"
-                    matchScore={85}
-                    status="screening"
-                    date="Apr 9, 2025"
-                    avatarUrl="https://randomuser.me/api/portraits/women/44.jpg"
-                    verified
-                  />
-                  
-                  <CandidateTableRow 
-                    name="David Thompson"
-                    role="Frontend Developer"
-                    matchScore={78}
-                    status="applied"
-                    date="Apr 9, 2025"
-                    avatarUrl="https://randomuser.me/api/portraits/men/32.jpg"
-                    verified={false}
-                  />
-                  
-                  <CandidateTableRow 
-                    name="Aisha Patel"
-                    role="Product Manager"
-                    matchScore={91}
-                    status="shortlisted"
-                    date="Apr 5, 2025"
-                    avatarUrl="https://randomuser.me/api/portraits/women/28.jpg"
-                    verified
-                  />
-                  
-                  <CandidateTableRow 
-                    name="Chris Rodriguez"
-                    role="Full Stack Developer"
-                    matchScore={82}
-                    status="rejected"
-                    date="Apr 3, 2025"
-                    avatarUrl="https://randomuser.me/api/portraits/men/67.jpg"
-                    verified={false}
-                  />
-                </div>
-                
-                <div className="flex items-center justify-between">
-                  <p className="text-sm text-gray-500">Showing 6 of 42 candidates</p>
-                  <div className="flex items-center space-x-2">
-                    <Button variant="outline" size="sm" disabled>
-                      Previous
-                    </Button>
-                    <Button variant="outline" size="sm">
-                      Next
-                    </Button>
-                  </div>
-                </div>
-              </TabsContent>
-              
-              <TabsContent value="assessments" className="space-y-6">
-                <AssessmentGenerator />
-              </TabsContent>
-            </Tabs>
-          </main>
-        </div>
-      
-        {/* Prime HR AI Chatbot */}
-        <PrimeHRChatbot initiallyOpen={false} />
-      </div>
-    </ProtectedRoute>
-  );
-};
-
-interface NavButtonProps {
-  icon: React.ReactNode;
-  label: string;
-  active: boolean;
-  onClick: () => void;
-  badge?: string;
-}
-
-const NavButton = ({ icon, label, active, onClick, badge }: NavButtonProps) => {
-  return (
-    <button
-      className={`flex items-center justify-between px-3 py-2 rounded-md w-full ${
-        active ? "bg-zordie-50 text-zordie-700" : "text-gray-600 hover:bg-gray-50"
-      }`}
-      onClick={onClick}
-    >
-      <div className="flex items-center">
-        <span className="mr-3">{icon}</span>
-        <span>{label}</span>
-      </div>
-      {badge && (
-        <span className="bg-zordie-100 text-zordie-700 text-xs font-semibold py-0.5 px-2 rounded-full">
-          {badge}
-        </span>
-      )}
-    </button>
-  );
-};
-
-interface JobItemProps {
-  title: string;
-  applications: number;
-  department: string;
-  daysAgo: number;
-  status?: "new" | "active" | "closed";
-}
-
-const JobItem = ({ title, applications, department, daysAgo, status }: JobItemProps) => {
-  return (
-    <div className="flex items-center justify-between p-3 border rounded-md">
-      <div className="flex-1">
-        <h4 className="font-medium">{title}</h4>
-        <p className="text-sm text-gray-500">{department} &middot; {applications} applications</p>
-      </div>
-      <div className="flex items-center">
-        <p className="text-xs text-gray-500 mr-3">{daysAgo}d ago</p>
-        {status === "new" && (
-          <span className="bg-green-100 text-green-700 text-xs font-semibold py-0.5 px-2 rounded-full">
-            New
-          </span>
-        )}
-      </div>
-    </div>
-  );
-};
-
-interface CandidateItemProps {
-  name: string;
-  role: string;
-  matchScore: number;
-  verified: boolean;
-  avatarUrl: string;
-}
-
-const CandidateItem = ({ name, role, matchScore, verified, avatarUrl }: CandidateItemProps) => {
-  return (
-    <div className="flex items-center justify-between p-3 border rounded-md">
-      <div className="flex items-center">
-        <div className="relative">
-          <Avatar className={`h-10 w-10 mr-3 ${verified ? "avatar-verified" : ""}`}>
-            <AvatarImage src={avatarUrl} />
-            <AvatarFallback>{name[0]}</AvatarFallback>
-          </Avatar>
-          {verified && (
-            <div className="absolute -bottom-1 -right-1 bg-green-500 text-white rounded-full w-5 h-5 flex items-center justify-center text-xs border-2 border-white">
-              <CheckCircle size={12} />
-            </div>
-          )}
-        </div>
-        <div>
-          <h4 className="font-medium">{name}</h4>
-          <p className="text-sm text-gray-500">{role}</p>
-        </div>
-      </div>
-      <div className="flex items-center">
-        <div className="mr-6 text-right">
-          <p className="font-medium">{matchScore}%</p>
-          <p className="text-xs text-gray-500">match</p>
-        </div>
-        <Button variant="outline" size="sm">View</Button>
-      </div>
-    </div>
-  );
-};
-
-interface JobTableRowProps {
-  title: string;
-  department: string;
-  applications: number;
-  status: "active" | "draft" | "closed";
-  postedDate: string;
-}
-
-const JobTableRow = ({ title, department, applications, status, postedDate }: JobTableRowProps) => {
-  return (
-    <div className="grid grid-cols-12 gap-4 p-4 border-b items-center text-sm">
-      <div className="col-span-4 font-medium">{title}</div>
-      <div className="col-span-2 text-gray-600">{department}</div>
-      <div className="col-span-1 text-center">{applications}</div>
-      <div className="col-span-2 text-center">
-        {status === "active" && (
-          <span className="bg-green-100 text-green-700 text-xs font-semibold py-0.5 px-2 rounded-full">
-            Active
-          </span>
-        )}
-        {status === "draft" && (
-          <span className="bg-gray-100 text-gray-700 text-xs font-semibold py-0.5 px-2 rounded-full">
-            Draft
-          </span>
-        )}
-        {status === "closed" && (
-          <span className="bg-red-100 text-red-700 text-xs font-semibold py-0.5 px-2 rounded-full">
-            Closed
-          </span>
-        )}
-      </div>
-      <div className="col-span-2 text-gray-600">{postedDate}</div>
-      <div className="col-span-1 flex justify-end space-x-1">
-        <Button variant="ghost" size="icon">
-          <Edit size={16} />
-        </Button>
-        <Button variant="ghost" size="icon">
-          <Trash2 size={16} />
-        </Button>
-      </div>
-    </div>
-  );
-};
-
-interface CandidateTableRowProps {
-  name: string;
-  role: string;
-  matchScore: number;
-  status: "applied" | "screening" | "interview" | "shortlisted" | "rejected";
-  date: string;
-  avatarUrl: string;
-  verified: boolean;
-}
-
-const CandidateTableRow = ({ name, role, matchScore, status, date, avatarUrl, verified }: CandidateTableRowProps) => {
-  return (
-    <div className="grid grid-cols-12 gap-4 p-4 border-b items-center text-sm">
-      <div className="col-span-3">
-        <div className="flex items-center">
-          <div className="relative">
-            <Avatar className="h-8 w-8 mr-3">
-              <AvatarImage src={avatarUrl} />
-              <AvatarFallback>{name[0]}</AvatarFallback>
-            </Avatar>
-            {verified && (
-              <div className="absolute -bottom-1 -right-1 bg-green-500 text-white rounded-full w-4 h-4 flex items-center justify-center text-xs border-2 border-white">
-                <CheckCircle size={10} />
               </div>
-            )}
-          </div>
-          <span className="font-medium">{name}</span>
+            </TabsContent>
+
+            {/* Jobs Tab */}
+            <TabsContent value="jobs" className="space-y-6">
+              <SectionHeading
+                title="Job Postings"
+                subtitle="Manage your job listings"
+                align="left"
+              />
+              
+              <div className="flex justify-end mb-4">
+                <Button onClick={handlePostJob} className="btn-gradient">
+                  <BriefcaseIcon className="mr-2 h-4 w-4" />
+                  Post New Job
+                </Button>
+              </div>
+              
+              <Card>
+                <CardContent className="p-0">
+                  <div className="overflow-x-auto">
+                    <table className="w-full">
+                      <thead>
+                        <tr className="bg-gray-50">
+                          <th className="text-left py-3 px-4 font-medium">Job Title</th>
+                          <th className="text-left py-3 px-4 font-medium">Location</th>
+                          <th className="text-left py-3 px-4 font-medium">Status</th>
+                          <th className="text-left py-3 px-4 font-medium">Applicants</th>
+                          <th className="text-left py-3 px-4 font-medium">Posted</th>
+                          <th className="text-left py-3 px-4 font-medium">Actions</th>
+                        </tr>
+                      </thead>
+                      <tbody>
+                        {jobPosts.map((job) => (
+                          <tr key={job.id} className="border-t">
+                            <td className="py-3 px-4">{job.title}</td>
+                            <td className="py-3 px-4">{job.location}</td>
+                            <td className="py-3 px-4">
+                              <span className={`py-1 px-2 rounded text-xs ${
+                                job.status === "Active" ? "bg-green-100 text-green-800" : "bg-gray-100 text-gray-800"
+                              }`}>
+                                {job.status}
+                              </span>
+                            </td>
+                            <td className="py-3 px-4">{job.applicants}</td>
+                            <td className="py-3 px-4">{job.posted}</td>
+                            <td className="py-3 px-4 space-x-2">
+                              <Button size="sm" variant="outline" onClick={() => toast({ title: "Feature Coming Soon" })}>
+                                Edit
+                              </Button>
+                              <Button size="sm" variant="outline" onClick={() => toast({ title: "Feature Coming Soon" })}>
+                                Analytics
+                              </Button>
+                            </td>
+                          </tr>
+                        ))}
+                      </tbody>
+                    </table>
+                  </div>
+                </CardContent>
+              </Card>
+            </TabsContent>
+
+            {/* Candidates Tab */}
+            <TabsContent value="candidates" className="space-y-6">
+              <SectionHeading
+                title="Candidates"
+                subtitle="Manage and review job applicants"
+                align="left"
+              />
+              
+              <div className="flex flex-wrap items-center justify-between gap-4 mb-4">
+                <div className="flex items-center gap-2 flex-grow">
+                  <div className="relative flex-grow max-w-md">
+                    <Search className="absolute left-3 top-1/2 transform -translate-y-1/2 h-4 w-4 text-gray-500" />
+                    <input 
+                      type="text" 
+                      placeholder="Search candidates..." 
+                      className="pl-10 pr-4 py-2 border rounded-md w-full" 
+                    />
+                  </div>
+                  <Button variant="outline">Filter</Button>
+                </div>
+                <Button variant="outline" onClick={() => toast({ title: "Feature Coming Soon" })}>
+                  <Upload className="mr-2 h-4 w-4" />
+                  Import Candidates
+                </Button>
+              </div>
+              
+              <Card>
+                <CardContent className="p-0">
+                  <div className="overflow-x-auto">
+                    <table className="w-full">
+                      <thead>
+                        <tr className="bg-gray-50">
+                          <th className="text-left py-3 px-4 font-medium">Name</th>
+                          <th className="text-left py-3 px-4 font-medium">Position</th>
+                          <th className="text-left py-3 px-4 font-medium">Status</th>
+                          <th className="text-left py-3 px-4 font-medium">Score</th>
+                          <th className="text-left py-3 px-4 font-medium">Source</th>
+                          <th className="text-left py-3 px-4 font-medium">Actions</th>
+                        </tr>
+                      </thead>
+                      <tbody>
+                        {candidates.map((candidate) => (
+                          <tr key={candidate.id} className="border-t">
+                            <td className="py-3 px-4">{candidate.name}</td>
+                            <td className="py-3 px-4">{candidate.position}</td>
+                            <td className="py-3 px-4">
+                              <span className={`py-1 px-2 rounded text-xs ${
+                                candidate.status === "Interview Scheduled" ? "bg-blue-100 text-blue-800" : 
+                                candidate.status === "Technical Assessment" ? "bg-purple-100 text-purple-800" :
+                                "bg-gray-100 text-gray-800"
+                              }`}>
+                                {candidate.status}
+                              </span>
+                            </td>
+                            <td className="py-3 px-4">
+                              <div className="flex items-center">
+                                <span className={`font-medium ${
+                                  candidate.score > 85 ? "text-green-600" : 
+                                  candidate.score > 75 ? "text-amber-600" : 
+                                  "text-red-600"
+                                }`}>
+                                  {candidate.score}
+                                </span>
+                                <span className="text-gray-400 text-xs ml-1">/100</span>
+                              </div>
+                            </td>
+                            <td className="py-3 px-4">{candidate.source}</td>
+                            <td className="py-3 px-4 space-x-2">
+                              <Button size="sm" variant="outline" onClick={() => toast({ title: "Feature Coming Soon" })}>
+                                View
+                              </Button>
+                              <Button size="sm" variant="outline" onClick={() => toast({ title: "Feature Coming Soon" })}>
+                                <Star className="h-4 w-4" />
+                              </Button>
+                            </td>
+                          </tr>
+                        ))}
+                      </tbody>
+                    </table>
+                  </div>
+                </CardContent>
+              </Card>
+            </TabsContent>
+
+            {/* AI Tools Tab */}
+            <TabsContent value="ai-tools" className="space-y-6">
+              <SectionHeading
+                title="AI Tools"
+                subtitle="Enhance your recruiting with AI-powered tools"
+                align="left"
+              />
+              
+              <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
+                <Card className="hover:shadow-md transition-shadow cursor-pointer" onClick={() => toast({ title: "Feature Coming Soon" })}>
+                  <CardHeader>
+                    <div className="bg-zordie-100 w-12 h-12 rounded-full flex items-center justify-center mb-2">
+                      <FileTextEdit className="h-6 w-6 text-zordie-600" />
+                    </div>
+                    <CardTitle>JD Generator</CardTitle>
+                  </CardHeader>
+                  <CardContent>
+                    <p className="text-sm text-gray-600">Generate optimized job descriptions based on role requirements and company culture.</p>
+                  </CardContent>
+                </Card>
+                
+                <Card className="hover:shadow-md transition-shadow cursor-pointer" onClick={() => toast({ title: "Feature Coming Soon" })}>
+                  <CardHeader>
+                    <div className="bg-zordie-100 w-12 h-12 rounded-full flex items-center justify-center mb-2">
+                      <FileText className="h-6 w-6 text-zordie-600" />
+                    </div>
+                    <CardTitle>Resume Scorer</CardTitle>
+                  </CardHeader>
+                  <CardContent>
+                    <p className="text-sm text-gray-600">Automatically evaluate and score resumes against job requirements.</p>
+                  </CardContent>
+                </Card>
+                
+                <Card className="hover:shadow-md transition-shadow cursor-pointer" onClick={() => toast({ title: "Feature Coming Soon" })}>
+                  <CardHeader>
+                    <div className="bg-zordie-100 w-12 h-12 rounded-full flex items-center justify-center mb-2">
+                      <Calendar className="h-6 w-6 text-zordie-600" />
+                    </div>
+                    <CardTitle>Question Generator</CardTitle>
+                  </CardHeader>
+                  <CardContent>
+                    <p className="text-sm text-gray-600">Create tailored interview questions based on job requirements and candidate profile.</p>
+                  </CardContent>
+                </Card>
+                
+                <Card className="hover:shadow-md transition-shadow cursor-pointer" onClick={() => toast({ title: "Feature Coming Soon" })}>
+                  <CardHeader>
+                    <div className="bg-zordie-100 w-12 h-12 rounded-full flex items-center justify-center mb-2">
+                      <FileTextEdit className="h-6 w-6 text-zordie-600" />
+                    </div>
+                    <CardTitle>Feedback Generator</CardTitle>
+                  </CardHeader>
+                  <CardContent>
+                    <p className="text-sm text-gray-600">Generate personalized candidate feedback based on interview performance.</p>
+                  </CardContent>
+                </Card>
+                
+                <Card className="hover:shadow-md transition-shadow cursor-pointer" onClick={() => toast({ title: "Feature Coming Soon" })}>
+                  <CardHeader>
+                    <div className="bg-zordie-100 w-12 h-12 rounded-full flex items-center justify-center mb-2">
+                      <Users className="h-6 w-6 text-zordie-600" />
+                    </div>
+                    <CardTitle>Psychometric Analysis</CardTitle>
+                  </CardHeader>
+                  <CardContent>
+                    <p className="text-sm text-gray-600">Analyze candidate soft skills and cultural fit based on interview responses.</p>
+                  </CardContent>
+                </Card>
+                
+                <Card className="hover:shadow-md transition-shadow cursor-pointer" onClick={() => toast({ title: "Feature Coming Soon" })}>
+                  <CardHeader>
+                    <div className="bg-zordie-100 w-12 h-12 rounded-full flex items-center justify-center mb-2">
+                      <ChartBar className="h-6 w-6 text-zordie-600" />
+                    </div>
+                    <CardTitle>AI Logs & Analytics</CardTitle>
+                  </CardHeader>
+                  <CardContent>
+                    <p className="text-sm text-gray-600">View detailed logs and analytics of AI tool usage and performance.</p>
+                  </CardContent>
+                </Card>
+              </div>
+            </TabsContent>
+
+            {/* Placeholder content for other tabs */}
+            <TabsContent value="interviews" className="space-y-6">
+              <SectionHeading
+                title="Interview Management"
+                subtitle="Schedule and manage candidate interviews"
+                align="left"
+              />
+              <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+                <Card>
+                  <CardHeader>
+                    <CardTitle>Upcoming Interviews</CardTitle>
+                  </CardHeader>
+                  <CardContent>
+                    <div className="space-y-3">
+                      <div className="flex justify-between items-center border-b pb-3">
+                        <div>
+                          <p className="font-medium">Sarah Lee - UX Designer</p>
+                          <div className="flex items-center text-sm text-gray-500">
+                            <CalendarCheck className="h-3 w-3 mr-1" />
+                            <span>Today at 2:00 PM</span>
+                          </div>
+                        </div>
+                        <Button size="sm">Join</Button>
+                      </div>
+                      <div className="flex justify-between items-center border-b pb-3">
+                        <div>
+                          <p className="font-medium">John Smith - Frontend Developer</p>
+                          <div className="flex items-center text-sm text-gray-500">
+                            <CalendarCheck className="h-3 w-3 mr-1" />
+                            <span>Tomorrow at 10:00 AM</span>
+                          </div>
+                        </div>
+                        <Button size="sm" variant="outline">Prepare</Button>
+                      </div>
+                      <Button variant="outline" className="w-full">
+                        <Calendar className="mr-2 h-4 w-4" />
+                        Schedule New Interview
+                      </Button>
+                    </div>
+                  </CardContent>
+                </Card>
+
+                <Card>
+                  <CardHeader>
+                    <CardTitle>Auto-Interview Status</CardTitle>
+                  </CardHeader>
+                  <CardContent>
+                    <div className="space-y-3">
+                      <div className="flex justify-between items-center border-b pb-3">
+                        <div>
+                          <p className="font-medium">Mike Johnson - Frontend Developer</p>
+                          <div className="flex items-center text-sm text-gray-500">
+                            <span className="flex items-center">
+                              <span className="h-2 w-2 bg-green-500 rounded-full mr-1"></span>
+                              Completed
+                            </span>
+                          </div>
+                        </div>
+                        <Button size="sm">View Results</Button>
+                      </div>
+                      <div className="flex justify-between items-center border-b pb-3">
+                        <div>
+                          <p className="font-medium">Emily Roberts - UX Designer</p>
+                          <div className="flex items-center text-sm text-gray-500">
+                            <span className="flex items-center">
+                              <span className="h-2 w-2 bg-amber-500 rounded-full mr-1"></span>
+                              In Progress
+                            </span>
+                          </div>
+                        </div>
+                        <Button size="sm" variant="outline" disabled>Waiting</Button>
+                      </div>
+                      <div className="flex justify-between items-center">
+                        <div>
+                          <p className="font-medium">Alex Wong - Backend Developer</p>
+                          <div className="flex items-center text-sm text-gray-500">
+                            <span className="flex items-center">
+                              <span className="h-2 w-2 bg-blue-500 rounded-full mr-1"></span>
+                              Scheduled for tomorrow
+                            </span>
+                          </div>
+                        </div>
+                        <Button size="sm" variant="outline">Edit</Button>
+                      </div>
+                    </div>
+                  </CardContent>
+                </Card>
+              </div>
+            </TabsContent>
+
+            <TabsContent value="documents" className="space-y-6">
+              <SectionHeading
+                title="Offer & Documents"
+                subtitle="Manage offer letters and documents"
+                align="left"
+              />
+              <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+                <Card>
+                  <CardHeader>
+                    <CardTitle>Offer Management</CardTitle>
+                  </CardHeader>
+                  <CardContent>
+                    <p className="text-gray-500 my-8 text-center">No active offers at this time.</p>
+                    <Button className="w-full">
+                      <FileText className="mr-2 h-4 w-4" />
+                      Create New Offer
+                    </Button>
+                  </CardContent>
+                </Card>
+
+                <Card>
+                  <CardHeader>
+                    <CardTitle>Document Templates</CardTitle>
+                  </CardHeader>
+                  <CardContent>
+                    <div className="space-y-3">
+                      <div className="flex justify-between items-center border-b pb-3">
+                        <div>
+                          <p className="font-medium">Offer Letter Template</p>
+                          <p className="text-sm text-gray-500">Last edited 2 weeks ago</p>
+                        </div>
+                        <Button size="sm" variant="outline">Edit</Button>
+                      </div>
+                      <div className="flex justify-between items-center border-b pb-3">
+                        <div>
+                          <p className="font-medium">NDA Template</p>
+                          <p className="text-sm text-gray-500">Last edited 3 months ago</p>
+                        </div>
+                        <Button size="sm" variant="outline">Edit</Button>
+                      </div>
+                      <div className="flex justify-between items-center">
+                        <div>
+                          <p className="font-medium">Employment Contract</p>
+                          <p className="text-sm text-gray-500">Last edited 1 month ago</p>
+                        </div>
+                        <Button size="sm" variant="outline">Edit</Button>
+                      </div>
+                    </div>
+                  </CardContent>
+                </Card>
+              </div>
+            </TabsContent>
+            
+            <TabsContent value="analytics" className="space-y-6">
+              <SectionHeading
+                title="Recruitment Analytics"
+                subtitle="Measure and optimize your hiring process"
+                align="left"
+              />
+              <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+                <Card>
+                  <CardHeader>
+                    <CardTitle>Hiring Funnel</CardTitle>
+                  </CardHeader>
+                  <CardContent className="h-64 flex items-center justify-center">
+                    <p className="text-gray-500">Analytics visualization coming soon</p>
+                  </CardContent>
+                </Card>
+                
+                <Card>
+                  <CardHeader>
+                    <CardTitle>Time-to-Hire Analytics</CardTitle>
+                  </CardHeader>
+                  <CardContent className="h-64 flex items-center justify-center">
+                    <p className="text-gray-500">Analytics visualization coming soon</p>
+                  </CardContent>
+                </Card>
+              </div>
+              <Card>
+                <CardHeader>
+                  <CardTitle>AI Effectiveness Reports</CardTitle>
+                </CardHeader>
+                <CardContent className="h-64 flex items-center justify-center">
+                  <p className="text-gray-500">Analytics visualization coming soon</p>
+                </CardContent>
+              </Card>
+              <div className="flex justify-end">
+                <Button variant="outline">
+                  <FileText className="mr-2 h-4 w-4" />
+                  Export Reports
+                </Button>
+              </div>
+            </TabsContent>
+            
+            <TabsContent value="settings" className="space-y-6">
+              <SectionHeading
+                title="Settings & Integrations"
+                subtitle="Manage your account and integrations"
+                align="left"
+              />
+              <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
+                <Card>
+                  <CardHeader>
+                    <CardTitle>Job Board Connections</CardTitle>
+                  </CardHeader>
+                  <CardContent>
+                    <div className="space-y-3">
+                      <div className="flex justify-between items-center border-b pb-3">
+                        <div className="flex items-center">
+                          <div className="h-8 w-8 bg-blue-100 rounded-full flex items-center justify-center mr-3">
+                            <span className="text-blue-700 font-bold">in</span>
+                          </div>
+                          <span>LinkedIn</span>
+                        </div>
+                        <Button size="sm" variant="outline">Connect</Button>
+                      </div>
+                      <div className="flex justify-between items-center border-b pb-3">
+                        <div className="flex items-center">
+                          <div className="h-8 w-8 bg-green-100 rounded-full flex items-center justify-center mr-3">
+                            <span className="text-green-700 font-bold">G</span>
+                          </div>
+                          <span>Glassdoor</span>
+                        </div>
+                        <Button size="sm" variant="outline">Connect</Button>
+                      </div>
+                      <div className="flex justify-between items-center">
+                        <div className="flex items-center">
+                          <div className="h-8 w-8 bg-blue-100 rounded-full flex items-center justify-center mr-3">
+                            <span className="text-blue-700 font-bold">I</span>
+                          </div>
+                          <span>Indeed</span>
+                        </div>
+                        <Button size="sm" variant="outline">Connect</Button>
+                      </div>
+                    </div>
+                  </CardContent>
+                </Card>
+                
+                <Card>
+                  <CardHeader>
+                    <CardTitle>Communication Templates</CardTitle>
+                  </CardHeader>
+                  <CardContent>
+                    <div className="space-y-3">
+                      <div className="flex justify-between items-center border-b pb-3">
+                        <p className="font-medium">Email Templates</p>
+                        <Button size="sm" variant="outline">Manage</Button>
+                      </div>
+                      <div className="flex justify-between items-center border-b pb-3">
+                        <p className="font-medium">WhatsApp Templates</p>
+                        <Button size="sm" variant="outline">Manage</Button>
+                      </div>
+                      <div className="flex justify-between items-center">
+                        <p className="font-medium">Feedback Templates</p>
+                        <Button size="sm" variant="outline">Manage</Button>
+                      </div>
+                    </div>
+                  </CardContent>
+                </Card>
+                
+                <Card>
+                  <CardHeader>
+                    <CardTitle>API Integrations</CardTitle>
+                  </CardHeader>
+                  <CardContent>
+                    <div className="space-y-3">
+                      <div className="flex justify-between items-center border-b pb-3">
+                        <p className="font-medium">Webhooks & Zapier</p>
+                        <Button size="sm" variant="outline">Setup</Button>
+                      </div>
+                      <div className="flex justify-between items-center border-b pb-3">
+                        <p className="font-medium">API Keys</p>
+                        <Button size="sm" variant="outline">View</Button>
+                      </div>
+                      <div className="flex justify-between items-center">
+                        <p className="font-medium">User Permissions</p>
+                        <Button size="sm" variant="outline">Manage</Button>
+                      </div>
+                    </div>
+                  </CardContent>
+                </Card>
+              </div>
+              <Card>
+                <CardHeader>
+                  <CardTitle>Account Settings</CardTitle>
+                </CardHeader>
+                <CardContent>
+                  <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+                    <div>
+                      <h3 className="text-lg font-medium mb-4">Profile</h3>
+                      <div className="space-y-3">
+                        <div>
+                          <label className="text-sm font-medium">Full Name</label>
+                          <input 
+                            type="text" 
+                            className="w-full border rounded-md px-3 py-2 mt-1"
+                            placeholder="Your Name" 
+                            defaultValue={user?.displayName} 
+                          />
+                        </div>
+                        <div>
+                          <label className="text-sm font-medium">Email</label>
+                          <input 
+                            type="email" 
+                            className="w-full border rounded-md px-3 py-2 mt-1" 
+                            placeholder="Your Email"
+                            defaultValue={user?.email}
+                            disabled
+                          />
+                        </div>
+                        <Button>
+                          Save Changes
+                        </Button>
+                      </div>
+                    </div>
+                    <div>
+                      <h3 className="text-lg font-medium mb-4">Security</h3>
+                      <div className="space-y-3">
+                        <div>
+                          <label className="text-sm font-medium">Current Password</label>
+                          <input type="password" className="w-full border rounded-md px-3 py-2 mt-1" placeholder="••••••••" />
+                        </div>
+                        <div>
+                          <label className="text-sm font-medium">New Password</label>
+                          <input type="password" className="w-full border rounded-md px-3 py-2 mt-1" placeholder="••••••••" />
+                        </div>
+                        <Button>
+                          Update Password
+                        </Button>
+                      </div>
+                    </div>
+                  </div>
+                </CardContent>
+              </Card>
+            </TabsContent>
+          </Tabs>
         </div>
-      </div>
-      <div className="col-span-2 text-gray-600">{role}</div>
-      <div className="col-span-2">
-        <div className="flex flex-col space-y-1">
-          <span className="text-xs font-medium text-right">{matchScore}%</span>
-          <Progress value={matchScore} className="h-1.5" />
-        </div>
-      </div>
-      <div className="col-span-2 text-center">
-        {status === "applied" && (
-          <span className="bg-blue-100 text-blue-700 text-xs font-semibold py-0.5 px-2 rounded-full">
-            Applied
-          </span>
-        )}
-        {status === "screening" && (
-          <span className="bg-purple-100 text-purple-700 text-xs font-semibold py-0.5 px-2 rounded-full">
-            Screening
-          </span>
-        )}
-        {status === "interview" && (
-          <span className="bg-amber-100 text-amber-700 text-xs font-semibold py-0.5 px-2 rounded-full">
-            Interview
-          </span>
-        )}
-        {status === "shortlisted" && (
-          <span className="bg-green-100 text-green-700 text-xs font-semibold py-0.5 px-2 rounded-full">
-            Shortlisted
-          </span>
-        )}
-        {status === "rejected" && (
-          <span className="bg-red-100 text-red-700 text-xs font-semibold py-0.5 px-2 rounded-full">
-            Rejected
-          </span>
-        )}
-      </div>
-      <div className="col-span-2 text-gray-600">{date}</div>
-      <div className="col-span-1 flex justify-end space-x-1">
-        <Button variant="ghost" size="icon">
-          <CheckCircle size={16} />
-        </Button>
-        <Button variant="ghost" size="icon">
-          <X size={16} />
-        </Button>
-      </div>
-    </div>
+      </Layout>
+    </ProtectedRoute>
   );
 };
 

@@ -9,19 +9,20 @@ interface ThemeToggleProps {
 }
 
 const ThemeToggle = ({ className }: ThemeToggleProps) => {
-  const { theme } = useTheme();
+  const { theme, toggleTheme } = useTheme();
   
   return (
     <Button
       variant="ghost"
       size="icon"
       className={`rounded-full hover:bg-background/10 ${className || ''}`}
-      aria-label={theme === 'dark' ? "Dark mode" : "Light mode"}
+      onClick={toggleTheme}
+      aria-label={theme === 'dark' ? "Switch to light mode" : "Switch to dark mode"}
     >
       {theme === 'dark' ? (
-        <Moon className="h-5 w-5 text-zordie-700" />
-      ) : (
         <Sun className="h-5 w-5 text-zordie-700" />
+      ) : (
+        <Moon className="h-5 w-5 text-zordie-700" />
       )}
     </Button>
   );

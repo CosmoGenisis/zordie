@@ -1,3 +1,4 @@
+
 import React, { useState, useEffect } from "react";
 import { Button } from "@/components/ui/button";
 import { Link, useLocation, useNavigate } from "react-router-dom";
@@ -10,7 +11,7 @@ import {
 } from "@/components/ui/dropdown-menu";
 import { useToast } from "@/hooks/use-toast";
 import ZordieLogo from "@/components/common/ZordieLogo";
-import { useTheme } from "@/context/ThemeContext";
+import { useTheme } from "@/hooks";
 import { useIsMobile } from "@/hooks/use-mobile";
 import { 
   NavigationMenu, 

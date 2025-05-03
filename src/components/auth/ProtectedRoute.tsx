@@ -1,7 +1,6 @@
 
-import React, { useEffect } from 'react';
+import React from 'react';
 import { Navigate, useLocation } from 'react-router-dom';
-import LoadingScreen from './LoadingScreen';
 
 interface ProtectedRouteProps {
   children: React.ReactNode;

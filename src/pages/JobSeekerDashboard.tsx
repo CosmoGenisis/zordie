@@ -1,6 +1,6 @@
+
 import React, { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
-import Layout from '@/components/layout/Layout';
 import { Button } from '@/components/ui/button';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
@@ -78,7 +78,7 @@ const JobSeekerDashboard = () => {
     }, 1000);
     
     return () => clearTimeout(timer);
-  }, [toast]);
+  }, []);
   
   const getInitials = () => {
     if (profile?.first_name && profile?.last_name) {
@@ -554,171 +554,175 @@ const JobSeekerDashboard = () => {
               </div>
             )}
             
-            {/* Progress tab content */}
-            <TabsContent value="progress" className="m-0 space-y-6" forceMount={activeTab === 'settings' ? true : undefined}>
-              <Card>
-                <CardHeader>
-                  <CardTitle>Your Progress</CardTitle>
-                </CardHeader>
-                <CardContent>
-                  <div className="space-y-6">
-                    <div>
-                      <h3 className="font-medium mb-4">Skills Assessment</h3>
-                      <div className="space-y-4">
-                        <div>
-                          <div className="flex justify-between items-center mb-1">
-                            <label className="text-sm font-medium">Communication</label>
-                            <span className="text-sm text-gray-500">Good</span>
-                          </div>
-                          <Progress value={75} className="h-2" />
-                        </div>
-                        <div>
-                          <div className="flex justify-between items-center mb-1">
-                            <label className="text-sm font-medium">Technical Knowledge</label>
-                            <span className="text-sm text-gray-500">Excellent</span>
-                          </div>
-                          <Progress value={90} className="h-2" />
-                        </div>
-                        <div>
-                          <div className="flex justify-between items-center mb-1">
-                            <label className="text-sm font-medium">Problem Solving</label>
-                            <span className="text-sm text-gray-500">Good</span>
-                          </div>
-                          <Progress value={70} className="h-2" />
-                        </div>
-                        <div>
-                          <div className="flex justify-between items-center mb-1">
-                            <label className="text-sm font-medium">Leadership</label>
-                            <span className="text-sm text-gray-500">Needs Improvement</span>
-                          </div>
-                          <Progress value={45} className="h-2" />
-                        </div>
-                        <div>
-                          <div className="flex justify-between items-center mb-1">
-                            <label className="text-sm font-medium">Cultural Fit</label>
-                            <span className="text-sm text-gray-500">Good</span>
-                          </div>
-                          <Progress value={80} className="h-2" />
-                        </div>
-                      </div>
-                    </div>
-                    
-                    <Separator />
-                    
-                    <div>
-                      <h3 className="font-medium mb-4">Interview Performance Over Time</h3>
-                      <div className="h-48 flex items-center justify-center bg-gray-50 rounded-md">
-                        <p className="text-gray-500">Performance graph will be displayed here</p>
-                      </div>
-                    </div>
-                    
-                    <Separator />
-                    
-                    <div>
-                      <h3 className="font-medium mb-4">Achievements</h3>
-                      <div className="grid grid-cols-2 sm:grid-cols-4 gap-4">
-                        <div className="border rounded-md p-3 text-center">
-                          <div className="w-12 h-12 rounded-full bg-zordie-100 text-zordie-700 flex items-center justify-center mx-auto mb-2">
-                            <CheckCircle className="h-6 w-6" />
-                          </div>
-                          <p className="text-sm font-medium">First Interview</p>
-                        </div>
-                        <div className="border rounded-md p-3 text-center">
-                          <div className="w-12 h-12 rounded-full bg-gray-100 text-gray-500 flex items-center justify-center mx-auto mb-2">
-                            <Award className="h-6 w-6" />
-                          </div>
-                          <p className="text-sm font-medium text-gray-500">Perfect Score</p>
-                        </div>
-                        <div className="border rounded-md p-3 text-center">
-                          <div className="w-12 h-12 rounded-full bg-gray-100 text-gray-500 flex items-center justify-center mx-auto mb-2">
-                            <Calendar className="h-6 w-6" />
-                          </div>
-                          <p className="text-sm font-medium text-gray-500">10 Sessions</p>
-                        </div>
-                        <div className="border rounded-md p-3 text-center">
-                          <div className="w-12 h-12 rounded-full bg-gray-100 text-gray-500 flex items-center justify-center mx-auto mb-2">
-                            <Clock className="h-6 w-6" />
-                          </div>
-                          <p className="text-sm font-medium text-gray-500">5 Hour Club</p>
-                        </div>
-                      </div>
-                    </div>
-                  </div>
-                </CardContent>
-              </TabsContent>
-            
-            {/* Chats tab content */}
-            <TabsContent value="chats" className="m-0 space-y-6" forceMount={activeTab === 'settings' ? true : undefined}>
-              <Card>
-                <CardHeader className="flex flex-row items-center justify-between">
-                  <CardTitle>Chat History</CardTitle>
-                  <Button onClick={handleOpenChatbot}>
-                    <MessageSquare className="mr-2 h-4 w-4" />
-                    New Chat
-                  </Button>
-                </CardHeader>
-                <CardContent>
-                  <div className="space-y-4">
-                    <div className="text-center py-8">
-                      <div className="w-16 h-16 bg-gray-100 rounded-full flex items-center justify-center mx-auto mb-4">
-                        <MessageSquare className="h-8 w-8 text-gray-400" />
-                      </div>
-                      <h3 className="font-medium text-gray-700 mb-2">No Chat History Yet</h3>
-                      <p className="text-gray-500 mb-4">Start a conversation with our AI assistant to get interview tips and guidance.</p>
-                      <Button onClick={handleOpenChatbot}>
-                        Start New Chat
-                      </Button>
-                    </div>
-                  </div>
-                </CardContent>
-              </Card>
-            </TabsContent>
-            
-            {/* Settings tab content */}
-            <TabsContent value="settings" className="m-0 space-y-6" forceMount={activeTab === 'settings' ? true : undefined}>
-              <Card>
-                <CardHeader>
-                  <CardTitle>Profile Settings</CardTitle>
-                </CardHeader>
-                <CardContent>
-                  <div className="space-y-4">
-                    <div className="text-center">
-                      <Avatar className="h-24 w-24 mx-auto mb-4">
-                        <AvatarImage src={profile?.avatar_url || ''} />
-                        <AvatarFallback>{getInitials()}</AvatarFallback>
-                      </Avatar>
-                      <Button variant="outline" size="sm">Change Avatar</Button>
-                    </div>
-                    
-                    <div className="grid grid-cols-1 gap-4 mt-6">
+            {activeTab === 'progress' && (
+              <div className="space-y-6">
+                <Card>
+                  <CardHeader>
+                    <CardTitle>Your Progress</CardTitle>
+                  </CardHeader>
+                  <CardContent>
+                    <div className="space-y-6">
                       <div>
-                        <label className="block text-sm font-medium mb-1">Full Name</label>
-                        <input 
-                          type="text" 
-                          className="w-full p-2 border rounded-md" 
-                          value={getFullName()} 
-                          readOnly 
-                        />
+                        <h3 className="font-medium mb-4">Skills Assessment</h3>
+                        <div className="space-y-4">
+                          <div>
+                            <div className="flex justify-between items-center mb-1">
+                              <label className="text-sm font-medium">Communication</label>
+                              <span className="text-sm text-gray-500">Good</span>
+                            </div>
+                            <Progress value={75} className="h-2" />
+                          </div>
+                          <div>
+                            <div className="flex justify-between items-center mb-1">
+                              <label className="text-sm font-medium">Technical Knowledge</label>
+                              <span className="text-sm text-gray-500">Excellent</span>
+                            </div>
+                            <Progress value={90} className="h-2" />
+                          </div>
+                          <div>
+                            <div className="flex justify-between items-center mb-1">
+                              <label className="text-sm font-medium">Problem Solving</label>
+                              <span className="text-sm text-gray-500">Good</span>
+                            </div>
+                            <Progress value={70} className="h-2" />
+                          </div>
+                          <div>
+                            <div className="flex justify-between items-center mb-1">
+                              <label className="text-sm font-medium">Leadership</label>
+                              <span className="text-sm text-gray-500">Needs Improvement</span>
+                            </div>
+                            <Progress value={45} className="h-2" />
+                          </div>
+                          <div>
+                            <div className="flex justify-between items-center mb-1">
+                              <label className="text-sm font-medium">Cultural Fit</label>
+                              <span className="text-sm text-gray-500">Good</span>
+                            </div>
+                            <Progress value={80} className="h-2" />
+                          </div>
+                        </div>
                       </div>
                       
+                      <Separator />
+                      
                       <div>
-                        <label className="block text-sm font-medium mb-1">Email</label>
-                        <input 
-                          type="email" 
-                          className="w-full p-2 border rounded-md" 
-                          value="demo@example.com" 
-                          readOnly 
-                        />
+                        <h3 className="font-medium mb-4">Interview Performance Over Time</h3>
+                        <div className="h-48 flex items-center justify-center bg-gray-50 rounded-md">
+                          <p className="text-gray-500">Performance graph will be displayed here</p>
+                        </div>
                       </div>
                       
-                      <div className="mt-4">
-                        <Button>Save Changes</Button>
+                      <Separator />
+                      
+                      <div>
+                        <h3 className="font-medium mb-4">Achievements</h3>
+                        <div className="grid grid-cols-2 sm:grid-cols-4 gap-4">
+                          <div className="border rounded-md p-3 text-center">
+                            <div className="w-12 h-12 rounded-full bg-zordie-100 text-zordie-700 flex items-center justify-center mx-auto mb-2">
+                              <CheckCircle className="h-6 w-6" />
+                            </div>
+                            <p className="text-sm font-medium">First Interview</p>
+                          </div>
+                          <div className="border rounded-md p-3 text-center">
+                            <div className="w-12 h-12 rounded-full bg-gray-100 text-gray-500 flex items-center justify-center mx-auto mb-2">
+                              <Award className="h-6 w-6" />
+                            </div>
+                            <p className="text-sm font-medium text-gray-500">Perfect Score</p>
+                          </div>
+                          <div className="border rounded-md p-3 text-center">
+                            <div className="w-12 h-12 rounded-full bg-gray-100 text-gray-500 flex items-center justify-center mx-auto mb-2">
+                              <Calendar className="h-6 w-6" />
+                            </div>
+                            <p className="text-sm font-medium text-gray-500">10 Sessions</p>
+                          </div>
+                          <div className="border rounded-md p-3 text-center">
+                            <div className="w-12 h-12 rounded-full bg-gray-100 text-gray-500 flex items-center justify-center mx-auto mb-2">
+                              <Clock className="h-6 w-6" />
+                            </div>
+                            <p className="text-sm font-medium text-gray-500">5 Hour Club</p>
+                          </div>
+                        </div>
                       </div>
                     </div>
-                  </div>
-                </CardContent>
-              </Card>
-            </TabsContent>
+                  </CardContent>
+                </Card>
+              </div>
+            )}
+            
+            {activeTab === 'chats' && (
+              <div className="space-y-6">
+                <Card>
+                  <CardHeader className="flex flex-row items-center justify-between">
+                    <CardTitle>Chat History</CardTitle>
+                    <Button onClick={handleOpenChatbot}>
+                      <MessageSquare className="mr-2 h-4 w-4" />
+                      New Chat
+                    </Button>
+                  </CardHeader>
+                  <CardContent>
+                    <div className="space-y-4">
+                      <div className="text-center py-8">
+                        <div className="w-16 h-16 bg-gray-100 rounded-full flex items-center justify-center mx-auto mb-4">
+                          <MessageSquare className="h-8 w-8 text-gray-400" />
+                        </div>
+                        <h3 className="font-medium text-gray-700 mb-2">No Chat History Yet</h3>
+                        <p className="text-gray-500 mb-4">Start a conversation with our AI assistant to get interview tips and guidance.</p>
+                        <Button onClick={handleOpenChatbot}>
+                          Start New Chat
+                        </Button>
+                      </div>
+                    </div>
+                  </CardContent>
+                </Card>
+              </div>
+            )}
+            
+            {activeTab === 'settings' && (
+              <div className="space-y-6">
+                <Card>
+                  <CardHeader>
+                    <CardTitle>Profile Settings</CardTitle>
+                  </CardHeader>
+                  <CardContent>
+                    <div className="space-y-4">
+                      <div className="text-center">
+                        <Avatar className="h-24 w-24 mx-auto mb-4">
+                          <AvatarImage src={profile?.avatar_url || ''} />
+                          <AvatarFallback>{getInitials()}</AvatarFallback>
+                        </Avatar>
+                        <Button variant="outline" size="sm">Change Avatar</Button>
+                      </div>
+                      
+                      <div className="grid grid-cols-1 gap-4 mt-6">
+                        <div>
+                          <label className="block text-sm font-medium mb-1">Full Name</label>
+                          <input 
+                            type="text" 
+                            className="w-full p-2 border rounded-md" 
+                            value={getFullName()} 
+                            readOnly 
+                          />
+                        </div>
+                        
+                        <div>
+                          <label className="block text-sm font-medium mb-1">Email</label>
+                          <input 
+                            type="email" 
+                            className="w-full p-2 border rounded-md" 
+                            value="demo@example.com" 
+                            readOnly 
+                          />
+                        </div>
+                        
+                        <div className="mt-4">
+                          <Button>Save Changes</Button>
+                        </div>
+                      </div>
+                    </div>
+                  </CardContent>
+                </Card>
+              </div>
+            )}
           </main>
         </div>
       </div>

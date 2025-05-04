@@ -1,87 +1,112 @@
 
-import { SectionHeading } from "@/components/ui/section-heading";
-import { motion } from "framer-motion";
-import { useInView } from "framer-motion";
-import { useRef } from "react";
+import React from 'react';
+import { motion } from 'framer-motion';
+import { SectionHeading } from '@/components/ui/section-heading';
+import GradientText from './GradientText';
+
+const companies = [
+  {
+    name: 'Microsoft',
+    logo: 'https://upload.wikimedia.org/wikipedia/commons/4/44/Microsoft_logo.svg',
+  },
+  {
+    name: 'Apple',
+    logo: 'https://upload.wikimedia.org/wikipedia/commons/f/fa/Apple_logo_black.svg',
+  },
+  {
+    name: 'Google',
+    logo: 'https://upload.wikimedia.org/wikipedia/commons/2/2f/Google_2015_logo.svg',
+  },
+  {
+    name: 'Amazon',
+    logo: 'https://upload.wikimedia.org/wikipedia/commons/a/a9/Amazon_logo.svg',
+  },
+  {
+    name: 'Meta',
+    logo: 'https://upload.wikimedia.org/wikipedia/commons/7/7b/Meta_Platforms_Inc._logo.svg',
+  },
+  {
+    name: 'IBM',
+    logo: 'https://upload.wikimedia.org/wikipedia/commons/5/51/IBM_logo.svg',
+  },
+  {
+    name: 'Deloitte',
+    logo: 'https://upload.wikimedia.org/wikipedia/commons/5/56/Deloitte.svg',
+  },
+  {
+    name: 'Salesforce',
+    logo: 'https://upload.wikimedia.org/wikipedia/commons/f/f9/Salesforce.com_logo.svg',
+  },
+];
+
+const containerVariants = {
+  hidden: { opacity: 0 },
+  visible: {
+    opacity: 1,
+    transition: {
+      staggerChildren: 0.1,
+      delayChildren: 0.3,
+    },
+  },
+};
+
+const itemVariants = {
+  hidden: { opacity: 0, y: 20 },
+  visible: {
+    opacity: 1,
+    y: 0,
+    transition: { duration: 0.5 },
+  },
+};
 
 const PartnersSection = () => {
-  const sectionRef = useRef(null);
-  const isInView = useInView(sectionRef, { once: false, amount: 0.2 });
-
-  // Company logos with actual tech company names
-  const companies = [
-    { name: "TechVision", logo: "T" },
-    { name: "Quantum AI", logo: "Q" },
-    { name: "DataSphere", logo: "D" },
-    { name: "CloudEdge", logo: "C" },
-    { name: "NexusCore", logo: "N" },
-    { name: "InnovateX", logo: "I" },
-  ];
-
   return (
-    <section ref={sectionRef} className="py-16 bg-white">
-      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+    <section className="py-10 md:py-16 overflow-hidden">
+      <div className="container mx-auto px-4">
+        <SectionHeading
+          align="center"
+          title={<>Trusted by <GradientText gradient="primary">Industry Leaders</GradientText></>}
+          subtitle="Join thousands of top companies using our platform to find the best talent"
+        />
+
         <motion.div
-          initial={{ opacity: 0, y: 20 }}
-          animate={isInView ? { opacity: 1, y: 0 } : { opacity: 0, y: 20 }}
-          transition={{ duration: 0.5 }}
-        >
-          <SectionHeading
-            title="Trusted by Leading Companies"
-            align="center"
-            className="text-zordie-900"
-          />
-        </motion.div>
-        
-        <motion.div 
-          className="flex flex-wrap justify-center items-center gap-x-12 gap-y-8 mt-10"
-          initial={{ opacity: 0 }}
-          animate={isInView ? { opacity: 1 } : { opacity: 0 }}
-          transition={{ duration: 0.5, delay: 0.2 }}
+          variants={containerVariants}
+          initial="hidden"
+          whileInView="visible"
+          viewport={{ once: true, amount: 0.3 }}
+          className="mt-12 grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 gap-6 md:gap-8 lg:gap-10"
         >
           {companies.map((company, index) => (
-            <CompanyLogo 
-              key={company.name} 
-              name={company.name} 
-              logo={company.logo} 
-              delay={index * 0.1} 
-              isInView={isInView}
-            />
+            <motion.div
+              key={index}
+              variants={itemVariants}
+              className="flex items-center justify-center"
+              whileHover={{ scale: 1.05 }}
+            >
+              <div className="h-16 flex items-center justify-center p-2 filter grayscale hover:grayscale-0 transition-all duration-300">
+                <img
+                  src={company.logo}
+                  alt={`${company.name} logo`}
+                  className="max-h-full max-w-full object-contain"
+                />
+              </div>
+            </motion.div>
           ))}
+        </motion.div>
+
+        <motion.div
+          initial={{ opacity: 0, y: 20 }}
+          whileInView={{ opacity: 1, y: 0 }}
+          transition={{ duration: 0.5, delay: 0.5 }}
+          viewport={{ once: true }}
+          className="mt-12 text-center"
+        >
+          <p className="text-gray-500 dark:text-gray-400 italic">
+            ...and thousands more organizations worldwide.
+          </p>
         </motion.div>
       </div>
     </section>
-  );
-};
-
-interface CompanyLogoProps {
-  name: string;
-  logo?: string;
-  delay?: number;
-  isInView: boolean;
-}
-
-const CompanyLogo = ({ name, logo, delay = 0, isInView }: CompanyLogoProps) => {
-  return (
-    <motion.div 
-      className="h-20 w-36 flex items-center justify-center px-6 grayscale opacity-70 hover:grayscale-0 hover:opacity-100 transition-all duration-300"
-      initial={{ opacity: 0, y: 20 }}
-      animate={isInView ? { opacity: 1, y: 0 } : { opacity: 0, y: 20 }}
-      transition={{ duration: 0.5, delay }}
-      whileHover={{ 
-        scale: 1.05,
-        opacity: 1
-      }}
-    >
-      <div className="flex items-center">
-        {logo && (
-          <div className="w-10 h-10 rounded-md bg-gradient-to-r from-zordie-600 to-accent1 text-white flex items-center justify-center text-xl font-bold mr-3">
-            {logo}
-          </div>
-        )}
-        <div className="text-lg font-semibold text-zordie-800">{name}</div>
-      </div>
-    </motion.div>
   );
 };
 

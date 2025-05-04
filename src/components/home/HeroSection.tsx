@@ -1,4 +1,3 @@
-
 import React, { useState, useEffect } from "react";
 import { Link } from "react-router-dom";
 import { Button } from "@/components/ui/button";
@@ -9,13 +8,16 @@ import SpinningCube from "./3d/SpinningCube";
 import BackgroundAnimation from "./3d/BackgroundAnimation";
 import GradientText from "./GradientText";
 import gsap from "gsap";
-
 const HeroSection = () => {
-  const [mousePosition, setMousePosition] = useState({ x: 0, y: 0 });
-  const { scrollY } = useScroll();
+  const [mousePosition, setMousePosition] = useState({
+    x: 0,
+    y: 0
+  });
+  const {
+    scrollY
+  } = useScroll();
   const opacity = useTransform(scrollY, [0, 300], [1, 0]);
   const y = useTransform(scrollY, [0, 300], [0, 100]);
-
   useEffect(() => {
     const handleMouseMove = (e: MouseEvent) => {
       setMousePosition({
@@ -23,21 +25,19 @@ const HeroSection = () => {
         y: e.clientY / window.innerHeight
       });
     };
-
     window.addEventListener('mousemove', handleMouseMove);
 
     // GSAP animations
-    gsap.fromTo(".hero-element", 
-      { y: 50, opacity: 0 },
-      { 
-        y: 0, 
-        opacity: 1, 
-        duration: 1, 
-        stagger: 0.2, 
-        ease: "power3.out",
-      }
-    );
-
+    gsap.fromTo(".hero-element", {
+      y: 50,
+      opacity: 0
+    }, {
+      y: 0,
+      opacity: 1,
+      duration: 1,
+      stagger: 0.2,
+      ease: "power3.out"
+    });
     return () => {
       window.removeEventListener('mousemove', handleMouseMove);
     };
@@ -45,7 +45,10 @@ const HeroSection = () => {
 
   // Text animation variants
   const titleVariant = {
-    hidden: { opacity: 0, y: 30 },
+    hidden: {
+      opacity: 0,
+      y: 30
+    },
     visible: (i: number) => ({
       opacity: 1,
       y: 0,
@@ -59,7 +62,10 @@ const HeroSection = () => {
 
   // Button animation variants
   const buttonVariant = {
-    hidden: { opacity: 0, y: 20 },
+    hidden: {
+      opacity: 0,
+      y: 20
+    },
     visible: {
       opacity: 1,
       y: 0,
@@ -77,42 +83,35 @@ const HeroSection = () => {
       }
     }
   };
-
-  return (
-    <section className="relative min-h-screen w-full overflow-hidden bg-white text-zordie-900">
+  return <section className="relative min-h-screen w-full overflow-hidden bg-white text-zordie-900">
       {/* Background animations */}
       <BackgroundAnimation className="z-0" />
       
       {/* Interactive Particles */}
       <div className="absolute inset-0 z-10 pointer-events-none opacity-60">
-        <FloatingParticles 
-          className="w-full h-full" 
-          particleCount={150} 
-          particleColor="rgba(111, 76, 255, 0.25)" 
-        />
+        <FloatingParticles className="w-full h-full" particleCount={150} particleColor="rgba(111, 76, 255, 0.25)" />
       </div>
 
       <div className="container mx-auto px-4 relative z-20 pt-32 pb-24 md:pt-40 md:pb-32">
         <div className="max-w-5xl mx-auto">
           {/* Main Hero Content */}
           <div className="text-center mb-16">
-            <motion.div 
-              className="inline-flex items-center bg-gray-50 border border-gray-200 rounded-full px-4 py-2 mb-8 hero-element"
-              initial={{ opacity: 0, y: 20 }}
-              animate={{ opacity: 1, y: 0 }}
-              transition={{ duration: 0.6 }}
-            >
+            <motion.div className="inline-flex items-center bg-gray-50 border border-gray-200 rounded-full px-4 py-2 mb-8 hero-element" initial={{
+            opacity: 0,
+            y: 20
+          }} animate={{
+            opacity: 1,
+            y: 0
+          }} transition={{
+            duration: 0.6
+          }}>
               <span className="bg-gradient-to-r from-accent1 to-zordie-500 h-2 w-2 rounded-full mr-2"></span>
               <span className="text-zordie-600 text-sm">Revolutionizing Hiring with AI</span>
             </motion.div>
 
-            <motion.div
-              style={{ perspective: "1000px" }}
-              initial="hidden"
-              animate="visible"
-              custom={0}
-              className="hero-element"
-            >
+            <motion.div style={{
+            perspective: "1000px"
+          }} initial="hidden" animate="visible" custom={0} className="hero-element">
               <h1 className="text-5xl md:text-7xl font-bold mb-6 font-display">
                 <GradientText gradient="primary" animate delay={0.2}>
                   Revolutionize Your 
@@ -124,22 +123,11 @@ const HeroSection = () => {
               </h1>
             </motion.div>
 
-            <motion.p 
-              className="text-xl md:text-2xl text-zordie-600 mb-10 max-w-3xl mx-auto hero-element"
-              variants={titleVariant}
-              initial="hidden"
-              animate="visible"
-              custom={1}
-            >
+            <motion.p className="text-xl md:text-2xl text-zordie-600 mb-10 max-w-3xl mx-auto hero-element" variants={titleVariant} initial="hidden" animate="visible" custom={1}>
               Zordie combines intelligent screening, automated assessments, and interactive interviews to help you find the perfect candidates faster than ever.
             </motion.p>
 
-            <motion.div 
-              className="flex flex-col sm:flex-row justify-center gap-4 hero-element"
-              variants={buttonVariant}
-              initial="hidden"
-              animate="visible"
-            >
+            <motion.div className="flex flex-col sm:flex-row justify-center gap-4 hero-element" variants={buttonVariant} initial="hidden" animate="visible">
               <motion.div whileHover="hover" variants={buttonVariant}>
                 <Link to="/dashboard-selector">
                   <Button size="lg" className="relative overflow-hidden group bg-gradient-to-r from-zordie-500 to-accent1 border-none text-white font-medium px-8 py-7 text-lg">
@@ -166,97 +154,66 @@ const HeroSection = () => {
           {/* 3D Elements */}
           <div className="relative mx-auto mt-12 flex justify-center">
             {/* 3D Spinning Cube */}
-            <motion.div
-              className="absolute -top-20 -right-20 w-80 h-80 opacity-60 hidden md:block"
-              style={{ opacity }}
-            >
+            <motion.div className="absolute -top-20 -right-20 w-80 h-80 opacity-60 hidden md:block" style={{
+            opacity
+          }}>
               <SpinningCube className="w-full h-full" />
             </motion.div>
 
             {/* Dashboard Preview */}
-            <motion.div 
-              className="relative mx-auto mt-8 w-full max-w-4xl hero-element"
-              initial={{ opacity: 0, y: 50 }}
-              animate={{ opacity: 1, y: 0 }}
-              transition={{ 
-                delay: 0.5,
-                duration: 0.8,
-                ease: [0.25, 0.1, 0.25, 1]
-              }}
-              style={{ 
-                transformStyle: "preserve-3d",
-                transform: `perspective(1000px) rotateX(${(mousePosition.y - 0.5) * -5}deg) rotateY(${(mousePosition.x - 0.5) * 5}deg)`,
-              }}
-            >
-              <img 
-                src="https://images.unsplash.com/photo-1600880292203-757bb62b4baf?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1170&q=80" 
-                alt="AI-powered hiring dashboard"
-                className="w-full rounded-xl shadow-2xl border border-gray-200"
-              />
+            <motion.div className="relative mx-auto mt-8 w-full max-w-4xl hero-element" initial={{
+            opacity: 0,
+            y: 50
+          }} animate={{
+            opacity: 1,
+            y: 0
+          }} transition={{
+            delay: 0.5,
+            duration: 0.8,
+            ease: [0.25, 0.1, 0.25, 1]
+          }} style={{
+            transformStyle: "preserve-3d",
+            transform: `perspective(1000px) rotateX(${(mousePosition.y - 0.5) * -5}deg) rotateY(${(mousePosition.x - 0.5) * 5}deg)`
+          }}>
+              
               
               {/* Floating stats cards */}
-              <motion.div 
-                className="absolute -bottom-5 left-1/4 transform -translate-x-1/2 bg-white border border-gray-200 p-4 rounded-lg shadow-xl z-20"
-                whileHover={{ scale: 1.05, y: -5 }}
-                transition={{ type: "spring", stiffness: 300, damping: 20 }}
-              >
-                <div className="flex items-center space-x-3">
-                  <div className="flex items-center justify-center w-12 h-12 bg-zordie-100 rounded-full">
-                    <Lightbulb className="h-6 w-6 text-zordie-600" />
-                  </div>
-                  <div>
-                    <div className="text-sm text-zordie-500">Time saved</div>
-                    <div className="text-xl font-bold text-zordie-800">23 hours/week</div>
-                  </div>
-                </div>
-              </motion.div>
               
-              <motion.div 
-                className="absolute -bottom-5 right-1/4 transform translate-x-1/2 bg-white border border-gray-200 p-4 rounded-lg shadow-xl z-20"
-                whileHover={{ scale: 1.05, y: -5 }}
-                transition={{ type: "spring", stiffness: 300, damping: 20 }}
-              >
-                <div className="flex items-center space-x-3">
-                  <div className="flex items-center justify-center w-12 h-12 bg-green-100 rounded-full">
-                    <svg xmlns="http://www.w3.org/2000/svg" className="h-6 w-6 text-green-600" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z" />
-                    </svg>
-                  </div>
-                  <div>
-                    <div className="text-sm text-zordie-500">Better hires</div>
-                    <div className="text-xl font-bold text-zordie-800">85% improvement</div>
-                  </div>
-                </div>
-              </motion.div>
+              
+              
             </motion.div>
           </div>
 
           {/* Scroll down indicator */}
-          <motion.div 
-            className="absolute bottom-8 left-1/2 transform -translate-x-1/2 flex flex-col items-center hero-element"
-            initial={{ opacity: 0 }}
-            animate={{ opacity: 1 }}
-            transition={{ delay: 1.2, duration: 0.5 }}
-            style={{ y }}
-          >
-            <motion.span 
-              className="text-sm text-zordie-500 mb-2"
-              animate={{ y: [0, 5, 0] }}
-              transition={{ repeat: Infinity, duration: 1.5 }}
-            >
+          <motion.div className="absolute bottom-8 left-1/2 transform -translate-x-1/2 flex flex-col items-center hero-element" initial={{
+          opacity: 0
+        }} animate={{
+          opacity: 1
+        }} transition={{
+          delay: 1.2,
+          duration: 0.5
+        }} style={{
+          y
+        }}>
+            <motion.span className="text-sm text-zordie-500 mb-2" animate={{
+            y: [0, 5, 0]
+          }} transition={{
+            repeat: Infinity,
+            duration: 1.5
+          }}>
               Scroll to explore
             </motion.span>
-            <motion.div
-              animate={{ y: [0, 10, 0] }}
-              transition={{ repeat: Infinity, duration: 1.5 }}
-            >
+            <motion.div animate={{
+            y: [0, 10, 0]
+          }} transition={{
+            repeat: Infinity,
+            duration: 1.5
+          }}>
               <ChevronDown className="h-5 w-5 text-zordie-400" />
             </motion.div>
           </motion.div>
         </div>
       </div>
-    </section>
-  );
+    </section>;
 };
-
 export default HeroSection;

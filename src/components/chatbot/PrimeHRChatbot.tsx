@@ -15,26 +15,79 @@ interface ChatMessage {
   timestamp: Date;
 }
 
-// Sample responses for the Prime HR Assistant
-const primeResponses = [
-  "I've analyzed the candidate's resume and found they have 85% match with the job requirements. Their technical skills are particularly strong in JavaScript and React.",
-  "Based on the assessment results, I recommend proceeding with an interview for this candidate. They scored in the 90th percentile on the coding challenge.",
-  "I can help you create a custom assessment for your Frontend Developer role. Would you like to focus on technical skills, soft skills, or both?",
-  "Here's a summary of the 5 candidates you've shortlisted: 3 have strong technical backgrounds, 1 has excellent communication skills, and 1 has relevant industry experience.",
-  "I've scheduled the assessment to be sent to john.doe@example.com. They will receive it within the next 5 minutes.",
-  "The assessment for the Marketing position has been created. It includes sections on campaign strategy, analytics, and communication skills.",
-  "Would you like me to generate a detailed report comparing all candidates who completed the assessment for the Product Manager role?",
-  "I noticed this candidate has a gap in their employment history. Would you like me to prepare some questions about this for the upcoming interview?",
-  "Based on the job description, I recommend including questions about team leadership experience in the assessment.",
-  "I've analyzed the responses from the last assessment batch and noticed that 60% of candidates struggled with the problem-solving section. Would you like me to suggest some adjustments?",
-  "The candidate has completed their assessment. Their overall score is 87/100, placing them in the top 15% of applicants.",
-  "I've automatically added this candidate to your 'High Potential' talent pool based on their assessment results and resume match score."
-];
+// Enhanced AI responses for the Prime HR Assistant with more variety
+const primeResponses = {
+  resume_analysis: [
+    "I've analyzed the candidate's resume and found they have 85% match with the job requirements. Their technical skills are particularly strong in JavaScript and React.",
+    "This candidate's resume shows a 72% match to the position. They have good experience in backend development but might need additional training for frontend work.",
+    "The resume analysis shows this candidate has extensive leadership experience, with 5 years managing teams of 10+ people. Their technical skills match about 79% of requirements.",
+    "I found that this candidate has worked at 3 Fortune 500 companies and has highly relevant experience. Overall match rate is 91% for the position requirements.",
+    "This candidate's academic background is impressive with a Master's degree in Computer Science, but they have limited practical experience. Skills match is around 68%."
+  ],
+  
+  assessment_results: [
+    "Based on the assessment results, I recommend proceeding with an interview for this candidate. They scored in the 90th percentile on the coding challenge.",
+    "The candidate performed well in problem-solving assessments (87%) but struggled with the system design portion (64%). Consider focusing on system architecture during the interview.",
+    "Assessment results show strong communication skills (92nd percentile) and adequate technical knowledge (76th percentile). They would likely fit well in a team environment.",
+    "This candidate's assessment reveals excellent analytical thinking (94%) but some weaknesses in time management (67%). Overall they ranked in the top 15% of applicants.",
+    "Assessment completed with mixed results - excellent in database knowledge (95%) but below average in modern frontend frameworks (42%). Consider evaluating if training could address the gaps."
+  ],
+  
+  interview_questions: [
+    "Based on their experience, I recommend asking: 'Can you describe a situation where you had to debug a particularly challenging issue? What was your approach?'",
+    "Given their background in team leadership, try this question: 'Tell me about a time when your team disagreed on implementation approach. How did you resolve it?'",
+    "To assess cultural fit, consider asking: 'Describe a work environment where you felt most productive and engaged. What elements made it successful for you?'",
+    "For technical assessment, this question would be valuable: 'How do you approach performance optimization in web applications? Can you give a specific example?'",
+    "To evaluate their growth mindset: 'Tell me about a time you received constructive criticism. How did you respond and what did you learn?'"
+  ],
+  
+  job_descriptions: [
+    "I've optimized the job description to attract more qualified candidates. Key improvements include more specific technical requirements and highlighting your company culture.",
+    "After analysis, I've enhanced the job description with industry-specific keywords that will improve your listing's visibility by approximately 35% on major job boards.",
+    "Your job description was missing details about career advancement opportunities. I've added a section highlighting potential growth paths, which typically increases application rates by 24%.",
+    "I've rewritten the responsibilities section to be more action-oriented and included specific technologies, which should help candidates better self-assess their fit.",
+    "The revised job description now includes more inclusive language and focuses on skills rather than years of experience, which research shows attracts a more diverse candidate pool."
+  ],
+  
+  feedback_generation: [
+    "I've generated detailed feedback for the rejected candidates that explains the decision while maintaining a positive impression of your company brand.",
+    "The personalized feedback for the interviewed candidates highlights their strengths while gently explaining areas of improvement that prevented selection.",
+    "For the candidate who advanced to the final round, I've created feedback that acknowledges how close the decision was and encourages them to apply for future positions.",
+    "The feedback templates are designed to provide constructive criticism while reducing the likelihood of negative reviews on employment platforms by 42%.",
+    "I've prepared differentiated feedback for candidates at different stages - those rejected after screening receive different messaging than those who completed interviews."
+  ]
+};
 
 // Get a contextualized response based on the user input
 const getContextualizedResponse = (input: string): string => {
   input = input.toLowerCase();
   
+  // Resume analysis
+  if (input.includes('resume') || input.includes('cv') || input.includes('screen') || input.includes('candidate profile')) {
+    return getRandomResponse('resume_analysis');
+  }
+  
+  // Assessment results
+  if (input.includes('assessment') || input.includes('test results') || input.includes('evaluation') || input.includes('score')) {
+    return getRandomResponse('assessment_results');
+  }
+  
+  // Interview questions
+  if (input.includes('interview question') || input.includes('what should i ask') || input.includes('prepare for interview')) {
+    return getRandomResponse('interview_questions');
+  }
+  
+  // Job descriptions
+  if (input.includes('job description') || input.includes('jd') || input.includes('posting') || input.includes('job listing')) {
+    return getRandomResponse('job_descriptions');
+  }
+  
+  // Feedback
+  if (input.includes('feedback') || input.includes('reject') || input.includes('decline') || input.includes('candidate response')) {
+    return getRandomResponse('feedback_generation');
+  }
+  
+  // More specialized responses
   if (input.includes('create assessment') || input.includes('new assessment') || input.includes('generate assessment')) {
     return "I'll help you create a new assessment. What type of role is this assessment for? I can tailor questions based on specific job requirements and skills needed.";
   }
@@ -47,16 +100,19 @@ const getContextualizedResponse = (input: string): string => {
     return "I've generated a detailed report for you. The candidates who completed this assessment scored an average of 72/100. Would you like me to highlight the top 3 performers?";
   }
   
-  if (input.includes('screen') || input.includes('resume') || input.includes('cv')) {
-    return "I've analyzed this candidate's resume against the job requirements. They have an 80% match score, with particularly strong experience in project management and team leadership.";
-  }
-  
   if (input.includes('customize') || input.includes('modify') || input.includes('change')) {
     return "I can help customize this for you. Would you like to adjust the difficulty level, add specific skill assessments, or change the time limit?";
   }
   
-  // Default responses for other queries
-  return primeResponses[Math.floor(Math.random() * primeResponses.length)];
+  // Get a random response from any category if no specific topic is detected
+  const allCategories = Object.keys(primeResponses) as Array<keyof typeof primeResponses>;
+  const randomCategory = allCategories[Math.floor(Math.random() * allCategories.length)];
+  return getRandomResponse(randomCategory);
+};
+
+const getRandomResponse = (category: keyof typeof primeResponses): string => {
+  const responses = primeResponses[category];
+  return responses[Math.floor(Math.random() * responses.length)];
 };
 
 interface PrimeHRChatbotProps {
@@ -116,7 +172,7 @@ const PrimeHRChatbot = ({ initiallyOpen = false }: PrimeHRChatbotProps) => {
       
       setMessages(prev => [...prev, newBotMessage]);
       setIsTyping(false);
-    }, 1000 + Math.random() * 2000); // Random delay between 1-3 seconds for realism
+    }, 1000 + Math.random() * 1500); // Random delay between 1-2.5 seconds for realism
   };
 
   const handleKeyPress = (e: React.KeyboardEvent) => {
@@ -147,7 +203,7 @@ const PrimeHRChatbot = ({ initiallyOpen = false }: PrimeHRChatbotProps) => {
     return (
       <Button
         onClick={toggleChatbot}
-        className="fixed bottom-6 right-6 w-14 h-14 rounded-full p-0 shadow-lg bg-gradient-to-r from-zordie-600 to-accent1 hover:from-zordie-700 hover:to-accent1"
+        className="fixed bottom-6 right-6 w-14 h-14 rounded-full p-0 shadow-lg bg-gradient-to-r from-zordie-600 to-accent1 hover:from-zordie-700 hover:to-accent1 z-50"
       >
         <Bot className="h-6 w-6 text-white" />
       </Button>

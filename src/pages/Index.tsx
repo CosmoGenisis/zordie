@@ -8,6 +8,7 @@ import PricingSection from '@/components/home/PricingSection';
 import TestimonialsSection from '@/components/home/TestimonialsSection';
 import CTASection from '@/components/home/CTASection';
 import PartnersSection from '@/components/home/PartnersSection';
+import PrimeHRChatbot from '@/components/chatbot/PrimeHRChatbot';
 
 const Index = () => {
   return (
@@ -19,6 +20,7 @@ const Index = () => {
       <TestimonialsSection />
       <PricingSection />
       <CTASection />
+      <PrimeHRChatbot />
     </Layout>
   );
 };

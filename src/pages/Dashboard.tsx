@@ -1,4 +1,3 @@
-
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import Layout from "@/components/layout/Layout";
@@ -22,7 +21,8 @@ import {
   Brain, 
   Video,
   MessageSquare,
-  Download
+  Download,
+  CheckCircle
 } from "lucide-react";
 import { SectionHeading } from "@/components/ui/section-heading";
 import { toast } from "@/components/ui/use-toast";
@@ -31,6 +31,12 @@ import { useAuth } from "@/context/AuthContext";
 import ResumeScorer from "@/components/resume/ResumeScorer";
 import FeedbackGenerator from "@/components/feedback/FeedbackGenerator";
 import QuestionGenerator from "@/components/interview/QuestionGenerator";
+import PrimeHRChatbot from "@/components/chatbot/PrimeHRChatbot";
+import InterviewActions from "@/components/dashboard/InterviewActions";
+import JobActions from "@/components/dashboard/JobActions";
+import CandidateActions from "@/components/dashboard/CandidateActions";
+import CalendarScheduleButton from "@/components/dashboard/CalendarScheduleButton";
+import DocumentButton from "@/components/dashboard/DocumentButton";
 
 const Dashboard = () => {
   const navigate = useNavigate();
@@ -93,7 +99,7 @@ const Dashboard = () => {
   // Demo interviews
   const interviews = [
     { 
-      id: 1, 
+      id: "INT-1001", 
       candidate: "Sarah Lee", 
       position: "UX Designer", 
       date: "Today at 2:00 PM", 
@@ -101,7 +107,7 @@ const Dashboard = () => {
       status: "Scheduled" 
     },
     { 
-      id: 2, 
+      id: "INT-1002", 
       candidate: "John Smith", 
       position: "Frontend Developer", 
       date: "Tomorrow at 10:00 AM", 
@@ -109,7 +115,7 @@ const Dashboard = () => {
       status: "Scheduled" 
     },
     { 
-      id: 3, 
+      id: "INT-1003", 
       candidate: "Mike Johnson", 
       position: "Frontend Developer", 
       date: "Completed May 1", 
@@ -117,7 +123,7 @@ const Dashboard = () => {
       status: "Completed" 
     },
     { 
-      id: 4, 
+      id: "INT-1004", 
       candidate: "Emily Roberts", 
       position: "UX Designer", 
       date: "In Progress", 
@@ -379,13 +385,8 @@ const Dashboard = () => {
                             </td>
                             <td className="py-3 px-4">{job.applicants}</td>
                             <td className="py-3 px-4">{job.posted}</td>
-                            <td className="py-3 px-4 space-x-2">
-                              <Button size="sm" variant="outline" onClick={() => toast({ title: "Feature Coming Soon" })}>
-                                Edit
-                              </Button>
-                              <Button size="sm" variant="outline" onClick={() => toast({ title: "Feature Coming Soon" })}>
-                                Analytics
-                              </Button>
+                            <td className="py-3 px-4">
+                              <JobActions jobId={job.id} />
                             </td>
                           </tr>
                         ))}
@@ -416,7 +417,7 @@ const Dashboard = () => {
                   </div>
                   <Button variant="outline">Filter</Button>
                 </div>
-                <Button variant="outline" onClick={() => toast({ title: "Feature Coming Soon" })}>
+                <Button variant="outline" onClick={() => toast({ title: "Import started", description: "Preparing to import candidates" })}>
                   <Upload className="mr-2 h-4 w-4" />
                   Import Candidates
                 </Button>
@@ -463,13 +464,8 @@ const Dashboard = () => {
                               </div>
                             </td>
                             <td className="py-3 px-4">{candidate.source}</td>
-                            <td className="py-3 px-4 space-x-2">
-                              <Button size="sm" variant="outline" onClick={() => toast({ title: "Feature Coming Soon" })}>
-                                View
-                              </Button>
-                              <Button size="sm" variant="outline" onClick={() => toast({ title: "Feature Coming Soon" })}>
-                                <Star className="h-4 w-4" />
-                              </Button>
+                            <td className="py-3 px-4">
+                              <CandidateActions candidateId={candidate.id} />
                             </td>
                           </tr>
                         ))}
@@ -618,20 +614,14 @@ const Dashboard = () => {
               
               <div className="flex justify-between flex-wrap gap-3 mb-4">
                 <div className="flex gap-2">
-                  <Button variant="outline" className="flex-grow sm:flex-grow-0">
-                    <Calendar className="h-4 w-4 mr-2" />
-                    Schedule Interview
-                  </Button>
+                  <CalendarScheduleButton type="schedule" />
                   <Button variant="outline" className="flex-grow sm:flex-grow-0" onClick={handleAIVideoInterview}>
                     <Video className="h-4 w-4 mr-2" />
                     AI Video Interview
                   </Button>
                 </div>
                 <div className="flex gap-2">
-                  <Button variant="outline">
-                    <Calendar className="h-4 w-4 mr-2" />
-                    View Calendar
-                  </Button>
+                  <CalendarScheduleButton type="view" />
                 </div>
               </div>
               
@@ -676,22 +666,11 @@ const Dashboard = () => {
                               </span>
                             </td>
                             <td className="py-3 px-4 space-x-2">
-                              {interview.status === "Scheduled" && (
-                                <Button size="sm" variant="outline">
-                                  {interview.type === "Live" ? "Join" : "Start"}
-                                </Button>
-                              )}
-                              {interview.status === "Completed" && (
-                                <Button size="sm" variant="outline">
-                                  <FileText className="h-4 w-4 mr-2" />
-                                  View
-                                </Button>
-                              )}
-                              {interview.status === "In Progress" && (
-                                <Button size="sm" variant="outline" disabled>
-                                  In Progress
-                                </Button>
-                              )}
+                              <InterviewActions 
+                                interviewType={interview.type as 'Live' | 'AI'} 
+                                interviewStatus={interview.status as 'Scheduled' | 'Completed' | 'In Progress'} 
+                                interviewId={interview.id} 
+                              />
                             </td>
                           </tr>
                         ))}
@@ -735,10 +714,7 @@ const Dashboard = () => {
                   </CardHeader>
                   <CardContent>
                     <p className="text-gray-500 my-8 text-center">No active offers at this time.</p>
-                    <Button className="w-full">
-                      <FileText className="mr-2 h-4 w-4" />
-                      Create New Offer
-                    </Button>
+                    <DocumentButton type="create" title="Create New Offer" />
                   </CardContent>
                 </Card>
 
@@ -753,21 +729,21 @@ const Dashboard = () => {
                           <p className="font-medium">Offer Letter Template</p>
                           <p className="text-sm text-gray-500">Last edited 2 weeks ago</p>
                         </div>
-                        <Button size="sm" variant="outline">Edit</Button>
+                        <DocumentButton type="edit" title="Edit" />
                       </div>
                       <div className="flex justify-between items-center border-b pb-3">
                         <div>
                           <p className="font-medium">NDA Template</p>
                           <p className="text-sm text-gray-500">Last edited 3 months ago</p>
                         </div>
-                        <Button size="sm" variant="outline">Edit</Button>
+                        <DocumentButton type="edit" title="Edit" />
                       </div>
                       <div className="flex justify-between items-center">
                         <div>
                           <p className="font-medium">Employment Contract</p>
                           <p className="text-sm text-gray-500">Last edited 1 month ago</p>
                         </div>
-                        <Button size="sm" variant="outline">Edit</Button>
+                        <DocumentButton type="edit" title="Edit" />
                       </div>
                     </div>
                   </CardContent>
@@ -809,10 +785,7 @@ const Dashboard = () => {
                 </CardContent>
               </Card>
               <div className="flex justify-end">
-                <Button variant="outline">
-                  <FileText className="mr-2 h-4 w-4" />
-                  Export Reports
-                </Button>
+                <DocumentButton type="export" title="Export Reports" />
               </div>
             </TabsContent>
             
@@ -959,6 +932,7 @@ const Dashboard = () => {
             </TabsContent>
           </Tabs>
         </div>
+        <PrimeHRChatbot />
       </Layout>
     </ProtectedRoute>
   );

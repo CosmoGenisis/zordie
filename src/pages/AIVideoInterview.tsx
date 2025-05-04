@@ -1,7 +1,7 @@
 
 import React, { useState, useRef, useEffect } from 'react';
 import Layout from "@/components/layout/Layout";
-import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
+import { Card, CardContent, CardHeader, CardTitle, CardFooter } from '@/components/ui/card';
 import { Button } from '@/components/ui/button';
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
 import { Separator } from '@/components/ui/separator';
@@ -13,7 +13,8 @@ import {
   FileText, 
   Send,
   MessageSquare, 
-  Brain
+  Brain,
+  CheckCircle
 } from 'lucide-react';
 import { toast } from '@/components/ui/use-toast';
 import AIInterviewAnalyzer from '@/components/interview/AIInterviewAnalyzer';
@@ -28,7 +29,7 @@ const AIVideoInterview = () => {
   const [showAnalysis, setShowAnalysis] = useState(false);
   const [showPreview, setShowPreview] = useState(false);
   const [messages, setMessages] = useState<{ sender: 'ai' | 'user', text: string }[]>([
-    { sender: 'ai', text: 'Hello! I\'m your AI interviewer today. We'll be discussing your experience and skills for the Frontend Developer position. Are you ready to begin?' }
+    { sender: 'ai', text: "Hello! I'm your AI interviewer today. We're discussing your experience and skills for the Frontend Developer position. Are you ready to begin?" }
   ]);
   
   const videoRef = useRef<HTMLVideoElement>(null);

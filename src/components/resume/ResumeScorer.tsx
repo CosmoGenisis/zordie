@@ -1,4 +1,3 @@
-
 import React, { useState } from 'react';
 import { Card, CardContent, CardHeader, CardTitle, CardFooter } from '@/components/ui/card';
 import { Button } from '@/components/ui/button';
@@ -26,9 +25,11 @@ const ResumeScorer: React.FC<ResumeScoreProps> = ({ jobTitle = '', jobDescriptio
     recommendations: []
   });
 
-  const handleFileUpload = (file: File) => {
-    setResumeFile(file);
-    setAnalyzeComplete(false);
+  const handleFileUpload = (files: File[]) => {
+    if (files.length > 0) {
+      setResumeFile(files[0]);
+      setAnalyzeComplete(false);
+    }
   };
 
   const analyzeResume = async () => {
@@ -119,7 +120,7 @@ const ResumeScorer: React.FC<ResumeScoreProps> = ({ jobTitle = '', jobDescriptio
             <p className="text-sm text-gray-600">
               Upload a resume to analyze and score against job requirements
             </p>
-            <ResumeUploader onFileSelected={handleFileUpload} />
+            <ResumeUploader onUpload={handleFileUpload} />
             
             {resumeFile && (
               <div className="flex items-center justify-between">

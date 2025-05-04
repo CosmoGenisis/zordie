@@ -34,9 +34,10 @@ const FeaturesSection = () => {
           transition={{ duration: 0.7, ease: "easeOut" }}
         >
           <SectionHeading
-            title={<>AI-Powered Platform for <GradientText gradient="rainbow">Trustworthy Hiring</GradientText></>}
+            title="AI-Powered Platform for Trustworthy Hiring"
             subtitle="Discover how Zordie transforms the hiring process with verification and intelligence"
             align="center"
+            titleContent={<>AI-Powered Platform for <GradientText gradient="rainbow">Trustworthy Hiring</GradientText></>}
           />
         </motion.div>
         

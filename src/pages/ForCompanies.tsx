@@ -1,4 +1,3 @@
-
 import React, { useEffect, useRef } from 'react';
 import Layout from '@/components/layout/Layout';
 import { SectionHeading } from '@/components/ui/section-heading';
@@ -216,9 +215,10 @@ const ForCompanies = () => {
       <div className="py-24 bg-gradient-to-b from-white to-indigo-50 dark:from-zordie-950 dark:to-zordie-900 transition-colors duration-300">
         <div className="px-4 mx-auto max-w-7xl sm:px-6 lg:px-8">
           <SectionHeading 
-            title={<>Recruiting Challenges <GradientText gradient="primary">Solved</GradientText></>} 
+            title="Recruiting Challenges Solved"
             subtitle="How we transform common hiring bottlenecks into competitive advantages" 
-            align="center" 
+            align="center"
+            titleContent={<>Recruiting Challenges <GradientText gradient="primary">Solved</GradientText></>}
           />
           
           <motion.div 
@@ -288,9 +288,10 @@ const ForCompanies = () => {
         
         <div className="px-4 mx-auto max-w-7xl sm:px-6 lg:px-8 relative">
           <SectionHeading 
-            title={<>Multi-Layer <GradientText gradient="secondary">Verification</GradientText> System</>} 
+            title="Multi-Layer Verification System"
             subtitle="Our comprehensive approach to verify every aspect of a candidate's profile" 
-            align="center" 
+            align="center"
+            titleContent={<>Multi-Layer <GradientText gradient="secondary">Verification</GradientText> System</>}
           />
           
           <div className="mt-20 grid grid-cols-1 lg:grid-cols-12 gap-8">
@@ -468,9 +469,10 @@ const ForCompanies = () => {
         
         <div className="px-4 mx-auto max-w-7xl sm:px-6 lg:px-8">
           <SectionHeading 
-            title={<>How <GradientText gradient="accent">Zordie AI</GradientText> Works</>} 
+            title="How Zordie AI Works"
             subtitle="A simple process that transforms your hiring outcomes" 
-            align="center" 
+            align="center"
+            titleContent={<>How <GradientText gradient="accent">Zordie AI</GradientText> Works</>}
           />
           
           <motion.div 
@@ -619,9 +621,10 @@ const ForCompanies = () => {
       <div className="py-24 bg-indigo-50 dark:bg-zordie-900">
         <div className="px-4 mx-auto max-w-7xl sm:px-6 lg:px-8">
           <SectionHeading 
-            title={<>Client <GradientText gradient="primary">Success</GradientText> Stories</>} 
+            title="Client Success Stories"
             subtitle="Hear from companies transforming their hiring process" 
-            align="center" 
+            align="center"
+            titleContent={<>Client <GradientText gradient="primary">Success</GradientText> Stories</>}
           />
           
           <motion.div 

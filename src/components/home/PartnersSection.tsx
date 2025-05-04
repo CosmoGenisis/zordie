@@ -65,8 +65,9 @@ const PartnersSection = () => {
       <div className="container mx-auto px-4">
         <SectionHeading
           align="center"
-          title={<>Trusted by <GradientText gradient="primary">Industry Leaders</GradientText></>}
+          title="Trusted by Industry Leaders"
           subtitle="Join thousands of top companies using our platform to find the best talent"
+          titleContent={<>Trusted by <GradientText gradient="primary">Industry Leaders</GradientText></>}
         />
 
         <motion.div

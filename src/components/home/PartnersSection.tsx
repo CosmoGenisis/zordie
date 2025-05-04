@@ -19,7 +19,7 @@ const PartnersSection = () => {
   ];
 
   return (
-    <section ref={sectionRef} className="py-16 bg-white dark:bg-zordie-950">
+    <section ref={sectionRef} className="py-16 bg-white">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <motion.div
           initial={{ opacity: 0, y: 20 }}
@@ -29,6 +29,7 @@ const PartnersSection = () => {
           <SectionHeading
             title="Trusted by Leading Companies"
             align="center"
+            className="text-zordie-900"
           />
         </motion.div>
         
@@ -78,7 +79,7 @@ const CompanyLogo = ({ name, logo, delay = 0, isInView }: CompanyLogoProps) => {
             {logo}
           </div>
         )}
-        <div className="text-lg font-semibold text-zordie-800 dark:text-zordie-200">{name}</div>
+        <div className="text-lg font-semibold text-zordie-800">{name}</div>
       </div>
     </motion.div>
   );

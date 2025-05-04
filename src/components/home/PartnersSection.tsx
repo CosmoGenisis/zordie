@@ -69,7 +69,6 @@ const CompanyLogo = ({ name, logo, delay = 0, isInView }: CompanyLogoProps) => {
       transition={{ duration: 0.5, delay }}
       whileHover={{ 
         scale: 1.05,
-        grayscale: 0,
         opacity: 1
       }}
     >

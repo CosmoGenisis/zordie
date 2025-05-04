@@ -4,6 +4,7 @@ import { cn } from "@/lib/utils";
 
 interface SectionHeadingProps {
   title: string;
+  titleContent?: React.ReactNode;
   subtitle?: string;
   align?: "left" | "center" | "right";
   className?: string;
@@ -11,6 +12,7 @@ interface SectionHeadingProps {
 
 export function SectionHeading({
   title,
+  titleContent,
   subtitle,
   align = "left",
   className,
@@ -25,7 +27,7 @@ export function SectionHeading({
       )}
     >
       <h2 className="text-3xl font-bold tracking-tight sm:text-4xl font-display">
-        {title}
+        {titleContent || title}
       </h2>
       {subtitle && <p className="text-lg text-muted-foreground">{subtitle}</p>}
     </div>

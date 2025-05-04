@@ -1,23 +1,25 @@
+
 import React, { useState, useEffect } from "react";
 import { Link } from "react-router-dom";
 import { Button } from "@/components/ui/button";
 import { motion, useScroll, useTransform } from "framer-motion";
-import { ArrowRight, Play, ChevronDown, Lightbulb } from "lucide-react";
+import { ArrowRight, Play, ChevronDown, Lightbulb, Shield, BadgeCheck, Github, Linkedin } from "lucide-react";
 import FloatingParticles from "./3d/FloatingParticles";
 import SpinningCube from "./3d/SpinningCube";
 import BackgroundAnimation from "./3d/BackgroundAnimation";
 import GradientText from "./GradientText";
 import gsap from "gsap";
+
 const HeroSection = () => {
   const [mousePosition, setMousePosition] = useState({
     x: 0,
     y: 0
   });
-  const {
-    scrollY
-  } = useScroll();
+  
+  const { scrollY } = useScroll();
   const opacity = useTransform(scrollY, [0, 300], [1, 0]);
   const y = useTransform(scrollY, [0, 300], [0, 100]);
+  
   useEffect(() => {
     const handleMouseMove = (e: MouseEvent) => {
       setMousePosition({
@@ -25,6 +27,7 @@ const HeroSection = () => {
         y: e.clientY / window.innerHeight
       });
     };
+    
     window.addEventListener('mousemove', handleMouseMove);
 
     // GSAP animations
@@ -38,6 +41,7 @@ const HeroSection = () => {
       stagger: 0.2,
       ease: "power3.out"
     });
+    
     return () => {
       window.removeEventListener('mousemove', handleMouseMove);
     };
@@ -83,7 +87,28 @@ const HeroSection = () => {
       }
     }
   };
-  return <section className="relative min-h-screen w-full overflow-hidden bg-white text-zordie-900">
+  
+  // Card animation variants
+  const cardVariant = {
+    hidden: { opacity: 0, y: 20 },
+    visible: (delay: number) => ({
+      opacity: 1,
+      y: 0,
+      transition: {
+        delay: delay,
+        duration: 0.5,
+        ease: "easeOut"
+      }
+    }),
+    hover: {
+      y: -5,
+      boxShadow: "0px 10px 25px rgba(71, 57, 195, 0.15)",
+      transition: { duration: 0.2 }
+    }
+  };
+
+  return (
+    <section className="relative min-h-screen w-full overflow-hidden bg-white text-zordie-900">
       {/* Background animations */}
       <BackgroundAnimation className="z-0" />
       
@@ -176,11 +201,107 @@ const HeroSection = () => {
             transform: `perspective(1000px) rotateX(${(mousePosition.y - 0.5) * -5}deg) rotateY(${(mousePosition.x - 0.5) * 5}deg)`
           }}>
               
+              {/* Dashboard UI mockup */}
+              <div className="w-full h-72 sm:h-96 bg-white rounded-xl shadow-2xl overflow-hidden border border-gray-200">
+                <div className="h-12 bg-gradient-to-r from-zordie-500 to-accent1 flex items-center px-4">
+                  <div className="flex space-x-2">
+                    <div className="w-3 h-3 rounded-full bg-red-500"></div>
+                    <div className="w-3 h-3 rounded-full bg-yellow-500"></div>
+                    <div className="w-3 h-3 rounded-full bg-green-500"></div>
+                  </div>
+                  <div className="text-white text-sm ml-4">Zordie AI Dashboard</div>
+                </div>
+                <div className="p-6">
+                  <div className="h-6 w-1/3 bg-gray-100 rounded mb-4"></div>
+                  <div className="flex mb-6">
+                    <div className="h-4 w-1/4 bg-gray-100 rounded mr-2"></div>
+                    <div className="h-4 w-1/5 bg-gray-100 rounded"></div>
+                  </div>
+                  <div className="grid grid-cols-3 gap-4 mb-6">
+                    <div className="h-16 bg-gray-50 rounded-md border border-gray-100"></div>
+                    <div className="h-16 bg-gray-50 rounded-md border border-gray-100"></div>
+                    <div className="h-16 bg-gray-50 rounded-md border border-gray-100"></div>
+                  </div>
+                  <div className="h-32 bg-gray-50 rounded-md border border-gray-100 mb-6"></div>
+                </div>
+              </div>
               
               {/* Floating stats cards */}
-              
-              
-              
+              <motion.div 
+                className="absolute -top-10 -left-16 md:-left-24 w-64 bg-white p-4 rounded-lg shadow-lg border border-indigo-100"
+                initial="hidden"
+                animate="visible"
+                custom={0.8}
+                variants={cardVariant}
+                whileHover="hover"
+              >
+                <div className="flex items-center">
+                  <div className="w-10 h-10 rounded-full bg-indigo-100 flex items-center justify-center mr-4">
+                    <BadgeCheck className="h-5 w-5 text-indigo-600" />
+                  </div>
+                  <div>
+                    <div className="text-sm text-gray-500">Verified Candidates</div>
+                    <div className="text-xl font-bold text-indigo-700">+329 today</div>
+                  </div>
+                </div>
+              </motion.div>
+
+              <motion.div 
+                className="absolute -bottom-10 -right-16 md:-right-24 w-72 bg-white p-4 rounded-lg shadow-lg border border-indigo-100"
+                initial="hidden"
+                animate="visible"
+                custom={1.0}
+                variants={cardVariant}
+                whileHover="hover"
+              >
+                <div className="flex items-center">
+                  <div className="w-10 h-10 rounded-full bg-green-100 flex items-center justify-center mr-4">
+                    <Shield className="h-5 w-5 text-green-600" />
+                  </div>
+                  <div>
+                    <div className="text-sm text-gray-500">Time Saved</div>
+                    <div className="text-xl font-bold text-green-700">73% reduction</div>
+                  </div>
+                </div>
+              </motion.div>
+
+              <motion.div
+                className="absolute top-1/2 -translate-y-1/2 -left-20 md:-left-32 w-64 bg-white p-4 rounded-lg shadow-lg border border-indigo-100"
+                initial="hidden"
+                animate="visible"
+                custom={1.2}
+                variants={cardVariant}
+                whileHover="hover"
+              >
+                <div className="flex items-center">
+                  <div className="w-10 h-10 rounded-full bg-purple-100 flex items-center justify-center mr-4">
+                    <Github className="h-5 w-5 text-purple-600" />
+                  </div>
+                  <div>
+                    <div className="text-sm text-gray-500">GitHub Projects</div>
+                    <div className="text-xl font-bold text-purple-700">Verified ✓</div>
+                  </div>
+                </div>
+              </motion.div>
+
+              <motion.div
+                className="absolute top-1/3 -translate-y-1/2 -right-20 md:-right-32 w-64 bg-white p-4 rounded-lg shadow-lg border border-indigo-100"
+                initial="hidden"
+                animate="visible"
+                custom={1.4}
+                variants={cardVariant}
+                whileHover="hover"
+              >
+                <div className="flex items-center">
+                  <div className="w-10 h-10 rounded-full bg-blue-100 flex items-center justify-center mr-4">
+                    <Linkedin className="h-5 w-5 text-blue-600" />
+                  </div>
+                  <div>
+                    <div className="text-sm text-gray-500">LinkedIn</div>
+                    <div className="text-xl font-bold text-blue-700">Cross-verified</div>
+                  </div>
+                </div>
+              </motion.div>              
             </motion.div>
           </div>
 
@@ -214,6 +335,8 @@ const HeroSection = () => {
           </motion.div>
         </div>
       </div>
-    </section>;
+    </section>
+  );
 };
+
 export default HeroSection;

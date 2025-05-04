@@ -39,8 +39,7 @@ const HowItWorksSection = () => {
           
           <TabsContent value="companies">
             <div className="relative">
-              {/* Connecting line */}
-              <div className="hidden lg:block absolute top-24 left-16 right-16 h-0.5 bg-gradient-to-r from-zordie-200 via-accent1/30 to-zordie-200 dark:from-zordie-700 dark:via-accent1/20 dark:to-zordie-700"></div>
+              {/* Removed connecting line as requested */}
               
               <div className="grid grid-cols-1 lg:grid-cols-5 gap-8">
                 <AnimatedWorkflowStep
@@ -88,8 +87,7 @@ const HowItWorksSection = () => {
           
           <TabsContent value="candidates">
             <div className="relative">
-              {/* Connecting line */}
-              <div className="hidden lg:block absolute top-24 left-16 right-16 h-0.5 bg-gradient-to-r from-zordie-200 via-accent1/30 to-zordie-200 dark:from-zordie-700 dark:via-accent1/20 dark:to-zordie-700"></div>
+              {/* Removed connecting line as requested */}
               
               <div className="grid grid-cols-1 lg:grid-cols-5 gap-8">
                 <AnimatedWorkflowStep

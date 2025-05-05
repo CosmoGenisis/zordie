@@ -108,7 +108,7 @@ const PricingSection = () => {
               <Button 
                 className="w-full bg-gradient-to-r from-zordie-600 to-accent1 relative overflow-hidden group mb-8"
               >
-                <span className="relative z-10 flex items-center">
+                <span className="relative z-10 flex items-center text-white font-medium">
                   Get Started 
                   <ChevronRight className="ml-1 h-5 w-5 group-hover:translate-x-1 transition-transform" />
                 </span>
@@ -158,7 +158,7 @@ const PricingSection = () => {
               <Button 
                 className="w-full bg-gradient-to-r from-zordie-600 to-accent1 relative overflow-hidden group mb-8"
               >
-                <span className="relative z-10 flex items-center">
+                <span className="relative z-10 flex items-center text-white font-medium">
                   Get Started 
                   <ChevronRight className="ml-1 h-5 w-5 group-hover:translate-x-1 transition-transform" />
                 </span>

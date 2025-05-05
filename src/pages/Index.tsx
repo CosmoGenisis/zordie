@@ -8,6 +8,7 @@ import PricingSection from '@/components/home/PricingSection';
 import TestimonialsSection from '@/components/home/TestimonialsSection';
 import InvitationSection from '@/components/home/InvitationSection';
 import PartnersSection from '@/components/home/PartnersSection';
+import PrimeHRChatbot from '@/components/chatbot/PrimeHRChatbot';
 import { motion, useScroll, useSpring } from "framer-motion";
 import WavyDivider from '@/components/home/WavyDivider';
 
@@ -93,6 +94,9 @@ const Index = () => {
           </div>
         </div>
       </div>
+      
+      {/* Prime HR Chatbot */}
+      <PrimeHRChatbot initiallyOpen={false} />
       
       {/* Scroll to top button */}
       <div 

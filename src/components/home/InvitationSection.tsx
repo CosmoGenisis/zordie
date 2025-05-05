@@ -51,8 +51,8 @@ const InvitationSection = () => {
               size="lg" 
               className="bg-gradient-to-r from-zordie-600 to-accent1 text-white relative overflow-hidden group"
             >
-              <Calendar className="mr-2 h-5 w-5" />
-              <span className="relative z-10">Book a Demo</span>
+              <Calendar className="mr-2 h-5 w-5 text-white" />
+              <span className="relative z-10 text-white font-medium">Book a Demo</span>
               <motion.span 
                 className="absolute top-0 left-0 w-full h-full bg-white opacity-20"
                 initial={{ x: '-100%' }}

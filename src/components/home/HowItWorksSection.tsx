@@ -4,7 +4,20 @@ import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { motion } from "framer-motion";
 import { useInView } from "framer-motion";
 import { useRef } from "react";
-import { Github, Linkedin, FileCheck, Shield, CheckCircle, Upload, Bot, Video, BarChart, MessageSquare, Search } from "lucide-react";
+import { 
+  Github, 
+  Linkedin, 
+  FileCheck, 
+  Shield, 
+  CheckCircle, 
+  Upload, 
+  Bot, 
+  Video, 
+  BarChart, 
+  MessageSquare, 
+  Search,
+  Award
+} from "lucide-react";
 
 const HowItWorksSection = () => {
   const sectionRef = useRef(null);
@@ -49,7 +62,6 @@ const HowItWorksSection = () => {
                   delay={0.1}
                   isInView={isInView}
                 />
-                <WorkflowArrow isInView={isInView} delay={0.15} />
                 <AnimatedWorkflowStep
                   number={2}
                   title="Verification Check"
@@ -58,7 +70,6 @@ const HowItWorksSection = () => {
                   delay={0.2}
                   isInView={isInView}
                 />
-                <WorkflowArrow isInView={isInView} delay={0.25} />
                 <AnimatedWorkflowStep
                   number={3}
                   title="AI Video Interviews"
@@ -67,7 +78,6 @@ const HowItWorksSection = () => {
                   delay={0.3}
                   isInView={isInView}
                 />
-                <WorkflowArrow isInView={isInView} delay={0.35} />
                 <AnimatedWorkflowStep
                   number={4}
                   title="Candidate Ranking"
@@ -76,7 +86,6 @@ const HowItWorksSection = () => {
                   delay={0.4}
                   isInView={isInView}
                 />
-                <WorkflowArrow isInView={isInView} delay={0.45} />
                 <AnimatedWorkflowStep
                   number={5}
                   title="Automated Communication"
@@ -100,7 +109,6 @@ const HowItWorksSection = () => {
                   delay={0.1}
                   isInView={isInView}
                 />
-                <WorkflowArrow isInView={isInView} delay={0.15} />
                 <AnimatedWorkflowStep
                   number={2}
                   title="Smart Applications"
@@ -109,7 +117,6 @@ const HowItWorksSection = () => {
                   delay={0.2}
                   isInView={isInView}
                 />
-                <WorkflowArrow isInView={isInView} delay={0.25} />
                 <AnimatedWorkflowStep
                   number={3}
                   title="Practice Interviews"
@@ -118,7 +125,6 @@ const HowItWorksSection = () => {
                   delay={0.3}
                   isInView={isInView}
                 />
-                <WorkflowArrow isInView={isInView} delay={0.35} />
                 <AnimatedWorkflowStep
                   number={4}
                   title="Application Tracking"
@@ -127,12 +133,11 @@ const HowItWorksSection = () => {
                   delay={0.4}
                   isInView={isInView}
                 />
-                <WorkflowArrow isInView={isInView} delay={0.45} />
                 <AnimatedWorkflowStep
                   number={5}
                   title="Stand Out & Get Hired"
                   description="Your verified skills help you stand out and get hired based on your authentic abilities."
-                  icon={<Shield className="h-6 w-6 text-white" />}
+                  icon={<Award className="h-6 w-6 text-white" />}
                   delay={0.5}
                   isInView={isInView}
                 />
@@ -233,40 +238,6 @@ const AnimatedWorkflowStep = ({ number, title, description, icon, delay = 0, isI
       </motion.div>
       <h3 className="text-xl font-semibold mb-2 text-zordie-900 dark:text-white">{title}</h3>
       <p className="text-zordie-600 dark:text-zordie-300">{description}</p>
-    </motion.div>
-  );
-};
-
-interface ArrowProps {
-  isInView: boolean;
-  delay?: number;
-}
-
-const WorkflowArrow = ({ isInView, delay = 0 }: ArrowProps) => {
-  return (
-    <motion.div 
-      className="hidden lg:flex items-center justify-center"
-      initial={{ opacity: 0, x: -20 }}
-      animate={isInView ? { opacity: 1, x: 0 } : { opacity: 0, x: -20 }}
-      transition={{ duration: 0.5, delay }}
-    >
-      <svg
-        className="w-12 h-12 text-zordie-300 dark:text-zordie-700"
-        fill="none"
-        stroke="currentColor"
-        viewBox="0 0 24 24"
-        xmlns="http://www.w3.org/2000/svg"
-      >
-        <motion.path
-          strokeLinecap="round"
-          strokeLinejoin="round"
-          strokeWidth={2}
-          d="M14 5l7 7m0 0l-7 7m7-7H3"
-          initial={{ pathLength: 0 }}
-          animate={isInView ? { pathLength: 1 } : { pathLength: 0 }}
-          transition={{ duration: 1, delay: delay + 0.3 }}
-        />
-      </svg>
     </motion.div>
   );
 };

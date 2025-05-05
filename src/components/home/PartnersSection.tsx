@@ -2,8 +2,6 @@
 import React from 'react';
 import { motion } from 'framer-motion';
 import { SectionHeading } from '@/components/ui/section-heading';
-import GradientText from './GradientText';
-import { Building2, BarChart4, Landmark, Laptop, BookOpen, Briefcase, Boxes, ShoppingBag } from 'lucide-react';
 
 const companies = [
   {

@@ -1,285 +1,240 @@
 
-import React, { useState } from "react";
-import { Button } from "@/components/ui/button";
-import { Card, CardContent, CardDescription, CardFooter, CardHeader, CardTitle } from "@/components/ui/card";
-import { SectionHeading } from "@/components/ui/section-heading";
-import { Check, Loader2, X } from "lucide-react";
-import { useNavigate } from "react-router-dom";
-import { useToast } from "@/components/ui/use-toast";
+import React, { useState, useRef } from 'react';
+import { SectionHeading } from '@/components/ui/section-heading';
+import { Button } from '@/components/ui/button';
+import { motion, useInView } from 'framer-motion';
+import { CheckCircle, ChevronRight } from 'lucide-react';
+import { Switch } from '@/components/ui/switch';
+import { Label } from '@/components/ui/label';
 
 const PricingSection = () => {
-  const [selectedPlan, setSelectedPlan] = useState<string | null>(null);
-  const [isLoading, setIsLoading] = useState(false);
-  const navigate = useNavigate();
-  const { toast } = useToast();
+  const [billingCycle, setBillingCycle] = useState('monthly');
+  const sectionRef = useRef(null);
+  const isInView = useInView(sectionRef, { once: false, amount: 0.2 });
 
-  const handleSelectPlan = async (plan: string) => {
-    setSelectedPlan(plan);
-    setIsLoading(true);
-    
-    try {
-      // Since auth has been removed, we'll just simulate a delay and navigate to pricing
-      await new Promise(resolve => setTimeout(resolve, 1000));
-      navigate('/pricing');
-    } catch (error) {
-      console.error('Error selecting plan:', error);
-      toast({
-        title: "Error",
-        description: "There was an error selecting this plan. Please try again.",
-        variant: "destructive"
-      });
-    } finally {
-      setIsLoading(false);
+  const containerVariants = {
+    hidden: { opacity: 0 },
+    visible: {
+      opacity: 1,
+      transition: {
+        delayChildren: 0.3,
+        staggerChildren: 0.2
+      }
     }
   };
 
+  const itemVariants = {
+    hidden: { y: 20, opacity: 0 },
+    visible: {
+      y: 0,
+      opacity: 1,
+      transition: { duration: 0.5 }
+    }
+  };
+
+  const toggleBillingCycle = () => {
+    setBillingCycle(billingCycle === 'monthly' ? 'yearly' : 'monthly');
+  };
+
+  const getPrice = (monthly, yearly) => {
+    return billingCycle === 'monthly' ? monthly : yearly;
+  };
+
   return (
-    <section className="py-16 bg-gray-50" id="pricing">
-      <div className="container mx-auto px-4">
-        <SectionHeading
-          title="Transparent Pricing"
-          subtitle="Choose a plan that works for you"
-          align="center"
-        />
-        <div className="grid grid-cols-1 md:grid-cols-3 lg:grid-cols-5 gap-4 mt-12 max-w-6xl mx-auto">
-          {/* Free Plan */}
-          <Card className="border-gray-200 hover:shadow-lg transition-all duration-300">
-            <CardHeader>
-              <CardTitle className="flex flex-col items-start">
-                <span className="text-lg font-medium mb-2">Free</span>
-                <div className="flex items-end">
-                  <span className="text-3xl font-bold">₹0</span>
-                  <span className="text-gray-500 ml-1 mb-1">/month</span>
-                </div>
-              </CardTitle>
-              <CardDescription>Perfect for job seekers</CardDescription>
-            </CardHeader>
-            <CardContent className="mt-4">
-              <ul className="space-y-3">
-                <PricingItem included>2 job posts</PricingItem>
-                <PricingItem included>Basic AI screening</PricingItem>
-                <PricingItem included>10 verified applications</PricingItem>
-                <PricingItem>Candidate assessments</PricingItem>
-                <PricingItem>Prime AI assistance</PricingItem>
-                <PricingItem>Advanced analytics</PricingItem>
-              </ul>
-            </CardContent>
-            <CardFooter>
-              <Button 
-                onClick={() => handleSelectPlan('free')}
-                className="w-full" 
-                variant="outline"
-                disabled={isLoading && selectedPlan === 'free'}
-              >
-                {isLoading && selectedPlan === 'free' ? (
-                  <>
-                    <Loader2 className="mr-2 h-4 w-4 animate-spin" />
-                    Getting Started...
-                  </>
-                ) : (
-                  "Get Started"
-                )}
-              </Button>
-            </CardFooter>
-          </Card>
-
-          {/* Starter Plan */}
-          <Card className="border border-zordie-500 hover:shadow-xl transition-all duration-300 md:col-span-1 lg:col-span-1">
-            <CardHeader className="bg-gradient-to-r from-blue-600 to-blue-700 text-white">
-              <CardTitle className="flex flex-col items-start">
-                <span className="text-lg font-medium mb-2">STARTER PLAN</span>
-                <div className="flex items-end">
-                  <span className="text-3xl font-bold">₹4,999</span>
-                  <span className="text-gray-100 ml-1 mb-1">/month</span>
-                </div>
-              </CardTitle>
-              <CardDescription className="text-gray-100">For small startups</CardDescription>
-            </CardHeader>
-            <CardContent className="mt-4">
-              <ul className="space-y-3">
-                <PricingItem included>Up to 10 Job Postings per month</PricingItem>
-                <PricingItem included>Includes 1,000 AI Credits for candidate assessments</PricingItem>
-                <PricingItem included>Access to basic dashboard and reporting features</PricingItem>
-                <PricingItem included>Email support for quick assistance</PricingItem>
-              </ul>
-            </CardContent>
-            <CardFooter>
-              <Button 
-                onClick={() => handleSelectPlan('starter')}
-                className="w-full bg-gradient-to-r from-blue-600 to-blue-700 text-white hover:from-blue-700 hover:to-blue-800"
-                disabled={isLoading && selectedPlan === 'starter'}
-              >
-                {isLoading && selectedPlan === 'starter' ? (
-                  <>
-                    <Loader2 className="mr-2 h-4 w-4 animate-spin" />
-                    Getting Started...
-                  </>
-                ) : (
-                  "Choose Starter"
-                )}
-              </Button>
-            </CardFooter>
-          </Card>
-
-          {/* Growth Plan */}
-          <Card className="border-zordie-500 shadow-md relative hover:shadow-xl transition-all duration-300">
-            <div className="absolute -top-4 left-0 right-0 mx-auto w-36 text-center py-1 px-3 rounded-full text-white bg-gradient-to-r from-zordie-600 to-accent1 text-sm">
-              Most Popular
-            </div>
-            <CardHeader className="bg-gradient-to-r from-blue-600 to-blue-700 text-white">
-              <CardTitle className="flex flex-col items-start">
-                <span className="text-lg font-medium mb-2">GROWTH PLAN</span>
-                <div className="flex items-end">
-                  <span className="text-3xl font-bold">₹9,999</span>
-                  <span className="text-gray-100 ml-1 mb-1">/month</span>
-                </div>
-              </CardTitle>
-              <CardDescription className="text-gray-100">For growing teams</CardDescription>
-            </CardHeader>
-            <CardContent className="mt-4">
-              <ul className="space-y-3">
-                <PricingItem included>Allows up to 25 Job Postings monthly</PricingItem>
-                <PricingItem included>Includes 5,000 AI Credits for extensive candidate evaluations</PricingItem>
-                <PricingItem included>Advanced analytics dashboard with customized reporting</PricingItem>
-                <PricingItem included>Priority email and chat support</PricingItem>
-              </ul>
-            </CardContent>
-            <CardFooter>
-              <Button 
-                onClick={() => handleSelectPlan('growth')}
-                className="w-full bg-gradient-to-r from-blue-600 to-blue-700 text-white hover:from-blue-700 hover:to-blue-800"
-                disabled={isLoading && selectedPlan === 'growth'}
-              >
-                {isLoading && selectedPlan === 'growth' ? (
-                  <>
-                    <Loader2 className="mr-2 h-4 w-4 animate-spin" />
-                    Getting Started...
-                  </>
-                ) : (
-                  "Choose Growth"
-                )}
-              </Button>
-            </CardFooter>
-          </Card>
-
-          {/* Agency Plan */}
-          <Card className="border border-zordie-500 hover:shadow-xl transition-all duration-300 md:col-span-1 lg:col-span-1">
-            <CardHeader className="bg-gradient-to-r from-blue-600 to-blue-700 text-white">
-              <CardTitle className="flex flex-col items-start">
-                <span className="text-lg font-medium mb-2">AGENCY PLAN</span>
-                <div className="flex items-end">
-                  <span className="text-3xl font-bold">₹16,999</span>
-                  <span className="text-gray-100 ml-1 mb-1">/month</span>
-                </div>
-              </CardTitle>
-              <CardDescription className="text-gray-100">For recruitment agencies</CardDescription>
-            </CardHeader>
-            <CardContent className="mt-4">
-              <ul className="space-y-3">
-                <PricingItem included>Allows up to 50 Job Postings per month</PricingItem>
-                <PricingItem included>Includes 10,000 AI Credits for high volume candidate processing</PricingItem>
-                <PricingItem included>White-labeled platform customization and branding options</PricingItem>
-                <PricingItem included>Dedicated account manager and premium support</PricingItem>
-              </ul>
-            </CardContent>
-            <CardFooter>
-              <Button 
-                onClick={() => handleSelectPlan('agency')}
-                className="w-full bg-gradient-to-r from-blue-600 to-blue-700 text-white hover:from-blue-700 hover:to-blue-800"
-                disabled={isLoading && selectedPlan === 'agency'}
-              >
-                {isLoading && selectedPlan === 'agency' ? (
-                  <>
-                    <Loader2 className="mr-2 h-4 w-4 animate-spin" />
-                    Getting Started...
-                  </>
-                ) : (
-                  "Choose Agency"
-                )}
-              </Button>
-            </CardFooter>
-          </Card>
-
-          {/* Enterprise Plan */}
-          <Card className="border-gray-200 hover:shadow-lg transition-all duration-300">
-            <CardHeader>
-              <CardTitle className="flex flex-col items-start">
-                <span className="text-lg font-medium mb-2">Enterprise</span>
-                <div className="flex items-end">
-                  <span className="text-3xl font-bold">Custom</span>
-                </div>
-              </CardTitle>
-              <CardDescription>For companies and teams</CardDescription>
-            </CardHeader>
-            <CardContent className="mt-4">
-              <ul className="space-y-3">
-                <PricingItem included>Unlimited job posts</PricingItem>
-                <PricingItem included>Custom integrations</PricingItem>
-                <PricingItem included>Dedicated account manager</PricingItem>
-                <PricingItem included>Custom AI training</PricingItem>
-                <PricingItem included>"Pay as You Go" model</PricingItem>
-                <PricingItem included>Phone & priority support</PricingItem>
-              </ul>
-            </CardContent>
-            <CardFooter>
-              <Button 
-                onClick={() => handleSelectPlan('enterprise')}
-                className="w-full" 
-                variant="outline"
-                disabled={isLoading && selectedPlan === 'enterprise'}
-              >
-                {isLoading && selectedPlan === 'enterprise' ? (
-                  <>
-                    <Loader2 className="mr-2 h-4 w-4 animate-spin" />
-                    Processing...
-                  </>
-                ) : (
-                  "Contact Sales"
-                )}
-              </Button>
-            </CardFooter>
-          </Card>
-        </div>
-
-        <div className="mt-12 bg-gray-50 border border-gray-200 rounded-xl p-6 max-w-5xl mx-auto">
-          <p className="text-base text-center text-gray-700">
-            Our SaaS subscription model is complemented by additional revenue streams: a pay-per-post option priced at ₹799 per job post for low-volume or occasional users, AI credit packs available at ₹199 for 100 credits to supplement assessments, and more.
-          </p>
-          <p className="text-base text-center mt-4 text-gray-700">
-            Enterprise clients benefit from our flexible "Pay as You Go" model, providing tailored pricing and scalable services.
-          </p>
-        </div>
-
-        <div className="mt-16 text-center max-w-2xl mx-auto">
-          <h3 className="text-2xl font-bold mb-4">Satisfaction Guaranteed</h3>
-          <p className="text-gray-600 mb-6">
-            All paid plans come with a 14-day money-back guarantee. If you're not
-            satisfied, we'll refund your payment — no questions asked.
-          </p>
-          <div className="flex flex-col sm:flex-row justify-center space-y-4 sm:space-y-0 sm:space-x-4">
-            <Button variant="link" onClick={() => navigate('/pricing')}>
-              View All Features
-            </Button>
-            <Button variant="link" onClick={() => navigate('/contact')}>
-              Contact Us
-            </Button>
+    <section ref={sectionRef} className="py-24 relative overflow-hidden">
+      {/* Background elements */}
+      <div className="absolute inset-0 pointer-events-none">
+        <div className="absolute -top-20 -right-20 w-80 h-80 bg-zordie-100/50 dark:bg-zordie-800/20 rounded-full blur-3xl opacity-50"></div>
+        <div className="absolute -bottom-20 -left-20 w-80 h-80 bg-accent1/10 dark:bg-accent1/5 rounded-full blur-3xl opacity-50"></div>
+      </div>
+      
+      <div className="container mx-auto px-4 relative z-10">
+        <motion.div
+          initial={{ opacity: 0, y: 20 }}
+          animate={isInView ? { opacity: 1, y: 0 } : { opacity: 0, y: 20 }}
+          transition={{ duration: 0.5 }}
+        >
+          <SectionHeading
+            title="Simple, Transparent Pricing"
+            subtitle="Choose the plan that's right for your hiring needs"
+            align="center"
+          />
+          
+          <div className="flex items-center justify-center mt-8 mb-12">
+            <Label htmlFor="billing-toggle" className={`mr-2 text-lg ${billingCycle === 'monthly' ? 'font-semibold text-zordie-800 dark:text-white' : 'text-gray-500 dark:text-gray-400'}`}>
+              Monthly
+            </Label>
+            <Switch
+              id="billing-toggle"
+              checked={billingCycle === 'yearly'}
+              onCheckedChange={toggleBillingCycle}
+              className="data-[state=checked]:bg-gradient-to-r data-[state=checked]:from-zordie-600 data-[state=checked]:to-accent1"
+            />
+            <Label htmlFor="billing-toggle" className={`ml-2 text-lg flex items-center ${billingCycle === 'yearly' ? 'font-semibold text-zordie-800 dark:text-white' : 'text-gray-500 dark:text-gray-400'}`}>
+              Yearly
+              {billingCycle === 'yearly' && (
+                <span className="ml-2 text-xs py-0.5 px-2 bg-gradient-to-r from-zordie-600 to-accent1 text-white rounded-full">
+                  Save 20%
+                </span>
+              )}
+            </Label>
           </div>
-        </div>
+        </motion.div>
+        
+        <motion.div
+          className="grid grid-cols-1 lg:grid-cols-3 gap-8"
+          variants={containerVariants}
+          initial="hidden"
+          animate={isInView ? "visible" : "hidden"}
+        >
+          {/* Starter Plan */}
+          <motion.div
+            variants={itemVariants}
+            className="bg-white dark:bg-zordie-800/50 rounded-2xl shadow-lg border border-zordie-100 dark:border-zordie-700 overflow-hidden hover:shadow-xl transition-shadow duration-300 relative"
+          >
+            <div className="p-8">
+              <h3 className="text-xl font-semibold text-zordie-800 dark:text-white mb-2">Starter</h3>
+              <p className="text-zordie-600 dark:text-zordie-300 mb-6">Perfect for small teams and startups</p>
+              
+              <div className="flex items-baseline mb-6">
+                <span className="text-4xl font-bold text-zordie-800 dark:text-white">${getPrice(99, 79)}</span>
+                <span className="text-zordie-600 dark:text-zordie-300 ml-2">/month</span>
+              </div>
+              
+              {billingCycle === 'yearly' && (
+                <p className="text-sm text-zordie-600 dark:text-zordie-300 mb-6">Billed annually (${79 * 12} total)</p>
+              )}
+              
+              <Button 
+                className="w-full bg-gradient-to-r from-zordie-600 to-accent1 relative overflow-hidden group mb-8"
+              >
+                <span className="relative z-10 flex items-center">
+                  Get Started 
+                  <ChevronRight className="ml-1 h-5 w-5 group-hover:translate-x-1 transition-transform" />
+                </span>
+                <motion.span 
+                  className="absolute top-0 left-0 w-full h-full bg-white opacity-20"
+                  initial={{ x: '-100%' }}
+                  whileHover={{ x: '100%' }}
+                  transition={{ duration: 0.7 }}
+                />
+              </Button>
+              
+              <div className="space-y-4">
+                <PricingFeature text="Up to 50 candidates/month" />
+                <PricingFeature text="Basic resume screening" />
+                <PricingFeature text="Email support" />
+                <PricingFeature text="1 admin user" />
+                <PricingFeature text="Standard analytics" />
+              </div>
+            </div>
+          </motion.div>
+          
+          {/* Professional Plan */}
+          <motion.div
+            variants={itemVariants}
+            className="bg-white dark:bg-zordie-800/50 rounded-2xl shadow-lg border-2 border-zordie-500 dark:border-zordie-500 overflow-hidden hover:shadow-xl transition-shadow duration-300 relative lg:scale-105 z-10"
+          >
+            <div className="absolute top-0 inset-x-0 h-2 bg-gradient-to-r from-zordie-600 to-accent1"></div>
+            <div className="absolute -top-4 inset-x-0 flex justify-center">
+              <span className="bg-gradient-to-r from-zordie-600 to-accent1 text-white text-sm font-semibold py-1 px-4 rounded-full">
+                Most Popular
+              </span>
+            </div>
+            
+            <div className="p-8 pt-10">
+              <h3 className="text-xl font-semibold text-zordie-800 dark:text-white mb-2">Professional</h3>
+              <p className="text-zordie-600 dark:text-zordie-300 mb-6">For growing companies with advanced needs</p>
+              
+              <div className="flex items-baseline mb-6">
+                <span className="text-4xl font-bold text-zordie-800 dark:text-white">${getPrice(249, 199)}</span>
+                <span className="text-zordie-600 dark:text-zordie-300 ml-2">/month</span>
+              </div>
+              
+              {billingCycle === 'yearly' && (
+                <p className="text-sm text-zordie-600 dark:text-zordie-300 mb-6">Billed annually (${199 * 12} total)</p>
+              )}
+              
+              <Button 
+                className="w-full bg-gradient-to-r from-zordie-600 to-accent1 relative overflow-hidden group mb-8"
+              >
+                <span className="relative z-10 flex items-center">
+                  Get Started 
+                  <ChevronRight className="ml-1 h-5 w-5 group-hover:translate-x-1 transition-transform" />
+                </span>
+                <motion.span 
+                  className="absolute top-0 left-0 w-full h-full bg-white opacity-20"
+                  initial={{ x: '-100%' }}
+                  whileHover={{ x: '100%' }}
+                  transition={{ duration: 0.7 }}
+                />
+              </Button>
+              
+              <div className="space-y-4">
+                <PricingFeature text="Up to 250 candidates/month" />
+                <PricingFeature text="Advanced AI screening" />
+                <PricingFeature text="Video interview analysis" />
+                <PricingFeature text="Skill verification" />
+                <PricingFeature text="5 admin users" />
+                <PricingFeature text="Advanced analytics" />
+                <PricingFeature text="API access" />
+                <PricingFeature text="Priority support" />
+              </div>
+            </div>
+          </motion.div>
+          
+          {/* Enterprise Plan */}
+          <motion.div
+            variants={itemVariants}
+            className="bg-white dark:bg-zordie-800/50 rounded-2xl shadow-lg border border-zordie-100 dark:border-zordie-700 overflow-hidden hover:shadow-xl transition-shadow duration-300 relative"
+          >
+            <div className="p-8">
+              <h3 className="text-xl font-semibold text-zordie-800 dark:text-white mb-2">Enterprise</h3>
+              <p className="text-zordie-600 dark:text-zordie-300 mb-6">For large organizations with custom needs</p>
+              
+              <div className="flex items-baseline mb-6">
+                <span className="text-4xl font-bold text-zordie-800 dark:text-white">Custom</span>
+              </div>
+              
+              <Button 
+                variant="outline"
+                className="w-full relative overflow-hidden group mb-8 border-zordie-500 text-zordie-700 dark:text-zordie-300 hover:text-zordie-800 dark:hover:text-white"
+              >
+                <span className="relative z-10 flex items-center">
+                  Contact Sales
+                  <ChevronRight className="ml-1 h-5 w-5 group-hover:translate-x-1 transition-transform" />
+                </span>
+                <motion.span 
+                  className="absolute bottom-0 left-0 w-full h-0 bg-gradient-to-r from-zordie-600/20 to-accent1/20 group-hover:h-full transition-all duration-300 -z-1"
+                />
+              </Button>
+              
+              <div className="space-y-4">
+                <PricingFeature text="Unlimited candidates" />
+                <PricingFeature text="Custom AI model training" />
+                <PricingFeature text="Full verification suite" />
+                <PricingFeature text="Advanced video interviews" />
+                <PricingFeature text="Unlimited users" />
+                <PricingFeature text="Custom analytics dashboard" />
+                <PricingFeature text="Dedicated account manager" />
+                <PricingFeature text="SSO & advanced security" />
+                <PricingFeature text="Custom integrations" />
+              </div>
+            </div>
+          </motion.div>
+        </motion.div>
       </div>
     </section>
   );
 };
 
-// Helper component for pricing items
-const PricingItem = ({ children, included = false }: { children: React.ReactNode; included?: boolean }) => (
-  <li className="flex items-center">
-    {included ? (
-      <Check className="h-5 w-5 text-zordie-600 mr-2 shrink-0" />
-    ) : (
-      <X className="h-5 w-5 text-gray-400 mr-2 shrink-0" />
-    )}
-    <span className={!included ? "text-gray-500" : ""}>{children}</span>
-  </li>
-);
+const PricingFeature = ({ text }) => {
+  return (
+    <div className="flex items-center">
+      <CheckCircle className="h-5 w-5 text-zordie-600 mr-3 shrink-0" />
+      <span className="text-zordie-700 dark:text-zordie-300">{text}</span>
+    </div>
+  );
+};
 
 export default PricingSection;

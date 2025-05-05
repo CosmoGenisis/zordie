@@ -68,8 +68,14 @@ const itemVariants = {
 
 const PartnersSection = () => {
   return (
-    <section className="py-10 md:py-16 overflow-hidden">
-      <div className="container mx-auto px-4">
+    <section className="py-10 md:py-16 overflow-hidden relative">
+      {/* Background elements */}
+      <div className="absolute inset-0 pointer-events-none">
+        <div className="absolute -top-20 -right-20 w-80 h-80 bg-zordie-100/50 dark:bg-zordie-800/20 rounded-full blur-3xl opacity-50"></div>
+        <div className="absolute -bottom-20 -left-20 w-80 h-80 bg-accent1/10 dark:bg-accent1/5 rounded-full blur-3xl opacity-50"></div>
+      </div>
+      
+      <div className="container mx-auto px-4 relative z-10">
         <SectionHeading
           align="center"
           title="Trusted by Industry Leaders"
@@ -87,14 +93,17 @@ const PartnersSection = () => {
             <motion.div
               key={index}
               variants={itemVariants}
-              className="flex items-center justify-center"
-              whileHover={{ scale: 1.05 }}
+              className="flex items-center justify-center p-4 bg-white/50 dark:bg-zordie-800/30 rounded-lg border border-gray-100 dark:border-zordie-700/50 hover:shadow-md dark:hover:border-zordie-600/50 transition-all duration-300"
+              whileHover={{ 
+                scale: 1.05, 
+                boxShadow: "0 10px 15px -3px rgba(0, 0, 0, 0.1), 0 4px 6px -2px rgba(0, 0, 0, 0.05)"
+              }}
             >
               <div className="h-16 flex items-center justify-center p-2 grayscale hover:grayscale-0 transition-all duration-300">
                 <img
                   src={company.logo}
                   alt={company.alt}
-                  className="max-h-full max-w-full object-contain"
+                  className="max-h-full max-w-full object-contain dark:invert"
                 />
               </div>
             </motion.div>

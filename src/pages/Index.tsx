@@ -6,9 +6,8 @@ import FeaturesSection from '@/components/home/FeaturesSection';
 import HowItWorksSection from '@/components/home/HowItWorksSection';
 import PricingSection from '@/components/home/PricingSection';
 import TestimonialsSection from '@/components/home/TestimonialsSection';
-import CTASection from '@/components/home/CTASection';
+import InvitationSection from '@/components/home/InvitationSection';
 import PartnersSection from '@/components/home/PartnersSection';
-import PrimeHRChatbot from '@/components/chatbot/PrimeHRChatbot';
 import { motion, useScroll, useSpring } from "framer-motion";
 import WavyDivider from '@/components/home/WavyDivider';
 
@@ -90,7 +89,7 @@ const Index = () => {
           <WavyDivider position="top" color="#f8fafc" height="100px" className="dark:hidden" />
           <WavyDivider position="top" color="#07294a" height="100px" className="hidden dark:block" />
           <div className="bg-gray-50 py-16 dark:bg-zordie-900">
-            <CTASection />
+            <InvitationSection />
           </div>
         </div>
       </div>
@@ -106,8 +105,6 @@ const Index = () => {
           <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M5 15l7-7 7 7" />
         </svg>
       </div>
-      
-      <PrimeHRChatbot />
     </Layout>
   );
 };

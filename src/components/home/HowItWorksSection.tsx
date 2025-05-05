@@ -4,6 +4,8 @@ import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { motion } from "framer-motion";
 import { useInView } from "framer-motion";
 import { useRef } from "react";
+import { Button } from "@/components/ui/button";
+import { Link } from "react-router-dom";
 import { 
   Github, 
   Linkedin, 
@@ -16,16 +18,43 @@ import {
   BarChart, 
   MessageSquare, 
   Search,
-  Award
+  Award,
+  ChevronRight
 } from "lucide-react";
 
 const HowItWorksSection = () => {
   const sectionRef = useRef(null);
   const isInView = useInView(sectionRef, { once: false, amount: 0.2 });
 
+  const containerVariants = {
+    hidden: { opacity: 0 },
+    visible: {
+      opacity: 1,
+      transition: {
+        delayChildren: 0.2,
+        staggerChildren: 0.1
+      }
+    }
+  };
+
+  const itemVariants = {
+    hidden: { y: 20, opacity: 0 },
+    visible: {
+      y: 0,
+      opacity: 1,
+      transition: { duration: 0.5 }
+    }
+  };
+
   return (
-    <section ref={sectionRef} className="py-24 bg-gradient-to-b from-white to-zordie-50 dark:from-zordie-950 dark:to-zordie-900">
-      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+    <section ref={sectionRef} className="py-20 relative overflow-hidden">
+      {/* Background elements */}
+      <div className="absolute inset-0 pointer-events-none">
+        <div className="absolute -top-20 -right-20 w-80 h-80 bg-zordie-100 dark:bg-zordie-800/20 rounded-full blur-3xl opacity-70"></div>
+        <div className="absolute -bottom-20 -left-20 w-80 h-80 bg-accent1/10 dark:bg-accent1/5 rounded-full blur-3xl opacity-70"></div>
+      </div>
+      
+      <div className="container mx-auto px-4 relative z-10">
         <motion.div
           initial={{ opacity: 0, y: 20 }}
           animate={isInView ? { opacity: 1, y: 0 } : { opacity: 0, y: 20 }}
@@ -46,14 +75,29 @@ const HowItWorksSection = () => {
             transition={{ duration: 0.5, delay: 0.3 }}
           >
             <TabsList className="grid w-full max-w-md grid-cols-2 bg-zordie-100/50 dark:bg-zordie-800/50 backdrop-blur-sm">
-              <TabsTrigger value="companies" className="data-[state=active]:bg-white dark:data-[state=active]:bg-zordie-700 data-[state=active]:text-zordie-900 dark:data-[state=active]:text-white">For Companies</TabsTrigger>
-              <TabsTrigger value="candidates" className="data-[state=active]:bg-white dark:data-[state=active]:bg-zordie-700 data-[state=active]:text-zordie-900 dark:data-[state=active]:text-white">For Job Seekers</TabsTrigger>
+              <TabsTrigger 
+                value="companies" 
+                className="data-[state=active]:bg-gradient-to-r data-[state=active]:from-zordie-600 data-[state=active]:to-accent1 data-[state=active]:text-white"
+              >
+                For Companies
+              </TabsTrigger>
+              <TabsTrigger 
+                value="candidates" 
+                className="data-[state=active]:bg-gradient-to-r data-[state=active]:from-zordie-600 data-[state=active]:to-accent1 data-[state=active]:text-white"
+              >
+                For Job Seekers
+              </TabsTrigger>
             </TabsList>
           </motion.div>
           
           <TabsContent value="companies">
             <div className="relative">
-              <div className="grid grid-cols-1 lg:grid-cols-5 gap-8">
+              <motion.div
+                className="grid grid-cols-1 lg:grid-cols-5 gap-8"
+                variants={containerVariants}
+                initial="hidden"
+                animate={isInView ? "visible" : "hidden"}
+              >
                 <AnimatedWorkflowStep
                   number={1}
                   title="AI Resume Screening"
@@ -94,13 +138,51 @@ const HowItWorksSection = () => {
                   delay={0.5}
                   isInView={isInView}
                 />
-              </div>
+              </motion.div>
+              
+              {/* Connecting lines for desktop */}
+              <div className="hidden lg:block absolute top-24 left-[calc(10%+24px)] right-[calc(10%+24px)] h-0.5 bg-gradient-to-r from-zordie-200 via-zordie-300 to-zordie-200 dark:from-zordie-700 dark:via-zordie-600 dark:to-zordie-700"></div>
             </div>
+            
+            <motion.div
+              initial={{ opacity: 0, y: 20 }}
+              animate={isInView ? { opacity: 1, y: 0 } : { opacity: 0, y: 20 }}
+              transition={{ duration: 0.5, delay: 0.7 }}
+              className="mt-12 flex justify-center"
+            >
+              <Link to="/companies">
+                <Button 
+                  size="lg" 
+                  className="bg-gradient-to-r from-zordie-600 to-accent1 hover:from-zordie-700 hover:to-accent1-hover relative overflow-hidden group"
+                >
+                  <span className="relative z-10 flex items-center">
+                    Learn More 
+                    <ChevronRight className="ml-1 h-5 w-5 group-hover:translate-x-1 transition-transform" />
+                  </span>
+                  <motion.span 
+                    className="absolute top-0 left-0 w-full h-full bg-white opacity-20"
+                    initial={{ x: '-100%' }}
+                    animate={{ x: ['100%'] }}
+                    transition={{ 
+                      repeat: Infinity, 
+                      duration: 1.5, 
+                      ease: "linear",
+                      repeatDelay: 1
+                    }}
+                  />
+                </Button>
+              </Link>
+            </motion.div>
           </TabsContent>
           
           <TabsContent value="candidates">
             <div className="relative">
-              <div className="grid grid-cols-1 lg:grid-cols-5 gap-8">
+              <motion.div
+                className="grid grid-cols-1 lg:grid-cols-5 gap-8"
+                variants={containerVariants}
+                initial="hidden"
+                animate={isInView ? "visible" : "hidden"}
+              >
                 <AnimatedWorkflowStep
                   number={1}
                   title="Verify Your Profile"
@@ -141,8 +223,41 @@ const HowItWorksSection = () => {
                   delay={0.5}
                   isInView={isInView}
                 />
-              </div>
+              </motion.div>
+              
+              {/* Connecting lines for desktop */}
+              <div className="hidden lg:block absolute top-24 left-[calc(10%+24px)] right-[calc(10%+24px)] h-0.5 bg-gradient-to-r from-zordie-200 via-zordie-300 to-zordie-200 dark:from-zordie-700 dark:via-zordie-600 dark:to-zordie-700"></div>
             </div>
+            
+            <motion.div
+              initial={{ opacity: 0, y: 20 }}
+              animate={isInView ? { opacity: 1, y: 0 } : { opacity: 0, y: 20 }}
+              transition={{ duration: 0.5, delay: 0.7 }}
+              className="mt-12 flex justify-center"
+            >
+              <Link to="/candidates">
+                <Button 
+                  size="lg" 
+                  className="bg-gradient-to-r from-zordie-600 to-accent1 hover:from-zordie-700 hover:to-accent1-hover relative overflow-hidden group"
+                >
+                  <span className="relative z-10 flex items-center">
+                    Learn More 
+                    <ChevronRight className="ml-1 h-5 w-5 group-hover:translate-x-1 transition-transform" />
+                  </span>
+                  <motion.span 
+                    className="absolute top-0 left-0 w-full h-full bg-white opacity-20"
+                    initial={{ x: '-100%' }}
+                    animate={{ x: ['100%'] }}
+                    transition={{ 
+                      repeat: Infinity, 
+                      duration: 1.5, 
+                      ease: "linear",
+                      repeatDelay: 1
+                    }}
+                  />
+                </Button>
+              </Link>
+            </motion.div>
           </TabsContent>
         </Tabs>
 
@@ -252,11 +367,19 @@ interface VerificationCardProps {
 const VerificationCard = ({ icon, title, description, verifiedText }: VerificationCardProps) => {
   return (
     <motion.div
-      className="bg-white dark:bg-zordie-800/50 rounded-xl p-6 shadow-md dark:shadow-zordie-900/30 border border-zordie-100 dark:border-zordie-700 hover:shadow-lg transition-shadow duration-300"
+      className="bg-white dark:bg-zordie-800/50 rounded-xl p-6 shadow-md dark:shadow-zordie-900/30 border border-zordie-100 dark:border-zordie-700 hover:shadow-lg transition-shadow duration-300 relative overflow-hidden group"
       whileHover={{ y: -5 }}
       transition={{ type: "spring", stiffness: 300, damping: 15 }}
     >
-      <div className="flex flex-col items-center text-center">
+      {/* Shiny effect on hover */}
+      <motion.div 
+        className="absolute inset-0 bg-gradient-to-r from-transparent via-white/20 to-transparent opacity-0 group-hover:opacity-100"
+        initial={{ x: '-100%' }}
+        whileHover={{ x: '100%' }}
+        transition={{ duration: 0.7 }}
+      />
+      
+      <div className="flex flex-col items-center text-center relative z-10">
         <div className="mb-4 p-3 bg-zordie-50 dark:bg-zordie-700/30 rounded-full">
           {icon}
         </div>

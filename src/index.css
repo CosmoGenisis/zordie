@@ -139,9 +139,63 @@
   .dark-glass {
     @apply bg-zordie-800/80 backdrop-blur-sm border-zordie-700;
   }
+  
+  /* Wave button effect */
+  .wave-btn {
+    @apply relative overflow-hidden;
+  }
+  
+  .wave-btn::after {
+    content: '';
+    @apply absolute top-0 left-0 w-full h-full bg-white opacity-20 transform -translate-x-full;
+    transition: transform 0.7s ease;
+  }
+  
+  .wave-btn:hover::after {
+    @apply transform translate-x-0;
+    animation: wave 0.7s forwards;
+  }
+  
+  /* Glowing gradient border */
+  .glow-border {
+    @apply relative;
+  }
+  
+  .glow-border::before {
+    content: '';
+    @apply absolute -inset-0.5 bg-gradient-to-r from-zordie-500 to-accent1 rounded-lg blur opacity-0;
+    transition: opacity 0.3s ease;
+  }
+  
+  .glow-border:hover::before {
+    @apply opacity-75;
+  }
+  
+  .glow-border > * {
+    @apply relative z-10;
+  }
+  
+  /* Card hover effect */
+  .card-hover {
+    @apply transition-all duration-300;
+  }
+  
+  .card-hover:hover {
+    @apply transform -translate-y-2;
+    box-shadow: 0 10px 25px -5px rgba(0, 0, 0, 0.1), 0 10px 10px -5px rgba(0, 0, 0, 0.04);
+  }
 }
 
 /* Animations */
+@keyframes wave {
+  0% {
+    transform: translateX(-100%);
+  }
+  100% {
+    transform: translateX(100%);
+  }
+}
+
 @keyframes fadeIn {
   from {
     opacity: 0;
@@ -186,6 +240,38 @@
   }
 }
 
+@keyframes float {
+  0%, 100% {
+    transform: translateY(0);
+  }
+  50% {
+    transform: translateY(-10px);
+  }
+}
+
+@keyframes pulse {
+  0%, 100% {
+    opacity: 1;
+    transform: scale(1);
+  }
+  50% {
+    opacity: 0.8;
+    transform: scale(0.95);
+  }
+}
+
+@keyframes gradientShift {
+  0% {
+    background-position: 0% 50%;
+  }
+  50% {
+    background-position: 100% 50%;
+  }
+  100% {
+    background-position: 0% 50%;
+  }
+}
+
 .animate-fade-in {
   animation: fadeIn 0.6s ease-out forwards;
 }
@@ -202,16 +288,66 @@
   animation: scaleIn 0.5s ease-out forwards;
 }
 
-/* Hover Effects */
-.btn-hover-effect {
-  @apply transition-all duration-300 hover:shadow-lg hover:scale-105;
+.animate-float {
+  animation: float 3s ease-in-out infinite;
 }
 
-.card-hover-effect {
-  @apply transition-all duration-300 hover:shadow-lg hover:translate-y-[-4px];
+.animate-pulse-slow {
+  animation: pulse 3s ease-in-out infinite;
 }
 
-/* Fix for "Meet Prime" blinking in hero section */
-.hover-scale-105 {
-  @apply hover:scale-105 transition-transform duration-300;
+.animate-gradient {
+  background-size: 200% 200%;
+  animation: gradientShift 5s ease infinite;
+}
+
+/* Glassmorphism */
+.glass {
+  background: rgba(255, 255, 255, 0.15);
+  backdrop-filter: blur(10px);
+  -webkit-backdrop-filter: blur(10px);
+  border: 1px solid rgba(255, 255, 255, 0.18);
+}
+
+.dark .glass {
+  background: rgba(0, 0, 0, 0.2);
+  border: 1px solid rgba(255, 255, 255, 0.08);
+}
+
+/* 3D Effect for cards */
+.card-3d {
+  transform-style: preserve-3d;
+  transition: transform 0.3s ease;
+}
+
+.card-3d:hover {
+  transform: translateY(-10px) rotateX(5deg) rotateY(5deg);
+}
+
+/* Z-index utility for layered positioning */
+.z-1 {
+  z-index: 1;
+}
+
+.z-2 {
+  z-index: 2;
+}
+
+/* Additional background patterns */
+.dotted-bg {
+  background-image: radial-gradient(circle, rgba(0, 0, 0, 0.1) 1px, transparent 1px);
+  background-size: 20px 20px;
+}
+
+.dark .dotted-bg {
+  background-image: radial-gradient(circle, rgba(255, 255, 255, 0.1) 1px, transparent 1px);
+}
+
+/* Enhanced backgrounds for dashboard mockups */
+.dashboard-bg {
+  background: linear-gradient(135deg, #f8f9fa 0%, #e9ecef 100%);
+}
+
+.dark .dashboard-bg {
+  background: linear-gradient(135deg, #212529 0%, #343a40 100%);
 }

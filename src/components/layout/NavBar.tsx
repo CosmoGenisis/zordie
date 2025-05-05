@@ -1,34 +1,23 @@
 
 import React, { useState, useEffect } from "react";
 import { Button } from "@/components/ui/button";
-import { Link, useLocation, useNavigate } from "react-router-dom";
-import { Menu, X, Globe, ChevronDown } from "lucide-react";
+import { Link, useLocation } from "react-router-dom";
+import { Menu, X, ChevronDown } from "lucide-react";
 import {
   DropdownMenu,
   DropdownMenuContent,
   DropdownMenuItem,
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
-import { useToast } from "@/hooks/use-toast";
 import ZordieLogo from "@/components/common/ZordieLogo";
 import { useTheme } from "@/hooks";
-import { useIsMobile } from "@/hooks/use-mobile";
-import { 
-  NavigationMenu, 
-  NavigationMenuList, 
-  NavigationMenuItem, 
-  NavigationMenuTrigger, 
-  NavigationMenuLink, 
-  NavigationMenuContent,
-  navigationMenuTriggerStyle
-} from "@/components/ui/navigation-menu";
 import ThemeToggle from "@/components/ui/theme-toggle";
+import { motion } from "framer-motion";
 
 const NavBar = () => {
   const { theme } = useTheme();
   const [isOpen, setIsOpen] = useState(false);
   const [scrolled, setScrolled] = useState(false);
-  const isMobile = useIsMobile();
   const location = useLocation();
 
   useEffect(() => {
@@ -51,213 +40,125 @@ const NavBar = () => {
     setIsOpen(false);
   }, [location]);
 
-  // Helper function to check if a link is active
-  const isActive = (href: string): boolean => {
-    return location.pathname === href;
-  };
-
-  // Navigation items
-  const navigation = [
+  const navItems = [
     { name: "Home", href: "/" },
-    { name: "Features", href: "/features" },
-    { name: "Pricing", href: "/pricing" },
     { name: "For Companies", href: "/companies" },
     { name: "For Job Seekers", href: "/candidates" },
+    { name: "Features", href: "/features" },
+    { name: "Pricing", href: "/pricing" },
   ];
 
   return (
     <header
-      className={`sticky top-0 z-40 w-full ${
-        scrolled 
-          ? "bg-background/80 backdrop-blur-md shadow-sm border-b"
+      className={`sticky top-0 z-40 w-full transition-all duration-300 ${
+        scrolled
+          ? "bg-white/80 dark:bg-zordie-900/80 backdrop-blur-md shadow-sm border-b"
           : "bg-transparent"
-      } transition-all duration-200`}
+      }`}
     >
       <div className="container mx-auto px-4">
         <div className="flex h-16 items-center justify-between">
+          <Link to="/" className="flex items-center">
+            <ZordieLogo variant={theme === 'dark' ? 'light' : 'default'} />
+          </Link>
+
+          {/* Desktop navigation */}
+          <nav className="hidden md:flex items-center space-x-1">
+            <ul className="flex space-x-1">
+              {navItems.map((item) => (
+                <li key={item.name}>
+                  <Link
+                    to={item.href}
+                    className="relative px-4 py-2 rounded-md text-gray-700 dark:text-gray-200 hover:text-zordie-600 dark:hover:text-zordie-400 transition-colors duration-200 group"
+                  >
+                    {item.name}
+                    <span className="absolute bottom-0 left-0 w-full h-[2px] bg-gradient-to-r from-zordie-600 to-accent1 transform scale-x-0 group-hover:scale-x-100 transition-transform duration-300 origin-left"></span>
+                  </Link>
+                </li>
+              ))}
+            </ul>
+          </nav>
+
+          {/* Action buttons */}
           <div className="flex items-center">
-            <Link to="/" className="flex items-center mr-6">
-              <ZordieLogo variant={theme === 'dark' ? 'light' : 'default'} />
-            </Link>
-
-            {/* Desktop Navigation */}
-            <nav className="hidden md:flex items-center space-x-1">
-              <NavigationMenu>
-                <NavigationMenuList>
-                  <NavigationMenuItem>
-                    <Link to="/features">
-                      <NavigationMenuLink className={navigationMenuTriggerStyle()}>
-                        Features
-                      </NavigationMenuLink>
-                    </Link>
-                  </NavigationMenuItem>
-
-                  <NavigationMenuItem>
-                    <NavigationMenuTrigger>Solutions</NavigationMenuTrigger>
-                    <NavigationMenuContent>
-                      <ul className="grid w-[400px] gap-3 p-4 md:w-[500px] md:grid-cols-2 lg:w-[600px]">
-                        <li className="row-span-3">
-                          <NavigationMenuLink asChild>
-                            <a
-                              className="flex h-full w-full select-none flex-col justify-end rounded-md bg-gradient-to-b from-zordie-500 to-zordie-600 p-6 no-underline outline-none focus:shadow-md"
-                              href="/dashboard-selector"
-                            >
-                              <div className="mt-4 mb-2 text-lg font-medium text-white">
-                                Zordie AI
-                              </div>
-                              <p className="text-sm leading-tight text-white/90">
-                                Next-generation hiring platform powered by artificial intelligence.
-                              </p>
-                            </a>
-                          </NavigationMenuLink>
-                        </li>
-                        <li>
-                          <NavigationMenuLink asChild>
-                            <a
-                              className="flex h-full w-full select-none flex-col justify-end rounded-md bg-white p-6 no-underline outline-none focus:shadow-md"
-                              href="/companies"
-                            >
-                              <div className="mt-4 mb-2 text-lg font-medium text-zordie-700">
-                                For Companies
-                              </div>
-                              <p className="text-sm leading-tight text-gray-500">
-                                Find the perfect candidates faster than ever.
-                              </p>
-                            </a>
-                          </NavigationMenuLink>
-                        </li>
-                        <li>
-                          <NavigationMenuLink asChild>
-                            <a
-                              className="flex h-full w-full select-none flex-col justify-end rounded-md bg-white p-6 no-underline outline-none focus:shadow-md"
-                              href="/candidates"
-                            >
-                              <div className="mt-4 mb-2 text-lg font-medium text-zordie-700">
-                                For Job Seekers
-                              </div>
-                              <p className="text-sm leading-tight text-gray-500">
-                                Get matched with top companies and land your dream job.
-                              </p>
-                            </a>
-                          </NavigationMenuLink>
-                        </li>
-                      </ul>
-                    </NavigationMenuContent>
-                  </NavigationMenuItem>
-
-                  <NavigationMenuItem>
-                    <Link to="/pricing">
-                      <NavigationMenuLink className={navigationMenuTriggerStyle()}>
-                        Pricing
-                      </NavigationMenuLink>
-                    </Link>
-                  </NavigationMenuItem>
-
-                  <NavigationMenuItem>
-                    <NavigationMenuTrigger>Resources</NavigationMenuTrigger>
-                    <NavigationMenuContent>
-                      <ul className="grid gap-3 p-4 md:w-[400px] lg:w-[500px] lg:grid-cols-2">
-                        <li>
-                          <NavigationMenuLink asChild>
-                            <a
-                              className="flex h-full w-full select-none flex-col justify-end rounded-md bg-white p-6 no-underline outline-none focus:shadow-md"
-                              href="/blog"
-                            >
-                              <div className="mt-4 mb-2 text-lg font-medium text-zordie-700">
-                                Blog
-                              </div>
-                              <p className="text-sm leading-tight text-gray-500">
-                                Insights and tips for hiring and job searching.
-                              </p>
-                            </a>
-                          </NavigationMenuLink>
-                        </li>
-                        <li>
-                          <NavigationMenuLink asChild>
-                            <a
-                              className="flex h-full w-full select-none flex-col justify-end rounded-md bg-white p-6 no-underline outline-none focus:shadow-md"
-                              href="/resources"
-                            >
-                              <div className="mt-4 mb-2 text-lg font-medium text-zordie-700">
-                                Resources
-                              </div>
-                              <p className="text-sm leading-tight text-gray-500">
-                                Guides, templates, and tools to help you succeed.
-                              </p>
-                            </a>
-                          </NavigationMenuLink>
-                        </li>
-                      </ul>
-                    </NavigationMenuContent>
-                  </NavigationMenuItem>
-                </NavigationMenuList>
-              </NavigationMenu>
-            </nav>
-          </div>
-
-          {/* Action Buttons */}
-          <div className="flex items-center">
-            {/* Theme Toggle */}
+            {/* Theme toggle */}
             <ThemeToggle className="mr-2" />
             
-            {/* Login/Signup Buttons */}
+            {/* Desktop login/signup */}
             <div className="hidden md:flex items-center space-x-4">
               <Link to="/login">
-                <Button variant="outline" size="sm">
-                  Log in
+                <Button 
+                  variant="outline" 
+                  size="sm"
+                  className="relative overflow-hidden group"
+                >
+                  <span className="relative z-10">Log in</span>
+                  <span className="absolute bottom-0 left-0 w-full h-0 bg-gradient-to-r from-zordie-600 to-accent1 group-hover:h-full transition-all duration-300 -z-1"></span>
                 </Button>
               </Link>
               <Link to="/dashboard-selector">
-                <Button size="sm">Get Started</Button>
-              </Link>
-            </div>
-
-            {/* Mobile Menu Button */}
-            <Button
-              variant="ghost"
-              size="icon"
-              className="md:hidden"
-              onClick={() => setIsOpen(!isOpen)}
-            >
-              <Menu className="h-5 w-5" />
-              <span className="sr-only">Toggle menu</span>
-            </Button>
-          </div>
-        </div>
-      </div>
-
-      {/* Mobile Navigation */}
-      <div
-        className={`${
-          isOpen ? "block" : "hidden"
-        } md:hidden bg-white border-b`}
-      >
-        <div className="pt-2 pb-4 space-y-1">
-          {navigation.map((item) => (
-            <Link
-              key={item.name}
-              to={item.href}
-              className={`block pl-3 pr-4 py-2 border-l-4 text-base font-medium transition-all duration-200 ${
-                isActive(item.href)
-                  ? "border-zordie-700 text-zordie-700 bg-zordie-50"
-                  : "border-transparent text-gray-600 hover:bg-gray-50 hover:border-gray-300 hover:text-gray-800"
-              }`}
-              onClick={() => setIsOpen(false)}
-            >
-              {item.name}
-            </Link>
-          ))}
-          <div className="px-3 py-3 border-t">
-            <div className="flex flex-col space-y-3 pt-3">
-              <Link to="/dashboard-selector" className="w-full">
-                <Button className="w-full btn-gradient transition-all duration-200 hover:shadow-md" onClick={() => setIsOpen(false)}>
-                  Get Started
+                <Button 
+                  size="sm"
+                  className="bg-gradient-to-r from-zordie-600 to-accent1 hover:from-zordie-700 hover:to-accent1-hover transition-all duration-300 relative overflow-hidden group"
+                >
+                  <span className="relative z-10">Get Started</span>
+                  <motion.span 
+                    className="absolute top-0 left-0 w-full h-full bg-white opacity-20"
+                    initial={{ x: '-100%' }}
+                    animate={{ x: ['100%'] }}
+                    transition={{ 
+                      repeat: Infinity, 
+                      duration: 1.5, 
+                      ease: "linear",
+                      repeatDelay: 1
+                    }}
+                  />
                 </Button>
               </Link>
             </div>
+
+            {/* Mobile menu button */}
+            <button
+              className="md:hidden text-gray-700 dark:text-gray-200 hover:text-zordie-600 dark:hover:text-zordie-400"
+              onClick={() => setIsOpen(!isOpen)}
+            >
+              {isOpen ? <X /> : <Menu />}
+            </button>
           </div>
         </div>
       </div>
+
+      {/* Mobile navigation */}
+      <motion.div
+        initial={false}
+        animate={isOpen ? { height: "auto", opacity: 1 } : { height: 0, opacity: 0 }}
+        transition={{ duration: 0.3 }}
+        className="md:hidden overflow-hidden bg-white dark:bg-zordie-900 border-b"
+      >
+        <div className="container mx-auto px-4 py-3">
+          <ul className="space-y-2">
+            {navItems.map((item) => (
+              <li key={item.name}>
+                <Link
+                  to={item.href}
+                  className="block px-4 py-2 text-gray-700 dark:text-gray-200 hover:bg-gray-50 dark:hover:bg-zordie-800 rounded-md transition-colors duration-200"
+                  onClick={() => setIsOpen(false)}
+                >
+                  {item.name}
+                </Link>
+              </li>
+            ))}
+          </ul>
+          <div className="mt-4 flex flex-col space-y-2">
+            <Link to="/login" className="w-full">
+              <Button variant="outline" className="w-full">Log in</Button>
+            </Link>
+            <Link to="/dashboard-selector" className="w-full">
+              <Button className="w-full bg-gradient-to-r from-zordie-600 to-accent1">Get Started</Button>
+            </Link>
+          </div>
+        </div>
+      </motion.div>
     </header>
   );
 };

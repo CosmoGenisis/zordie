@@ -1,336 +1,273 @@
 
-import React, { useState, useEffect } from "react";
-import { Link } from "react-router-dom";
-import { Button } from "@/components/ui/button";
-import { motion, useScroll, useTransform } from "framer-motion";
-import { ArrowRight, Play, ChevronDown, Lightbulb, Shield, BadgeCheck, Github, Linkedin } from "lucide-react";
-import FloatingParticles from "./3d/FloatingParticles";
-import SpinningCube from "./3d/SpinningCube";
-import BackgroundAnimation from "./3d/BackgroundAnimation";
-import GradientText from "./GradientText";
-import gsap from "gsap";
+import React, { useEffect, useRef } from 'react';
+import { Button } from '@/components/ui/button';
+import { Link } from 'react-router-dom';
+import { motion, useAnimation, useInView } from 'framer-motion';
+import { ChevronRight, PlayCircle } from 'lucide-react';
+import gsap from 'gsap';
+import { useTheme } from '@/hooks';
 
 const HeroSection = () => {
-  const [mousePosition, setMousePosition] = useState({
-    x: 0,
-    y: 0
-  });
-  
-  const { scrollY } = useScroll();
-  const opacity = useTransform(scrollY, [0, 300], [1, 0]);
-  const y = useTransform(scrollY, [0, 300], [0, 100]);
+  const theme = useTheme();
+  const controls = useAnimation();
+  const containerRef = useRef(null);
+  const floatingCardsRef = useRef<HTMLDivElement>(null);
+  const isInView = useInView(containerRef, { once: false, amount: 0.3 });
   
   useEffect(() => {
-    const handleMouseMove = (e: MouseEvent) => {
-      setMousePosition({
-        x: e.clientX / window.innerWidth,
-        y: e.clientY / window.innerHeight
-      });
-    };
-    
-    window.addEventListener('mousemove', handleMouseMove);
+    if (isInView) {
+      controls.start('visible');
+    }
+  }, [controls, isInView]);
 
-    // GSAP animations
-    gsap.fromTo(".hero-element", {
-      y: 50,
-      opacity: 0
-    }, {
-      y: 0,
-      opacity: 1,
-      duration: 1,
-      stagger: 0.2,
-      ease: "power3.out"
-    });
+  // GSAP animation for floating cards
+  useEffect(() => {
+    if (!floatingCardsRef.current) return;
     
-    return () => {
-      window.removeEventListener('mousemove', handleMouseMove);
-    };
+    const cards = floatingCardsRef.current.querySelectorAll('.floating-card');
+    
+    cards.forEach((card, index) => {
+      gsap.to(card, {
+        y: index % 2 === 0 ? '10px' : '-10px',
+        duration: 2 + (index * 0.2),
+        repeat: -1,
+        yoyo: true,
+        ease: 'sine.inOut',
+        delay: index * 0.3
+      });
+      
+      gsap.to(card, {
+        opacity: 1,
+        duration: 0.5,
+        delay: 0.2 + (index * 0.1)
+      });
+    });
   }, []);
 
-  // Text animation variants
-  const titleVariant = {
-    hidden: {
-      opacity: 0,
-      y: 30
-    },
-    visible: (i: number) => ({
-      opacity: 1,
-      y: 0,
-      transition: {
-        delay: i * 0.1,
-        duration: 0.8,
-        ease: [0.215, 0.61, 0.355, 1]
-      }
-    })
-  };
-
-  // Button animation variants
-  const buttonVariant = {
-    hidden: {
-      opacity: 0,
-      y: 20
-    },
+  const containerVariants = {
+    hidden: { opacity: 0 },
     visible: {
       opacity: 1,
-      y: 0,
       transition: {
-        delay: 0.6,
-        duration: 0.5,
-        ease: "easeOut"
-      }
-    },
-    hover: {
-      scale: 1.05,
-      boxShadow: "0px 5px 20px rgba(71, 57, 195, 0.3)",
-      transition: {
-        duration: 0.3
+        delayChildren: 0.3,
+        staggerChildren: 0.2
       }
     }
   };
-  
-  // Card animation variants
-  const cardVariant = {
-    hidden: { opacity: 0, y: 20 },
-    visible: (delay: number) => ({
-      opacity: 1,
+
+  const itemVariants = {
+    hidden: { y: 20, opacity: 0 },
+    visible: {
       y: 0,
-      transition: {
-        delay: delay,
-        duration: 0.5,
-        ease: "easeOut"
-      }
-    }),
-    hover: {
-      y: -5,
-      boxShadow: "0px 10px 25px rgba(71, 57, 195, 0.15)",
-      transition: { duration: 0.2 }
+      opacity: 1,
+      transition: { duration: 0.5 }
+    }
+  };
+
+  const backgroundVariants = {
+    hidden: { opacity: 0 },
+    visible: {
+      opacity: 1,
+      transition: { duration: 1 }
     }
   };
 
   return (
-    <section className="relative min-h-screen w-full overflow-hidden bg-white text-zordie-900">
-      {/* Background animations */}
-      <BackgroundAnimation className="z-0" />
+    <section className="relative min-h-[90vh] flex items-center py-16 md:py-24 overflow-hidden" ref={containerRef}>
+      {/* Animated background */}
+      <motion.div 
+        className="absolute inset-0 z-0 bg-grid-white dark:bg-grid-black opacity-20"
+        variants={backgroundVariants}
+        initial="hidden"
+        animate="visible"
+      >
+        <div className="absolute inset-0 bg-gradient-radial from-accent1/10 via-transparent to-transparent"></div>
+      </motion.div>
       
-      {/* Interactive Particles */}
-      <div className="absolute inset-0 z-10 pointer-events-none opacity-60">
-        <FloatingParticles className="w-full h-full" particleCount={150} particleColor="rgba(111, 76, 255, 0.25)" />
-      </div>
-
-      <div className="container mx-auto px-4 relative z-20 pt-32 pb-24 md:pt-40 md:pb-32">
-        <div className="max-w-5xl mx-auto">
-          {/* Main Hero Content */}
-          <div className="text-center mb-16">
-            <motion.div className="inline-flex items-center bg-gray-50 border border-gray-200 rounded-full px-4 py-2 mb-8 hero-element" initial={{
-            opacity: 0,
-            y: 20
-          }} animate={{
-            opacity: 1,
-            y: 0
-          }} transition={{
-            duration: 0.6
-          }}>
-              <span className="bg-gradient-to-r from-accent1 to-zordie-500 h-2 w-2 rounded-full mr-2"></span>
-              <span className="text-zordie-600 text-sm">Revolutionizing Hiring with AI</span>
+      {/* Glow effects */}
+      <div className="absolute top-1/4 left-1/4 w-96 h-96 bg-zordie-500/20 dark:bg-zordie-500/10 rounded-full blur-3xl"></div>
+      <div className="absolute bottom-1/4 right-1/3 w-80 h-80 bg-accent1/20 dark:bg-accent1/10 rounded-full blur-3xl"></div>
+      
+      <div className="container relative z-10 mx-auto px-4 sm:px-6 lg:px-8">
+        <div className="grid grid-cols-1 md:grid-cols-12 gap-12 items-center">
+          {/* Left column - Text content */}
+          <motion.div 
+            className="md:col-span-6"
+            variants={containerVariants}
+            initial="hidden"
+            animate={controls}
+          >
+            <motion.div variants={itemVariants} className="mb-4 flex items-center">
+              <span className="inline-flex items-center justify-center px-3 py-1 text-sm font-medium text-white bg-gradient-to-r from-zordie-600 to-accent1 rounded-full shadow-sm">
+                AI-Powered Hiring
+              </span>
             </motion.div>
-
-            <motion.div style={{
-            perspective: "1000px"
-          }} initial="hidden" animate="visible" custom={0} className="hero-element">
-              <h1 className="text-5xl md:text-7xl font-bold mb-6 font-display">
-                <GradientText gradient="primary" animate delay={0.2}>
-                  Revolutionize Your 
-                </GradientText>
-                <br />
-                <GradientText gradient="secondary" animate delay={0.4}>
-                  Hiring Process with AI
-                </GradientText>
-              </h1>
-            </motion.div>
-
-            <motion.p className="text-xl md:text-2xl text-zordie-600 mb-10 max-w-3xl mx-auto hero-element" variants={titleVariant} initial="hidden" animate="visible" custom={1}>
-              Zordie combines intelligent screening, automated assessments, and interactive interviews to help you find the perfect candidates faster than ever.
+            
+            <motion.h1 
+              className="text-4xl md:text-5xl lg:text-6xl font-bold leading-tight mb-6"
+              variants={itemVariants}
+            >
+              <span className="block mb-2">Your goals deserve</span>
+              <span className="block hero-title">game-changers.</span>
+              <span className="block">We find them with Zordie.</span>
+            </motion.h1>
+            
+            <motion.p 
+              className="text-lg md:text-xl text-gray-600 dark:text-gray-300 mb-8 max-w-lg"
+              variants={itemVariants}
+            >
+              An AI-powered verified hiring platform that eliminates fake resumes and brings trust to the hiring process.
             </motion.p>
-
-            <motion.div className="flex flex-col sm:flex-row justify-center gap-4 hero-element" variants={buttonVariant} initial="hidden" animate="visible">
-              <motion.div whileHover="hover" variants={buttonVariant}>
-                <Link to="/dashboard-selector">
-                  <Button size="lg" className="relative overflow-hidden group bg-gradient-to-r from-zordie-500 to-accent1 border-none text-white font-medium px-8 py-7 text-lg">
-                    <span className="relative z-10 flex items-center">
-                      Get Started 
-                      <ArrowRight className="ml-2 h-5 w-5 transition-transform group-hover:translate-x-1" />
-                    </span>
-                    <span className="absolute inset-0 bg-white opacity-0 group-hover:opacity-20 transition-opacity"></span>
-                  </Button>
-                </Link>
-              </motion.div>
-
-              <motion.div whileHover="hover" variants={buttonVariant}>
-                <Link to="/features">
-                  <Button variant="outline" size="lg" className="text-zordie-800 border-zordie-300 bg-white py-7 text-lg group hover:bg-zordie-50">
-                    <Play className="mr-2 h-4 w-4 transition-transform group-hover:scale-110" />
-                    Watch Demo
-                  </Button>
-                </Link>
-              </motion.div>
-            </motion.div>
-          </div>
-
-          {/* Dashboard Preview with floating cards */}
-          <div className="relative mx-auto mt-12 flex justify-center">
-            {/* 3D Spinning Cube */}
-            <motion.div className="absolute -top-20 -right-20 w-80 h-80 opacity-60 hidden md:block" style={{
-            opacity
-          }}>
-              <SpinningCube className="w-full h-full" />
-            </motion.div>
-
-            {/* Dashboard Preview */}
-            <motion.div className="relative mx-auto mt-8 w-full max-w-4xl hero-element" initial={{
-            opacity: 0,
-            y: 50
-          }} animate={{
-            opacity: 1,
-            y: 0
-          }} transition={{
-            delay: 0.5,
-            duration: 0.8,
-            ease: [0.25, 0.1, 0.25, 1]
-          }} style={{
-            transformStyle: "preserve-3d",
-            transform: `perspective(1000px) rotateX(${(mousePosition.y - 0.5) * -5}deg) rotateY(${(mousePosition.x - 0.5) * 5}deg)`
-          }}>
+            
+            <motion.div 
+              className="flex flex-col sm:flex-row gap-4"
+              variants={itemVariants}
+            >
+              <Link to="/dashboard-selector">
+                <Button 
+                  size="lg" 
+                  className="bg-gradient-to-r from-zordie-600 to-accent1 hover:from-zordie-700 hover:to-accent1-hover text-white relative overflow-hidden group"
+                >
+                  <span className="relative z-10 flex items-center">
+                    Get Started 
+                    <ChevronRight className="ml-1 h-5 w-5 group-hover:translate-x-1 transition-transform" />
+                  </span>
+                  <motion.span 
+                    className="absolute top-0 left-0 w-full h-full bg-white opacity-20"
+                    initial={{ x: '-100%' }}
+                    animate={{ x: ['100%'] }}
+                    transition={{ 
+                      repeat: Infinity, 
+                      duration: 1.5, 
+                      ease: "linear",
+                      repeatDelay: 1
+                    }}
+                  />
+                </Button>
+              </Link>
               
-              {/* Dashboard UI mockup */}
-              <div className="w-full h-72 sm:h-96 bg-white rounded-xl shadow-2xl overflow-hidden border border-gray-200">
-                <div className="h-12 bg-gradient-to-r from-zordie-500 to-accent1 flex items-center px-4">
-                  <div className="flex space-x-2">
-                    <div className="w-3 h-3 rounded-full bg-red-500"></div>
-                    <div className="w-3 h-3 rounded-full bg-yellow-500"></div>
-                    <div className="w-3 h-3 rounded-full bg-green-500"></div>
+              <Button 
+                size="lg" 
+                variant="outline" 
+                className="group relative overflow-hidden"
+              >
+                <span className="relative z-10 flex items-center">
+                  <PlayCircle className="mr-2 h-5 w-5" />
+                  Watch Demo
+                </span>
+                <span className="absolute bottom-0 left-0 w-full h-0 bg-gradient-to-r from-zordie-600/20 to-accent1/20 group-hover:h-full transition-all duration-300 -z-1"></span>
+              </Button>
+            </motion.div>
+            
+            <motion.div 
+              className="mt-10 text-sm text-gray-500 dark:text-gray-400 flex items-center"
+              variants={itemVariants}
+            >
+              <div className="flex -space-x-2 mr-3">
+                {[1, 2, 3, 4].map((i) => (
+                  <img 
+                    key={i}
+                    src={`https://randomuser.me/api/portraits/men/${i + 20}.jpg`} 
+                    alt="User" 
+                    className="w-8 h-8 rounded-full border-2 border-white dark:border-zordie-900"
+                  />
+                ))}
+              </div>
+              <span>Trusted by 2,000+ hiring managers worldwide</span>
+            </motion.div>
+          </motion.div>
+          
+          {/* Right column - 3D Dashboard UI */}
+          <motion.div 
+            className="md:col-span-6 relative h-[500px]"
+            variants={containerVariants}
+            initial="hidden"
+            animate={controls}
+          >
+            {/* Main dashboard mockup */}
+            <motion.div 
+              className="absolute top-0 right-0 w-full md:w-[120%] h-auto rounded-xl shadow-2xl"
+              variants={itemVariants}
+              whileHover={{ scale: 1.02 }}
+              transition={{ type: "spring", stiffness: 300, damping: 15 }}
+            >
+              <img 
+                src="https://cdn.pixabay.com/photo/2018/09/07/19/05/dashboard-3660811_1280.jpg" 
+                alt="Zordie Dashboard" 
+                className="w-full h-auto rounded-xl object-cover border border-gray-200 dark:border-zordie-700"
+              />
+              
+              {/* Floating cards */}
+              <div ref={floatingCardsRef} className="absolute inset-0">
+                {/* Candidate card */}
+                <div className="floating-card absolute top-20 -left-10 opacity-0 bg-white dark:bg-zordie-800 p-4 rounded-lg shadow-xl border border-gray-200 dark:border-zordie-700 max-w-[200px]">
+                  <div className="flex items-center mb-3">
+                    <img src="https://randomuser.me/api/portraits/women/44.jpg" alt="Candidate" className="w-12 h-12 rounded-full mr-3" />
+                    <div>
+                      <h4 className="font-medium text-gray-900 dark:text-white">Sarah Johnson</h4>
+                      <p className="text-xs text-gray-500 dark:text-gray-400">Frontend Developer</p>
+                    </div>
                   </div>
-                  <div className="text-white text-sm ml-4">Zordie AI Dashboard</div>
+                  <div className="flex items-center justify-between text-sm">
+                    <span className="text-green-600 font-medium">98% Match</span>
+                    <span className="px-2 py-1 bg-green-100 dark:bg-green-900/30 text-green-800 dark:text-green-400 rounded-full text-xs">Verified</span>
+                  </div>
                 </div>
-                <div className="p-6 bg-gray-50 h-full">
-                  <div className="h-6 w-1/3 bg-white rounded mb-4 shadow-sm"></div>
-                  <div className="flex mb-6">
-                    <div className="h-4 w-1/4 bg-white rounded mr-2 shadow-sm"></div>
-                    <div className="h-4 w-1/5 bg-white rounded shadow-sm"></div>
+                
+                {/* AI Analysis card */}
+                <div className="floating-card absolute bottom-40 -right-10 opacity-0 bg-white dark:bg-zordie-800 p-4 rounded-lg shadow-xl border border-gray-200 dark:border-zordie-700 max-w-[220px]">
+                  <h4 className="font-medium text-gray-900 dark:text-white mb-2">AI Analysis Complete</h4>
+                  <div className="space-y-2">
+                    <div className="flex justify-between items-center">
+                      <span className="text-xs text-gray-500 dark:text-gray-400">Technical Skills</span>
+                      <div className="w-20 h-2 bg-gray-200 dark:bg-gray-700 rounded-full overflow-hidden">
+                        <div className="h-full bg-zordie-500" style={{ width: '90%' }}></div>
+                      </div>
+                    </div>
+                    <div className="flex justify-between items-center">
+                      <span className="text-xs text-gray-500 dark:text-gray-400">Communication</span>
+                      <div className="w-20 h-2 bg-gray-200 dark:bg-gray-700 rounded-full overflow-hidden">
+                        <div className="h-full bg-zordie-500" style={{ width: '85%' }}></div>
+                      </div>
+                    </div>
+                    <div className="flex justify-between items-center">
+                      <span className="text-xs text-gray-500 dark:text-gray-400">Culture Fit</span>
+                      <div className="w-20 h-2 bg-gray-200 dark:bg-gray-700 rounded-full overflow-hidden">
+                        <div className="h-full bg-zordie-500" style={{ width: '95%' }}></div>
+                      </div>
+                    </div>
                   </div>
-                  <div className="grid grid-cols-3 gap-4 mb-6">
-                    <div className="h-16 bg-white rounded-md border border-gray-100 shadow-sm"></div>
-                    <div className="h-16 bg-white rounded-md border border-gray-100 shadow-sm"></div>
-                    <div className="h-16 bg-white rounded-md border border-gray-100 shadow-sm"></div>
+                </div>
+                
+                {/* Stats card */}
+                <div className="floating-card absolute top-40 right-10 opacity-0 bg-white dark:bg-zordie-800 p-4 rounded-lg shadow-xl border border-gray-200 dark:border-zordie-700 max-w-[180px]">
+                  <h4 className="font-medium text-gray-900 dark:text-white mb-3">Hiring Stats</h4>
+                  <div className="space-y-2">
+                    <div className="flex items-center">
+                      <div className="w-8 h-8 rounded-full bg-blue-100 dark:bg-blue-900/30 flex items-center justify-center mr-2">
+                        <svg className="w-4 h-4 text-blue-600 dark:text-blue-400" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+                          <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 19v-6a2 2 0 00-2-2H5a2 2 0 00-2 2v6a2 2 0 002 2h2a2 2 0 002-2zm0 0V9a2 2 0 012-2h2a2 2 0 012 2v10m-6 0a2 2 0 002 2h2a2 2 0 002-2m0 0V5a2 2 0 012-2h2a2 2 0 012 2v14a2 2 0 01-2 2h-2a2 2 0 01-2-2z" />
+                        </svg>
+                      </div>
+                      <div>
+                        <p className="text-xs text-gray-500 dark:text-gray-400">Time saved</p>
+                        <p className="font-medium text-gray-900 dark:text-white">68 hours</p>
+                      </div>
+                    </div>
+                    <div className="flex items-center">
+                      <div className="w-8 h-8 rounded-full bg-purple-100 dark:bg-purple-900/30 flex items-center justify-center mr-2">
+                        <svg className="w-4 h-4 text-purple-600 dark:text-purple-400" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+                          <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M17 20h5v-2a3 3 0 00-5.356-1.857M17 20H7m10 0v-2c0-.656-.126-1.283-.356-1.857M7 20H2v-2a3 3 0 015.356-1.857M7 20v-2c0-.656.126-1.283.356-1.857m0 0a5.002 5.002 0 019.288 0M15 7a3 3 0 11-6 0 3 3 0 016 0zm6 3a2 2 0 11-4 0 2 2 0 014 0zM7 10a2 2 0 11-4 0 2 2 0 014 0z" />
+                        </svg>
+                      </div>
+                      <div>
+                        <p className="text-xs text-gray-500 dark:text-gray-400">Candidates</p>
+                        <p className="font-medium text-gray-900 dark:text-white">215 verified</p>
+                      </div>
+                    </div>
                   </div>
-                  <div className="h-32 bg-white rounded-md border border-gray-100 shadow-sm mb-6"></div>
                 </div>
               </div>
-              
-              {/* Floating stats cards */}
-              <motion.div 
-                className="absolute -top-10 -left-16 md:-left-24 w-64 bg-white p-4 rounded-lg shadow-lg border border-indigo-100"
-                initial="hidden"
-                animate="visible"
-                custom={0.8}
-                variants={cardVariant}
-                whileHover="hover"
-              >
-                <div className="flex items-center">
-                  <div className="w-10 h-10 rounded-full bg-indigo-100 flex items-center justify-center mr-4">
-                    <BadgeCheck className="h-5 w-5 text-indigo-600" />
-                  </div>
-                  <div>
-                    <div className="text-sm text-gray-500">Verified Candidates</div>
-                    <div className="text-xl font-bold text-indigo-700">+329 today</div>
-                  </div>
-                </div>
-              </motion.div>
-
-              <motion.div 
-                className="absolute -bottom-10 -right-16 md:-right-24 w-72 bg-white p-4 rounded-lg shadow-lg border border-indigo-100"
-                initial="hidden"
-                animate="visible"
-                custom={1.0}
-                variants={cardVariant}
-                whileHover="hover"
-              >
-                <div className="flex items-center">
-                  <div className="w-10 h-10 rounded-full bg-green-100 flex items-center justify-center mr-4">
-                    <Shield className="h-5 w-5 text-green-600" />
-                  </div>
-                  <div>
-                    <div className="text-sm text-gray-500">Time Saved</div>
-                    <div className="text-xl font-bold text-green-700">73% reduction</div>
-                  </div>
-                </div>
-              </motion.div>
-
-              <motion.div
-                className="absolute top-1/2 -translate-y-1/2 -left-20 md:-left-32 w-64 bg-white p-4 rounded-lg shadow-lg border border-indigo-100"
-                initial="hidden"
-                animate="visible"
-                custom={1.2}
-                variants={cardVariant}
-                whileHover="hover"
-              >
-                <div className="flex items-center">
-                  <div className="w-10 h-10 rounded-full bg-purple-100 flex items-center justify-center mr-4">
-                    <Github className="h-5 w-5 text-purple-600" />
-                  </div>
-                  <div>
-                    <div className="text-sm text-gray-500">GitHub Projects</div>
-                    <div className="text-xl font-bold text-purple-700">Verified ✓</div>
-                  </div>
-                </div>
-              </motion.div>
-
-              <motion.div
-                className="absolute top-1/3 -translate-y-1/2 -right-20 md:-right-32 w-64 bg-white p-4 rounded-lg shadow-lg border border-indigo-100"
-                initial="hidden"
-                animate="visible"
-                custom={1.4}
-                variants={cardVariant}
-                whileHover="hover"
-              >
-                <div className="flex items-center">
-                  <div className="w-10 h-10 rounded-full bg-blue-100 flex items-center justify-center mr-4">
-                    <Linkedin className="h-5 w-5 text-blue-600" />
-                  </div>
-                  <div>
-                    <div className="text-sm text-gray-500">LinkedIn</div>
-                    <div className="text-xl font-bold text-blue-700">Cross-verified</div>
-                  </div>
-                </div>
-              </motion.div>              
-            </motion.div>
-          </div>
-
-          {/* Scroll down indicator */}
-          <motion.div className="absolute bottom-8 left-1/2 transform -translate-x-1/2 flex flex-col items-center hero-element" initial={{
-          opacity: 0
-        }} animate={{
-          opacity: 1
-        }} transition={{
-          delay: 1.2,
-          duration: 0.5
-        }} style={{
-          y
-        }}>
-            <motion.span className="text-sm text-zordie-500 mb-2" animate={{
-            y: [0, 5, 0]
-          }} transition={{
-            repeat: Infinity,
-            duration: 1.5
-          }}>
-              Scroll to explore
-            </motion.span>
-            <motion.div animate={{
-            y: [0, 10, 0]
-          }} transition={{
-            repeat: Infinity,
-            duration: 1.5
-          }}>
-              <ChevronDown className="h-5 w-5 text-zordie-400" />
             </motion.div>
           </motion.div>
         </div>

@@ -1,292 +1,460 @@
 
-import { SectionHeading } from "@/components/ui/section-heading";
-import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
-import { motion } from "framer-motion";
+import React, { useRef } from 'react';
+import { SectionHeading } from '@/components/ui/section-heading';
+import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
+import { Button } from '@/components/ui/button';
+import { Link } from 'react-router-dom';
+import { motion, useInView } from 'framer-motion';
 import { 
-  Users, Shield, BarChart, Clock, Bot, 
-  FileCheck, Video, MessageSquare, Github, Linkedin, Link, BadgeCheck
-} from "lucide-react";
-import { useInView } from 'framer-motion';
-import { useRef } from "react";
-import GradientText from "./GradientText";
+  Users, 
+  Bot, 
+  ShieldCheck, 
+  Clock, 
+  CheckCircle, 
+  BarChart, 
+  Video,
+  Award,
+  Zap,
+  Search,
+  MessageSquare,
+  Settings
+} from 'lucide-react';
 
 const FeaturesSection = () => {
   const sectionRef = useRef(null);
   const isInView = useInView(sectionRef, { once: false, amount: 0.2 });
-  
+
   const containerVariants = {
     hidden: { opacity: 0 },
     visible: {
       opacity: 1,
       transition: {
-        staggerChildren: 0.1,
-        delayChildren: 0.2
+        delayChildren: 0.3,
+        staggerChildren: 0.2
       }
     }
   };
-  
-  return (
-    <section ref={sectionRef} className="py-24 bg-gradient-to-b from-white to-indigo-50/30 dark:from-zordie-950 dark:to-zordie-900/50">
-      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-        <motion.div
-          initial={{ opacity: 0, y: 20 }}
-          animate={isInView ? { opacity: 1, y: 0 } : { opacity: 0, y: 20 }}
-          transition={{ duration: 0.7, ease: "easeOut" }}
-        >
-          <SectionHeading
-            title="AI-Powered Platform for Trustworthy Hiring"
-            subtitle="Discover how Zordie transforms the hiring process with verification and intelligence"
-            align="center"
-            titleContent={<>AI-Powered Platform for <GradientText gradient="rainbow">Trustworthy Hiring</GradientText></>}
-          />
-        </motion.div>
-        
-        <Tabs defaultValue="companies" className="w-full mt-12">
-          <motion.div 
-            className="flex justify-center mb-8"
-            initial={{ opacity: 0, y: 20 }}
-            animate={isInView ? { opacity: 1, y: 0 } : { opacity: 0, y: 20 }}
-            transition={{ duration: 0.5, delay: 0.3 }}
-          >
-            <TabsList className="grid w-full max-w-md grid-cols-2 bg-indigo-100/50 dark:bg-indigo-900/30 backdrop-blur-sm">
-              <TabsTrigger value="companies" className="data-[state=active]:bg-white dark:data-[state=active]:bg-indigo-800 data-[state=active]:text-indigo-900 dark:data-[state=active]:text-white">For Companies</TabsTrigger>
-              <TabsTrigger value="candidates" className="data-[state=active]:bg-white dark:data-[state=active]:bg-indigo-800 data-[state=active]:text-indigo-900 dark:data-[state=active]:text-white">For Job Seekers</TabsTrigger>
-            </TabsList>
-          </motion.div>
-          
-          <TabsContent value="companies">
-            <motion.div 
-              className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6"
-              variants={containerVariants}
-              initial="hidden"
-              animate={isInView ? "visible" : "hidden"}
-            >
-              <AnimatedFeatureCard 
-                icon={<Shield className="h-7 w-7 text-indigo-600 dark:text-indigo-400" />}
-                title="Verified Candidates" 
-                description="Only interact with candidates who have verified skills, projects and credentials. No more fake resumes."
-                delay={0.1}
-              />
-              <AnimatedFeatureCard 
-                icon={<Bot className="h-7 w-7 text-indigo-600 dark:text-indigo-400" />}
-                title="AI Resume Screening" 
-                description="Prime AI automatically ranks and scores resumes based on job requirements, saving hours of manual review."
-                delay={0.2}
-              />
-              <AnimatedFeatureCard 
-                icon={<Video className="h-7 w-7 text-indigo-600 dark:text-indigo-400" />}
-                title="AI Video Interviews" 
-                description="Automated video interviews with real-time AI scoring and feedback to efficiently shortlist candidates."
-                delay={0.3}
-              />
-              <AnimatedFeatureCard 
-                icon={<MessageSquare className="h-7 w-7 text-indigo-600 dark:text-indigo-400" />}
-                title="Automated Communication" 
-                description="Prime handles scheduling, reminders, and follow-up messages, keeping candidates informed every step of the way."
-                delay={0.4}
-              />
-              <AnimatedFeatureCard 
-                icon={<BarChart className="h-7 w-7 text-indigo-600 dark:text-indigo-400" />}
-                title="Candidate Leaderboard" 
-                description="Real-time ranking of candidates with transparency into verification scores and skill assessments."
-                delay={0.5}
-              />
-              <AnimatedFeatureCard 
-                icon={<Clock className="h-7 w-7 text-indigo-600 dark:text-indigo-400" />}
-                title="Time & Cost Savings" 
-                description="Reduce hiring time by up to 73% and cut costs by eliminating manual screening and verification."
-                delay={0.6}
-              />
-            </motion.div>
-          </TabsContent>
-          
-          <TabsContent value="candidates">
-            <motion.div 
-              className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6"
-              variants={containerVariants}
-              initial="hidden"
-              animate={isInView ? "visible" : "hidden"}
-            >
-              <AnimatedFeatureCard 
-                icon={<FileCheck className="h-7 w-7 text-indigo-600 dark:text-indigo-400" />}
-                title="Smart Resume Upload" 
-                description="Upload once and let AI optimize your resume for each job application to maximize your chances."
-                delay={0.1}
-              />
-              <AnimatedFeatureCard 
-                icon={<Github className="h-7 w-7 text-indigo-600 dark:text-indigo-400" />}
-                title="Project Verification" 
-                description="Link GitHub, LinkedIn and projects to verify your skills and stand out with a verification badge."
-                delay={0.2}
-                highlight={true}
-              />
-              <AnimatedFeatureCard 
-                icon={<Users className="h-7 w-7 text-indigo-600 dark:text-indigo-400" />}
-                title="AI Job Matching" 
-                description="Get matched with jobs that fit your verified skills and experience, not just keyword matches."
-                delay={0.3}
-              />
-              <AnimatedFeatureCard 
-                icon={<Video className="h-7 w-7 text-indigo-600 dark:text-indigo-400" />}
-                title="Practice Interviews" 
-                description="Prepare with AI-powered practice interviews tailored to your target roles and get instant feedback."
-                delay={0.4}
-              />
-              <AnimatedFeatureCard 
-                icon={<BadgeCheck className="h-7 w-7 text-indigo-600 dark:text-indigo-400" />}
-                title="Verified Profile Badge" 
-                description="Earn a verification badge to stand out and get noticed by top companies looking for authentic talent."
-                delay={0.5}
-              />
-              <AnimatedFeatureCard 
-                icon={<BarChart className="h-7 w-7 text-indigo-600 dark:text-indigo-400" />}
-                title="Application Analytics" 
-                description="Track your application status, leaderboard position, and get insights on improving your chances."
-                delay={0.6}
-              />
-            </motion.div>
-          </TabsContent>
-        </Tabs>
 
-        {/* Project Verification Section */}
+  const itemVariants = {
+    hidden: { y: 20, opacity: 0 },
+    visible: {
+      y: 0,
+      opacity: 1,
+      transition: { duration: 0.5 }
+    }
+  };
+
+  return (
+    <section ref={sectionRef} className="py-24 relative overflow-hidden">
+      {/* Background elements */}
+      <div className="absolute top-0 left-0 w-full h-full pointer-events-none">
+        <div className="absolute top-10 left-10 w-72 h-72 bg-zordie-400/10 dark:bg-zordie-400/5 rounded-full blur-3xl"></div>
+        <div className="absolute bottom-20 right-10 w-80 h-80 bg-accent1/10 dark:bg-accent1/5 rounded-full blur-3xl"></div>
+      </div>
+      
+      <div className="container mx-auto px-4 relative z-10">
         <motion.div
-          initial={{ opacity: 0, y: 40 }}
-          animate={isInView ? { opacity: 1, y: 0 } : { opacity: 0, y: 40 }}
-          transition={{ duration: 0.7, delay: 0.7, ease: "easeOut" }}
-          className="mt-24"
+          variants={containerVariants}
+          initial="hidden"
+          animate={isInView ? "visible" : "hidden"}
         >
           <SectionHeading
-            title="Cross-Platform Verification"
-            subtitle="Connect your professional profiles for comprehensive skill verification"
+            title="AI-Powered Hiring Platform"
+            subtitle="Tailored solutions for companies and job seekers"
             align="center"
           />
           
-          <div className="mt-12 grid grid-cols-1 lg:grid-cols-3 gap-8">
-            <div className="bg-white/80 dark:bg-indigo-900/30 backdrop-blur-sm rounded-xl p-8 shadow-lg border border-indigo-100/50 dark:border-indigo-700/50">
-              <div className="w-16 h-16 rounded-lg bg-indigo-100/80 dark:bg-indigo-800/80 flex items-center justify-center mb-6">
-                <Github className="h-8 w-8 text-indigo-600 dark:text-indigo-400" />
-              </div>
-              <h3 className="text-xl font-bold mb-3">GitHub Integration</h3>
-              <p className="text-gray-600 dark:text-gray-300">
-                Link your GitHub profile to verify your coding skills and contributions. We analyze your repositories, 
-                commit history, and project involvement to validate your technical experience.
-              </p>
-              <ul className="mt-4 space-y-2">
-                <li className="flex items-center text-gray-600 dark:text-gray-300">
-                  <span className="mr-2 text-green-500">✓</span> Repository code analysis
-                </li>
-                <li className="flex items-center text-gray-600 dark:text-gray-300">
-                  <span className="mr-2 text-green-500">✓</span> Contribution verification
-                </li>
-                <li className="flex items-center text-gray-600 dark:text-gray-300">
-                  <span className="mr-2 text-green-500">✓</span> Language proficiency scoring
-                </li>
-              </ul>
+          <Tabs defaultValue="companies" className="w-full mt-12">
+            <div className="flex justify-center mb-10">
+              <TabsList className="grid grid-cols-2 w-full max-w-md">
+                <TabsTrigger 
+                  value="companies" 
+                  className="data-[state=active]:bg-gradient-to-r data-[state=active]:from-zordie-600 data-[state=active]:to-accent1 data-[state=active]:text-white"
+                >
+                  For Companies
+                </TabsTrigger>
+                <TabsTrigger 
+                  value="jobseekers"
+                  className="data-[state=active]:bg-gradient-to-r data-[state=active]:from-zordie-600 data-[state=active]:to-accent1 data-[state=active]:text-white"
+                >
+                  For Job Seekers
+                </TabsTrigger>
+              </TabsList>
             </div>
             
-            <div className="bg-white/80 dark:bg-indigo-900/30 backdrop-blur-sm rounded-xl p-8 shadow-lg border border-indigo-100/50 dark:border-indigo-700/50">
-              <div className="w-16 h-16 rounded-lg bg-indigo-100/80 dark:bg-indigo-800/80 flex items-center justify-center mb-6">
-                <Linkedin className="h-8 w-8 text-indigo-600 dark:text-indigo-400" />
+            {/* For Companies Content */}
+            <TabsContent value="companies">
+              <div className="grid md:grid-cols-2 gap-16 items-center">
+                <motion.div
+                  variants={containerVariants}
+                  initial="hidden"
+                  animate={isInView ? "visible" : "hidden"}
+                  className="order-2 md:order-1"
+                >
+                  <motion.h3 
+                    className="text-3xl font-bold mb-6 text-zordie-800 dark:text-white"
+                    variants={itemVariants}
+                  >
+                    Find verified talent faster with our AI-powered screening
+                  </motion.h3>
+                  
+                  <motion.p 
+                    className="text-gray-600 dark:text-gray-300 mb-8"
+                    variants={itemVariants}
+                  >
+                    Our AI agent, Prime HR, handles the entire screening process, from resume verification to skills assessment, so you can focus on finding the perfect match for your team.
+                  </motion.p>
+                  
+                  <motion.div
+                    className="space-y-6"
+                    variants={containerVariants}
+                  >
+                    <FeatureItem 
+                      icon={<Bot className="text-zordie-600" />}
+                      title="AI-Powered Screening"
+                      description="Our AI automatically scans and ranks resumes based on job requirements."
+                      variants={itemVariants}
+                    />
+                    
+                    <FeatureItem 
+                      icon={<ShieldCheck className="text-zordie-600" />}
+                      title="Credential Verification"
+                      description="Automatically verify skills, projects, and credentials with connected profiles."
+                      variants={itemVariants}
+                    />
+                    
+                    <FeatureItem 
+                      icon={<Video className="text-zordie-600" />}
+                      title="Automated Video Interviews"
+                      description="AI-analyzed video screening with real-time scoring reduces interview time by 73%."
+                      variants={itemVariants}
+                    />
+                    
+                    <FeatureItem 
+                      icon={<BarChart className="text-zordie-600" />}
+                      title="Comprehensive Analytics"
+                      description="Detailed scorecards and candidate rankings based on verified skills and interview performance."
+                      variants={itemVariants}
+                    />
+                  </motion.div>
+                  
+                  <motion.div 
+                    className="mt-10"
+                    variants={itemVariants}
+                  >
+                    <Link to="/companies">
+                      <Button 
+                        size="lg" 
+                        className="bg-gradient-to-r from-zordie-600 to-accent1 hover:from-zordie-700 hover:to-accent1-hover relative overflow-hidden group"
+                      >
+                        <span className="relative z-10">Learn More for Companies</span>
+                        <motion.span 
+                          className="absolute top-0 left-0 w-full h-full bg-white opacity-20"
+                          initial={{ x: '-100%' }}
+                          animate={{ x: ['100%'] }}
+                          transition={{ 
+                            repeat: Infinity, 
+                            duration: 1.5, 
+                            ease: "linear",
+                            repeatDelay: 1
+                          }}
+                        />
+                      </Button>
+                    </Link>
+                  </motion.div>
+                </motion.div>
+                
+                <motion.div 
+                  className="order-1 md:order-2 relative"
+                  variants={itemVariants}
+                >
+                  <div className="relative bg-white dark:bg-zordie-800 p-8 rounded-xl shadow-xl border border-gray-200 dark:border-zordie-700">
+                    <div className="absolute -top-4 -right-4 bg-gradient-to-r from-zordie-600 to-accent1 text-white text-sm font-medium px-4 py-1 rounded-full">
+                      Prime HR AI
+                    </div>
+                    
+                    <div className="mb-6">
+                      <div className="w-12 h-12 rounded-full bg-zordie-100 dark:bg-zordie-700 flex items-center justify-center mb-4">
+                        <Bot className="h-6 w-6 text-zordie-600 dark:text-zordie-300" />
+                      </div>
+                      <h4 className="text-xl font-semibold text-zordie-800 dark:text-white mb-2">
+                        Candidate Screening Process
+                      </h4>
+                      <p className="text-gray-600 dark:text-gray-300 text-sm">
+                        Our AI agent, Prime HR, handles the entire screening flow
+                      </p>
+                    </div>
+                    
+                    <div className="space-y-4">
+                      <ScreeningStep 
+                        number={1}
+                        title="Resume Analysis"
+                        description="AI parses resumes and extracts relevant skills and experience"
+                      />
+                      
+                      <ScreeningStep 
+                        number={2}
+                        title="Credential Verification"
+                        description="Connected profiles verified to eliminate fake resumes"
+                      />
+                      
+                      <ScreeningStep 
+                        number={3}
+                        title="Automated Interviews"
+                        description="AI video interviews with real-time scoring"
+                      />
+                      
+                      <ScreeningStep 
+                        number={4}
+                        title="Candidate Ranking"
+                        description="Detailed scoring and ranking of verified candidates"
+                      />
+                      
+                      <ScreeningStep 
+                        number={5}
+                        title="Hiring Decision"
+                        description="Final selection based on comprehensive AI analysis"
+                      />
+                    </div>
+                    
+                    <div className="mt-8 flex justify-between items-center">
+                      <div>
+                        <p className="text-sm text-gray-500 dark:text-gray-400">Average time saved</p>
+                        <p className="text-2xl font-bold text-zordie-600">23 hours/week</p>
+                      </div>
+                      <div>
+                        <Link to="/ai-screening">
+                          <Button variant="outline" size="sm" className="hover:bg-zordie-50 dark:hover:bg-zordie-800">
+                            View Demo
+                          </Button>
+                        </Link>
+                      </div>
+                    </div>
+                  </div>
+                  
+                  {/* Decorative elements */}
+                  <div className="absolute -bottom-6 -left-6 w-32 h-32 bg-zordie-100 dark:bg-zordie-800/50 rounded-lg -z-10 transform -rotate-6"></div>
+                  <div className="absolute -top-6 -right-6 w-32 h-32 bg-accent1/10 dark:bg-accent1/5 rounded-lg -z-10 transform rotate-6"></div>
+                </motion.div>
               </div>
-              <h3 className="text-xl font-bold mb-3">LinkedIn Verification</h3>
-              <p className="text-gray-600 dark:text-gray-300">
-                Connect your LinkedIn profile to verify your employment history, education, and professional credentials. 
-                Our AI cross-references details for inconsistencies and confirms timeline accuracy.
-              </p>
-              <ul className="mt-4 space-y-2">
-                <li className="flex items-center text-gray-600 dark:text-gray-300">
-                  <span className="mr-2 text-green-500">✓</span> Work history validation
-                </li>
-                <li className="flex items-center text-gray-600 dark:text-gray-300">
-                  <span className="mr-2 text-green-500">✓</span> Credential confirmation
-                </li>
-                <li className="flex items-center text-gray-600 dark:text-gray-300">
-                  <span className="mr-2 text-green-500">✓</span> Endorsement analysis
-                </li>
-              </ul>
-            </div>
+            </TabsContent>
             
-            <div className="bg-white/80 dark:bg-indigo-900/30 backdrop-blur-sm rounded-xl p-8 shadow-lg border border-indigo-100/50 dark:border-indigo-700/50">
-              <div className="w-16 h-16 rounded-lg bg-indigo-100/80 dark:bg-indigo-800/80 flex items-center justify-center mb-6">
-                <Link className="h-8 w-8 text-indigo-600 dark:text-indigo-400" />
+            {/* For Job Seekers Content */}
+            <TabsContent value="jobseekers">
+              <div className="grid md:grid-cols-2 gap-16 items-center">
+                <motion.div
+                  variants={containerVariants}
+                  initial="hidden"
+                  animate={isInView ? "visible" : "hidden"}
+                >
+                  <motion.h3 
+                    className="text-3xl font-bold mb-6 text-zordie-800 dark:text-white"
+                    variants={itemVariants}
+                  >
+                    Showcase your verified skills to stand out 
+                  </motion.h3>
+                  
+                  <motion.p 
+                    className="text-gray-600 dark:text-gray-300 mb-8"
+                    variants={itemVariants}
+                  >
+                    Verify your skills, prepare with AI, and get matched with the perfect opportunities that recognize your authentic abilities.
+                  </motion.p>
+                  
+                  <motion.div
+                    className="space-y-6"
+                    variants={containerVariants}
+                  >
+                    <FeatureItem 
+                      icon={<ShieldCheck className="text-zordie-600" />}
+                      title="Skill Verification"
+                      description="Connect GitHub, LinkedIn and upload projects to verify your skills and get your verification badge."
+                      variants={itemVariants}
+                    />
+                    
+                    <FeatureItem 
+                      icon={<Zap className="text-zordie-600" />}
+                      title="AI-Optimized Profile"
+                      description="Our AI optimizes your profile for each job application to maximize match rate."
+                      variants={itemVariants}
+                    />
+                    
+                    <FeatureItem 
+                      icon={<Video className="text-zordie-600" />}
+                      title="Interview Practice"
+                      description="Prepare with AI-powered practice interviews tailored to your target roles."
+                      variants={itemVariants}
+                    />
+                    
+                    <FeatureItem 
+                      icon={<Award className="text-zordie-600" />}
+                      title="Stand Out from the Crowd"
+                      description="Get hired based on your authentic, verified abilities rather than just your resume."
+                      variants={itemVariants}
+                    />
+                  </motion.div>
+                  
+                  <motion.div 
+                    className="mt-10"
+                    variants={itemVariants}
+                  >
+                    <Link to="/candidates">
+                      <Button 
+                        size="lg" 
+                        className="bg-gradient-to-r from-zordie-600 to-accent1 hover:from-zordie-700 hover:to-accent1-hover relative overflow-hidden group"
+                      >
+                        <span className="relative z-10">Learn More for Job Seekers</span>
+                        <motion.span 
+                          className="absolute top-0 left-0 w-full h-full bg-white opacity-20"
+                          initial={{ x: '-100%' }}
+                          animate={{ x: ['100%'] }}
+                          transition={{ 
+                            repeat: Infinity, 
+                            duration: 1.5, 
+                            ease: "linear",
+                            repeatDelay: 1
+                          }}
+                        />
+                      </Button>
+                    </Link>
+                  </motion.div>
+                </motion.div>
+                
+                <motion.div 
+                  className="relative"
+                  variants={itemVariants}
+                >
+                  <div className="relative bg-white dark:bg-zordie-800 p-8 rounded-xl shadow-xl border border-gray-200 dark:border-zordie-700">
+                    <div className="absolute -top-4 -left-4 bg-gradient-to-r from-zordie-600 to-accent1 text-white text-sm font-medium px-4 py-1 rounded-full">
+                      Verified Profile
+                    </div>
+                    
+                    <div className="flex items-center mb-8">
+                      <div className="relative mr-4">
+                        <img 
+                          src="https://randomuser.me/api/portraits/men/32.jpg" 
+                          alt="Profile" 
+                          className="w-16 h-16 rounded-full object-cover border-2 border-white dark:border-zordie-700"
+                        />
+                        <div className="absolute -bottom-1 -right-1 bg-green-500 text-white p-1 rounded-full border-2 border-white dark:border-zordie-700">
+                          <CheckCircle className="h-4 w-4" />
+                        </div>
+                      </div>
+                      <div>
+                        <h4 className="text-xl font-semibold text-zordie-800 dark:text-white">
+                          David Chen
+                        </h4>
+                        <p className="text-gray-500 dark:text-gray-400">
+                          Full Stack Developer
+                        </p>
+                        <div className="flex items-center mt-1">
+                          <span className="bg-green-100 dark:bg-green-900/30 text-green-800 dark:text-green-400 text-xs px-2 py-0.5 rounded-full flex items-center">
+                            <CheckCircle className="h-3 w-3 mr-1" />
+                            Verified Skills
+                          </span>
+                        </div>
+                      </div>
+                    </div>
+                    
+                    <div className="space-y-4 mb-6">
+                      <div>
+                        <div className="flex justify-between mb-1">
+                          <span className="text-sm font-medium text-gray-700 dark:text-gray-300">Technical Skills</span>
+                          <span className="text-sm font-medium text-zordie-600">92%</span>
+                        </div>
+                        <div className="w-full h-2 bg-gray-200 dark:bg-gray-700 rounded-full">
+                          <div className="h-full bg-gradient-to-r from-zordie-600 to-accent1 rounded-full" style={{width: '92%'}}></div>
+                        </div>
+                      </div>
+                      
+                      <div>
+                        <div className="flex justify-between mb-1">
+                          <span className="text-sm font-medium text-gray-700 dark:text-gray-300">Project Verification</span>
+                          <span className="text-sm font-medium text-zordie-600">100%</span>
+                        </div>
+                        <div className="w-full h-2 bg-gray-200 dark:bg-gray-700 rounded-full">
+                          <div className="h-full bg-gradient-to-r from-zordie-600 to-accent1 rounded-full" style={{width: '100%'}}></div>
+                        </div>
+                      </div>
+                      
+                      <div>
+                        <div className="flex justify-between mb-1">
+                          <span className="text-sm font-medium text-gray-700 dark:text-gray-300">Interview Readiness</span>
+                          <span className="text-sm font-medium text-zordie-600">85%</span>
+                        </div>
+                        <div className="w-full h-2 bg-gray-200 dark:bg-gray-700 rounded-full">
+                          <div className="h-full bg-gradient-to-r from-zordie-600 to-accent1 rounded-full" style={{width: '85%'}}></div>
+                        </div>
+                      </div>
+                    </div>
+                    
+                    <div className="grid grid-cols-3 gap-3">
+                      <div className="flex flex-col items-center p-3 bg-gray-50 dark:bg-zordie-700/30 rounded-lg">
+                        <Github className="h-5 w-5 text-zordie-600 mb-1" />
+                        <span className="text-xs text-gray-500 dark:text-gray-400">GitHub</span>
+                        <span className="text-sm font-medium text-zordie-800 dark:text-white">Verified</span>
+                      </div>
+                      
+                      <div className="flex flex-col items-center p-3 bg-gray-50 dark:bg-zordie-700/30 rounded-lg">
+                        <Linkedin className="h-5 w-5 text-zordie-600 mb-1" />
+                        <span className="text-xs text-gray-500 dark:text-gray-400">LinkedIn</span>
+                        <span className="text-sm font-medium text-zordie-800 dark:text-white">Verified</span>
+                      </div>
+                      
+                      <div className="flex flex-col items-center p-3 bg-gray-50 dark:bg-zordie-700/30 rounded-lg">
+                        <Video className="h-5 w-5 text-zordie-600 mb-1" />
+                        <span className="text-xs text-gray-500 dark:text-gray-400">Interviews</span>
+                        <span className="text-sm font-medium text-zordie-800 dark:text-white">5 Passed</span>
+                      </div>
+                    </div>
+                    
+                    <div className="mt-6">
+                      <Link to="/verify-profile">
+                        <Button className="w-full bg-gradient-to-r from-zordie-600 to-accent1">
+                          Get Your Profile Verified
+                        </Button>
+                      </Link>
+                    </div>
+                  </div>
+                  
+                  {/* Decorative elements */}
+                  <div className="absolute -bottom-6 -right-6 w-32 h-32 bg-zordie-100 dark:bg-zordie-800/50 rounded-lg -z-10 transform rotate-6"></div>
+                  <div className="absolute -top-6 -left-6 w-32 h-32 bg-accent1/10 dark:bg-accent1/5 rounded-lg -z-10 transform -rotate-6"></div>
+                </motion.div>
               </div>
-              <h3 className="text-xl font-bold mb-3">Project Portfolio</h3>
-              <p className="text-gray-600 dark:text-gray-300">
-                Showcase your personal and professional projects with direct links. Our system verifies your involvement 
-                and contributions to each project, adding credibility to your skill claims.
-              </p>
-              <ul className="mt-4 space-y-2">
-                <li className="flex items-center text-gray-600 dark:text-gray-300">
-                  <span className="mr-2 text-green-500">✓</span> Project ownership verification
-                </li>
-                <li className="flex items-center text-gray-600 dark:text-gray-300">
-                  <span className="mr-2 text-green-500">✓</span> Technical skill assessment
-                </li>
-                <li className="flex items-center text-gray-600 dark:text-gray-300">
-                  <span className="mr-2 text-green-500">✓</span> Project impact evaluation
-                </li>
-              </ul>
-            </div>
-          </div>
+            </TabsContent>
+          </Tabs>
         </motion.div>
       </div>
     </section>
   );
 };
 
-interface FeatureCardProps {
-  icon: React.ReactNode;
-  title: string;
-  description: string;
-  delay?: number;
-  highlight?: boolean;
-}
-
-const AnimatedFeatureCard = ({ icon, title, description, delay = 0, highlight = false }: FeatureCardProps) => {
-  const cardVariants = {
-    hidden: { opacity: 0, y: 20 },
-    visible: { 
-      opacity: 1, 
-      y: 0,
-      transition: {
-        duration: 0.5,
-        ease: "easeOut",
-        delay
-      }
-    }
-  };
-
+const FeatureItem = ({ icon, title, description, variants }) => {
   return (
-    <motion.div 
-      variants={cardVariants}
-      whileHover={{ 
-        y: -5, 
-        boxShadow: "0px 10px 20px rgba(0,0,0,0.1)",
-        transition: { duration: 0.2 }
-      }}
-      className={`relative overflow-hidden p-6 rounded-2xl ${highlight 
-        ? "bg-gradient-to-br from-indigo-50/90 to-purple-50/90 dark:from-indigo-800/50 dark:to-purple-900/50 border-2 border-indigo-200/70 dark:border-indigo-500/50" 
-        : "bg-white/70 dark:bg-indigo-900/30 border border-indigo-100/50 dark:border-indigo-700/50"} backdrop-blur-sm shadow-lg hover:border-indigo-300/50 dark:hover:border-indigo-600/50 transition-all duration-300`}
-    >
-      {/* Gradient blur effect in background */}
-      <div className="absolute -bottom-20 -right-20 w-40 h-40 bg-gradient-to-r from-indigo-100/30 to-violet-100/30 dark:from-indigo-800/20 dark:to-violet-800/10 rounded-full blur-3xl"></div>
-      
-      {highlight && (
-        <div className="absolute top-2 right-2">
-          <span className="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium bg-indigo-100 text-indigo-800 dark:bg-indigo-800 dark:text-indigo-200">
-            New
-          </span>
-        </div>
-      )}
-      
-      <div className="relative z-10">
-        <div className="w-14 h-14 rounded-xl bg-indigo-100 dark:bg-indigo-800 flex items-center justify-center mb-4 shadow-inner">
-          {icon}
-        </div>
-        <h3 className="text-xl font-semibold mb-2 text-gray-900 dark:text-white">{title}</h3>
-        <p className="text-gray-600 dark:text-indigo-200/70">{description}</p>
+    <motion.div className="flex items-start" variants={variants}>
+      <div className="mt-1 w-10 h-10 rounded-full bg-zordie-100 dark:bg-zordie-800 flex items-center justify-center mr-4 flex-shrink-0">
+        {icon}
+      </div>
+      <div>
+        <h4 className="text-lg font-semibold text-zordie-800 dark:text-white mb-1">{title}</h4>
+        <p className="text-gray-600 dark:text-gray-300">{description}</p>
       </div>
     </motion.div>
+  );
+};
+
+const ScreeningStep = ({ number, title, description }) => {
+  return (
+    <div className="flex items-start">
+      <div className="w-8 h-8 rounded-full bg-zordie-100 dark:bg-zordie-700 flex items-center justify-center text-zordie-600 dark:text-zordie-300 font-semibold mr-3 flex-shrink-0">
+        {number}
+      </div>
+      <div>
+        <h5 className="font-medium text-zordie-800 dark:text-white text-base">{title}</h5>
+        <p className="text-gray-500 dark:text-gray-400 text-sm">{description}</p>
+      </div>
+    </div>
   );
 };
 

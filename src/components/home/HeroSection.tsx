@@ -176,7 +176,7 @@ const HeroSection = () => {
             </motion.div>
           </div>
 
-          {/* 3D Elements */}
+          {/* Dashboard Preview with floating cards */}
           <div className="relative mx-auto mt-12 flex justify-center">
             {/* 3D Spinning Cube */}
             <motion.div className="absolute -top-20 -right-20 w-80 h-80 opacity-60 hidden md:block" style={{
@@ -211,18 +211,18 @@ const HeroSection = () => {
                   </div>
                   <div className="text-white text-sm ml-4">Zordie AI Dashboard</div>
                 </div>
-                <div className="p-6">
-                  <div className="h-6 w-1/3 bg-gray-100 rounded mb-4"></div>
+                <div className="p-6 bg-gray-50 h-full">
+                  <div className="h-6 w-1/3 bg-white rounded mb-4 shadow-sm"></div>
                   <div className="flex mb-6">
-                    <div className="h-4 w-1/4 bg-gray-100 rounded mr-2"></div>
-                    <div className="h-4 w-1/5 bg-gray-100 rounded"></div>
+                    <div className="h-4 w-1/4 bg-white rounded mr-2 shadow-sm"></div>
+                    <div className="h-4 w-1/5 bg-white rounded shadow-sm"></div>
                   </div>
                   <div className="grid grid-cols-3 gap-4 mb-6">
-                    <div className="h-16 bg-gray-50 rounded-md border border-gray-100"></div>
-                    <div className="h-16 bg-gray-50 rounded-md border border-gray-100"></div>
-                    <div className="h-16 bg-gray-50 rounded-md border border-gray-100"></div>
+                    <div className="h-16 bg-white rounded-md border border-gray-100 shadow-sm"></div>
+                    <div className="h-16 bg-white rounded-md border border-gray-100 shadow-sm"></div>
+                    <div className="h-16 bg-white rounded-md border border-gray-100 shadow-sm"></div>
                   </div>
-                  <div className="h-32 bg-gray-50 rounded-md border border-gray-100 mb-6"></div>
+                  <div className="h-32 bg-white rounded-md border border-gray-100 shadow-sm mb-6"></div>
                 </div>
               </div>
               

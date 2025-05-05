@@ -4,7 +4,7 @@ import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { motion } from "framer-motion";
 import { useInView } from "framer-motion";
 import { useRef } from "react";
-import { Github, Linkedin, FileCheck, Shield, CheckCircle } from "lucide-react";
+import { Github, Linkedin, FileCheck, Shield, CheckCircle, Upload, Bot, Video, BarChart, MessageSquare, Search } from "lucide-react";
 
 const HowItWorksSection = () => {
   const sectionRef = useRef(null);
@@ -19,8 +19,8 @@ const HowItWorksSection = () => {
           transition={{ duration: 0.7, ease: "easeOut" }}
         >
           <SectionHeading
-            title="How Zordie Works"
-            subtitle="A simple yet powerful process for both companies and job seekers"
+            title="AI-Powered Candidate Screening"
+            subtitle="Our AI streamlines the entire hiring and job application process"
             align="center"
           />
         </motion.div>
@@ -40,45 +40,48 @@ const HowItWorksSection = () => {
           
           <TabsContent value="companies">
             <div className="relative">
-              {/* No connecting line */}
-              
               <div className="grid grid-cols-1 lg:grid-cols-5 gap-8">
                 <AnimatedWorkflowStep
                   number={1}
-                  title="Create Job Post"
-                  description="Create your job post or let Prime AI generate it for you based on your requirements."
+                  title="AI Resume Screening"
+                  description="Our AI automatically scans and ranks resumes based on job requirements, identifying the best matches."
+                  icon={<Bot className="h-6 w-6 text-white" />}
                   delay={0.1}
                   isInView={isInView}
                 />
                 <WorkflowArrow isInView={isInView} delay={0.15} />
                 <AnimatedWorkflowStep
                   number={2}
-                  title="Receive Applications"
-                  description="Get applications from candidates with verified skills, projects, and credentials."
+                  title="Verification Check"
+                  description="System verifies candidates' skills, projects, and credentials using their connected profiles."
+                  icon={<Shield className="h-6 w-6 text-white" />}
                   delay={0.2}
                   isInView={isInView}
                 />
                 <WorkflowArrow isInView={isInView} delay={0.25} />
                 <AnimatedWorkflowStep
                   number={3}
-                  title="AI Screening & Ranking"
-                  description="Prime screens and ranks candidates, schedules interviews, and communicates with candidates."
+                  title="AI Video Interviews"
+                  description="Automated video screening with real-time scoring reduces interview time by 73%."
+                  icon={<Video className="h-6 w-6 text-white" />}
                   delay={0.3}
                   isInView={isInView}
                 />
                 <WorkflowArrow isInView={isInView} delay={0.35} />
                 <AnimatedWorkflowStep
                   number={4}
-                  title="Review & Interview"
-                  description="Review AI results, conduct interviews (AI or human), and make informed decisions."
+                  title="Candidate Ranking"
+                  description="AI provides detailed scorecards and rankings of candidates based on verification and interviews."
+                  icon={<BarChart className="h-6 w-6 text-white" />}
                   delay={0.4}
                   isInView={isInView}
                 />
                 <WorkflowArrow isInView={isInView} delay={0.45} />
                 <AnimatedWorkflowStep
                   number={5}
-                  title="Hire the Best"
-                  description="Select and hire the most qualified and authentic candidates with confidence."
+                  title="Automated Communication"
+                  description="System handles all candidate communications, scheduling, and next steps automatically."
+                  icon={<MessageSquare className="h-6 w-6 text-white" />}
                   delay={0.5}
                   isInView={isInView}
                 />
@@ -88,45 +91,48 @@ const HowItWorksSection = () => {
           
           <TabsContent value="candidates">
             <div className="relative">
-              {/* No connecting line */}
-              
               <div className="grid grid-cols-1 lg:grid-cols-5 gap-8">
                 <AnimatedWorkflowStep
                   number={1}
-                  title="Create Verified Profile"
-                  description="Upload your resume once and connect GitHub, LinkedIn, and projects for verification."
+                  title="Verify Your Profile"
+                  description="Connect GitHub, LinkedIn and upload projects to verify your skills and get your verification badge."
+                  icon={<CheckCircle className="h-6 w-6 text-white" />}
                   delay={0.1}
                   isInView={isInView}
                 />
                 <WorkflowArrow isInView={isInView} delay={0.15} />
                 <AnimatedWorkflowStep
                   number={2}
-                  title="Get Verified Badge"
-                  description="Receive a verification badge after Zordie confirms your skills and project authenticity."
+                  title="Smart Applications"
+                  description="AI optimizes your profile for each job application to maximize visibility and match rate."
+                  icon={<Search className="h-6 w-6 text-white" />}
                   delay={0.2}
                   isInView={isInView}
                 />
                 <WorkflowArrow isInView={isInView} delay={0.25} />
                 <AnimatedWorkflowStep
                   number={3}
-                  title="Apply to Matched Jobs"
-                  description="Apply to jobs with Prime's AI-optimized resume tailored to each position."
+                  title="Practice Interviews"
+                  description="Prepare for success with AI-powered practice interviews tailored to your target roles."
+                  icon={<Video className="h-6 w-6 text-white" />}
                   delay={0.3}
                   isInView={isInView}
                 />
                 <WorkflowArrow isInView={isInView} delay={0.35} />
                 <AnimatedWorkflowStep
                   number={4}
-                  title="Prepare & Interview"
-                  description="Practice with AI interviews and prepare for company interviews with personalized insights."
+                  title="Application Tracking"
+                  description="Monitor your application status, feedback, and insights from companies in real-time."
+                  icon={<BarChart className="h-6 w-6 text-white" />}
                   delay={0.4}
                   isInView={isInView}
                 />
                 <WorkflowArrow isInView={isInView} delay={0.45} />
                 <AnimatedWorkflowStep
                   number={5}
-                  title="Get Hired Faster"
-                  description="Stand out with verified skills and be hired based on your authentic abilities."
+                  title="Stand Out & Get Hired"
+                  description="Your verified skills help you stand out and get hired based on your authentic abilities."
+                  icon={<Shield className="h-6 w-6 text-white" />}
                   delay={0.5}
                   isInView={isInView}
                 />
@@ -153,16 +159,19 @@ const HowItWorksSection = () => {
               icon={<Github className="h-10 w-10 text-zordie-600" />}
               title="GitHub Integration"
               description="Connect your GitHub profile to verify your coding projects and contributions."
+              verifiedText="Verified by Zordie"
             />
             <VerificationCard 
               icon={<Linkedin className="h-10 w-10 text-zordie-600" />}
               title="LinkedIn Verification"
               description="Link your LinkedIn profile to validate your work experience and education."
+              verifiedText="Verified by Zordie"
             />
             <VerificationCard 
               icon={<FileCheck className="h-10 w-10 text-zordie-600" />}
               title="Project Authentication"
               description="Upload and authenticate your projects to showcase your real-world skills."
+              verifiedText="Verified by Zordie"
             />
           </div>
 
@@ -188,11 +197,12 @@ interface WorkflowStepProps {
   number: number;
   title: string;
   description: string;
+  icon?: React.ReactNode;
   delay?: number;
   isInView: boolean;
 }
 
-const AnimatedWorkflowStep = ({ number, title, description, delay = 0, isInView }: WorkflowStepProps) => {
+const AnimatedWorkflowStep = ({ number, title, description, icon, delay = 0, isInView }: WorkflowStepProps) => {
   return (
     <motion.div 
       className="flex flex-col items-center text-center"
@@ -206,7 +216,7 @@ const AnimatedWorkflowStep = ({ number, title, description, delay = 0, isInView 
         transition={{ type: "spring", stiffness: 400, damping: 10 }}
       >
         <div className="w-16 h-16 rounded-full bg-gradient-to-r from-zordie-600 to-accent1 flex items-center justify-center text-white text-2xl font-bold mb-4 shadow-lg dark:shadow-accent1/20">
-          {number}
+          {icon ? icon : number}
         </div>
         <motion.div 
           className="absolute -inset-1 rounded-full bg-gradient-to-r from-zordie-400 to-accent1 opacity-30 blur-sm"
@@ -265,9 +275,10 @@ interface VerificationCardProps {
   icon: React.ReactNode;
   title: string;
   description: string;
+  verifiedText?: string;
 }
 
-const VerificationCard = ({ icon, title, description }: VerificationCardProps) => {
+const VerificationCard = ({ icon, title, description, verifiedText }: VerificationCardProps) => {
   return (
     <motion.div
       className="bg-white dark:bg-zordie-800/50 rounded-xl p-6 shadow-md dark:shadow-zordie-900/30 border border-zordie-100 dark:border-zordie-700 hover:shadow-lg transition-shadow duration-300"
@@ -280,10 +291,13 @@ const VerificationCard = ({ icon, title, description }: VerificationCardProps) =
         </div>
         <h3 className="text-xl font-semibold mb-2 text-zordie-900 dark:text-white">{title}</h3>
         <p className="text-zordie-600 dark:text-zordie-300">{description}</p>
-        <div className="mt-4 flex items-center gap-2 text-zordie-600 dark:text-zordie-400">
-          <CheckCircle className="h-4 w-4" />
-          <span className="text-sm font-medium">Verified by Zordie</span>
-        </div>
+        
+        {verifiedText && (
+          <div className="mt-4 flex items-center gap-2 text-zordie-600 dark:text-zordie-400">
+            <CheckCircle className="h-4 w-4" />
+            <span className="text-sm font-medium">{verifiedText}</span>
+          </div>
+        )}
       </div>
     </motion.div>
   );

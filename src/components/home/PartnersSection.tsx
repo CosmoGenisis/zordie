@@ -9,34 +9,42 @@ const companies = [
   {
     name: 'Microsoft',
     logo: 'https://upload.wikimedia.org/wikipedia/commons/4/44/Microsoft_logo.svg',
+    alt: 'Microsoft logo'
   },
   {
     name: 'Apple',
     logo: 'https://upload.wikimedia.org/wikipedia/commons/f/fa/Apple_logo_black.svg',
+    alt: 'Apple logo'
   },
   {
     name: 'Google',
     logo: 'https://upload.wikimedia.org/wikipedia/commons/2/2f/Google_2015_logo.svg',
+    alt: 'Google logo'
   },
   {
     name: 'Amazon',
     logo: 'https://upload.wikimedia.org/wikipedia/commons/a/a9/Amazon_logo.svg',
+    alt: 'Amazon logo'
   },
   {
     name: 'Meta',
     logo: 'https://upload.wikimedia.org/wikipedia/commons/7/7b/Meta_Platforms_Inc._logo.svg',
+    alt: 'Meta logo'
   },
   {
     name: 'IBM',
     logo: 'https://upload.wikimedia.org/wikipedia/commons/5/51/IBM_logo.svg',
+    alt: 'IBM logo'
   },
   {
     name: 'Deloitte',
     logo: 'https://upload.wikimedia.org/wikipedia/commons/5/56/Deloitte.svg',
+    alt: 'Deloitte logo'
   },
   {
     name: 'Salesforce',
     logo: 'https://upload.wikimedia.org/wikipedia/commons/f/f9/Salesforce.com_logo.svg',
+    alt: 'Salesforce logo'
   },
 ];
 
@@ -68,7 +76,6 @@ const PartnersSection = () => {
           align="center"
           title="Trusted by Industry Leaders"
           subtitle="Join thousands of top companies using our platform to find the best talent"
-          titleContent={<>Trusted by <GradientText gradient="primary">Industry Leaders</GradientText></>}
         />
 
         <motion.div
@@ -88,7 +95,7 @@ const PartnersSection = () => {
               <div className="h-16 flex items-center justify-center p-2 grayscale hover:grayscale-0 transition-all duration-300">
                 <img
                   src={company.logo}
-                  alt={`${company.name} logo`}
+                  alt={company.alt}
                   className="max-h-full max-w-full object-contain"
                 />
               </div>

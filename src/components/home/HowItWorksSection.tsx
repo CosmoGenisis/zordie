@@ -4,6 +4,7 @@ import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { motion } from "framer-motion";
 import { useInView } from "framer-motion";
 import { useRef } from "react";
+import { Github, Linkedin, FileCheck, Shield, CheckCircle } from "lucide-react";
 
 const HowItWorksSection = () => {
   const sectionRef = useRef(null);
@@ -39,7 +40,7 @@ const HowItWorksSection = () => {
           
           <TabsContent value="companies">
             <div className="relative">
-              {/* Removed connecting line as requested */}
+              {/* No connecting line */}
               
               <div className="grid grid-cols-1 lg:grid-cols-5 gap-8">
                 <AnimatedWorkflowStep
@@ -87,7 +88,7 @@ const HowItWorksSection = () => {
           
           <TabsContent value="candidates">
             <div className="relative">
-              {/* Removed connecting line as requested */}
+              {/* No connecting line */}
               
               <div className="grid grid-cols-1 lg:grid-cols-5 gap-8">
                 <AnimatedWorkflowStep
@@ -133,6 +134,51 @@ const HowItWorksSection = () => {
             </div>
           </TabsContent>
         </Tabs>
+
+        {/* Project Verification Section */}
+        <motion.div
+          initial={{ opacity: 0, y: 30 }}
+          animate={isInView ? { opacity: 1, y: 0 } : { opacity: 0, y: 30 }}
+          transition={{ duration: 0.7, delay: 0.7 }}
+          className="mt-24"
+        >
+          <SectionHeading
+            title="Project Verification"
+            subtitle="Link GitHub, LinkedIn and projects to verify your skills and stand out with a verification badge"
+            align="center"
+          />
+          
+          <div className="grid grid-cols-1 md:grid-cols-3 gap-8 mt-12">
+            <VerificationCard 
+              icon={<Github className="h-10 w-10 text-zordie-600" />}
+              title="GitHub Integration"
+              description="Connect your GitHub profile to verify your coding projects and contributions."
+            />
+            <VerificationCard 
+              icon={<Linkedin className="h-10 w-10 text-zordie-600" />}
+              title="LinkedIn Verification"
+              description="Link your LinkedIn profile to validate your work experience and education."
+            />
+            <VerificationCard 
+              icon={<FileCheck className="h-10 w-10 text-zordie-600" />}
+              title="Project Authentication"
+              description="Upload and authenticate your projects to showcase your real-world skills."
+            />
+          </div>
+
+          <div className="mt-12 flex justify-center">
+            <motion.div
+              className="flex items-center gap-3 bg-zordie-50 dark:bg-zordie-800/50 px-6 py-4 rounded-lg border border-zordie-200 dark:border-zordie-700"
+              whileHover={{ scale: 1.05 }}
+              transition={{ type: "spring", stiffness: 400, damping: 10 }}
+            >
+              <Shield className="h-6 w-6 text-zordie-600" />
+              <span className="text-zordie-800 dark:text-zordie-200 font-medium">
+                Get your <span className="text-zordie-600 font-semibold">Verified Badge</span> and increase your chances of getting hired by 3x!
+              </span>
+            </motion.div>
+          </div>
+        </motion.div>
       </div>
     </section>
   );
@@ -211,6 +257,34 @@ const WorkflowArrow = ({ isInView, delay = 0 }: ArrowProps) => {
           transition={{ duration: 1, delay: delay + 0.3 }}
         />
       </svg>
+    </motion.div>
+  );
+};
+
+interface VerificationCardProps {
+  icon: React.ReactNode;
+  title: string;
+  description: string;
+}
+
+const VerificationCard = ({ icon, title, description }: VerificationCardProps) => {
+  return (
+    <motion.div
+      className="bg-white dark:bg-zordie-800/50 rounded-xl p-6 shadow-md dark:shadow-zordie-900/30 border border-zordie-100 dark:border-zordie-700 hover:shadow-lg transition-shadow duration-300"
+      whileHover={{ y: -5 }}
+      transition={{ type: "spring", stiffness: 300, damping: 15 }}
+    >
+      <div className="flex flex-col items-center text-center">
+        <div className="mb-4 p-3 bg-zordie-50 dark:bg-zordie-700/30 rounded-full">
+          {icon}
+        </div>
+        <h3 className="text-xl font-semibold mb-2 text-zordie-900 dark:text-white">{title}</h3>
+        <p className="text-zordie-600 dark:text-zordie-300">{description}</p>
+        <div className="mt-4 flex items-center gap-2 text-zordie-600 dark:text-zordie-400">
+          <CheckCircle className="h-4 w-4" />
+          <span className="text-sm font-medium">Verified by Zordie</span>
+        </div>
+      </div>
     </motion.div>
   );
 };

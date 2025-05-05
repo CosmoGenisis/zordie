@@ -3,7 +3,7 @@ import React from 'react';
 import { motion } from 'framer-motion';
 import { SectionHeading } from '@/components/ui/section-heading';
 import GradientText from './GradientText';
-import { Apple, Amazon, Google, Meta, Linkedin } from 'lucide-react';
+import { Building2, BarChart4, Landmark, Laptop, BookOpen, Briefcase, Boxes, ShoppingBag } from 'lucide-react';
 
 const companies = [
   {
@@ -85,7 +85,7 @@ const PartnersSection = () => {
               className="flex items-center justify-center"
               whileHover={{ scale: 1.05 }}
             >
-              <div className="h-16 flex items-center justify-center p-2 filter hover:grayscale-0 transition-all duration-300">
+              <div className="h-16 flex items-center justify-center p-2 grayscale hover:grayscale-0 transition-all duration-300">
                 <img
                   src={company.logo}
                   alt={`${company.name} logo`}

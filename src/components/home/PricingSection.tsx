@@ -97,12 +97,12 @@ const PricingSection = () => {
               <p className="text-zordie-600 dark:text-zordie-300 mb-6">Perfect for small teams and startups</p>
               
               <div className="flex items-baseline mb-6">
-                <span className="text-4xl font-bold text-zordie-800 dark:text-white">${getPrice(99, 79)}</span>
+                <span className="text-4xl font-bold text-zordie-800 dark:text-white">₹{getPrice(7999, 6399)}</span>
                 <span className="text-zordie-600 dark:text-zordie-300 ml-2">/month</span>
               </div>
               
               {billingCycle === 'yearly' && (
-                <p className="text-sm text-zordie-600 dark:text-zordie-300 mb-6">Billed annually (${79 * 12} total)</p>
+                <p className="text-sm text-zordie-600 dark:text-zordie-300 mb-6">Billed annually (₹{6399 * 12} total)</p>
               )}
               
               <Button 
@@ -147,12 +147,12 @@ const PricingSection = () => {
               <p className="text-zordie-600 dark:text-zordie-300 mb-6">For growing companies with advanced needs</p>
               
               <div className="flex items-baseline mb-6">
-                <span className="text-4xl font-bold text-zordie-800 dark:text-white">${getPrice(249, 199)}</span>
+                <span className="text-4xl font-bold text-zordie-800 dark:text-white">₹{getPrice(19999, 15999)}</span>
                 <span className="text-zordie-600 dark:text-zordie-300 ml-2">/month</span>
               </div>
               
               {billingCycle === 'yearly' && (
-                <p className="text-sm text-zordie-600 dark:text-zordie-300 mb-6">Billed annually (${199 * 12} total)</p>
+                <p className="text-sm text-zordie-600 dark:text-zordie-300 mb-6">Billed annually (₹{15999 * 12} total)</p>
               )}
               
               <Button 

@@ -1,400 +1,278 @@
 
-import { SectionHeading } from "@/components/ui/section-heading";
-import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
-import { motion } from "framer-motion";
-import { useInView } from "framer-motion";
-import { useRef } from "react";
-import { Button } from "@/components/ui/button";
-import { Link } from "react-router-dom";
-import { 
-  Github, 
-  Linkedin, 
-  FileCheck, 
-  Shield, 
-  CheckCircle, 
-  Upload, 
-  Bot, 
-  Video, 
-  BarChart, 
-  MessageSquare, 
-  Search,
-  Award,
-  ChevronRight
-} from "lucide-react";
+import React, { useRef, useState } from 'react';
+import { SectionHeading } from '@/components/ui/section-heading';
+import { motion, useInView } from 'framer-motion';
+import { Button } from '@/components/ui/button';
+import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
+import { Bot, ArrowRight, ShieldCheck, Clock, Brain, Users, FileSearch } from 'lucide-react';
+import GradientText from './GradientText';
 
 const HowItWorksSection = () => {
+  const [activeTab, setActiveTab] = useState('companies');
   const sectionRef = useRef(null);
   const isInView = useInView(sectionRef, { once: false, amount: 0.2 });
 
-  const containerVariants = {
-    hidden: { opacity: 0 },
-    visible: {
-      opacity: 1,
-      transition: {
-        delayChildren: 0.2,
-        staggerChildren: 0.1
-      }
-    }
-  };
-
-  const itemVariants = {
-    hidden: { y: 20, opacity: 0 },
-    visible: {
-      y: 0,
-      opacity: 1,
-      transition: { duration: 0.5 }
-    }
-  };
-
   return (
-    <section ref={sectionRef} className="py-20 relative overflow-hidden">
-      {/* Background elements */}
-      <div className="absolute inset-0 pointer-events-none">
-        <div className="absolute -top-20 -right-20 w-80 h-80 bg-zordie-100 dark:bg-zordie-800/20 rounded-full blur-3xl opacity-70"></div>
-        <div className="absolute -bottom-20 -left-20 w-80 h-80 bg-accent1/10 dark:bg-accent1/5 rounded-full blur-3xl opacity-70"></div>
-      </div>
+    <section ref={sectionRef} className="container mx-auto px-4 py-24">
+      <SectionHeading
+        title="How Zordie AI Works"
+        subtitle="A powerful process that transforms hiring outcomes"
+        align="center"
+        titleContent={<>How <GradientText gradient="primary">Zordie AI</GradientText> Works</>}
+      />
       
-      <div className="container mx-auto px-4 relative z-10">
-        <motion.div
-          initial={{ opacity: 0, y: 20 }}
-          animate={isInView ? { opacity: 1, y: 0 } : { opacity: 0, y: 20 }}
-          transition={{ duration: 0.7, ease: "easeOut" }}
-        >
-          <SectionHeading
-            title="AI-Powered Candidate Screening"
-            subtitle="Our AI streamlines the entire hiring and job application process"
-            align="center"
-          />
-        </motion.div>
+      <Tabs defaultValue={activeTab} onValueChange={setActiveTab} className="mt-16">
+        <div className="flex justify-center">
+          <TabsList className="bg-gray-100/80 dark:bg-zordie-800/60 backdrop-blur-sm p-1 rounded-full border border-gray-200 dark:border-zordie-700/50">
+            <TabsTrigger 
+              value="companies" 
+              className="rounded-full px-6 py-2 text-md data-[state=active]:bg-white dark:data-[state=active]:bg-zordie-800 data-[state=active]:text-indigo-600 dark:data-[state=active]:text-indigo-300"
+            >
+              For Companies
+            </TabsTrigger>
+            <TabsTrigger 
+              value="jobseekers" 
+              className="rounded-full px-6 py-2 text-md data-[state=active]:bg-white dark:data-[state=active]:bg-zordie-800 data-[state=active]:text-indigo-600 dark:data-[state=active]:text-indigo-300"
+            >
+              For Job Seekers
+            </TabsTrigger>
+          </TabsList>
+        </div>
         
-        <Tabs defaultValue="companies" className="w-full mt-12">
+        <TabsContent value="companies" className="mt-10">
           <motion.div 
-            className="flex justify-center mb-12"
-            initial={{ opacity: 0, y: 20 }}
-            animate={isInView ? { opacity: 1, y: 0 } : { opacity: 0, y: 20 }}
-            transition={{ duration: 0.5, delay: 0.3 }}
+            className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8"
+            initial="hidden"
+            animate={isInView ? "visible" : "hidden"}
+            variants={{
+              hidden: {},
+              visible: {
+                transition: {
+                  staggerChildren: 0.15
+                }
+              }
+            }}
           >
-            <TabsList className="grid w-full max-w-md grid-cols-2 bg-zordie-100/50 dark:bg-zordie-800/50 backdrop-blur-sm">
-              <TabsTrigger 
-                value="companies" 
-                className="data-[state=active]:bg-gradient-to-r data-[state=active]:from-zordie-600 data-[state=active]:to-accent1 data-[state=active]:text-white"
+            {companySteps.map((step, index) => (
+              <motion.div 
+                key={index}
+                variants={{
+                  hidden: { opacity: 0, y: 20 },
+                  visible: { opacity: 1, y: 0, transition: { duration: 0.6 } }
+                }}
+                className="relative bg-white dark:bg-zordie-800/50 rounded-xl shadow-md hover:shadow-lg transition-shadow duration-300 border border-gray-100 dark:border-zordie-700/50 overflow-hidden"
               >
-                For Companies
-              </TabsTrigger>
-              <TabsTrigger 
-                value="candidates" 
-                className="data-[state=active]:bg-gradient-to-r data-[state=active]:from-zordie-600 data-[state=active]:to-accent1 data-[state=active]:text-white"
-              >
-                For Job Seekers
-              </TabsTrigger>
-            </TabsList>
+                <div className="h-2 bg-gradient-to-r from-indigo-600 to-violet-600"></div>
+                <div className="p-6">
+                  <div className="flex justify-between items-start mb-6">
+                    <div className="flex items-center justify-center w-12 h-12 rounded-xl bg-indigo-100 dark:bg-indigo-900/30 border border-indigo-200 dark:border-indigo-800/30">
+                      <step.icon className="h-6 w-6 text-indigo-600 dark:text-indigo-400" />
+                    </div>
+                    <div className="flex items-center justify-center w-8 h-8 rounded-full bg-indigo-100 dark:bg-indigo-900/30 border border-indigo-200 dark:border-indigo-800/30">
+                      <span className="text-lg font-semibold text-indigo-600 dark:text-indigo-400">{index + 1}</span>
+                    </div>
+                  </div>
+                  
+                  <h3 className="text-xl font-semibold text-gray-900 dark:text-white mb-3">{step.title}</h3>
+                  <p className="text-gray-600 dark:text-gray-300 mb-6">{step.description}</p>
+                  
+                  <div className="space-y-2">
+                    {step.features.map((feature, idx) => (
+                      <div key={idx} className="flex items-center text-sm">
+                        <div className="w-1.5 h-1.5 rounded-full bg-indigo-500 mr-2"></div>
+                        <span className="text-gray-700 dark:text-gray-300">{feature}</span>
+                      </div>
+                    ))}
+                  </div>
+                </div>
+              </motion.div>
+            ))}
           </motion.div>
           
-          <TabsContent value="companies">
-            <div className="relative">
-              <motion.div
-                className="grid grid-cols-1 lg:grid-cols-5 gap-8"
-                variants={containerVariants}
-                initial="hidden"
-                animate={isInView ? "visible" : "hidden"}
+          <motion.div 
+            className="mt-16 text-center"
+            initial={{ opacity: 0, y: 20 }}
+            animate={isInView ? { opacity: 1, y: 0 } : { opacity: 0, y: 20 }}
+            transition={{ duration: 0.5, delay: 0.8 }}
+          >
+            <Button 
+              className="bg-gradient-to-r from-indigo-600 to-violet-600 hover:from-indigo-700 hover:to-violet-700 text-white font-medium"
+            >
+              Learn More <ArrowRight className="ml-2 h-5 w-5" />
+            </Button>
+          </motion.div>
+        </TabsContent>
+        
+        <TabsContent value="jobseekers" className="mt-10">
+          <motion.div 
+            className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8"
+            initial="hidden"
+            animate={isInView ? "visible" : "hidden"}
+            variants={{
+              hidden: {},
+              visible: {
+                transition: {
+                  staggerChildren: 0.15
+                }
+              }
+            }}
+          >
+            {jobSeekerSteps.map((step, index) => (
+              <motion.div 
+                key={index}
+                variants={{
+                  hidden: { opacity: 0, y: 20 },
+                  visible: { opacity: 1, y: 0, transition: { duration: 0.6 } }
+                }}
+                className="relative bg-white dark:bg-zordie-800/50 rounded-xl shadow-md hover:shadow-lg transition-shadow duration-300 border border-gray-100 dark:border-zordie-700/50 overflow-hidden"
               >
-                <AnimatedWorkflowStep
-                  number={1}
-                  title="AI Resume Screening"
-                  description="Our AI automatically scans and ranks resumes based on job requirements, identifying the best matches."
-                  icon={<Bot className="h-6 w-6 text-white" />}
-                  delay={0.1}
-                  isInView={isInView}
-                />
-                <AnimatedWorkflowStep
-                  number={2}
-                  title="Verification Check"
-                  description="System verifies candidates' skills, projects, and credentials using their connected profiles."
-                  icon={<Shield className="h-6 w-6 text-white" />}
-                  delay={0.2}
-                  isInView={isInView}
-                />
-                <AnimatedWorkflowStep
-                  number={3}
-                  title="AI Video Interviews"
-                  description="Automated video screening with real-time scoring reduces interview time by 73%."
-                  icon={<Video className="h-6 w-6 text-white" />}
-                  delay={0.3}
-                  isInView={isInView}
-                />
-                <AnimatedWorkflowStep
-                  number={4}
-                  title="Candidate Ranking"
-                  description="AI provides detailed scorecards and rankings of candidates based on verification and interviews."
-                  icon={<BarChart className="h-6 w-6 text-white" />}
-                  delay={0.4}
-                  isInView={isInView}
-                />
-                <AnimatedWorkflowStep
-                  number={5}
-                  title="Automated Communication"
-                  description="System handles all candidate communications, scheduling, and next steps automatically."
-                  icon={<MessageSquare className="h-6 w-6 text-white" />}
-                  delay={0.5}
-                  isInView={isInView}
-                />
+                <div className="h-2 bg-gradient-to-r from-violet-600 to-indigo-600"></div>
+                <div className="p-6">
+                  <div className="flex justify-between items-start mb-6">
+                    <div className="flex items-center justify-center w-12 h-12 rounded-xl bg-violet-100 dark:bg-violet-900/30 border border-violet-200 dark:border-violet-800/30">
+                      <step.icon className="h-6 w-6 text-violet-600 dark:text-violet-400" />
+                    </div>
+                    <div className="flex items-center justify-center w-8 h-8 rounded-full bg-violet-100 dark:bg-violet-900/30 border border-violet-200 dark:border-violet-800/30">
+                      <span className="text-lg font-semibold text-violet-600 dark:text-violet-400">{index + 1}</span>
+                    </div>
+                  </div>
+                  
+                  <h3 className="text-xl font-semibold text-gray-900 dark:text-white mb-3">{step.title}</h3>
+                  <p className="text-gray-600 dark:text-gray-300 mb-6">{step.description}</p>
+                  
+                  <div className="space-y-2">
+                    {step.features.map((feature, idx) => (
+                      <div key={idx} className="flex items-center text-sm">
+                        <div className="w-1.5 h-1.5 rounded-full bg-violet-500 mr-2"></div>
+                        <span className="text-gray-700 dark:text-gray-300">{feature}</span>
+                      </div>
+                    ))}
+                  </div>
+                </div>
               </motion.div>
-              
-              {/* Connecting lines for desktop */}
-              <div className="hidden lg:block absolute top-24 left-[calc(10%+24px)] right-[calc(10%+24px)] h-0.5 bg-gradient-to-r from-zordie-200 via-zordie-300 to-zordie-200 dark:from-zordie-700 dark:via-zordie-600 dark:to-zordie-700"></div>
-            </div>
-            
-            <motion.div
-              initial={{ opacity: 0, y: 20 }}
-              animate={isInView ? { opacity: 1, y: 0 } : { opacity: 0, y: 20 }}
-              transition={{ duration: 0.5, delay: 0.7 }}
-              className="mt-12 flex justify-center"
-            >
-              <Link to="/companies">
-                <Button 
-                  size="lg" 
-                  className="bg-gradient-to-r from-zordie-600 to-accent1 hover:from-zordie-700 hover:to-accent1-hover relative overflow-hidden group"
-                >
-                  <span className="relative z-10 flex items-center">
-                    Learn More 
-                    <ChevronRight className="ml-1 h-5 w-5 group-hover:translate-x-1 transition-transform" />
-                  </span>
-                  <motion.span 
-                    className="absolute top-0 left-0 w-full h-full bg-white opacity-20"
-                    initial={{ x: '-100%' }}
-                    animate={{ x: ['100%'] }}
-                    transition={{ 
-                      repeat: Infinity, 
-                      duration: 1.5, 
-                      ease: "linear",
-                      repeatDelay: 1
-                    }}
-                  />
-                </Button>
-              </Link>
-            </motion.div>
-          </TabsContent>
+            ))}
+          </motion.div>
           
-          <TabsContent value="candidates">
-            <div className="relative">
-              <motion.div
-                className="grid grid-cols-1 lg:grid-cols-5 gap-8"
-                variants={containerVariants}
-                initial="hidden"
-                animate={isInView ? "visible" : "hidden"}
-              >
-                <AnimatedWorkflowStep
-                  number={1}
-                  title="Verify Your Profile"
-                  description="Connect GitHub, LinkedIn and upload projects to verify your skills and get your verification badge."
-                  icon={<CheckCircle className="h-6 w-6 text-white" />}
-                  delay={0.1}
-                  isInView={isInView}
-                />
-                <AnimatedWorkflowStep
-                  number={2}
-                  title="Smart Applications"
-                  description="AI optimizes your profile for each job application to maximize visibility and match rate."
-                  icon={<Search className="h-6 w-6 text-white" />}
-                  delay={0.2}
-                  isInView={isInView}
-                />
-                <AnimatedWorkflowStep
-                  number={3}
-                  title="Practice Interviews"
-                  description="Prepare for success with AI-powered practice interviews tailored to your target roles."
-                  icon={<Video className="h-6 w-6 text-white" />}
-                  delay={0.3}
-                  isInView={isInView}
-                />
-                <AnimatedWorkflowStep
-                  number={4}
-                  title="Application Tracking"
-                  description="Monitor your application status, feedback, and insights from companies in real-time."
-                  icon={<BarChart className="h-6 w-6 text-white" />}
-                  delay={0.4}
-                  isInView={isInView}
-                />
-                <AnimatedWorkflowStep
-                  number={5}
-                  title="Stand Out & Get Hired"
-                  description="Your verified skills help you stand out and get hired based on your authentic abilities."
-                  icon={<Award className="h-6 w-6 text-white" />}
-                  delay={0.5}
-                  isInView={isInView}
-                />
-              </motion.div>
+          <motion.div 
+            className="mt-16 text-center"
+            initial={{ opacity: 0, y: 20 }}
+            animate={isInView ? { opacity: 1, y: 0 } : { opacity: 0, y: 20 }}
+            transition={{ duration: 0.5, delay: 0.8 }}
+          >
+            <Button 
+              className="bg-gradient-to-r from-violet-600 to-indigo-600 hover:from-violet-700 hover:to-indigo-700 text-white font-medium"
+            >
+              Get Verified <ArrowRight className="ml-2 h-5 w-5" />
+            </Button>
+          </motion.div>
+        </TabsContent>
+      </Tabs>
+      
+      {/* AI verification showcase */}
+      <motion.div 
+        className="mt-24 bg-white dark:bg-zordie-800/50 rounded-xl shadow-lg border border-gray-100 dark:border-zordie-700/50 p-8"
+        initial={{ opacity: 0, y: 30 }}
+        animate={isInView ? { opacity: 1, y: 0 } : { opacity: 0, y: 30 }}
+        transition={{ duration: 0.7 }}
+      >
+        <div className="text-center mb-10">
+          <h3 className="text-2xl font-bold text-gray-900 dark:text-white mb-4">
+            AI-Powered <GradientText>Candidate Screening</GradientText> Flow
+          </h3>
+          <p className="text-gray-600 dark:text-gray-300 max-w-3xl mx-auto">
+            Our intelligent system verifies candidate information across multiple dimensions to ensure you only interview qualified talent.
+          </p>
+        </div>
+        
+        <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
+          {verificationSteps.map((step, index) => (
+            <div key={index} className="flex flex-col items-center text-center">
+              <div className="relative mb-6">
+                <div className="w-16 h-16 rounded-2xl bg-gradient-to-br from-indigo-500 to-violet-600 flex items-center justify-center z-10">
+                  <step.icon className="h-8 w-8 text-white" />
+                </div>
+              </div>
               
-              {/* Connecting lines for desktop */}
-              <div className="hidden lg:block absolute top-24 left-[calc(10%+24px)] right-[calc(10%+24px)] h-0.5 bg-gradient-to-r from-zordie-200 via-zordie-300 to-zordie-200 dark:from-zordie-700 dark:via-zordie-600 dark:to-zordie-700"></div>
+              <h4 className="text-lg font-semibold text-gray-900 dark:text-white mb-2">{step.title}</h4>
+              <p className="text-gray-600 dark:text-gray-300">{step.description}</p>
             </div>
-            
-            <motion.div
-              initial={{ opacity: 0, y: 20 }}
-              animate={isInView ? { opacity: 1, y: 0 } : { opacity: 0, y: 20 }}
-              transition={{ duration: 0.5, delay: 0.7 }}
-              className="mt-12 flex justify-center"
-            >
-              <Link to="/candidates">
-                <Button 
-                  size="lg" 
-                  className="bg-gradient-to-r from-zordie-600 to-accent1 hover:from-zordie-700 hover:to-accent1-hover relative overflow-hidden group"
-                >
-                  <span className="relative z-10 flex items-center">
-                    Learn More 
-                    <ChevronRight className="ml-1 h-5 w-5 group-hover:translate-x-1 transition-transform" />
-                  </span>
-                  <motion.span 
-                    className="absolute top-0 left-0 w-full h-full bg-white opacity-20"
-                    initial={{ x: '-100%' }}
-                    animate={{ x: ['100%'] }}
-                    transition={{ 
-                      repeat: Infinity, 
-                      duration: 1.5, 
-                      ease: "linear",
-                      repeatDelay: 1
-                    }}
-                  />
-                </Button>
-              </Link>
-            </motion.div>
-          </TabsContent>
-        </Tabs>
-
-        {/* Project Verification Section */}
-        <motion.div
-          initial={{ opacity: 0, y: 30 }}
-          animate={isInView ? { opacity: 1, y: 0 } : { opacity: 0, y: 30 }}
-          transition={{ duration: 0.7, delay: 0.7 }}
-          className="mt-24"
-        >
-          <SectionHeading
-            title="Project Verification"
-            subtitle="Link GitHub, LinkedIn and projects to verify your skills and stand out with a verification badge"
-            align="center"
-          />
-          
-          <div className="grid grid-cols-1 md:grid-cols-3 gap-8 mt-12">
-            <VerificationCard 
-              icon={<Github className="h-10 w-10 text-zordie-600" />}
-              title="GitHub Integration"
-              description="Connect your GitHub profile to verify your coding projects and contributions."
-              verifiedText="Verified by Zordie"
-            />
-            <VerificationCard 
-              icon={<Linkedin className="h-10 w-10 text-zordie-600" />}
-              title="LinkedIn Verification"
-              description="Link your LinkedIn profile to validate your work experience and education."
-              verifiedText="Verified by Zordie"
-            />
-            <VerificationCard 
-              icon={<FileCheck className="h-10 w-10 text-zordie-600" />}
-              title="Project Authentication"
-              description="Upload and authenticate your projects to showcase your real-world skills."
-              verifiedText="Verified by Zordie"
-            />
-          </div>
-
-          <div className="mt-12 flex justify-center">
-            <motion.div
-              className="flex items-center gap-3 bg-zordie-50 dark:bg-zordie-800/50 px-6 py-4 rounded-lg border border-zordie-200 dark:border-zordie-700"
-              whileHover={{ scale: 1.05 }}
-              transition={{ type: "spring", stiffness: 400, damping: 10 }}
-            >
-              <Shield className="h-6 w-6 text-zordie-600" />
-              <span className="text-zordie-800 dark:text-zordie-200 font-medium">
-                Get your <span className="text-zordie-600 font-semibold">Verified Badge</span> and increase your chances of getting hired by 3x!
-              </span>
-            </motion.div>
-          </div>
-        </motion.div>
-      </div>
+          ))}
+        </div>
+      </motion.div>
     </section>
   );
 };
 
-interface WorkflowStepProps {
-  number: number;
-  title: string;
-  description: string;
-  icon?: React.ReactNode;
-  delay?: number;
-  isInView: boolean;
-}
+const companySteps = [
+  {
+    icon: FileSearch,
+    title: "AI Resume Verification",
+    description: "Our advanced algorithms analyze candidate resumes to detect inconsistencies and verify claimed skills.",
+    features: ["99.4% accuracy rate", "Multi-source verification", "Fake resume detection"]
+  },
+  {
+    icon: Brain,
+    title: "Intelligent Matching",
+    description: "Matching verified candidates with your specific job requirements for optimal fit.",
+    features: ["Skill-based matching", "Cultural fit analysis", "Automated ranking"]
+  },
+  {
+    icon: Clock,
+    title: "Streamlined Interviews",
+    description: "Schedule and conduct AI-assisted interviews in one unified platform.",
+    features: ["Calendar integration", "Video interviews", "AI feedback analysis"]
+  },
+  {
+    icon: ShieldCheck,
+    title: "Data-Driven Decisions",
+    description: "Make confident hiring choices based on verified data and predictive analytics.",
+    features: ["Performance prediction", "Comparison tools", "Risk assessment"]
+  }
+];
 
-const AnimatedWorkflowStep = ({ number, title, description, icon, delay = 0, isInView }: WorkflowStepProps) => {
-  return (
-    <motion.div 
-      className="flex flex-col items-center text-center"
-      initial={{ opacity: 0, y: 30 }}
-      animate={isInView ? { opacity: 1, y: 0 } : { opacity: 0, y: 30 }}
-      transition={{ duration: 0.7, delay }}
-    >
-      <motion.div 
-        className="relative"
-        whileHover={{ scale: 1.1 }}
-        transition={{ type: "spring", stiffness: 400, damping: 10 }}
-      >
-        <div className="w-16 h-16 rounded-full bg-gradient-to-r from-zordie-600 to-accent1 flex items-center justify-center text-white text-2xl font-bold mb-4 shadow-lg dark:shadow-accent1/20">
-          {icon ? icon : number}
-        </div>
-        <motion.div 
-          className="absolute -inset-1 rounded-full bg-gradient-to-r from-zordie-400 to-accent1 opacity-30 blur-sm"
-          animate={{ 
-            scale: [1, 1.2, 1],
-            opacity: [0.3, 0.5, 0.3]
-          }}
-          transition={{ 
-            duration: 2, 
-            repeat: Infinity,
-            delay: delay * 3
-          }}
-        />
-      </motion.div>
-      <h3 className="text-xl font-semibold mb-2 text-zordie-900 dark:text-white">{title}</h3>
-      <p className="text-zordie-600 dark:text-zordie-300">{description}</p>
-    </motion.div>
-  );
-};
+const jobSeekerSteps = [
+  {
+    icon: Users,
+    title: "Create Your Profile",
+    description: "Build a comprehensive profile showcasing your skills, experience, and achievements.",
+    features: ["Quick profile builder", "AI optimization tips", "Portfolio integration"]
+  },
+  {
+    icon: ShieldCheck,
+    title: "Verify Your Credentials",
+    description: "Get your skills and experience authenticated to stand out from the competition.",
+    features: ["GitHub integration", "Certificate verification", "Experience validation"]
+  },
+  {
+    icon: Bot,
+    title: "AI Interview Prep",
+    description: "Practice with our AI interviewer to prepare for your real interviews.",
+    features: ["Industry-specific questions", "Performance feedback", "Improvement suggestions"]
+  },
+  {
+    icon: ArrowRight,
+    title: "Get Matched",
+    description: "Our AI connects you with companies looking for your verified skill set.",
+    features: ["Personalized matches", "Direct introductions", "Feedback loop"]
+  }
+];
 
-interface VerificationCardProps {
-  icon: React.ReactNode;
-  title: string;
-  description: string;
-  verifiedText?: string;
-}
-
-const VerificationCard = ({ icon, title, description, verifiedText }: VerificationCardProps) => {
-  return (
-    <motion.div
-      className="bg-white dark:bg-zordie-800/50 rounded-xl p-6 shadow-md dark:shadow-zordie-900/30 border border-zordie-100 dark:border-zordie-700 hover:shadow-lg transition-shadow duration-300 relative overflow-hidden group"
-      whileHover={{ y: -5 }}
-      transition={{ type: "spring", stiffness: 300, damping: 15 }}
-    >
-      {/* Shiny effect on hover */}
-      <motion.div 
-        className="absolute inset-0 bg-gradient-to-r from-transparent via-white/20 to-transparent opacity-0 group-hover:opacity-100"
-        initial={{ x: '-100%' }}
-        whileHover={{ x: '100%' }}
-        transition={{ duration: 0.7 }}
-      />
-      
-      <div className="flex flex-col items-center text-center relative z-10">
-        <div className="mb-4 p-3 bg-zordie-50 dark:bg-zordie-700/30 rounded-full">
-          {icon}
-        </div>
-        <h3 className="text-xl font-semibold mb-2 text-zordie-900 dark:text-white">{title}</h3>
-        <p className="text-zordie-600 dark:text-zordie-300">{description}</p>
-        
-        {verifiedText && (
-          <div className="mt-4 flex items-center gap-2 text-zordie-600 dark:text-zordie-400">
-            <CheckCircle className="h-4 w-4" />
-            <span className="text-sm font-medium">{verifiedText}</span>
-          </div>
-        )}
-      </div>
-    </motion.div>
-  );
-};
+const verificationSteps = [
+  {
+    icon: FileSearch,
+    title: "Document Analysis",
+    description: "Advanced AI scans and verifies resume content against multiple data sources."
+  },
+  {
+    icon: ShieldCheck,
+    title: "Credential Verification",
+    description: "Authentication of certifications, degrees, and professional qualifications."
+  },
+  {
+    icon: Bot,
+    title: "Skill Assessment",
+    description: "Objective validation of technical and soft skills through adaptive testing."
+  }
+];
 
 export default HowItWorksSection;

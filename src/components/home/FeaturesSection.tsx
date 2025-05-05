@@ -17,7 +17,9 @@ import {
   Zap,
   Search,
   MessageSquare,
-  Settings
+  Settings,
+  Github,
+  Linkedin
 } from 'lucide-react';
 
 const FeaturesSection = () => {

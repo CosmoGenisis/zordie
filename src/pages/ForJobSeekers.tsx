@@ -12,7 +12,7 @@ import {
   BadgeCheck, Briefcase, Target, TrendingUp, 
   Users, ShieldCheck, Brain, BarChart3, ChevronRight, 
   MessageSquare, Github, Zap, Clock, Star, 
-  ThumbsUp, Sparkles, CircleCheck 
+  ThumbsUp, Sparkles
 } from 'lucide-react';
 import PrimeHRChatbot from '@/components/chatbot/PrimeHRChatbot';
 
@@ -21,22 +21,23 @@ const ForJobSeekers = () => {
     <Layout>
       {/* Hero Section */}
       <section className="bg-gradient-to-br from-blue-600 to-blue-800 text-white">
-        <div className="container mx-auto px-4 py-20 md:py-32">
+        <div className="container mx-auto px-4 py-20">
           <div className="grid grid-cols-1 lg:grid-cols-2 gap-12 items-center">
             <motion.div
               initial={{ opacity: 0, y: 30 }}
               animate={{ opacity: 1, y: 0 }}
               transition={{ duration: 0.6 }}
+              className="max-w-xl"
             >
               <Badge 
                 className="bg-white/20 hover:bg-white/25 text-white border-none mb-6 px-4 py-2"
               >
                 For Job Seekers
               </Badge>
-              <h1 className="text-4xl md:text-5xl lg:text-6xl font-bold mb-6 leading-tight">
-                Stand Out with <span className="text-yellow-300">Verified Skills</span> and Get Hired Faster
+              <h1 className="text-4xl md:text-5xl font-bold mb-6 leading-tight">
+                Stand Out <br />and Get Hired <br /><span className="text-yellow-300">Faster</span>
               </h1>
-              <p className="text-lg md:text-xl mb-8 text-blue-100">
+              <p className="text-lg mb-8 text-blue-100">
                 Showcase your authentic skills and experience with AI verification. Get matched with employers looking for your talents and receive more relevant job offers.
               </p>
               
@@ -175,7 +176,7 @@ const ForJobSeekers = () => {
         </div>
         
         {/* Wave Shape Divider */}
-        <div className="relative h-16 md:h-24 lg:h-32 overflow-hidden">
+        <div className="relative h-16 md:h-24 overflow-hidden">
           <svg 
             className="absolute bottom-0 w-full h-full" 
             xmlns="http://www.w3.org/2000/svg" 
@@ -187,6 +188,43 @@ const ForJobSeekers = () => {
               className="fill-white dark:fill-zordie-950"
             ></path>
           </svg>
+        </div>
+      </section>
+      
+      {/* CTA Section - Similar to second image */}
+      <section className="bg-blue-600 text-white py-16">
+        <div className="container mx-auto px-4 text-center">
+          <div className="inline-block bg-white/20 text-white rounded-full px-4 py-1 text-sm font-medium mb-6">
+            Join Thousands of Successful Job Seekers
+          </div>
+          
+          <h2 className="text-4xl md:text-5xl font-bold mb-6">
+            Ready to Get the Job You Deserve?
+          </h2>
+          
+          <p className="text-lg text-blue-100 mb-10 max-w-2xl mx-auto">
+            Create your verified profile today and get noticed by top employers looking for authentic talent like you.
+          </p>
+          
+          <div className="flex flex-wrap justify-center gap-6">
+            <Link to="/signup">
+              <Button 
+                size="lg"
+                className="bg-white hover:bg-gray-100 text-blue-700 font-medium px-8 text-lg"
+              >
+                Create Free Profile <ArrowRight className="ml-2 h-5 w-5" />
+              </Button>
+            </Link>
+            <Link to="/features">
+              <Button 
+                size="lg" 
+                variant="outline" 
+                className="border-white/30 text-white hover:bg-white/10 text-lg"
+              >
+                See How It Works
+              </Button>
+            </Link>
+          </div>
         </div>
       </section>
       
@@ -441,79 +479,6 @@ const ForJobSeekers = () => {
                 </div>
               </motion.div>
             ))}
-          </motion.div>
-        </div>
-      </section>
-      
-      {/* CTA Section */}
-      <section 
-        className="py-24 bg-gradient-to-br from-blue-600 to-blue-800 text-white relative overflow-hidden"
-      >
-        {/* Background Elements */}
-        <div className="absolute inset-0 overflow-hidden opacity-10">
-          <div className="absolute top-0 left-0 w-full h-full">
-            <svg 
-              width="100%" 
-              height="100%" 
-              viewBox="0 0 100 100" 
-              xmlns="http://www.w3.org/2000/svg"
-            >
-              <defs>
-                <pattern 
-                  id="grid" 
-                  width="10" 
-                  height="10" 
-                  patternUnits="userSpaceOnUse"
-                >
-                  <path 
-                    d="M 10 0 L 0 0 0 10" 
-                    fill="none" 
-                    stroke="white" 
-                    strokeWidth="0.5"
-                  />
-                </pattern>
-              </defs>
-              <rect width="100%" height="100%" fill="url(#grid)" />
-            </svg>
-          </div>
-        </div>
-        
-        <div className="container mx-auto px-4 relative z-10">
-          <motion.div 
-            className="max-w-3xl mx-auto text-center"
-            initial={{ opacity: 0, y: 30 }}
-            whileInView={{ opacity: 1, y: 0 }}
-            viewport={{ once: true }}
-            transition={{ duration: 0.6 }}
-          >
-            <Badge className="bg-white/20 hover:bg-white/30 text-white border-none mb-6">
-              Join Thousands of Successful Job Seekers
-            </Badge>
-            <h2 className="text-3xl md:text-4xl lg:text-5xl font-bold mb-6">
-              Ready to Get the Job You Deserve?
-            </h2>
-            <p className="text-lg text-blue-100 mb-10 max-w-2xl mx-auto">
-              Create your verified profile today and get noticed by top employers looking for authentic talent like you.
-            </p>
-            <div className="flex flex-wrap justify-center gap-6">
-              <Link to="/signup">
-                <Button 
-                  size="lg"
-                  className="bg-white hover:bg-gray-100 text-blue-700 font-medium px-8 text-lg"
-                >
-                  Create Free Profile <ArrowRight className="ml-2 h-5 w-5" />
-                </Button>
-              </Link>
-              <Link to="/features">
-                <Button 
-                  size="lg" 
-                  variant="outline" 
-                  className="border-white/30 text-white hover:bg-white/10 text-lg"
-                >
-                  See How It Works
-                </Button>
-              </Link>
-            </div>
           </motion.div>
         </div>
       </section>

@@ -108,4 +108,6 @@ const SpinningCube: React.FC<SpinningCubeProps> = ({ className }) => {
   return <div ref={containerRef} className={className} />;
 };
 
+// Export the component as both default and named export
 export default SpinningCube;
+export { SpinningCube };

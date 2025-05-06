@@ -143,4 +143,6 @@ const FloatingParticles: React.FC<FloatingParticlesProps> = ({
   return <canvas ref={canvasRef} className={className} />;
 };
 
+// Export the component as both default and named export
 export default FloatingParticles;
+export { FloatingParticles };

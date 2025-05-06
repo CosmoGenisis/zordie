@@ -1,4 +1,3 @@
-
 import React, { useEffect, useRef } from 'react';
 import { Button } from '@/components/ui/button';
 import { Link } from 'react-router-dom';
@@ -6,7 +5,6 @@ import { motion, useAnimation, useInView } from 'framer-motion';
 import { ChevronRight, PlayCircle, Bot, Cpu, CheckCircle } from 'lucide-react';
 import gsap from 'gsap';
 import { useTheme } from '@/hooks';
-
 const HeroSection = () => {
   const theme = useTheme();
   const controls = useAnimation();
@@ -16,7 +14,6 @@ const HeroSection = () => {
     once: false,
     amount: 0.3
   });
-
   useEffect(() => {
     if (isInView) {
       controls.start('visible');
@@ -43,7 +40,6 @@ const HeroSection = () => {
       });
     });
   }, []);
-
   const containerVariants = {
     hidden: {
       opacity: 0
@@ -56,7 +52,6 @@ const HeroSection = () => {
       }
     }
   };
-
   const itemVariants = {
     hidden: {
       y: 20,
@@ -70,7 +65,6 @@ const HeroSection = () => {
       }
     }
   };
-
   const backgroundVariants = {
     hidden: {
       opacity: 0
@@ -82,9 +76,7 @@ const HeroSection = () => {
       }
     }
   };
-
-  return (
-    <section className="relative min-h-[90vh] flex items-center py-16 md:py-24 overflow-hidden" ref={containerRef}>
+  return <section className="relative min-h-[90vh] flex items-center py-16 md:py-24 overflow-hidden" ref={containerRef}>
       {/* Animated background */}
       <motion.div className="absolute inset-0 z-0 bg-grid-white dark:bg-grid-black opacity-20" variants={backgroundVariants} initial="hidden" animate="visible">
         <div className="absolute inset-0 bg-gradient-radial from-accent1/10 via-transparent to-transparent"></div>
@@ -168,22 +160,18 @@ const HeroSection = () => {
           </motion.div>
           
           {/* Right column - Hero Illustrations */}
-          <motion.div 
-            className="md:col-span-6 relative h-[500px]" 
-            variants={containerVariants} 
-            initial="hidden" 
-            animate={controls}
-          >
+          <motion.div className="md:col-span-6 relative h-[500px]" variants={containerVariants} initial="hidden" animate={controls}>
             {/* Main dashboard UI mockup */}
-            <motion.div
-              className="absolute z-10 top-0 right-0 w-full md:w-[120%] h-auto"
-              variants={itemVariants}
-              whileHover={{ scale: 1.02 }}
-              transition={{ type: "spring", stiffness: 300, damping: 15 }}
-            >
+            <motion.div className="absolute z-10 top-0 right-0 w-full md:w-[120%] h-auto" variants={itemVariants} whileHover={{
+            scale: 1.02
+          }} transition={{
+            type: "spring",
+            stiffness: 300,
+            damping: 15
+          }}>
               <div className="relative bg-white dark:bg-zordie-800 rounded-xl shadow-2xl overflow-hidden">
                 {/* Header of the dashboard mockup */}
-                <div className="bg-gradient-to-r from-blue-600 to-blue-800 p-4 flex items-center justify-between text-white">
+                <div className="bg-gradient-to-r from-blue-400 to-blue-600 p-4 flex items-center justify-between text-white">
                   <div className="flex items-center">
                     <div className="w-8 h-8 rounded-full bg-white/20 flex items-center justify-center mr-3">
                       <Cpu className="h-4 w-4" />
@@ -198,100 +186,7 @@ const HeroSection = () => {
                 </div>
                 
                 {/* Dashboard content */}
-                <div className="p-4">
-                  <div className="grid grid-cols-2 gap-4 mb-4">
-                    {/* Candidate card */}
-                    <div className="floating-card opacity-0 bg-blue-50 dark:bg-blue-900/20 p-4 rounded-lg">
-                      <div className="flex items-start">
-                        <img 
-                          src="https://randomuser.me/api/portraits/women/44.jpg" 
-                          alt="Candidate" 
-                          className="w-10 h-10 rounded-full border-2 border-white"
-                        />
-                        <div className="ml-3">
-                          <h4 className="font-medium text-sm text-blue-800 dark:text-blue-300">Sarah Miller</h4>
-                          <div className="flex items-center mt-1">
-                            <span className="text-xs bg-green-100 text-green-800 dark:bg-green-900/30 dark:text-green-300 px-2 py-0.5 rounded-full">
-                              95% Match
-                            </span>
-                          </div>
-                          <p className="text-xs text-gray-500 dark:text-gray-400 mt-1">
-                            Senior UX Designer
-                          </p>
-                        </div>
-                      </div>
-                    </div>
-                    
-                    {/* Job posting card */}
-                    <div className="floating-card opacity-0 bg-purple-50 dark:bg-purple-900/20 p-4 rounded-lg">
-                      <h4 className="font-medium text-sm text-purple-800 dark:text-purple-300">
-                        UI/UX Designer
-                      </h4>
-                      <div className="flex items-center mt-1">
-                        <span className="text-xs bg-yellow-100 text-yellow-800 dark:bg-yellow-900/30 dark:text-yellow-300 px-2 py-0.5 rounded-full">
-                          28 Applications
-                        </span>
-                      </div>
-                      <div className="flex items-center mt-2">
-                        <CheckCircle className="h-3 w-3 text-green-500 mr-1" />
-                        <span className="text-xs text-gray-500 dark:text-gray-400">
-                          5 Interviews Scheduled
-                        </span>
-                      </div>
-                    </div>
-                  </div>
-                  
-                  {/* Skills match visualization */}
-                  <div className="floating-card opacity-0 bg-gradient-to-r from-indigo-50 to-blue-50 dark:from-indigo-900/30 dark:to-blue-900/30 p-4 rounded-lg mb-4">
-                    <h4 className="font-medium text-sm text-indigo-800 dark:text-indigo-300 mb-2">
-                      AI-Matched Skills
-                    </h4>
-                    <div className="space-y-2">
-                      <div>
-                        <div className="flex justify-between text-xs mb-1">
-                          <span>UI Design</span>
-                          <span>92%</span>
-                        </div>
-                        <div className="w-full bg-gray-200 dark:bg-gray-700 rounded-full h-1.5">
-                          <div className="bg-blue-600 h-1.5 rounded-full" style={{width: '92%'}}></div>
-                        </div>
-                      </div>
-                      <div>
-                        <div className="flex justify-between text-xs mb-1">
-                          <span>Adobe XD</span>
-                          <span>88%</span>
-                        </div>
-                        <div className="w-full bg-gray-200 dark:bg-gray-700 rounded-full h-1.5">
-                          <div className="bg-blue-600 h-1.5 rounded-full" style={{width: '88%'}}></div>
-                        </div>
-                      </div>
-                      <div>
-                        <div className="flex justify-between text-xs mb-1">
-                          <span>User Research</span>
-                          <span>78%</span>
-                        </div>
-                        <div className="w-full bg-gray-200 dark:bg-gray-700 rounded-full h-1.5">
-                          <div className="bg-blue-600 h-1.5 rounded-full" style={{width: '78%'}}></div>
-                        </div>
-                      </div>
-                    </div>
-                  </div>
-                  
-                  {/* AI Verification */}
-                  <div className="floating-card opacity-0 bg-green-50 dark:bg-green-900/20 p-4 rounded-lg flex items-center">
-                    <div className="w-8 h-8 rounded-full bg-green-100 dark:bg-green-800/40 flex items-center justify-center mr-3">
-                      <CheckCircle className="h-5 w-5 text-green-600 dark:text-green-400" />
-                    </div>
-                    <div>
-                      <h4 className="font-medium text-sm text-green-800 dark:text-green-300">
-                        Credentials Verified
-                      </h4>
-                      <p className="text-xs text-gray-500 dark:text-gray-400">
-                        All certifications validated by Zordie AI
-                      </p>
-                    </div>
-                  </div>
-                </div>
+                
               </div>
             </motion.div>
 
@@ -328,8 +223,6 @@ const HeroSection = () => {
           </motion.div>
         </div>
       </div>
-    </section>
-  );
+    </section>;
 };
-
 export default HeroSection;

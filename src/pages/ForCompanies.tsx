@@ -433,7 +433,7 @@ const ForCompanies = () => {
       </div>
       
       {/* How It Works Section */}
-      <div className="py-24 transition-colors duration-300 relative bg-amber-400">
+      <div className="py-24 transition-colors duration-300 relative bg-white">
         <WavyDivider position="top" color="#fff" className="dark:hidden" />
         <WavyDivider position="top" color="#07294a" className="hidden dark:block" />
         

@@ -3,16 +3,26 @@ import React, { useRef, useEffect } from 'react';
 
 interface FloatingParticlesProps {
   className?: string;
-  particleCount?: number;
-  particleColor?: string;
+  count?: number;  // Added this prop to match usage
+  color?: string;  // Added this prop to match usage
+  opacity?: number; // Added this prop to match usage
+  particleCount?: number;  // Keep original prop for backward compatibility
+  particleColor?: string;  // Keep original prop for backward compatibility
 }
 
 const FloatingParticles: React.FC<FloatingParticlesProps> = ({ 
   className, 
-  particleCount = 100, 
-  particleColor = 'rgba(111, 76, 255, 0.5)'
+  count = 100,
+  color = 'rgba(111, 76, 255, 0.5)',
+  opacity = 0.5,
+  particleCount, // Keep original prop for backward compatibility
+  particleColor  // Keep original prop for backward compatibility
 }) => {
   const canvasRef = useRef<HTMLCanvasElement>(null);
+  
+  // Use either new props or fallback to original props for backward compatibility
+  const finalCount = particleCount || count;
+  const finalColor = particleColor || color;
   
   useEffect(() => {
     const canvas = canvasRef.current;
@@ -60,7 +70,7 @@ const FloatingParticles: React.FC<FloatingParticlesProps> = ({
         this.size = Math.random() * 3 + 1;
         this.speedX = Math.random() * 0.5 - 0.25;
         this.speedY = Math.random() * 0.5 - 0.25;
-        this.color = particleColor;
+        this.color = finalColor; // Use the updated color
       }
       
       update() {
@@ -97,7 +107,7 @@ const FloatingParticles: React.FC<FloatingParticlesProps> = ({
     
     const particles: Particle[] = [];
     
-    for (let i = 0; i < particleCount; i++) {
+    for (let i = 0; i < finalCount; i++) {
       particles.push(new Particle());
     }
     
@@ -119,7 +129,8 @@ const FloatingParticles: React.FC<FloatingParticlesProps> = ({
           
           if (distance < 100) {
             ctx.beginPath();
-            ctx.strokeStyle = `rgba(111, 76, 255, ${0.1 - distance / 1000})`;
+            const alpha = opacity * (1 - distance / 1000);
+            ctx.strokeStyle = `rgba(111, 76, 255, ${alpha})`;
             ctx.lineWidth = 0.5;
             ctx.moveTo(particles[i].x, particles[i].y);
             ctx.lineTo(particles[j].x, particles[j].y);
@@ -138,7 +149,7 @@ const FloatingParticles: React.FC<FloatingParticlesProps> = ({
       canvas.removeEventListener('mousemove', handleMouseMove);
       cancelAnimationFrame(animationFrameId);
     };
-  }, [particleCount, particleColor]);
+  }, [finalCount, finalColor, opacity]);
   
   return <canvas ref={canvasRef} className={className} />;
 };

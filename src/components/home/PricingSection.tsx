@@ -3,9 +3,10 @@ import React, { useState, useRef } from 'react';
 import { SectionHeading } from '@/components/ui/section-heading';
 import { Button } from '@/components/ui/button';
 import { motion, useInView } from 'framer-motion';
-import { CheckCircle, ChevronRight } from 'lucide-react';
+import { CheckCircle, ChevronRight, X } from 'lucide-react';
 import { Switch } from '@/components/ui/switch';
 import { Label } from '@/components/ui/label';
+import { Link } from 'react-router-dom';
 
 const PricingSection = () => {
   const [billingCycle, setBillingCycle] = useState('monthly');
@@ -34,10 +35,6 @@ const PricingSection = () => {
 
   const toggleBillingCycle = () => {
     setBillingCycle(billingCycle === 'monthly' ? 'yearly' : 'monthly');
-  };
-
-  const getPrice = (monthly, yearly) => {
-    return billingCycle === 'monthly' ? monthly : yearly;
   };
 
   return (
@@ -82,103 +79,143 @@ const PricingSection = () => {
         </motion.div>
         
         <motion.div
-          className="grid grid-cols-1 lg:grid-cols-3 gap-8"
+          className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-5 gap-4"
           variants={containerVariants}
           initial="hidden"
           animate={isInView ? "visible" : "hidden"}
         >
-          {/* Starter Plan */}
+          {/* Free Plan */}
           <motion.div
             variants={itemVariants}
             className="bg-white dark:bg-zordie-800/50 rounded-2xl shadow-lg border border-zordie-100 dark:border-zordie-700 overflow-hidden hover:shadow-xl transition-shadow duration-300 relative"
           >
-            <div className="p-8">
-              <h3 className="text-xl font-semibold text-zordie-800 dark:text-white mb-2">Starter</h3>
-              <p className="text-zordie-600 dark:text-zordie-300 mb-6">Perfect for small teams and startups</p>
-              
-              <div className="flex items-baseline mb-6">
-                <span className="text-4xl font-bold text-zordie-800 dark:text-white">₹{getPrice(7999, 6399)}</span>
-                <span className="text-zordie-600 dark:text-zordie-300 ml-2">/month</span>
+            <div className="p-6 border-b bg-gray-50">
+              <h3 className="text-xl font-semibold">Free</h3>
+              <div className="mt-2 flex items-baseline">
+                <span className="text-4xl font-bold">₹0</span>
+                <span className="ml-1 text-gray-500 text-sm">/month</span>
               </div>
-              
-              {billingCycle === 'yearly' && (
-                <p className="text-sm text-zordie-600 dark:text-zordie-300 mb-6">Billed annually (₹{6399 * 12} total)</p>
-              )}
-              
-              <Button 
-                className="w-full bg-gradient-to-r from-zordie-600 to-accent1 relative overflow-hidden group mb-8"
-              >
-                <span className="relative z-10 flex items-center text-white font-medium">
-                  Get Started 
-                  <ChevronRight className="ml-1 h-5 w-5 group-hover:translate-x-1 transition-transform" />
-                </span>
-                <motion.span 
-                  className="absolute top-0 left-0 w-full h-full bg-white opacity-20"
-                  initial={{ x: '-100%' }}
-                  whileHover={{ x: '100%' }}
-                  transition={{ duration: 0.7 }}
-                />
-              </Button>
-              
-              <div className="space-y-4">
-                <PricingFeature text="Up to 50 candidates/month" />
-                <PricingFeature text="Basic resume screening" />
-                <PricingFeature text="Email support" />
-                <PricingFeature text="1 admin user" />
-                <PricingFeature text="Standard analytics" />
+              <p className="text-sm text-gray-600 mt-2">Try Zordie for free</p>
+            </div>
+            <div className="p-6">
+              <ul className="space-y-3">
+                <PricingFeature available={true} text="2 job posts" />
+                <PricingFeature available={true} text="Basic AI screening" />
+                <PricingFeature available={true} text="10 verified applications" />
+                <PricingFeature available={false} text="Candidate assessments" />
+                <PricingFeature available={false} text="Prime AI assistance" />
+                <PricingFeature available={false} text="Advanced analytics" />
+              </ul>
+              <div className="mt-6">
+                <Link to="/signup">
+                  <Button 
+                    variant="outline" 
+                    className="w-full transition-all duration-300 hover:shadow-md"
+                  >
+                    Get Started
+                  </Button>
+                </Link>
               </div>
             </div>
           </motion.div>
           
-          {/* Professional Plan */}
+          {/* Starter Plan */}
           <motion.div
             variants={itemVariants}
-            className="bg-white dark:bg-zordie-800/50 rounded-2xl shadow-lg border-2 border-zordie-500 dark:border-zordie-500 overflow-hidden hover:shadow-xl transition-shadow duration-300 relative lg:scale-105 z-10"
+            className="bg-white dark:bg-zordie-800/50 rounded-2xl shadow-lg border border-zordie-100 dark:border-zordie-700 overflow-hidden hover:shadow-xl transition-shadow duration-300 relative lg:col-span-1"
           >
-            <div className="absolute top-0 inset-x-0 h-2 bg-gradient-to-r from-zordie-600 to-accent1"></div>
-            <div className="absolute -top-4 inset-x-0 flex justify-center">
-              <span className="bg-gradient-to-r from-zordie-600 to-accent1 text-white text-sm font-semibold py-1 px-4 rounded-full">
-                Most Popular
-              </span>
-            </div>
-            
-            <div className="p-8 pt-10">
-              <h3 className="text-xl font-semibold text-zordie-800 dark:text-white mb-2">Professional</h3>
-              <p className="text-zordie-600 dark:text-zordie-300 mb-6">For growing companies with advanced needs</p>
-              
-              <div className="flex items-baseline mb-6">
-                <span className="text-4xl font-bold text-zordie-800 dark:text-white">₹{getPrice(19999, 15999)}</span>
-                <span className="text-zordie-600 dark:text-zordie-300 ml-2">/month</span>
+            <div className="p-6 border-b bg-gradient-to-r from-blue-600 to-blue-700 text-white">
+              <h3 className="text-xl font-semibold">STARTER PLAN</h3>
+              <div className="mt-2 flex items-baseline">
+                <span className="text-4xl font-bold">₹4,999</span>
+                <span className="ml-1 text-gray-100 text-sm">/month</span>
               </div>
-              
-              {billingCycle === 'yearly' && (
-                <p className="text-sm text-zordie-600 dark:text-zordie-300 mb-6">Billed annually (₹{15999 * 12} total)</p>
-              )}
-              
-              <Button 
-                className="w-full bg-gradient-to-r from-zordie-600 to-accent1 relative overflow-hidden group mb-8"
-              >
-                <span className="relative z-10 flex items-center text-white font-medium">
-                  Get Started 
-                  <ChevronRight className="ml-1 h-5 w-5 group-hover:translate-x-1 transition-transform" />
-                </span>
-                <motion.span 
-                  className="absolute top-0 left-0 w-full h-full bg-white opacity-20"
-                  initial={{ x: '-100%' }}
-                  whileHover={{ x: '100%' }}
-                  transition={{ duration: 0.7 }}
-                />
-              </Button>
-              
-              <div className="space-y-4">
-                <PricingFeature text="Up to 250 candidates/month" />
-                <PricingFeature text="Advanced AI screening" />
-                <PricingFeature text="Video interview analysis" />
-                <PricingFeature text="Skill verification" />
-                <PricingFeature text="5 admin users" />
-                <PricingFeature text="Advanced analytics" />
-                <PricingFeature text="API access" />
-                <PricingFeature text="Priority support" />
+              <p className="text-sm text-gray-100 mt-2">For small startups</p>
+            </div>
+            <div className="p-6">
+              <ul className="space-y-3">
+                <PricingFeature available={true} text="Up to 10 Job Postings per month" />
+                <PricingFeature available={true} text="Includes 1,000 AI Credits for candidate assessments and analytics" />
+                <PricingFeature available={true} text="Access to basic dashboard and reporting features" />
+                <PricingFeature available={true} text="Email support for quick assistance" />
+              </ul>
+              <div className="mt-6">
+                <Link to="/signup">
+                  <Button 
+                    className="w-full bg-gradient-to-r from-blue-600 to-blue-700 text-white hover:from-blue-700 hover:to-blue-800 transition-all duration-300 hover:shadow-lg"
+                  >
+                    Choose Starter
+                  </Button>
+                </Link>
+              </div>
+            </div>
+          </motion.div>
+          
+          {/* Growth Plan */}
+          <motion.div
+            variants={itemVariants}
+            className="bg-white dark:bg-zordie-800/50 rounded-2xl shadow-lg border border-zordie-100 dark:border-zordie-700 overflow-hidden hover:shadow-xl transition-shadow duration-300 relative lg:col-span-1"
+          >
+            <div className="absolute top-0 right-0">
+              <div className="bg-zordie-500 text-white text-xs font-semibold py-1 px-3 rounded-bl-lg">
+                Popular
+              </div>
+            </div>
+            <div className="p-6 border-b bg-gradient-to-r from-blue-600 to-blue-700 text-white">
+              <h3 className="text-xl font-semibold">GROWTH PLAN</h3>
+              <div className="mt-2 flex items-baseline">
+                <span className="text-4xl font-bold">₹9,999</span>
+                <span className="ml-1 text-gray-100 text-sm">/month</span>
+              </div>
+              <p className="text-sm text-gray-100 mt-2">For growing teams</p>
+            </div>
+            <div className="p-6">
+              <ul className="space-y-3">
+                <PricingFeature available={true} text="Allows up to 25 Job Postings monthly" />
+                <PricingFeature available={true} text="Includes 5,000 AI Credits for extensive candidate evaluations" />
+                <PricingFeature available={true} text="Advanced analytics dashboard with customized reporting" />
+                <PricingFeature available={true} text="Priority email and chat support" />
+              </ul>
+              <div className="mt-6">
+                <Link to="/signup">
+                  <Button 
+                    className="w-full bg-gradient-to-r from-blue-600 to-blue-700 text-white hover:from-blue-700 hover:to-blue-800 transition-all duration-300 hover:shadow-lg"
+                  >
+                    Choose Growth
+                  </Button>
+                </Link>
+              </div>
+            </div>
+          </motion.div>
+          
+          {/* Agency Plan */}
+          <motion.div
+            variants={itemVariants}
+            className="bg-white dark:bg-zordie-800/50 rounded-2xl shadow-lg border border-zordie-100 dark:border-zordie-700 overflow-hidden hover:shadow-xl transition-shadow duration-300 relative lg:col-span-1"
+          >
+            <div className="p-6 border-b bg-gradient-to-r from-blue-600 to-blue-700 text-white">
+              <h3 className="text-xl font-semibold">AGENCY PLAN</h3>
+              <div className="mt-2 flex items-baseline">
+                <span className="text-4xl font-bold">₹16,999</span>
+                <span className="ml-1 text-gray-100 text-sm">/month</span>
+              </div>
+              <p className="text-sm text-gray-100 mt-2">For recruitment agencies</p>
+            </div>
+            <div className="p-6">
+              <ul className="space-y-3">
+                <PricingFeature available={true} text="Allows up to 50 Job Postings per month" />
+                <PricingFeature available={true} text="Includes 10,000 AI Credits for high volume candidate processing" />
+                <PricingFeature available={true} text="White-labeled platform customization and branding options" />
+                <PricingFeature available={true} text="Dedicated account manager and premium support" />
+              </ul>
+              <div className="mt-6">
+                <Link to="/signup">
+                  <Button 
+                    className="w-full bg-gradient-to-r from-blue-600 to-blue-700 text-white hover:from-blue-700 hover:to-blue-800 transition-all duration-300 hover:shadow-lg"
+                  >
+                    Choose Agency
+                  </Button>
+                </Link>
               </div>
             </div>
           </motion.div>
@@ -188,37 +225,32 @@ const PricingSection = () => {
             variants={itemVariants}
             className="bg-white dark:bg-zordie-800/50 rounded-2xl shadow-lg border border-zordie-100 dark:border-zordie-700 overflow-hidden hover:shadow-xl transition-shadow duration-300 relative"
           >
-            <div className="p-8">
-              <h3 className="text-xl font-semibold text-zordie-800 dark:text-white mb-2">Enterprise</h3>
-              <p className="text-zordie-600 dark:text-zordie-300 mb-6">For large organizations with custom needs</p>
-              
-              <div className="flex items-baseline mb-6">
-                <span className="text-4xl font-bold text-zordie-800 dark:text-white">Custom</span>
+            <div className="p-6 border-b bg-gray-50">
+              <h3 className="text-xl font-semibold">Enterprise</h3>
+              <div className="mt-2 flex items-baseline">
+                <span className="text-4xl font-bold">Custom</span>
               </div>
-              
-              <Button 
-                variant="outline"
-                className="w-full relative overflow-hidden group mb-8 border-zordie-500 text-zordie-700 dark:text-zordie-300 hover:text-zordie-800 dark:hover:text-white"
-              >
-                <span className="relative z-10 flex items-center">
-                  Contact Sales
-                  <ChevronRight className="ml-1 h-5 w-5 group-hover:translate-x-1 transition-transform" />
-                </span>
-                <motion.span 
-                  className="absolute bottom-0 left-0 w-full h-0 bg-gradient-to-r from-zordie-600/20 to-accent1/20 group-hover:h-full transition-all duration-300 -z-1"
-                />
-              </Button>
-              
-              <div className="space-y-4">
-                <PricingFeature text="Unlimited candidates" />
-                <PricingFeature text="Custom AI model training" />
-                <PricingFeature text="Full verification suite" />
-                <PricingFeature text="Advanced video interviews" />
-                <PricingFeature text="Unlimited users" />
-                <PricingFeature text="Custom analytics dashboard" />
-                <PricingFeature text="Dedicated account manager" />
-                <PricingFeature text="SSO & advanced security" />
-                <PricingFeature text="Custom integrations" />
+              <p className="text-sm text-gray-600 mt-2">Tailored for large organizations</p>
+            </div>
+            <div className="p-6">
+              <ul className="space-y-3">
+                <PricingFeature available={true} text="Unlimited job posts" />
+                <PricingFeature available={true} text="Custom integrations" />
+                <PricingFeature available={true} text="Dedicated account manager" />
+                <PricingFeature available={true} text="Custom AI training" />
+                <PricingFeature available={true} text={'Pay as You Go model'} />
+                <PricingFeature available={true} text="Tailored pricing" />
+                <PricingFeature available={true} text="Phone & priority support" />
+              </ul>
+              <div className="mt-6">
+                <Link to="/contact">
+                  <Button 
+                    variant="outline" 
+                    className="w-full transition-all duration-300 hover:shadow-md"
+                  >
+                    Contact Sales
+                  </Button>
+                </Link>
               </div>
             </div>
           </motion.div>
@@ -228,12 +260,23 @@ const PricingSection = () => {
   );
 };
 
-const PricingFeature = ({ text }) => {
+interface PricingFeatureProps {
+  available: boolean;
+  text: string;
+}
+
+const PricingFeature = ({ available, text }: PricingFeatureProps) => {
   return (
-    <div className="flex items-center">
-      <CheckCircle className="h-5 w-5 text-zordie-600 mr-3 shrink-0" />
-      <span className="text-zordie-700 dark:text-zordie-300">{text}</span>
-    </div>
+    <li className="flex items-start">
+      {available ? (
+        <CheckCircle className="h-5 w-5 text-zordie-500 mr-2 shrink-0" />
+      ) : (
+        <X className="h-5 w-5 text-gray-300 mr-2 shrink-0" />
+      )}
+      <span className={`text-sm ${available ? "text-gray-600 dark:text-gray-300" : "text-gray-400 dark:text-gray-500"}`}>
+        {text}
+      </span>
+    </li>
   );
 };
 

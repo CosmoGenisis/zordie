@@ -197,7 +197,7 @@ const ForCompanies = () => {
       </div>
       
       {/* Problems We Solve Section */}
-      <div className="py-24 bg-gradient-to-b from-white to-indigo-50 dark:from-zordie-950 dark:to-zordie-900 transition-colors duration-300 bg-violet-50">
+      <div className="py-24 bg-gradient-to-b from-white to-indigo-50 dark:from-zordie-950 dark:to-zordie-900 transition-colors duration-300 bg-stone-50">
         <div className="px-4 mx-auto max-w-7xl sm:px-6 lg:px-8 bg-stone-50">
           <SectionHeading title="Recruiting Challenges Solved" subtitle="How we transform common hiring bottlenecks into competitive advantages" align="center" titleContent={<>Recruiting Challenges <GradientText gradient="primary">Solved</GradientText></>} />
           

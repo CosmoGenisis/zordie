@@ -160,55 +160,7 @@ const HeroSection = () => {
           </motion.div>
           
           {/* Right column - Hero Illustrations */}
-          <motion.div className="md:col-span-6 relative h-[500px]" variants={containerVariants} initial="hidden" animate={controls}>
-            {/* Main dashboard UI mockup */}
-            <motion.div className="absolute z-10 top-0 right-0 w-full md:w-[120%] h-auto" variants={itemVariants} whileHover={{
-            scale: 1.02
-          }} transition={{
-            type: "spring",
-            stiffness: 300,
-            damping: 15
-          }}>
-              <div className="relative bg-white dark:bg-zordie-800 rounded-xl shadow-2xl overflow-hidden">
-                {/* Header of the dashboard mockup */}
-                
-                
-                {/* Dashboard content */}
-                
-              </div>
-            </motion.div>
-
-            {/* Decorative elements */}
-            <div className="absolute top-[20%] -right-10 w-20 h-20 bg-blue-500/10 rounded-full blur-xl"></div>
-            <div className="absolute bottom-[30%] -left-10 w-24 h-24 bg-purple-500/10 rounded-full blur-xl"></div>
-            
-            {/* Floating elements */}
-            <div ref={floatingCardsRef} className="absolute inset-0 z-0 pointer-events-none">
-              <div className="floating-card opacity-0 absolute top-[10%] right-[5%] bg-white dark:bg-zordie-700/50 p-2 rounded-lg shadow-lg transform rotate-6 w-40">
-                <div className="flex items-center">
-                  <div className="w-6 h-6 rounded-full bg-blue-100 dark:bg-blue-800/40 flex items-center justify-center">
-                    <CheckCircle className="h-3 w-3 text-blue-600 dark:text-blue-400" />
-                  </div>
-                  <div className="ml-2">
-                    <div className="h-2 w-20 bg-blue-100 dark:bg-blue-800/40 rounded"></div>
-                    <div className="h-2 w-12 bg-blue-50 dark:bg-blue-900/20 rounded mt-1"></div>
-                  </div>
-                </div>
-              </div>
-              
-              <div className="floating-card opacity-0 absolute bottom-[15%] left-[10%] bg-white dark:bg-zordie-700/50 p-2 rounded-lg shadow-lg transform -rotate-3 w-36">
-                <div className="flex items-center">
-                  <div className="w-6 h-6 rounded-full bg-purple-100 dark:bg-purple-800/40 flex items-center justify-center">
-                    <Bot className="h-3 w-3 text-purple-600 dark:text-purple-400" />
-                  </div>
-                  <div className="ml-2">
-                    <div className="h-2 w-16 bg-purple-100 dark:bg-purple-800/40 rounded"></div>
-                    <div className="h-2 w-10 bg-purple-50 dark:bg-purple-900/20 rounded mt-1"></div>
-                  </div>
-                </div>
-              </div>
-            </div>
-          </motion.div>
+          
         </div>
       </div>
     </section>;

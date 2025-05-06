@@ -171,19 +171,7 @@ const HeroSection = () => {
           }}>
               <div className="relative bg-white dark:bg-zordie-800 rounded-xl shadow-2xl overflow-hidden">
                 {/* Header of the dashboard mockup */}
-                <div className="bg-gradient-to-r from-blue-400 to-blue-600 p-4 flex items-center justify-between text-white">
-                  <div className="flex items-center">
-                    <div className="w-8 h-8 rounded-full bg-white/20 flex items-center justify-center mr-3">
-                      <Cpu className="h-4 w-4" />
-                    </div>
-                    <span className="font-medium">Zordie AI Hiring Dashboard</span>
-                  </div>
-                  <div className="flex space-x-2">
-                    <div className="w-3 h-3 rounded-full bg-red-400"></div>
-                    <div className="w-3 h-3 rounded-full bg-yellow-400"></div>
-                    <div className="w-3 h-3 rounded-full bg-green-400"></div>
-                  </div>
-                </div>
+                
                 
                 {/* Dashboard content */}
                 

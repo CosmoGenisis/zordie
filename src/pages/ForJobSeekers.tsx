@@ -471,7 +471,7 @@ const ForJobSeekers = () => {
                   </Button>
                 </Link>
                 <Link to="/features">
-                  <Button size="lg" variant="outline" className="border-white/30 text-white hover:bg-white/10 text-lg py-3">
+                  <Button size="lg" variant="outline" className="border-white/30 text-lg py-3 bg-yellow-500 hover:bg-yellow-400 text-blue-600">
                     See How It Works
                   </Button>
                 </Link>

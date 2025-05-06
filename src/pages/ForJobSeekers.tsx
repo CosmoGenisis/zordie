@@ -1,4 +1,3 @@
-
 import React, { useRef } from 'react';
 import Layout from '@/components/layout/Layout';
 import { SectionHeading } from '@/components/ui/section-heading';
@@ -7,39 +6,27 @@ import { Badge } from '@/components/ui/badge';
 import { Card, CardContent } from '@/components/ui/card';
 import { Link } from 'react-router-dom';
 import { motion, useInView } from 'framer-motion';
-import { 
-  CheckCircle, 
-  ArrowRight, 
-  Briefcase, 
-  MapPin, 
-  Target, 
-  TrendingUp, 
-  Award, 
-  BadgeCheck,
-  ThumbsUp,
-  Users,
-  Brain,
-  Sparkles,
-  ChevronRight,
-  CircleCheck,
-  CircleArrowUp,
-  LayoutList
-} from 'lucide-react';
+import { CheckCircle, ArrowRight, Briefcase, MapPin, Target, TrendingUp, Award, BadgeCheck, ThumbsUp, Users, Brain, Sparkles, ChevronRight, CircleCheck, CircleArrowUp, LayoutList } from 'lucide-react';
 import PrimeHRChatbot from '@/components/chatbot/PrimeHRChatbot';
 import { SpinningCube } from '@/components/home/3d/SpinningCube';
 import { FloatingParticles } from '@/components/home/3d/FloatingParticles';
-
 const ForJobSeekers = () => {
   const featuresRef = useRef(null);
   const benefitsRef = useRef(null);
   const testimonialsRef = useRef(null);
-  
-  const featuresInView = useInView(featuresRef, { once: false, amount: 0.2 });
-  const benefitsInView = useInView(benefitsRef, { once: false, amount: 0.2 });
-  const testimonialsInView = useInView(testimonialsRef, { once: false, amount: 0.2 });
-
-  return (
-    <Layout>
+  const featuresInView = useInView(featuresRef, {
+    once: false,
+    amount: 0.2
+  });
+  const benefitsInView = useInView(benefitsRef, {
+    once: false,
+    amount: 0.2
+  });
+  const testimonialsInView = useInView(testimonialsRef, {
+    once: false,
+    amount: 0.2
+  });
+  return <Layout>
       {/* Hero Section */}
       <section className="relative bg-gradient-to-br from-blue-600 via-blue-700 to-blue-900 text-white overflow-hidden">
         <div className="absolute inset-0 z-0">
@@ -48,12 +35,15 @@ const ForJobSeekers = () => {
         
         <div className="container mx-auto px-4 py-20 relative z-10">
           <div className="grid grid-cols-1 lg:grid-cols-2 gap-12 items-center">
-            <motion.div 
-              initial={{ opacity: 0, y: 30 }} 
-              animate={{ opacity: 1, y: 0 }} 
-              transition={{ duration: 0.6 }}
-              className="max-w-xl"
-            >
+            <motion.div initial={{
+            opacity: 0,
+            y: 30
+          }} animate={{
+            opacity: 1,
+            y: 0
+          }} transition={{
+            duration: 0.6
+          }} className="max-w-xl">
               <Badge className="bg-white/20 hover:bg-white/25 text-white border-none mb-6 px-4 py-2">
                 For Job Seekers
               </Badge>
@@ -68,39 +58,44 @@ const ForJobSeekers = () => {
               
               <div className="flex flex-wrap gap-4">
                 <Link to="/signup">
-                  <Button size="lg" className="bg-white hover:bg-gray-100 text-blue-700 font-medium">
+                  <Button size="lg" className="text-blue-700 font-medium bg-white">
                     Create Free Profile <ArrowRight className="ml-2 h-4 w-4" />
                   </Button>
                 </Link>
                 <Link to="/features">
-                  <Button size="lg" variant="outline" className="border-white/30 text-white hover:bg-white/20">
+                  <Button size="lg" variant="outline" className="border-white/30 text-blue-600 bg-yellow-500 hover:bg-yellow-400">
                     Explore Features
                   </Button>
                 </Link>
               </div>
               
               <div className="grid grid-cols-2 md:grid-cols-4 gap-6 mt-12">
-                {stats.map((stat, i) => (
-                  <motion.div 
-                    key={i} 
-                    className="text-center"
-                    initial={{ opacity: 0, y: 20 }}
-                    animate={{ opacity: 1, y: 0 }}
-                    transition={{ duration: 0.4, delay: 0.2 + i * 0.1 }}
-                  >
+                {stats.map((stat, i) => <motion.div key={i} className="text-center" initial={{
+                opacity: 0,
+                y: 20
+              }} animate={{
+                opacity: 1,
+                y: 0
+              }} transition={{
+                duration: 0.4,
+                delay: 0.2 + i * 0.1
+              }}>
                     <p className="text-3xl md:text-4xl font-bold text-yellow-300 mb-1">{stat.value}</p>
                     <p className="text-blue-100 text-sm">{stat.label}</p>
-                  </motion.div>
-                ))}
+                  </motion.div>)}
               </div>
             </motion.div>
             
-            <motion.div 
-              className="relative"
-              initial={{ opacity: 0, x: 30 }}
-              animate={{ opacity: 1, x: 0 }}
-              transition={{ duration: 0.6, delay: 0.3 }}
-            >
+            <motion.div className="relative" initial={{
+            opacity: 0,
+            x: 30
+          }} animate={{
+            opacity: 1,
+            x: 0
+          }} transition={{
+            duration: 0.6,
+            delay: 0.3
+          }}>
               <div className="absolute top-0 right-0 w-64 h-64 opacity-30">
                 <SpinningCube />
               </div>
@@ -193,25 +188,24 @@ const ForJobSeekers = () => {
       {/* How It Works Section */}
       <section className="py-20 bg-white dark:bg-zordie-950">
         <div className="container mx-auto px-4">
-          <SectionHeading 
-            title="How Zordie AI Works for Job Seekers" 
-            subtitle="Simple steps to transform your job search experience" 
-            align="center" 
-          />
+          <SectionHeading title="How Zordie AI Works for Job Seekers" subtitle="Simple steps to transform your job search experience" align="center" />
           
           <div className="mt-16 relative">
             <div className="hidden lg:block absolute top-24 left-0 right-0 h-0.5 bg-blue-100 dark:bg-blue-900"></div>
             
             <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8">
-              {steps.map((step, index) => (
-                <motion.div 
-                  key={index} 
-                  className="relative"
-                  initial={{ opacity: 0, y: 30 }}
-                  whileInView={{ opacity: 1, y: 0 }}
-                  viewport={{ once: true }}
-                  transition={{ duration: 0.5, delay: index * 0.1 }}
-                >
+              {steps.map((step, index) => <motion.div key={index} className="relative" initial={{
+              opacity: 0,
+              y: 30
+            }} whileInView={{
+              opacity: 1,
+              y: 0
+            }} viewport={{
+              once: true
+            }} transition={{
+              duration: 0.5,
+              delay: index * 0.1
+            }}>
                   <div className="hidden lg:flex absolute -top-6 left-1/2 -translate-x-1/2 z-10">
                     <div className="flex items-center justify-center w-12 h-12 text-white rounded-full shadow-lg bg-blue-600 border-4 border-white dark:border-zordie-950">
                       {index + 1}
@@ -242,18 +236,21 @@ const ForJobSeekers = () => {
                       </div>
                     </CardContent>
                   </Card>
-                </motion.div>
-              ))}
+                </motion.div>)}
             </div>
           </div>
           
-          <motion.div 
-            className="mt-16 text-center"
-            initial={{ opacity: 0, y: 20 }}
-            whileInView={{ opacity: 1, y: 0 }}
-            viewport={{ once: true }}
-            transition={{ duration: 0.5 }}
-          >
+          <motion.div className="mt-16 text-center" initial={{
+          opacity: 0,
+          y: 20
+        }} whileInView={{
+          opacity: 1,
+          y: 0
+        }} viewport={{
+          once: true
+        }} transition={{
+          duration: 0.5
+        }}>
             <Link to="/signup">
               <Button className="bg-blue-600 hover:bg-blue-700 text-white text-lg px-8 py-6 rounded-lg" size="lg">
                 Start Your Verification Process <ChevronRight className="ml-2 h-5 w-5" />
@@ -267,11 +264,16 @@ const ForJobSeekers = () => {
       <section ref={benefitsRef} className="py-20 bg-gray-50 dark:bg-zordie-900 overflow-hidden">
         <div className="container mx-auto px-4">
           <div className="grid grid-cols-1 lg:grid-cols-2 gap-16 items-center">
-            <motion.div
-              initial={{ opacity: 0, x: -50 }}
-              animate={benefitsInView ? { opacity: 1, x: 0 } : {}}
-              transition={{ duration: 0.7, ease: "easeOut" }}
-            >
+            <motion.div initial={{
+            opacity: 0,
+            x: -50
+          }} animate={benefitsInView ? {
+            opacity: 1,
+            x: 0
+          } : {}} transition={{
+            duration: 0.7,
+            ease: "easeOut"
+          }}>
               <Badge className="bg-blue-100 text-blue-700 hover:bg-blue-200 mb-4">Key Advantages</Badge>
               <h2 className="text-3xl md:text-4xl font-bold mb-6">
                 Why <span className="text-blue-600">Verify</span> Your Professional Profile?
@@ -282,14 +284,16 @@ const ForJobSeekers = () => {
               </p>
               
               <div className="space-y-6">
-                {benefits.map((benefit, index) => (
-                  <motion.div 
-                    key={index}
-                    initial={{ opacity: 0, y: 20 }}
-                    animate={benefitsInView ? { opacity: 1, y: 0 } : {}}
-                    transition={{ duration: 0.5, delay: index * 0.1 }}
-                    className="flex gap-4 group cursor-pointer"
-                  >
+                {benefits.map((benefit, index) => <motion.div key={index} initial={{
+                opacity: 0,
+                y: 20
+              }} animate={benefitsInView ? {
+                opacity: 1,
+                y: 0
+              } : {}} transition={{
+                duration: 0.5,
+                delay: index * 0.1
+              }} className="flex gap-4 group cursor-pointer">
                     <div className="flex-shrink-0 mt-1">
                       <div className="w-10 h-10 rounded-full bg-blue-100 dark:bg-blue-900/50 flex items-center justify-center group-hover:bg-blue-600 transition-colors duration-300">
                         <benefit.icon className="h-5 w-5 text-blue-600 dark:text-blue-400 group-hover:text-white transition-colors duration-300" />
@@ -299,26 +303,28 @@ const ForJobSeekers = () => {
                       <h3 className="text-xl font-semibold mb-2 group-hover:text-blue-600 transition-colors duration-300">{benefit.title}</h3>
                       <p className="text-gray-600 dark:text-gray-300">{benefit.description}</p>
                     </div>
-                  </motion.div>
-                ))}
+                  </motion.div>)}
               </div>
             </motion.div>
             
-            <motion.div 
-              className="relative h-[600px]"
-              initial={{ opacity: 0 }}
-              animate={benefitsInView ? { opacity: 1 } : {}}
-              transition={{ duration: 1 }}
-            >
+            <motion.div className="relative h-[600px]" initial={{
+            opacity: 0
+          }} animate={benefitsInView ? {
+            opacity: 1
+          } : {}} transition={{
+            duration: 1
+          }}>
               <div className="relative z-10 grid grid-cols-2 gap-6">
-                {metrics.map((metric, index) => (
-                  <motion.div 
-                    key={index}
-                    initial={{ opacity: 0, y: 30 }}
-                    animate={benefitsInView ? { opacity: 1, y: 0 } : {}}
-                    transition={{ duration: 0.6, delay: 0.3 + index * 0.1 }}
-                    className="bg-white dark:bg-zordie-800 rounded-xl shadow-md p-6 border border-gray-100 dark:border-zordie-700 hover:shadow-xl transition-all duration-300 transform hover:scale-105"
-                  >
+                {metrics.map((metric, index) => <motion.div key={index} initial={{
+                opacity: 0,
+                y: 30
+              }} animate={benefitsInView ? {
+                opacity: 1,
+                y: 0
+              } : {}} transition={{
+                duration: 0.6,
+                delay: 0.3 + index * 0.1
+              }} className="bg-white dark:bg-zordie-800 rounded-xl shadow-md p-6 border border-gray-100 dark:border-zordie-700 hover:shadow-xl transition-all duration-300 transform hover:scale-105">
                     <div className="w-12 h-12 rounded-lg bg-blue-50 dark:bg-blue-900/30 flex items-center justify-center mb-4">
                       <metric.icon className="h-6 w-6 text-blue-600 dark:text-blue-400" />
                     </div>
@@ -328,8 +334,7 @@ const ForJobSeekers = () => {
                     <p className="text-gray-700 dark:text-gray-300 font-medium">
                       {metric.label}
                     </p>
-                  </motion.div>
-                ))}
+                  </motion.div>)}
               </div>
               
               <div className="absolute top-1/4 right-1/4 w-64 h-64 opacity-20">
@@ -343,26 +348,25 @@ const ForJobSeekers = () => {
       {/* Features Section */}
       <section ref={featuresRef} className="py-20 bg-white dark:bg-zordie-950">
         <div className="container mx-auto px-4">
-          <SectionHeading 
-            title="Premium Tools for Job Seekers" 
-            subtitle="Elevate your job search with our AI-powered platform" 
-            align="center" 
-          />
+          <SectionHeading title="Premium Tools for Job Seekers" subtitle="Elevate your job search with our AI-powered platform" align="center" />
           
-          <motion.div 
-            className="mt-16 grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8"
-            initial={{ opacity: 0 }}
-            animate={featuresInView ? { opacity: 1 } : {}}
-            transition={{ duration: 0.6 }}
-          >
-            {features.map((feature, index) => (
-              <motion.div 
-                key={index}
-                initial={{ opacity: 0, y: 30 }}
-                animate={featuresInView ? { opacity: 1, y: 0 } : {}}
-                transition={{ duration: 0.5, delay: index * 0.1 }}
-                className="bg-gradient-to-br from-white to-gray-50 dark:from-zordie-800 dark:to-zordie-900 rounded-xl shadow-lg overflow-hidden border border-gray-100 dark:border-zordie-700 transform hover:translate-y-[-10px] transition-transform duration-300"
-              >
+          <motion.div className="mt-16 grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8" initial={{
+          opacity: 0
+        }} animate={featuresInView ? {
+          opacity: 1
+        } : {}} transition={{
+          duration: 0.6
+        }}>
+            {features.map((feature, index) => <motion.div key={index} initial={{
+            opacity: 0,
+            y: 30
+          }} animate={featuresInView ? {
+            opacity: 1,
+            y: 0
+          } : {}} transition={{
+            duration: 0.5,
+            delay: index * 0.1
+          }} className="bg-gradient-to-br from-white to-gray-50 dark:from-zordie-800 dark:to-zordie-900 rounded-xl shadow-lg overflow-hidden border border-gray-100 dark:border-zordie-700 transform hover:translate-y-[-10px] transition-transform duration-300">
                 <div className="h-2 bg-gradient-to-r from-blue-500 to-blue-700"></div>
                 <div className="p-6">
                   <div className="w-14 h-14 rounded-lg bg-blue-50 dark:bg-blue-900/30 flex items-center justify-center mb-6">
@@ -371,16 +375,13 @@ const ForJobSeekers = () => {
                   <h3 className="text-xl font-semibold mb-4">{feature.title}</h3>
                   <p className="text-gray-600 dark:text-gray-300 mb-6">{feature.description}</p>
                   <div className="space-y-2">
-                    {feature.points.map((point, i) => (
-                      <div key={i} className="flex items-center">
+                    {feature.points.map((point, i) => <div key={i} className="flex items-center">
                         <CircleCheck className="h-5 w-5 text-green-500 mr-2 flex-shrink-0" />
                         <span className="text-gray-600 dark:text-gray-300 text-sm">{point}</span>
-                      </div>
-                    ))}
+                      </div>)}
                   </div>
                 </div>
-              </motion.div>
-            ))}
+              </motion.div>)}
           </motion.div>
         </div>
       </section>
@@ -388,26 +389,25 @@ const ForJobSeekers = () => {
       {/* Testimonials Section */}
       <section ref={testimonialsRef} className="py-20 bg-gray-50 dark:bg-zordie-900">
         <div className="container mx-auto px-4">
-          <SectionHeading 
-            title="Success Stories" 
-            subtitle="Hear from job seekers who found success with Zordie AI" 
-            align="center" 
-          />
+          <SectionHeading title="Success Stories" subtitle="Hear from job seekers who found success with Zordie AI" align="center" />
           
-          <motion.div 
-            className="mt-16 grid grid-cols-1 md:grid-cols-3 gap-8"
-            initial={{ opacity: 0 }}
-            animate={testimonialsInView ? { opacity: 1 } : {}}
-            transition={{ duration: 0.6 }}
-          >
-            {testimonials.map((testimonial, index) => (
-              <motion.div 
-                key={index}
-                initial={{ opacity: 0, y: 20 }}
-                animate={testimonialsInView ? { opacity: 1, y: 0 } : {}}
-                transition={{ duration: 0.5, delay: index * 0.2 }}
-                className="bg-white dark:bg-zordie-800 rounded-xl shadow-lg p-6 border border-gray-100 dark:border-zordie-700 hover:shadow-xl transition-all duration-300 transform hover:scale-105"
-              >
+          <motion.div className="mt-16 grid grid-cols-1 md:grid-cols-3 gap-8" initial={{
+          opacity: 0
+        }} animate={testimonialsInView ? {
+          opacity: 1
+        } : {}} transition={{
+          duration: 0.6
+        }}>
+            {testimonials.map((testimonial, index) => <motion.div key={index} initial={{
+            opacity: 0,
+            y: 20
+          }} animate={testimonialsInView ? {
+            opacity: 1,
+            y: 0
+          } : {}} transition={{
+            duration: 0.5,
+            delay: index * 0.2
+          }} className="bg-white dark:bg-zordie-800 rounded-xl shadow-lg p-6 border border-gray-100 dark:border-zordie-700 hover:shadow-xl transition-all duration-300 transform hover:scale-105">
                 <div className="flex items-center mb-4">
                   <img src={testimonial.avatar} alt={testimonial.name} className="w-12 h-12 rounded-full object-cover" />
                   <div className="ml-3">
@@ -417,9 +417,7 @@ const ForJobSeekers = () => {
                 </div>
                 
                 <div className="flex mb-4">
-                  {[...Array(5)].map((_, i) => (
-                    <CircleArrowUp key={i} className="h-4 w-4 text-yellow-500" />
-                  ))}
+                  {[...Array(5)].map((_, i) => <CircleArrowUp key={i} className="h-4 w-4 text-yellow-500" />)}
                 </div>
                 
                 <p className="text-gray-600 dark:text-gray-300 italic mb-4">"{testimonial.quote}"</p>
@@ -430,8 +428,7 @@ const ForJobSeekers = () => {
                     <p className="text-sm font-medium">{testimonial.result}</p>
                   </div>
                 </div>
-              </motion.div>
-            ))}
+              </motion.div>)}
           </motion.div>
         </div>
       </section>
@@ -444,12 +441,17 @@ const ForJobSeekers = () => {
           </div>
           
           <div className="relative z-10">
-            <motion.div 
-              initial={{ opacity: 0, y: 20 }}
-              whileInView={{ opacity: 1, y: 0 }}
-              viewport={{ once: true }}
-              transition={{ duration: 0.5 }}
-            >
+            <motion.div initial={{
+            opacity: 0,
+            y: 20
+          }} whileInView={{
+            opacity: 1,
+            y: 0
+          }} viewport={{
+            once: true
+          }} transition={{
+            duration: 0.5
+          }}>
               <div className="inline-block bg-white/20 text-white rounded-full px-4 py-1 text-sm font-medium mb-6">
                 Join Thousands of Successful Job Seekers
               </div>
@@ -481,167 +483,129 @@ const ForJobSeekers = () => {
       
       {/* AI Chatbot */}
       <PrimeHRChatbot initiallyOpen={false} />
-    </Layout>
-  );
+    </Layout>;
 };
 
 // Data for the sections
-const stats = [
-  {
-    value: "2.5x",
-    label: "More interview invitations"
-  },
-  {
-    value: "68%",
-    label: "Faster job offers"
-  },
-  {
-    value: "94%",
-    label: "Better job matches"
-  },
-  {
-    value: "37%",
-    label: "Higher starting salaries"
-  }
-];
-
-const steps = [
-  {
-    icon: BadgeCheck,
-    title: "Create Your Profile",
-    description: "Sign up and build your professional profile with skills, experience, and education details on our intuitive platform.",
-    benefit: "Takes less than 10 minutes to get started"
-  },
-  {
-    icon: Target,
-    title: "Complete Verification",
-    description: "Complete AI-guided skill assessments and project verification to validate your technical and soft skills.",
-    benefit: "Verify multiple skills and credentials at once"
-  },
-  {
-    icon: LayoutList,
-    title: "Showcase Your Expertise",
-    description: "Add verified projects, code samples, and portfolio items that prove your capabilities to potential employers.",
-    benefit: "Stand out with verified original work"
-  },
-  {
-    icon: Briefcase,
-    title: "Get Matched With Jobs",
-    description: "Receive tailored job matches based on your verified skills, experience, and career preferences.",
-    benefit: "94% better job fit than traditional applications"
-  }
-];
-
-const benefits = [
-  {
-    icon: BadgeCheck,
-    title: "Stand Out from the Crowd",
-    description: "Your verification badge signals authenticity to recruiters, helping your profile rise above unverified candidates."
-  },
-  {
-    icon: ThumbsUp,
-    title: "Build Instant Trust",
-    description: "Employers trust verified candidates more and are likely to fast-track their applications."
-  },
-  {
-    icon: Target,
-    title: "Receive Better Job Matches",
-    description: "Our AI matches your verified skills to the perfect opportunities, saving you time applying to irrelevant positions."
-  },
-  {
-    icon: TrendingUp,
-    title: "Negotiate Higher Salaries",
-    description: "Verified professionals receive offers up to 37% higher than the industry average for their skill level."
-  }
-];
-
-const metrics = [
-  {
-    icon: MapPin,
-    value: "68%",
-    label: "Faster time to hire for verified candidates"
-  },
-  {
-    icon: Users,
-    value: "84%",
-    label: "Of employers prefer verified candidates"
-  },
-  {
-    icon: Target,
-    value: "94%",
-    label: "Better job matches with AI recommendations"
-  },
-  {
-    icon: TrendingUp,
-    value: "37%",
-    label: "Higher starting salaries for verified candidates"
-  }
-];
-
-const features = [
-  {
-    icon: BadgeCheck,
-    title: "Skill Verification",
-    description: "Prove your abilities with our comprehensive verification process.",
-    points: ["AI-powered skill assessments", "Project authentication", "Credential verification", "Experience validation"]
-  },
-  {
-    icon: Brain,
-    title: "AI Interview Prep",
-    description: "Practice with our AI interviewer to sharpen your skills.",
-    points: ["Industry-specific questions", "Real-time feedback", "Personalized improvement tips", "Mock interview recordings"]
-  },
-  {
-    icon: Target,
-    title: "Smart Job Matching",
-    description: "Get matched with opportunities that align with your verified skills.",
-    points: ["AI-powered job recommendations", "Skills-based matching", "Cultural fit assessment", "Salary range optimization"]
-  },
-  {
-    icon: Sparkles,
-    title: "Portfolio Showcase",
-    description: "Display your work with verification badges that prove authenticity.",
-    points: ["Project verification", "Code authenticity checks", "Interactive portfolio builder", "Employer-focused presentation"]
-  },
-  {
-    icon: Users,
-    title: "AI Career Coach",
-    description: "Receive personalized career guidance and advice.",
-    points: ["Resume optimization", "Career path planning", "Skill development recommendations", "Market trend insights"]
-  },
-  {
-    icon: Award,
-    title: "Job Search Analytics",
-    description: "Track your job search performance with detailed analytics.",
-    points: ["Application tracking", "Interview success rate", "Skill gap analysis", "Competitive positioning"]
-  }
-];
-
-const testimonials = [
-  {
-    avatar: "https://images.unsplash.com/photo-1580489944761-15a19d654956?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=200&q=80",
-    name: "Jennifer Lee",
-    role: "Frontend Developer",
-    quote: "After struggling to get noticed for months, my Zordie verified profile got me 3 interview offers in the first week! The verification really helped me stand out.",
-    icon: Briefcase,
-    result: "Landed a senior developer role within 3 weeks"
-  },
-  {
-    avatar: "https://images.unsplash.com/photo-1599566150163-29194dcaad36?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=200&q=80",
-    name: "Michael Rodriguez",
-    role: "UX Designer",
-    quote: "The project authentication feature was a game-changer. Employers could see that my portfolio was verified as original work, which built immediate trust.",
-    icon: TrendingUp,
-    result: "Received a 32% higher salary offer than previous position"
-  },
-  {
-    avatar: "https://images.unsplash.com/photo-1573496359142-b8d87734a5a2?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=200&q=80",
-    name: "Sarah Johnson",
-    role: "Data Scientist",
-    quote: "The AI matching actually works! I was matched with companies I'd never considered, but they were perfect fits for my skills and career aspirations.",
-    icon: Target,
-    result: "Found a remote position with ideal work-life balance"
-  }
-];
-
+const stats = [{
+  value: "2.5x",
+  label: "More interview invitations"
+}, {
+  value: "68%",
+  label: "Faster job offers"
+}, {
+  value: "94%",
+  label: "Better job matches"
+}, {
+  value: "37%",
+  label: "Higher starting salaries"
+}];
+const steps = [{
+  icon: BadgeCheck,
+  title: "Create Your Profile",
+  description: "Sign up and build your professional profile with skills, experience, and education details on our intuitive platform.",
+  benefit: "Takes less than 10 minutes to get started"
+}, {
+  icon: Target,
+  title: "Complete Verification",
+  description: "Complete AI-guided skill assessments and project verification to validate your technical and soft skills.",
+  benefit: "Verify multiple skills and credentials at once"
+}, {
+  icon: LayoutList,
+  title: "Showcase Your Expertise",
+  description: "Add verified projects, code samples, and portfolio items that prove your capabilities to potential employers.",
+  benefit: "Stand out with verified original work"
+}, {
+  icon: Briefcase,
+  title: "Get Matched With Jobs",
+  description: "Receive tailored job matches based on your verified skills, experience, and career preferences.",
+  benefit: "94% better job fit than traditional applications"
+}];
+const benefits = [{
+  icon: BadgeCheck,
+  title: "Stand Out from the Crowd",
+  description: "Your verification badge signals authenticity to recruiters, helping your profile rise above unverified candidates."
+}, {
+  icon: ThumbsUp,
+  title: "Build Instant Trust",
+  description: "Employers trust verified candidates more and are likely to fast-track their applications."
+}, {
+  icon: Target,
+  title: "Receive Better Job Matches",
+  description: "Our AI matches your verified skills to the perfect opportunities, saving you time applying to irrelevant positions."
+}, {
+  icon: TrendingUp,
+  title: "Negotiate Higher Salaries",
+  description: "Verified professionals receive offers up to 37% higher than the industry average for their skill level."
+}];
+const metrics = [{
+  icon: MapPin,
+  value: "68%",
+  label: "Faster time to hire for verified candidates"
+}, {
+  icon: Users,
+  value: "84%",
+  label: "Of employers prefer verified candidates"
+}, {
+  icon: Target,
+  value: "94%",
+  label: "Better job matches with AI recommendations"
+}, {
+  icon: TrendingUp,
+  value: "37%",
+  label: "Higher starting salaries for verified candidates"
+}];
+const features = [{
+  icon: BadgeCheck,
+  title: "Skill Verification",
+  description: "Prove your abilities with our comprehensive verification process.",
+  points: ["AI-powered skill assessments", "Project authentication", "Credential verification", "Experience validation"]
+}, {
+  icon: Brain,
+  title: "AI Interview Prep",
+  description: "Practice with our AI interviewer to sharpen your skills.",
+  points: ["Industry-specific questions", "Real-time feedback", "Personalized improvement tips", "Mock interview recordings"]
+}, {
+  icon: Target,
+  title: "Smart Job Matching",
+  description: "Get matched with opportunities that align with your verified skills.",
+  points: ["AI-powered job recommendations", "Skills-based matching", "Cultural fit assessment", "Salary range optimization"]
+}, {
+  icon: Sparkles,
+  title: "Portfolio Showcase",
+  description: "Display your work with verification badges that prove authenticity.",
+  points: ["Project verification", "Code authenticity checks", "Interactive portfolio builder", "Employer-focused presentation"]
+}, {
+  icon: Users,
+  title: "AI Career Coach",
+  description: "Receive personalized career guidance and advice.",
+  points: ["Resume optimization", "Career path planning", "Skill development recommendations", "Market trend insights"]
+}, {
+  icon: Award,
+  title: "Job Search Analytics",
+  description: "Track your job search performance with detailed analytics.",
+  points: ["Application tracking", "Interview success rate", "Skill gap analysis", "Competitive positioning"]
+}];
+const testimonials = [{
+  avatar: "https://images.unsplash.com/photo-1580489944761-15a19d654956?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=200&q=80",
+  name: "Jennifer Lee",
+  role: "Frontend Developer",
+  quote: "After struggling to get noticed for months, my Zordie verified profile got me 3 interview offers in the first week! The verification really helped me stand out.",
+  icon: Briefcase,
+  result: "Landed a senior developer role within 3 weeks"
+}, {
+  avatar: "https://images.unsplash.com/photo-1599566150163-29194dcaad36?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=200&q=80",
+  name: "Michael Rodriguez",
+  role: "UX Designer",
+  quote: "The project authentication feature was a game-changer. Employers could see that my portfolio was verified as original work, which built immediate trust.",
+  icon: TrendingUp,
+  result: "Received a 32% higher salary offer than previous position"
+}, {
+  avatar: "https://images.unsplash.com/photo-1573496359142-b8d87734a5a2?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=200&q=80",
+  name: "Sarah Johnson",
+  role: "Data Scientist",
+  quote: "The AI matching actually works! I was matched with companies I'd never considered, but they were perfect fits for my skills and career aspirations.",
+  icon: Target,
+  result: "Found a remote position with ideal work-life balance"
+}];
 export default ForJobSeekers;

@@ -197,8 +197,8 @@ const ForCompanies = () => {
       </div>
       
       {/* Problems We Solve Section */}
-      <div className="py-24 bg-gradient-to-b from-white to-indigo-50 dark:from-zordie-950 dark:to-zordie-900 transition-colors duration-300">
-        <div className="px-4 mx-auto max-w-7xl sm:px-6 lg:px-8">
+      <div className="py-24 bg-gradient-to-b from-white to-indigo-50 dark:from-zordie-950 dark:to-zordie-900 transition-colors duration-300 bg-white">
+        <div className="px-4 mx-auto max-w-7xl sm:px-6 lg:px-8 bg-stone-50">
           <SectionHeading title="Recruiting Challenges Solved" subtitle="How we transform common hiring bottlenecks into competitive advantages" align="center" titleContent={<>Recruiting Challenges <GradientText gradient="primary">Solved</GradientText></>} />
           
           <motion.div className="grid grid-cols-1 gap-8 mt-16 sm:grid-cols-2 lg:grid-cols-3" initial="hidden" whileInView="visible" viewport={{
@@ -253,7 +253,7 @@ const ForCompanies = () => {
       </div>
       
       {/* Verification Features Section - NEW SECTION */}
-      <div className="py-24 bg-white dark:bg-zordie-950 transition-colors duration-300 relative overflow-hidden">
+      <div className="py-24 transition-colors duration-300 relative overflow-hidden bg-amber-400">
         {/* Background decoration */}
         <div className="absolute -top-40 -right-40 w-96 h-96 bg-gradient-to-br from-violet-200 to-indigo-200/30 rounded-full blur-3xl opacity-50 dark:from-violet-900/20 dark:to-indigo-900/10"></div>
         <div className="absolute -bottom-20 -left-40 w-80 h-80 bg-gradient-to-tr from-indigo-200 to-violet-200/30 rounded-full blur-3xl opacity-50 dark:from-indigo-900/20 dark:to-violet-900/10"></div>
@@ -481,7 +481,7 @@ const ForCompanies = () => {
       </div>
       
       {/* Key Benefits Section */}
-      <div className="py-24 bg-white dark:bg-zordie-950 transition-colors duration-300">
+      <div className="py-24 transition-colors duration-300 bg-amber-400">
         <div className="px-4 mx-auto max-w-7xl sm:px-6 lg:px-8">
           <div className="grid items-center grid-cols-1 gap-16 lg:grid-cols-2">
             <motion.div initial={{

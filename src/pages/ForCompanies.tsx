@@ -198,7 +198,7 @@ const ForCompanies = () => {
       
       {/* Problems We Solve Section */}
       <div className="py-24 bg-gradient-to-b from-white to-indigo-50 dark:from-zordie-950 dark:to-zordie-900 transition-colors duration-300 bg-stone-50">
-        <div className="px-4 mx-auto max-w-7xl sm:px-6 lg:px-8 bg-stone-50">
+        <div className="px-4 mx-auto max-w-7xl sm:px-6 lg:px-8 bg-indigo-50">
           <SectionHeading title="Recruiting Challenges Solved" subtitle="How we transform common hiring bottlenecks into competitive advantages" align="center" titleContent={<>Recruiting Challenges <GradientText gradient="primary">Solved</GradientText></>} />
           
           <motion.div className="grid grid-cols-1 gap-8 mt-16 sm:grid-cols-2 lg:grid-cols-3" initial="hidden" whileInView="visible" viewport={{

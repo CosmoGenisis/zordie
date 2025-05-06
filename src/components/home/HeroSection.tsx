@@ -107,9 +107,10 @@ const HeroSection = () => {
               className="text-4xl md:text-5xl lg:text-6xl font-bold leading-tight mb-6"
               variants={itemVariants}
             >
-              <span className="block mb-2">Your goals deserve</span>
-              <span className="block hero-title">game-changers.</span>
-              <span className="block">We find them with Zordie.</span>
+              <span className="block mb-2">Your goals</span>
+              <span className="block text-blue-600 dark:text-blue-400">deserve</span>
+              <span className="block text-blue-600 dark:text-blue-400">game-changers.</span>
+              <span className="block mt-2">We find them with Zordie.</span>
             </motion.h1>
             
             <motion.p 
@@ -144,9 +145,9 @@ const HeroSection = () => {
               <Link to="/dashboard-selector">
                 <Button 
                   size="lg" 
-                  className="bg-gradient-to-r from-zordie-600 to-accent1 hover:from-zordie-700 hover:to-accent1-hover text-white relative overflow-hidden group"
+                  className="bg-gradient-to-r from-zordie-600 to-accent1 hover:from-zordie-700 hover:to-accent1-hover text-white font-medium relative overflow-hidden group w-full sm:w-auto"
                 >
-                  <span className="relative z-10 flex items-center text-white font-medium">
+                  <span className="relative z-10 flex items-center">
                     Get Started 
                     <ChevronRight className="ml-1 h-5 w-5 group-hover:translate-x-1 transition-transform" />
                   </span>
@@ -167,7 +168,7 @@ const HeroSection = () => {
               <Button 
                 size="lg" 
                 variant="outline" 
-                className="group relative overflow-hidden"
+                className="group relative overflow-hidden w-full sm:w-auto"
               >
                 <span className="relative z-10 flex items-center">
                   <PlayCircle className="mr-2 h-5 w-5" />
@@ -210,15 +211,15 @@ const HeroSection = () => {
               transition={{ type: "spring", stiffness: 300, damping: 15 }}
             >
               <img 
-                src="https://images.unsplash.com/photo-1580894732444-8ecded7900cd?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1740&q=80" 
+                src="/lovable-uploads/36dc1ff8-118e-47b7-91d0-df0e386e46ee.png" 
                 alt="Zordie Dashboard" 
-                className="w-full h-auto rounded-xl object-cover border border-gray-200 dark:border-zordie-700"
+                className="w-full h-auto rounded-xl object-cover border border-gray-200 dark:border-zordie-700 shadow-lg"
               />
               
               {/* Floating cards */}
               <div ref={floatingCardsRef} className="absolute inset-0">
                 {/* Prime AI card */}
-                <div className="floating-card absolute top-10 -left-10 opacity-0 bg-white dark:bg-zordie-800 p-4 rounded-lg shadow-xl border border-gray-200 dark:border-zordie-700 max-w-[220px]">
+                <div className="floating-card absolute top-20 -left-10 opacity-0 bg-white dark:bg-zordie-800 p-4 rounded-lg shadow-xl border border-gray-200 dark:border-zordie-700 max-w-[220px]">
                   <div className="flex items-center mb-2">
                     <div className="w-8 h-8 rounded-full bg-indigo-600 flex items-center justify-center">
                       <Bot className="h-5 w-5 text-white" />
@@ -234,23 +235,8 @@ const HeroSection = () => {
                   </div>
                 </div>
                 
-                {/* Candidate card */}
-                <div className="floating-card absolute top-32 -right-10 opacity-0 bg-white dark:bg-zordie-800 p-4 rounded-lg shadow-xl border border-gray-200 dark:border-zordie-700 max-w-[200px]">
-                  <div className="flex items-center mb-3">
-                    <img src="https://randomuser.me/api/portraits/women/44.jpg" alt="Candidate" className="w-12 h-12 rounded-full mr-3" />
-                    <div>
-                      <h4 className="font-medium text-gray-900 dark:text-white">Sarah Johnson</h4>
-                      <p className="text-xs text-gray-500 dark:text-gray-400">Frontend Developer</p>
-                    </div>
-                  </div>
-                  <div className="flex items-center justify-between text-sm">
-                    <span className="text-green-600 font-medium">98% Match</span>
-                    <span className="px-2 py-1 bg-green-100 dark:bg-green-900/30 text-green-800 dark:text-green-400 rounded-full text-xs">Verified</span>
-                  </div>
-                </div>
-                
                 {/* AI Analysis card */}
-                <div className="floating-card absolute bottom-40 -right-10 opacity-0 bg-white dark:bg-zordie-800 p-4 rounded-lg shadow-xl border border-gray-200 dark:border-zordie-700 max-w-[220px]">
+                <div className="floating-card absolute top-60 right-10 opacity-0 bg-white dark:bg-zordie-800 p-4 rounded-lg shadow-xl border border-gray-200 dark:border-zordie-700 max-w-[220px] z-10">
                   <h4 className="font-medium text-gray-900 dark:text-white mb-2">AI Analysis Complete</h4>
                   <div className="space-y-2">
                     <div className="flex justify-between items-center">
@@ -275,7 +261,7 @@ const HeroSection = () => {
                 </div>
                 
                 {/* Stats card */}
-                <div className="floating-card absolute top-40 right-10 opacity-0 bg-white dark:bg-zordie-800 p-4 rounded-lg shadow-xl border border-gray-200 dark:border-zordie-700 max-w-[180px]">
+                <div className="floating-card absolute bottom-32 -left-10 opacity-0 bg-white dark:bg-zordie-800 p-4 rounded-lg shadow-xl border border-gray-200 dark:border-zordie-700 max-w-[180px] z-10">
                   <h4 className="font-medium text-gray-900 dark:text-white mb-3">AI Efficiency</h4>
                   <div className="space-y-2">
                     <div className="flex items-center">

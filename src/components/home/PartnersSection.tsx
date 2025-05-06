@@ -29,8 +29,7 @@ const PartnersSection = () => {
               <img 
                 src={logo.src} 
                 alt={logo.alt} 
-                className="h-8 md:h-10 object-contain"
-                style={{ maxWidth: '100%' }}
+                className="h-8 md:h-10 object-contain max-w-[120px]"
               />
             </div>
           </motion.div>
@@ -50,7 +49,7 @@ const partnerLogos = [
     alt: "IBM" 
   },
   { 
-    src: "https://upload.wikimedia.org/wikipedia/commons/thumb/4/44/Google-logo.svg/512px-Google-logo.svg.png", 
+    src: "https://upload.wikimedia.org/wikipedia/commons/thumb/2/2f/Google_2015_logo.svg/1200px-Google_2015_logo.svg.png", 
     alt: "Google" 
   },
   { 
@@ -65,14 +64,6 @@ const partnerLogos = [
     src: "https://upload.wikimedia.org/wikipedia/commons/thumb/e/e8/Tesla_logo.png/512px-Tesla_logo.png", 
     alt: "Tesla" 
   },
-  { 
-    src: "https://upload.wikimedia.org/wikipedia/commons/thumb/0/08/Netflix_2015_logo.svg/1920px-Netflix_2015_logo.svg.png", 
-    alt: "Netflix" 
-  },
-  { 
-    src: "https://upload.wikimedia.org/wikipedia/commons/thumb/2/2f/Google_2015_logo.svg/1200px-Google_2015_logo.svg.png", 
-    alt: "Google" 
-  }
 ];
 
 export default PartnersSection;

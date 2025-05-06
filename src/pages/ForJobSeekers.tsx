@@ -58,12 +58,12 @@ const ForJobSeekers = () => {
               
               <div className="flex flex-wrap gap-4">
                 <Link to="/signup">
-                  <Button size="lg" className="text-blue-700 font-medium bg-white">
+                  <Button size="lg" className="text-blue-700 font-medium bg-yellow-400 hover:bg-yellow-300">
                     Create Free Profile <ArrowRight className="ml-2 h-4 w-4" />
                   </Button>
                 </Link>
                 <Link to="/features">
-                  <Button size="lg" variant="outline" className="border-white/30 text-blue-600 bg-yellow-500 hover:bg-yellow-400">
+                  <Button size="lg" variant="outline" className="border-white/30 text-blue-600 bg-yellow-400 hover:bg-yellow-300">
                     Explore Features
                   </Button>
                 </Link>

@@ -1,23 +1,19 @@
-
 import React from "react";
 import { Link } from "react-router-dom";
 import { Twitter, Linkedin, Github, Mail, ChevronRight } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { motion } from "framer-motion";
-
 const Footer = () => {
   const currentYear = new Date().getFullYear();
-
-  return (
-    <footer className="bg-white dark:bg-zordie-900 border-t dark:border-zordie-800 mt-auto relative overflow-hidden">
+  return <footer className="bg-white dark:bg-zordie-900 border-t dark:border-zordie-800 mt-auto relative overflow-hidden">
       {/* Background elements */}
       <div className="absolute inset-0 pointer-events-none">
         <div className="absolute -top-20 -right-20 w-80 h-80 bg-zordie-100/50 dark:bg-zordie-800/20 rounded-full blur-3xl opacity-30"></div>
         <div className="absolute -bottom-20 -left-20 w-80 h-80 bg-accent1/10 dark:bg-accent1/5 rounded-full blur-3xl opacity-30"></div>
       </div>
       
-      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-16 relative z-10">
+      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-16 relative z-10 bg-inherit">
         {/* Newsletter */}
         <div className="mb-16 bg-gradient-to-r from-zordie-50 to-zordie-100 dark:from-zordie-800 dark:to-zordie-900 p-8 rounded-xl border border-zordie-200 dark:border-zordie-700 shadow-sm">
           <div className="flex flex-col md:flex-row justify-between items-center gap-6">
@@ -30,24 +26,19 @@ const Footer = () => {
               </p>
             </div>
             <div className="flex w-full md:w-auto flex-col sm:flex-row gap-3">
-              <Input 
-                type="email" 
-                placeholder="Enter your email" 
-                className="min-w-[240px] bg-white dark:bg-zordie-800"
-              />
-              <Button 
-                className="bg-gradient-to-r from-zordie-600 to-accent1 hover:from-zordie-700 hover:to-accent1-hover relative overflow-hidden group"
-              >
+              <Input type="email" placeholder="Enter your email" className="min-w-[240px] bg-white dark:bg-zordie-800" />
+              <Button className="bg-gradient-to-r from-zordie-600 to-accent1 hover:from-zordie-700 hover:to-accent1-hover relative overflow-hidden group">
                 <span className="relative z-10 flex items-center">
                   Subscribe
                   <ChevronRight className="ml-1 h-5 w-5 group-hover:translate-x-1 transition-transform" />
                 </span>
-                <motion.span 
-                  className="absolute top-0 left-0 w-full h-full bg-white opacity-20"
-                  initial={{ x: '-100%' }}
-                  whileHover={{ x: '100%' }}
-                  transition={{ duration: 0.7 }}
-                />
+                <motion.span className="absolute top-0 left-0 w-full h-full bg-white opacity-20" initial={{
+                x: '-100%'
+              }} whileHover={{
+                x: '100%'
+              }} transition={{
+                duration: 0.7
+              }} />
               </Button>
             </div>
           </div>
@@ -125,38 +116,28 @@ const Footer = () => {
           </div>
         </div>
       </div>
-    </footer>
-  );
+    </footer>;
 };
-
-const SocialLink = ({ href, icon, label }) => {
-  return (
-    <a 
-      href={href} 
-      className="w-10 h-10 bg-zordie-100 dark:bg-zordie-800 rounded-full flex items-center justify-center text-zordie-600 dark:text-zordie-400 hover:bg-zordie-200 dark:hover:bg-zordie-700 transition-colors"
-      target="_blank" 
-      rel="noreferrer"
-      aria-label={label}
-    >
+const SocialLink = ({
+  href,
+  icon,
+  label
+}) => {
+  return <a href={href} className="w-10 h-10 bg-zordie-100 dark:bg-zordie-800 rounded-full flex items-center justify-center text-zordie-600 dark:text-zordie-400 hover:bg-zordie-200 dark:hover:bg-zordie-700 transition-colors" target="_blank" rel="noreferrer" aria-label={label}>
       {icon}
-    </a>
-  );
+    </a>;
 };
-
-const FooterLink = ({ to, text }) => {
-  return (
-    <li>
-      <Link 
-        to={to} 
-        className="text-gray-600 dark:text-gray-300 hover:text-zordie-700 dark:hover:text-zordie-300 transition-colors flex items-center group"
-      >
+const FooterLink = ({
+  to,
+  text
+}) => {
+  return <li>
+      <Link to={to} className="text-gray-600 dark:text-gray-300 hover:text-zordie-700 dark:hover:text-zordie-300 transition-colors flex items-center group">
         <span className="mr-1 text-zordie-500/0 group-hover:text-zordie-500 transition-colors">
           <ChevronRight className="h-3 w-3" />
         </span>
         {text}
       </Link>
-    </li>
-  );
+    </li>;
 };
-
 export default Footer;

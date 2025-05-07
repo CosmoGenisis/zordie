@@ -98,11 +98,11 @@
   
   /* Dark mode specific styles */
   .dark .bg-white {
-    @apply bg-dark-900;
+    @apply bg-black;
   }
   
   .dark .bg-gray-50 {
-    @apply bg-dark-950;
+    @apply bg-black;
   }
   
   .dark .text-gray-900 {
@@ -115,7 +115,7 @@
 
   /* Enhanced dark mode card effect */
   .dark .feature-card, .dark .pricing-card {
-    @apply bg-gradient-to-br from-dark-800 to-dark-900 border-dark-700 shadow-lg shadow-darkAccent-red/10;
+    @apply bg-gradient-to-br from-black to-dark-900 border-dark-700 shadow-lg shadow-darkAccent-red/10;
   }
 
   /* Enhanced button effects in dark mode */

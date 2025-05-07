@@ -196,7 +196,7 @@ const HeroSection = () => {
                 <div className="w-full max-w-lg mx-auto overflow-hidden rounded-xl shadow-xl dark:shadow-darkAccent-red/20" ref={floatingCardsRef}>
                   
                   {/* Main Dashboard Card */}
-                  <div className="floating-card opacity-0 relative overflow-hidden rounded-xl border border-gray-200 dark:border-darkAccent-red/30 bg-white dark:bg-dark-900">
+                  <div className="floating-card opacity-0 relative overflow-hidden rounded-xl border border-gray-200 dark:border-darkAccent-red/30 bg-white dark:bg-black">
                     {/* Header */}
                     <div className="p-4 border-b border-gray-100 dark:border-dark-700 flex justify-between items-center bg-gray-50 dark:bg-dark-800">
                       <div className="flex items-center space-x-2">
@@ -285,7 +285,7 @@ const HeroSection = () => {
                   </div>
                   
                   {/* Floating notification card */}
-                  <div className="absolute floating-card opacity-0 top-16 -right-8 w-60 p-3 bg-white dark:red-card rounded-lg shadow-lg dark:shadow-darkAccent-red/20 border dark:border-darkAccent-red/30">
+                  <div className="absolute floating-card opacity-0 top-16 -right-8 w-60 p-3 bg-white dark:bg-black rounded-lg shadow-lg dark:shadow-darkAccent-red/20 border dark:border-darkAccent-red/30">
                     <div className="flex items-start space-x-3">
                       <div className="w-8 h-8 rounded-full bg-green-100 dark:bg-dark-800/80 flex items-center justify-center flex-shrink-0">
                         <CheckCircle className="w-4 h-4 text-green-600 dark:text-darkAccent-red" />

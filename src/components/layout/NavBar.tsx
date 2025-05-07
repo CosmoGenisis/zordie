@@ -1,25 +1,19 @@
-
 import React, { useState, useEffect } from "react";
 import { Button } from "@/components/ui/button";
 import { Link, useLocation } from "react-router-dom";
 import { Menu, X, ChevronDown } from "lucide-react";
-import {
-  DropdownMenu,
-  DropdownMenuContent,
-  DropdownMenuItem,
-  DropdownMenuTrigger,
-} from "@/components/ui/dropdown-menu";
+import { DropdownMenu, DropdownMenuContent, DropdownMenuItem, DropdownMenuTrigger } from "@/components/ui/dropdown-menu";
 import ZordieLogo from "@/components/common/ZordieLogo";
 import { useTheme } from "@/hooks";
 import ThemeToggle from "@/components/ui/theme-toggle";
 import { motion } from "framer-motion";
-
 const NavBar = () => {
-  const { theme } = useTheme();
+  const {
+    theme
+  } = useTheme();
   const [isOpen, setIsOpen] = useState(false);
   const [scrolled, setScrolled] = useState(false);
   const location = useLocation();
-
   useEffect(() => {
     const handleScroll = () => {
       if (window.scrollY > 10) {
@@ -28,7 +22,6 @@ const NavBar = () => {
         setScrolled(false);
       }
     };
-
     window.addEventListener('scroll', handleScroll);
     return () => {
       window.removeEventListener('scroll', handleScroll);
@@ -39,24 +32,24 @@ const NavBar = () => {
   useEffect(() => {
     setIsOpen(false);
   }, [location]);
-
-  const navItems = [
-    { name: "Home", href: "/" },
-    { name: "For Companies", href: "/companies" },
-    { name: "For Job Seekers", href: "/candidates" },
-    { name: "Features", href: "/features" },
-    { name: "Pricing", href: "/pricing" },
-  ];
-
-  return (
-    <header
-      className={`sticky top-0 z-40 w-full transition-all duration-300 ${
-        scrolled
-          ? "bg-white/80 dark:bg-zordie-900/80 backdrop-blur-md shadow-sm border-b"
-          : "bg-transparent"
-      }`}
-    >
-      <div className="container mx-auto px-4">
+  const navItems = [{
+    name: "Home",
+    href: "/"
+  }, {
+    name: "For Companies",
+    href: "/companies"
+  }, {
+    name: "For Job Seekers",
+    href: "/candidates"
+  }, {
+    name: "Features",
+    href: "/features"
+  }, {
+    name: "Pricing",
+    href: "/pricing"
+  }];
+  return <header className={`sticky top-0 z-40 w-full transition-all duration-300 ${scrolled ? "bg-white/80 dark:bg-zordie-900/80 backdrop-blur-md shadow-sm border-b" : "bg-transparent"}`}>
+      <div className="container mx-auto px-4 bg-zinc-50">
         <div className="flex h-16 items-center justify-between">
           <Link to="/" className="flex items-center">
             <ZordieLogo variant={theme === 'dark' ? 'light' : 'default'} />
@@ -65,17 +58,12 @@ const NavBar = () => {
           {/* Desktop navigation */}
           <nav className="hidden md:flex items-center space-x-1">
             <ul className="flex space-x-1">
-              {navItems.map((item) => (
-                <li key={item.name}>
-                  <Link
-                    to={item.href}
-                    className="relative px-4 py-2 rounded-md text-gray-700 dark:text-gray-200 hover:text-zordie-600 dark:hover:text-zordie-400 transition-colors duration-200 group"
-                  >
+              {navItems.map(item => <li key={item.name}>
+                  <Link to={item.href} className="relative px-4 py-2 rounded-md text-gray-700 dark:text-gray-200 hover:text-zordie-600 dark:hover:text-zordie-400 transition-colors duration-200 group">
                     {item.name}
                     <span className="absolute bottom-0 left-0 w-full h-[2px] bg-gradient-to-r from-zordie-600 to-accent1 transform scale-x-0 group-hover:scale-x-100 transition-transform duration-300 origin-left"></span>
                   </Link>
-                </li>
-              ))}
+                </li>)}
             </ul>
           </nav>
 
@@ -87,41 +75,30 @@ const NavBar = () => {
             {/* Desktop login/signup */}
             <div className="hidden md:flex items-center space-x-4">
               <Link to="/login">
-                <Button 
-                  variant="outline" 
-                  size="sm"
-                  className="relative overflow-hidden group"
-                >
+                <Button variant="outline" size="sm" className="relative overflow-hidden group">
                   <span className="relative z-10">Log in</span>
                   <span className="absolute bottom-0 left-0 w-full h-0 bg-gradient-to-r from-zordie-600 to-accent1 group-hover:h-full transition-all duration-300 -z-1"></span>
                 </Button>
               </Link>
               <Link to="/dashboard-selector">
-                <Button 
-                  size="sm"
-                  className="bg-gradient-to-r from-zordie-600 to-accent1 hover:from-zordie-700 hover:to-accent1-hover transition-all duration-300 relative overflow-hidden group"
-                >
+                <Button size="sm" className="bg-gradient-to-r from-zordie-600 to-accent1 hover:from-zordie-700 hover:to-accent1-hover transition-all duration-300 relative overflow-hidden group">
                   <span className="relative z-10">Get Started</span>
-                  <motion.span 
-                    className="absolute top-0 left-0 w-full h-full bg-white opacity-20"
-                    initial={{ x: '-100%' }}
-                    animate={{ x: ['100%'] }}
-                    transition={{ 
-                      repeat: Infinity, 
-                      duration: 1.5, 
-                      ease: "linear",
-                      repeatDelay: 1
-                    }}
-                  />
+                  <motion.span className="absolute top-0 left-0 w-full h-full bg-white opacity-20" initial={{
+                  x: '-100%'
+                }} animate={{
+                  x: ['100%']
+                }} transition={{
+                  repeat: Infinity,
+                  duration: 1.5,
+                  ease: "linear",
+                  repeatDelay: 1
+                }} />
                 </Button>
               </Link>
             </div>
 
             {/* Mobile menu button */}
-            <button
-              className="md:hidden text-gray-700 dark:text-gray-200 hover:text-zordie-600 dark:hover:text-zordie-400"
-              onClick={() => setIsOpen(!isOpen)}
-            >
+            <button className="md:hidden text-gray-700 dark:text-gray-200 hover:text-zordie-600 dark:hover:text-zordie-400" onClick={() => setIsOpen(!isOpen)}>
               {isOpen ? <X /> : <Menu />}
             </button>
           </div>
@@ -129,25 +106,22 @@ const NavBar = () => {
       </div>
 
       {/* Mobile navigation */}
-      <motion.div
-        initial={false}
-        animate={isOpen ? { height: "auto", opacity: 1 } : { height: 0, opacity: 0 }}
-        transition={{ duration: 0.3 }}
-        className="md:hidden overflow-hidden bg-white dark:bg-zordie-900 border-b"
-      >
+      <motion.div initial={false} animate={isOpen ? {
+      height: "auto",
+      opacity: 1
+    } : {
+      height: 0,
+      opacity: 0
+    }} transition={{
+      duration: 0.3
+    }} className="md:hidden overflow-hidden bg-white dark:bg-zordie-900 border-b">
         <div className="container mx-auto px-4 py-3">
           <ul className="space-y-2">
-            {navItems.map((item) => (
-              <li key={item.name}>
-                <Link
-                  to={item.href}
-                  className="block px-4 py-2 text-gray-700 dark:text-gray-200 hover:bg-gray-50 dark:hover:bg-zordie-800 rounded-md transition-colors duration-200"
-                  onClick={() => setIsOpen(false)}
-                >
+            {navItems.map(item => <li key={item.name}>
+                <Link to={item.href} className="block px-4 py-2 text-gray-700 dark:text-gray-200 hover:bg-gray-50 dark:hover:bg-zordie-800 rounded-md transition-colors duration-200" onClick={() => setIsOpen(false)}>
                   {item.name}
                 </Link>
-              </li>
-            ))}
+              </li>)}
           </ul>
           <div className="mt-4 flex flex-col space-y-2">
             <Link to="/login" className="w-full">
@@ -159,8 +133,6 @@ const NavBar = () => {
           </div>
         </div>
       </motion.div>
-    </header>
-  );
+    </header>;
 };
-
 export default NavBar;

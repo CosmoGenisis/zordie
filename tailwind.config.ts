@@ -80,7 +80,30 @@ export default {
 				accent1: {
 					DEFAULT: '#8B5CF6', // Main purple
 					hover: '#7C3AED',
-				}
+				},
+				// New dark mode specific colors
+				dark: {
+					100: '#d1d8e0',
+					200: '#a3b1c6',
+					300: '#728eab',
+					400: '#546c8c',
+					500: '#354b6f',
+					600: '#283a57',
+					700: '#1f2e48',
+					800: '#162339',
+					900: '#0e1a2e',
+					950: '#091525'
+				},
+				darkAccent: {
+					purple: '#9b87f5',
+					blue: '#4dabf7',
+					cyan: '#3bc9db',
+					teal: '#38d9a9',
+					green: '#69db7c',
+					yellow: '#ffd43b',
+					orange: '#ff922b',
+					pink: '#f783ac',
+				},
 			},
 			fontFamily: {
 				sans: ['Inter', 'sans-serif'],
@@ -108,12 +131,23 @@ export default {
 					"0%, 100%": { opacity: "1" },
 					"50%": { opacity: "0.7" },
 				},
+				"glow": {
+					"0%, 100%": { 
+						boxShadow: "0 0 20px rgba(139, 92, 246, 0.3)",
+						borderColor: "rgba(139, 92, 246, 0.7)"
+					},
+					"50%": { 
+						boxShadow: "0 0 40px rgba(139, 92, 246, 0.6)",
+						borderColor: "rgba(139, 92, 246, 1)"
+					},
+				}
 			},
 			animation: {
 				"accordion-down": "accordion-down 0.2s ease-out",
 				"accordion-up": "accordion-up 0.2s ease-out",
 				"fade-in": "fade-in 0.3s ease-out",
 				"pulse-light": "pulse-light 2s cubic-bezier(0.4, 0, 0.6, 1) infinite",
+				"glow": "glow 3s ease-in-out infinite",
 			},
 			backgroundImage: {
 				'gradient-radial': 'radial-gradient(var(--tw-gradient-stops))',

@@ -1,3 +1,4 @@
+
 import React, { useEffect, useRef } from 'react';
 import { Button } from '@/components/ui/button';
 import { Link } from 'react-router-dom';
@@ -5,10 +6,9 @@ import { motion, useAnimation, useInView } from 'framer-motion';
 import { ChevronRight, PlayCircle, Bot, Cpu, CheckCircle } from 'lucide-react';
 import gsap from 'gsap';
 import { useTheme } from '@/hooks';
+
 const HeroSection = () => {
-  const {
-    theme
-  } = useTheme();
+  const { theme } = useTheme();
   const controls = useAnimation();
   const containerRef = useRef(null);
   const floatingCardsRef = useRef<HTMLDivElement>(null);
@@ -16,6 +16,7 @@ const HeroSection = () => {
     once: false,
     amount: 0.3
   });
+
   useEffect(() => {
     if (isInView) {
       controls.start('visible');
@@ -42,6 +43,7 @@ const HeroSection = () => {
       });
     });
   }, []);
+
   const containerVariants = {
     hidden: {
       opacity: 0
@@ -54,6 +56,7 @@ const HeroSection = () => {
       }
     }
   };
+
   const itemVariants = {
     hidden: {
       y: 20,
@@ -67,6 +70,7 @@ const HeroSection = () => {
       }
     }
   };
+
   const backgroundVariants = {
     hidden: {
       opacity: 0
@@ -78,10 +82,17 @@ const HeroSection = () => {
       }
     }
   };
-  return <section className="relative min-h-[90vh] flex items-center py-16 md:py-24 overflow-hidden" ref={containerRef}>
+
+  return (
+    <section className="relative min-h-[90vh] flex items-center py-16 md:py-24 overflow-hidden" ref={containerRef}>
       {/* Animated background */}
-      <motion.div className="absolute inset-0 z-0 bg-grid-white dark:bg-grid-black dark:opacity-10 opacity-20" variants={backgroundVariants} initial="hidden" animate="visible">
-        <div className="absolute inset-0 bg-gradient-radial from-accent1/10 via-transparent to-transparent dark:from-darkAccent-red/20 bg-black"></div>
+      <motion.div 
+        className="absolute inset-0 z-0 bg-grid-white dark:bg-grid-black dark:opacity-10 opacity-20" 
+        variants={backgroundVariants} 
+        initial="hidden" 
+        animate="visible"
+      >
+        <div className="absolute inset-0 bg-gradient-radial from-accent1/10 via-transparent to-transparent dark:from-darkAccent-red/20"></div>
       </motion.div>
       
       {/* Glow effects */}
@@ -91,7 +102,12 @@ const HeroSection = () => {
       <div className="container relative z-10 mx-auto px-4 sm:px-6 lg:px-8">
         <div className="grid grid-cols-1 md:grid-cols-12 gap-12 items-center">
           {/* Left column - Text content */}
-          <motion.div className="md:col-span-6" variants={containerVariants} initial="hidden" animate={controls}>
+          <motion.div 
+            className="md:col-span-6" 
+            variants={containerVariants} 
+            initial="hidden" 
+            animate={controls}
+          >
             <motion.div variants={itemVariants} className="mb-4 flex items-center">
               <span className="inline-flex items-center justify-center px-3 py-1 text-sm font-medium text-white bg-gradient-to-r from-zordie-600 to-accent1 dark:from-darkAccent-red dark:to-darkAccent-orange rounded-full shadow-sm">
                 AI-Powered Hiring
@@ -105,31 +121,42 @@ const HeroSection = () => {
               <span className="block mt-2">We find them with Zordie.</span>
             </motion.h1>
             
-            <motion.p className="text-lg md:text-xl text-gray-600 dark:text-white mb-8 max-w-lg" variants={itemVariants}>
+            <motion.p 
+              className="text-lg md:text-xl text-gray-600 dark:text-white mb-8 max-w-lg" 
+              variants={itemVariants}
+            >
               An AI-powered verified hiring platform that eliminates fake resumes and brings trust to the hiring process.
             </motion.p>
             
             <motion.div className="flex flex-col sm:flex-row gap-4" variants={itemVariants}>
               <Link to="/dashboard-selector">
-                <Button size="lg" className="bg-blue-purple-gradient hover:bg-blue-purple-gradient-hover dark:bg-red-gradient dark:hover:bg-red-gradient-hover text-white font-medium relative overflow-hidden group w-full sm:w-auto">
+                <Button 
+                  size="lg" 
+                  className="bg-blue-purple-gradient hover:bg-blue-purple-gradient-hover dark:bg-red-gradient dark:hover:bg-red-gradient-hover text-white font-medium relative overflow-hidden group w-full sm:w-auto"
+                >
                   <span className="relative z-10 flex items-center">
                     Get Started 
                     <ChevronRight className="ml-1 h-5 w-5 group-hover:translate-x-1 transition-transform" />
                   </span>
-                  <motion.span className="absolute top-0 left-0 w-full h-full bg-white opacity-20" initial={{
-                  x: '-100%'
-                }} animate={{
-                  x: ['100%']
-                }} transition={{
-                  repeat: Infinity,
-                  duration: 1.5,
-                  ease: "linear",
-                  repeatDelay: 1
-                }} />
+                  <motion.span 
+                    className="absolute top-0 left-0 w-full h-full bg-white opacity-20" 
+                    initial={{ x: '-100%' }} 
+                    animate={{ x: ['100%'] }} 
+                    transition={{ 
+                      repeat: Infinity, 
+                      duration: 1.5, 
+                      ease: "linear", 
+                      repeatDelay: 1 
+                    }} 
+                  />
                 </Button>
               </Link>
               
-              <Button size="lg" variant="outline" className="group relative overflow-hidden w-full sm:w-auto dark:border-darkAccent-red/50 dark:text-white">
+              <Button 
+                size="lg" 
+                variant="outline" 
+                className="group relative overflow-hidden w-full sm:w-auto dark:border-darkAccent-red/50 dark:text-white"
+              >
                 <span className="relative z-10 flex items-center">
                   <PlayCircle className="mr-2 h-5 w-5" />
                   Watch Demo
@@ -138,16 +165,31 @@ const HeroSection = () => {
               </Button>
             </motion.div>
             
-            <motion.div className="mt-10 text-sm text-gray-500 dark:text-gray-400 flex items-center" variants={itemVariants}>
+            <motion.div 
+              className="mt-10 text-sm text-gray-500 dark:text-gray-400 flex items-center" 
+              variants={itemVariants}
+            >
               <div className="flex -space-x-2 mr-3">
-                {[1, 2, 3, 4].map(i => <img key={i} src={`https://randomuser.me/api/portraits/men/${i + 20}.jpg`} alt="User" className="w-8 h-8 rounded-full border-2 border-white dark:border-dark-900" />)}
+                {[1, 2, 3, 4].map(i => (
+                  <img 
+                    key={i} 
+                    src={`https://randomuser.me/api/portraits/men/${i + 20}.jpg`} 
+                    alt="User" 
+                    className="w-8 h-8 rounded-full border-2 border-white dark:border-dark-900" 
+                  />
+                ))}
               </div>
               <span>Trusted by 2,000+ hiring managers worldwide</span>
             </motion.div>
           </motion.div>
           
           {/* Right column - Hero Illustrations */}
-          <motion.div className="md:col-span-6 relative" variants={containerVariants} initial="hidden" animate={controls}>
+          <motion.div 
+            className="md:col-span-6 relative"
+            variants={containerVariants}
+            initial="hidden" 
+            animate={controls}
+          >
             {/* Dashboard UI Mockup */}
             <div className="relative aspect-[5/3] w-full">
               <div className="absolute inset-0 flex items-center justify-center">
@@ -274,6 +316,8 @@ const HeroSection = () => {
           
         </div>
       </div>
-    </section>;
+    </section>
+  );
 };
+
 export default HeroSection;

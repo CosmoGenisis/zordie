@@ -48,16 +48,16 @@
   }
 
   .dark {
-    --background: 0 0% 0%;
-    --foreground: 0 0% 100%;
+    --background: 0 0% 0%; /* Pure black background */
+    --foreground: 0 0% 100%; /* Pure white text */
 
-    --card: 0 0% 7%;
-    --card-foreground: 0 0% 100%;
+    --card: 0 0% 7%; /* Very dark card background */
+    --card-foreground: 0 0% 100%; /* White text on cards */
 
     --popover: 0 0% 5%;
     --popover-foreground: 0 0% 100%;
 
-    --primary: 0 91% 56%;
+    --primary: 0 91% 56%; /* Vibrant red primary */
     --primary-foreground: 0 0% 100%;
 
     --secondary: 0 73% 57%;
@@ -66,7 +66,7 @@
     --muted: 0 0% 15%;
     --muted-foreground: 0 0% 80%;
 
-    --accent: 0 91% 56%;
+    --accent: 0 91% 56%; /* Red accent */
     --accent-foreground: 0 0% 100%;
 
     --destructive: 0 91% 56%;
@@ -243,6 +243,49 @@
   /* Flowing gradient button */
   .dark .flow-btn {
     @apply bg-gradient-to-r from-darkAccent-red to-darkAccent-orange bg-size-200 animate-flow text-white;
+  }
+
+  /* New dark mode specific classes */
+  .dark .red-glow-text {
+    @apply text-white animate-neon-pulse;
+  }
+
+  .dark .red-card {
+    @apply bg-gradient-to-br from-dark-800 to-dark-900 border border-darkAccent-red/30 shadow-lg shadow-darkAccent-red/10 hover:shadow-darkAccent-red/30 transition-all duration-300;
+  }
+
+  .dark .red-highlight-card {
+    @apply bg-gradient-to-br from-darkAccent-red/20 to-dark-900 border-darkAccent-red/50;
+  }
+
+  .dark .animated-border {
+    @apply border border-darkAccent-red/50 animate-border-flow;
+  }
+
+  .dark .red-glass {
+    @apply bg-dark-900/80 backdrop-blur-md border border-darkAccent-red/20 shadow-md shadow-darkAccent-red/10;
+  }
+
+  .dark .ripple-effect {
+    @apply relative;
+  }
+
+  .dark .ripple-effect::after {
+    content: '';
+    @apply absolute inset-0 rounded-full bg-darkAccent-red/30 animate-ripple;
+  }
+
+  /* Light mode blue-purple gradients */
+  .blue-purple-text {
+    @apply bg-gradient-to-r from-blue-600 to-accent1 bg-clip-text text-transparent;
+  }
+
+  .blue-purple-card {
+    @apply bg-gradient-to-br from-blue-50 to-purple-50 border border-blue-100/50 shadow-md shadow-blue-200/20;
+  }
+
+  .blue-purple-button {
+    @apply bg-blue-purple-gradient hover:bg-blue-purple-gradient-hover text-white;
   }
 }
 
@@ -451,4 +494,44 @@
   bottom: -0.5rem;
   left: 50%;
   transform: translateX(-50%);
+}
+
+/* New dark mode effects */
+.dark .red-outline-hover {
+  @apply border border-transparent transition-all duration-300;
+}
+
+.dark .red-outline-hover:hover {
+  @apply border-darkAccent-red/50 shadow-md shadow-darkAccent-red/20;
+}
+
+.dark .red-text-shadow {
+  text-shadow: 0 0 10px rgba(255, 31, 61, 0.5);
+}
+
+.dark .red-highlight {
+  @apply relative;
+}
+
+.dark .red-highlight::after {
+  content: '';
+  @apply absolute bottom-0 left-0 w-full h-0.5 bg-red-gradient origin-left scale-x-0 transition-transform duration-300;
+}
+
+.dark .red-highlight:hover::after {
+  @apply scale-x-100;
+}
+
+/* Light mode blue-purple gradient effects */
+.blue-purple-gradient-text {
+  @apply bg-blue-purple-gradient bg-clip-text text-transparent;
+}
+
+.blue-purple-hover {
+  @apply transition-all duration-300 hover:shadow-md hover:shadow-blue-300/20;
+}
+
+/* Enhanced blood moon effect for dark mode */
+.dark .blood-moon-bg {
+  background-image: radial-gradient(circle at center, rgba(255, 31, 61, 0.3) 0%, transparent 70%);
 }

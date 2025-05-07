@@ -81,7 +81,7 @@ export default {
 					DEFAULT: '#8B5CF6', // Main purple
 					hover: '#7C3AED',
 				},
-				// Updated dark mode colors with pure black and intense red accents
+				// Pure black and vibrant red for dark mode
 				dark: {
 					100: '#e0e0e0',
 					200: '#c2c2c2',
@@ -89,7 +89,7 @@ export default {
 					400: '#858585',
 					500: '#666666',
 					600: '#444444',
-					700: '#232323',
+					700: '#222222',
 					800: '#121212',
 					900: '#0a0a0a',
 					950: '#000000'
@@ -146,6 +146,32 @@ export default {
 					"0%": { backgroundPosition: "0% 50%" },
 					"50%": { backgroundPosition: "100% 50%" },
 					"100%": { backgroundPosition: "0% 50%" }
+				},
+				"neon-pulse": {
+					"0%, 100%": { 
+						textShadow: "0 0 5px rgba(255, 31, 61, 0.7), 0 0 10px rgba(255, 31, 61, 0.5), 0 0 15px rgba(255, 31, 61, 0.3)"
+					},
+					"50%": { 
+						textShadow: "0 0 10px rgba(255, 31, 61, 1), 0 0 20px rgba(255, 31, 61, 0.8), 0 0 30px rgba(255, 31, 61, 0.6)"
+					},
+				},
+				"border-flow": {
+					"0%, 100%": { 
+						borderColor: "rgba(255, 31, 61, 0.7)"
+					},
+					"50%": { 
+						borderColor: "rgba(255, 94, 58, 0.9)"
+					},
+				},
+				"ripple": {
+					"0%": { 
+						transform: "scale(0.8)",
+						opacity: "1" 
+					},
+					"100%": { 
+						transform: "scale(1.5)",
+						opacity: "0" 
+					},
 				}
 			},
 			animation: {
@@ -155,6 +181,9 @@ export default {
 				"pulse-light": "pulse-light 2s cubic-bezier(0.4, 0, 0.6, 1) infinite",
 				"glow": "glow 3s ease-in-out infinite",
 				"flow": "flow 8s ease infinite",
+				"neon-pulse": "neon-pulse 2s infinite",
+				"border-flow": "border-flow 3s infinite",
+				"ripple": "ripple 1.5s infinite"
 			},
 			backgroundImage: {
 				'gradient-radial': 'radial-gradient(var(--tw-gradient-stops))',
@@ -163,6 +192,9 @@ export default {
 				'grid-white': 'url("data:image/svg+xml,%3Csvg xmlns=\'http://www.w3.org/2000/svg\' width=\'100\' height=\'100\' viewBox=\'0 0 100 100\'%3E%3Cg fill-rule=\'evenodd\'%3E%3Cg fill=\'%23FFFFFF\' fill-opacity=\'0.05\'%3E%3Cpath opacity=\'.5\' d=\'M96 95h4v1h-4v4h-1v-4h-9v4h-1v-4h-9v4h-1v-4h-9v4h-1v-4h-9v4h-1v-4h-9v4h-1v-4h-9v4h-1v-4h-9v4h-1v-4h-9v4h-1v-4H0v-1h15v-9H0v-1h15v-9H0v-1h15v-9H0v-1h15v-9H0v-1h15v-9H0v-1h15v-9H0v-1h15v-9H0v-1h15v-9H0v-1h15V0h1v15h9V0h1v15h9V0h1v15h9V0h1v15h9V0h1v15h9V0h1v15h9V0h1v15h9V0h1v15h9V0h1v15h4v1h-4v9h4v1h-4v9h4v1h-4v9h4v1h-4v9h4v1h-4v9h4v1h-4v9h4v1h-4v9h4v1h-4v9zm-1 0v-9h-9v9h9zm-10 0v-9h-9v9h9zm-10 0v-9h-9v9h9zm-10 0v-9h-9v9h9zm-10 0v-9h-9v9h9zm-10 0v-9h-9v9h9zm-10 0v-9h-9v9h9zm-10 0v-9h-9v9h9zm-9-10h9v-9h-9v9zm10 0h9v-9h-9v9zm10 0h9v-9h-9v9zm10 0h9v-9h-9v9zm10 0h9v-9h-9v9zm10 0h9v-9h-9v9zm10 0h9v-9h-9v9zm10 0h9v-9h-9v9zm9-10v-9h-9v9h9zm-10 0v-9h-9v9h9zm-10 0v-9h-9v9h9zm-10 0v-9h-9v9h9zm-10 0v-9h-9v9h9zm-10 0v-9h-9v9h9zm-10 0v-9h-9v9h9zm-10 0v-9h-9v9h9zm-9-10h9v-9h-9v9zm10 0h9v-9h-9v9zm10 0h9v-9h-9v9zm10 0h9v-9h-9v9zm10 0h9v-9h-9v9zm10 0h9v-9h-9v9zm10 0h9v-9h-9v9zm10 0h9v-9h-9v9zm9-10v-9h-9v9h9zm-10 0v-9h-9v9h9zm-10 0v-9h-9v9h9zm-10 0v-9h-9v9h9zm-10 0v-9h-9v9h9zm-10 0v-9h-9v9h9zm-10 0v-9h-9v9h9zm-10 0v-9h-9v9h9zm-9-10h9v-9h-9v9zm10 0h9v-9h-9v9zm10 0h9v-9h-9v9zm10 0h9v-9h-9v9zm10 0h9v-9h-9v9zm10 0h9v-9h-9v9zm10 0h9v-9h-9v9zm10 0h9v-9h-9v9z\'/%3E%3Cpath d=\'M6 5V0H5v5H0v1h5v94h1V6h94V5H6z\'/%3E%3C/g%3E%3C/g%3E%3C/svg%3E")',
 				'red-gradient': 'linear-gradient(135deg, #ff1f3d 0%, #ff5e3a 100%)',
 				'red-gradient-hover': 'linear-gradient(135deg, #e01735 0%, #e54a29 100%)',
+				'blood-moon': 'radial-gradient(circle, #ff1f3d 0%, #120203 70%)',
+				'blue-purple-gradient': 'linear-gradient(135deg, #3b82f6 0%, #8B5CF6 100%)',
+				'blue-purple-gradient-hover': 'linear-gradient(135deg, #2563eb 0%, #7C3AED 100%)',
 			}
 		}
 	},

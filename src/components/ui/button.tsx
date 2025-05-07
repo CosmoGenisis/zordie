@@ -10,16 +10,16 @@ const buttonVariants = cva(
   {
     variants: {
       variant: {
-        default: "bg-primary text-primary-foreground hover:bg-primary/90",
+        default: "bg-primary text-primary-foreground hover:bg-primary/90 dark:bg-darkAccent-red dark:text-white dark:hover:bg-darkAccent-red/90",
         destructive:
           "bg-destructive text-destructive-foreground hover:bg-destructive/90",
         outline:
-          "border border-input bg-background hover:bg-accent hover:text-accent-foreground",
+          "border border-input bg-background hover:bg-accent hover:text-accent-foreground dark:border-darkAccent-red/50 dark:hover:bg-dark-800",
         secondary:
           "bg-secondary text-secondary-foreground hover:bg-secondary/80",
-        ghost: "hover:bg-accent hover:text-accent-foreground",
-        link: "text-primary underline-offset-4 hover:underline",
-        gradient: "bg-gradient-to-r from-zordie-600 to-accent1 text-white hover:from-zordie-700 hover:to-accent1-hover",
+        ghost: "hover:bg-accent hover:text-accent-foreground dark:hover:bg-darkAccent-red/10 dark:text-white",
+        link: "text-primary underline-offset-4 hover:underline dark:text-white",
+        gradient: "bg-blue-purple-gradient hover:bg-blue-purple-gradient-hover text-white dark:bg-red-gradient dark:hover:bg-red-gradient-hover",
       },
       size: {
         default: "h-10 px-4 py-2",
@@ -63,9 +63,20 @@ styles.innerHTML = `
     background: linear-gradient(90deg, #3b82f6 0%, #7c3aed 100%);
     transition: transform 0.2s ease, box-shadow 0.2s ease;
   }
+  
   .btn-gradient:hover {
     transform: translateY(-2px);
     box-shadow: 0 10px 15px -3px rgba(59, 130, 246, 0.3), 0 4px 6px -2px rgba(124, 58, 237, 0.2);
+  }
+  
+  .dark .btn-gradient {
+    background: linear-gradient(90deg, #ff1f3d 0%, #ff5e3a 100%);
+    box-shadow: 0 4px 12px -2px rgba(255, 31, 61, 0.3);
+  }
+  
+  .dark .btn-gradient:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 10px 20px -3px rgba(255, 31, 61, 0.4), 0 4px 12px -2px rgba(255, 94, 58, 0.3);
   }
   
   .wave-btn::after {

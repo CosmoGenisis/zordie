@@ -11,7 +11,7 @@ interface LayoutProps {
 const Layout: React.FC<LayoutProps> = ({ children }) => {
   return (
     <ThemeProvider>
-      <div className="flex flex-col min-h-screen bg-white transition-colors duration-300">
+      <div className="flex flex-col min-h-screen bg-white dark:bg-black transition-colors duration-300">
         <NavBar />
         <main className="flex-grow">
           {children}

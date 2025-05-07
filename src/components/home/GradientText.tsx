@@ -1,6 +1,7 @@
 
 import React from 'react';
 import { motion } from 'framer-motion';
+import { useTheme } from '@/hooks';
 
 interface GradientTextProps {
   children: React.ReactNode;
@@ -17,10 +18,18 @@ const GradientText: React.FC<GradientTextProps> = ({
   animate = false,
   delay = 0
 }) => {
+  const { theme } = useTheme();
+  
   const gradientClasses = {
-    primary: 'bg-gradient-to-r from-zordie-600 to-accent1',
-    secondary: 'bg-gradient-to-r from-accent1 to-purple-400',
-    accent: 'bg-gradient-to-r from-sky-400 to-zordie-500',
+    primary: theme === 'dark' 
+      ? 'bg-gradient-to-r from-darkAccent-red to-darkAccent-orange' 
+      : 'bg-gradient-to-r from-zordie-600 to-accent1',
+    secondary: theme === 'dark'
+      ? 'bg-gradient-to-r from-darkAccent-orange to-darkAccent-yellow'
+      : 'bg-gradient-to-r from-accent1 to-purple-400',
+    accent: theme === 'dark'
+      ? 'bg-gradient-to-r from-white via-darkAccent-red to-white'
+      : 'bg-gradient-to-r from-sky-400 to-zordie-500',
     rainbow: 'bg-gradient-to-r from-red-500 via-yellow-500 via-green-500 via-blue-500 to-purple-500'
   };
 

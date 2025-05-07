@@ -50,7 +50,7 @@ const NavBar = () => {
           : "bg-transparent"
       }`}
     >
-      <div className="container mx-auto px-4 bg-zinc-50 dark:bg-black">
+      <div className="container mx-auto px-4 bg-white dark:bg-black">
         <div className="flex h-16 items-center justify-between">
           <Link to="/" className="flex items-center">
             <ZordieLogo variant={theme === 'dark' ? 'light' : 'default'} />
@@ -63,7 +63,7 @@ const NavBar = () => {
                 <li key={item.name}>
                   <Link 
                     to={item.href} 
-                    className="relative px-4 py-2 rounded-md text-gray-700 dark:text-gray-200 hover:text-zordie-600 dark:hover:text-darkAccent-red transition-colors duration-200 group"
+                    className="relative px-4 py-2 rounded-md text-gray-700 dark:text-white hover:text-zordie-600 dark:hover:text-darkAccent-red transition-colors duration-200 group"
                   >
                     {item.name}
                     <span className="absolute bottom-0 left-0 w-full h-[2px] bg-gradient-to-r from-zordie-600 to-accent1 dark:from-darkAccent-red dark:to-darkAccent-orange transform scale-x-0 group-hover:scale-x-100 transition-transform duration-300 origin-left"></span>
@@ -84,16 +84,16 @@ const NavBar = () => {
                 <Button 
                   variant="outline" 
                   size="sm" 
-                  className="relative overflow-hidden group dark:border-darkAccent-red/50 dark:text-gray-200"
+                  className="relative overflow-hidden group dark:border-darkAccent-red/50 dark:text-white dark:hover:bg-dark-800"
                 >
                   <span className="relative z-10">Log in</span>
-                  <span className="absolute bottom-0 left-0 w-full h-0 bg-gradient-to-r from-zordie-600 to-accent1 dark:from-darkAccent-red dark:to-darkAccent-orange group-hover:h-full transition-all duration-300 -z-1"></span>
+                  <span className="absolute bottom-0 left-0 w-full h-0 bg-gradient-to-r from-zordie-600 to-accent1 dark:from-darkAccent-red dark:to-darkAccent-orange group-hover:h-full transition-all duration-300 -z-1 opacity-20"></span>
                 </Button>
               </Link>
               <Link to="/dashboard-selector">
                 <Button 
                   size="sm" 
-                  className="bg-gradient-to-r from-zordie-600 to-accent1 hover:from-zordie-700 hover:to-accent1-hover dark:from-darkAccent-red dark:to-darkAccent-orange dark:hover:from-darkAccent-red/90 dark:hover:to-darkAccent-orange/90 transition-all duration-300 relative overflow-hidden group"
+                  className="bg-blue-purple-gradient hover:bg-blue-purple-gradient-hover dark:bg-red-gradient dark:hover:bg-red-gradient-hover transition-all duration-300 relative overflow-hidden group"
                 >
                   <span className="relative z-10">Get Started</span>
                   <motion.span 
@@ -113,7 +113,7 @@ const NavBar = () => {
 
             {/* Mobile menu button */}
             <button 
-              className="md:hidden text-gray-700 dark:text-gray-200 hover:text-zordie-600 dark:hover:text-darkAccent-red" 
+              className="md:hidden text-gray-700 dark:text-white hover:text-zordie-600 dark:hover:text-darkAccent-red transition-colors" 
               onClick={() => setIsOpen(!isOpen)}
             >
               {isOpen ? <X /> : <Menu />}
@@ -143,7 +143,7 @@ const NavBar = () => {
               <li key={item.name}>
                 <Link 
                   to={item.href} 
-                  className="block px-4 py-2 text-gray-700 dark:text-gray-200 hover:bg-gray-50 dark:hover:bg-dark-800 rounded-md transition-colors duration-200" 
+                  className="block px-4 py-2 text-gray-700 dark:text-white hover:bg-gray-50 dark:hover:bg-dark-800 rounded-md transition-colors duration-200" 
                   onClick={() => setIsOpen(false)}
                 >
                   {item.name}
@@ -153,13 +153,13 @@ const NavBar = () => {
           </ul>
           <div className="mt-4 flex flex-col space-y-2">
             <Link to="/login" className="w-full">
-              <Button variant="outline" className="w-full dark:border-darkAccent-red/50 dark:text-gray-200">
+              <Button variant="outline" className="w-full dark:border-darkAccent-red/50 dark:text-white dark:hover:bg-dark-800">
                 Log in
               </Button>
             </Link>
             <Link to="/dashboard-selector" className="w-full">
               <Button 
-                className="w-full bg-gradient-to-r from-zordie-600 to-accent1 dark:from-darkAccent-red dark:to-darkAccent-orange"
+                className="w-full bg-blue-purple-gradient dark:bg-red-gradient"
               >
                 Get Started
               </Button>

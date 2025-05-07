@@ -81,28 +81,29 @@ export default {
 					DEFAULT: '#8B5CF6', // Main purple
 					hover: '#7C3AED',
 				},
-				// New dark mode specific colors
+				// Updated dark mode colors with red and black theme
 				dark: {
-					100: '#d1d8e0',
-					200: '#a3b1c6',
-					300: '#728eab',
-					400: '#546c8c',
-					500: '#354b6f',
-					600: '#283a57',
-					700: '#1f2e48',
-					800: '#162339',
-					900: '#0e1a2e',
-					950: '#091525'
+					100: '#e0e0e0',
+					200: '#c2c2c2',
+					300: '#a3a3a3',
+					400: '#858585',
+					500: '#666666',
+					600: '#444444',
+					700: '#333333',
+					800: '#222222',
+					900: '#111111',
+					950: '#0a0a0a'
 				},
 				darkAccent: {
-					purple: '#9b87f5',
-					blue: '#4dabf7',
-					cyan: '#3bc9db',
-					teal: '#38d9a9',
-					green: '#69db7c',
-					yellow: '#ffd43b',
-					orange: '#ff922b',
-					pink: '#f783ac',
+					purple: '#ea384c',
+					blue: '#ea384c',
+					cyan: '#ff3a4c',
+					teal: '#ff3a4c',
+					green: '#ff3a4c',
+					yellow: '#ff9b3a',
+					orange: '#ff5e3a',
+					pink: '#ff3a7c',
+					red: '#ea384c',
 				},
 			},
 			fontFamily: {

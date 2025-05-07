@@ -21,8 +21,8 @@ const ThemeToggle = ({ className }: ThemeToggleProps) => {
     >
       {theme === 'dark' ? (
         <>
-          <Sun className="h-5 w-5 text-darkAccent-yellow relative z-10" />
-          <span className="absolute inset-0 bg-darkAccent-purple/10 scale-0 rounded-full group-hover:scale-100 transition-transform duration-200" />
+          <Sun className="h-5 w-5 text-darkAccent-red relative z-10" />
+          <span className="absolute inset-0 bg-darkAccent-red/10 scale-0 rounded-full group-hover:scale-100 transition-transform duration-200" />
         </>
       ) : (
         <>

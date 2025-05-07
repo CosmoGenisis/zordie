@@ -46,7 +46,7 @@ const NavBar = () => {
     <header 
       className={`sticky top-0 z-40 w-full transition-all duration-300 ${
         scrolled 
-          ? "bg-white/80 dark:bg-dark-800/90 backdrop-blur-md shadow-sm border-b dark:border-dark-700" 
+          ? "bg-white/80 dark:bg-dark-900/95 backdrop-blur-md shadow-sm border-b dark:border-dark-700" 
           : "bg-transparent"
       }`}
     >
@@ -63,10 +63,10 @@ const NavBar = () => {
                 <li key={item.name}>
                   <Link 
                     to={item.href} 
-                    className="relative px-4 py-2 rounded-md text-gray-700 dark:text-gray-200 hover:text-zordie-600 dark:hover:text-darkAccent-purple transition-colors duration-200 group"
+                    className="relative px-4 py-2 rounded-md text-gray-700 dark:text-gray-200 hover:text-zordie-600 dark:hover:text-darkAccent-red transition-colors duration-200 group"
                   >
                     {item.name}
-                    <span className="absolute bottom-0 left-0 w-full h-[2px] bg-gradient-to-r from-zordie-600 to-accent1 dark:from-darkAccent-blue dark:to-darkAccent-purple transform scale-x-0 group-hover:scale-x-100 transition-transform duration-300 origin-left"></span>
+                    <span className="absolute bottom-0 left-0 w-full h-[2px] bg-gradient-to-r from-zordie-600 to-accent1 dark:from-darkAccent-red dark:to-darkAccent-orange transform scale-x-0 group-hover:scale-x-100 transition-transform duration-300 origin-left"></span>
                   </Link>
                 </li>
               ))}
@@ -84,16 +84,16 @@ const NavBar = () => {
                 <Button 
                   variant="outline" 
                   size="sm" 
-                  className="relative overflow-hidden group dark:border-darkAccent-purple/50 dark:text-gray-200"
+                  className="relative overflow-hidden group dark:border-darkAccent-red/50 dark:text-gray-200"
                 >
                   <span className="relative z-10">Log in</span>
-                  <span className="absolute bottom-0 left-0 w-full h-0 bg-gradient-to-r from-zordie-600 to-accent1 dark:from-darkAccent-blue dark:to-darkAccent-purple group-hover:h-full transition-all duration-300 -z-1"></span>
+                  <span className="absolute bottom-0 left-0 w-full h-0 bg-gradient-to-r from-zordie-600 to-accent1 dark:from-darkAccent-red dark:to-darkAccent-orange group-hover:h-full transition-all duration-300 -z-1"></span>
                 </Button>
               </Link>
               <Link to="/dashboard-selector">
                 <Button 
                   size="sm" 
-                  className="bg-gradient-to-r from-zordie-600 to-accent1 hover:from-zordie-700 hover:to-accent1-hover dark:from-darkAccent-purple dark:to-darkAccent-blue dark:hover:from-darkAccent-purple/90 dark:hover:to-darkAccent-blue/90 transition-all duration-300 relative overflow-hidden group"
+                  className="bg-gradient-to-r from-zordie-600 to-accent1 hover:from-zordie-700 hover:to-accent1-hover dark:from-darkAccent-red dark:to-darkAccent-orange dark:hover:from-darkAccent-red/90 dark:hover:to-darkAccent-orange/90 transition-all duration-300 relative overflow-hidden group"
                 >
                   <span className="relative z-10">Get Started</span>
                   <motion.span 
@@ -113,7 +113,7 @@ const NavBar = () => {
 
             {/* Mobile menu button */}
             <button 
-              className="md:hidden text-gray-700 dark:text-gray-200 hover:text-zordie-600 dark:hover:text-darkAccent-purple" 
+              className="md:hidden text-gray-700 dark:text-gray-200 hover:text-zordie-600 dark:hover:text-darkAccent-red" 
               onClick={() => setIsOpen(!isOpen)}
             >
               {isOpen ? <X /> : <Menu />}
@@ -135,7 +135,7 @@ const NavBar = () => {
         transition={{
           duration: 0.3
         }} 
-        className="md:hidden overflow-hidden bg-white dark:bg-dark-800 border-b dark:border-dark-700"
+        className="md:hidden overflow-hidden bg-white dark:bg-dark-900 border-b dark:border-dark-700"
       >
         <div className="container mx-auto px-4 py-3">
           <ul className="space-y-2">
@@ -143,7 +143,7 @@ const NavBar = () => {
               <li key={item.name}>
                 <Link 
                   to={item.href} 
-                  className="block px-4 py-2 text-gray-700 dark:text-gray-200 hover:bg-gray-50 dark:hover:bg-dark-700 rounded-md transition-colors duration-200" 
+                  className="block px-4 py-2 text-gray-700 dark:text-gray-200 hover:bg-gray-50 dark:hover:bg-dark-800 rounded-md transition-colors duration-200" 
                   onClick={() => setIsOpen(false)}
                 >
                   {item.name}
@@ -153,13 +153,13 @@ const NavBar = () => {
           </ul>
           <div className="mt-4 flex flex-col space-y-2">
             <Link to="/login" className="w-full">
-              <Button variant="outline" className="w-full dark:border-darkAccent-purple/50 dark:text-gray-200">
+              <Button variant="outline" className="w-full dark:border-darkAccent-red/50 dark:text-gray-200">
                 Log in
               </Button>
             </Link>
             <Link to="/dashboard-selector" className="w-full">
               <Button 
-                className="w-full bg-gradient-to-r from-zordie-600 to-accent1 dark:from-darkAccent-purple dark:to-darkAccent-blue"
+                className="w-full bg-gradient-to-r from-zordie-600 to-accent1 dark:from-darkAccent-red dark:to-darkAccent-orange"
               >
                 Get Started
               </Button>

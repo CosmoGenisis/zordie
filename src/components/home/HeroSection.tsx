@@ -108,19 +108,7 @@ const HeroSection = () => {
             </motion.p>
             
             {/* Prime AI Assistant Highlight */}
-            <motion.div className="mb-8 p-4 rounded-lg bg-gradient-to-r from-indigo-50 to-blue-50 dark:from-indigo-900/20 dark:to-blue-900/20 border border-indigo-100 dark:border-indigo-800/30" variants={itemVariants}>
-              <div className="flex items-start">
-                <div className="flex-shrink-0 mt-1">
-                  <Bot className="h-6 w-6 text-indigo-600 dark:text-indigo-400" />
-                </div>
-                <div className="ml-3">
-                  <h3 className="font-medium text-indigo-800 dark:text-indigo-300">Meet Prime HR, Your AI Assistant</h3>
-                  <p className="mt-1 text-sm text-gray-600 dark:text-gray-400">
-                    Prime HR provides intelligent resume screening, candidate assessment, and interview question generation - all in real-time. Try it by clicking the chat icon in the bottom right!
-                  </p>
-                </div>
-              </div>
-            </motion.div>
+            
             
             <motion.div className="flex flex-col sm:flex-row gap-4" variants={itemVariants}>
               <Link to="/dashboard-selector">

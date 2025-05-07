@@ -1,3 +1,4 @@
+
 @import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Poppins:wght@400;500;600;700&display=swap');
 
 @tailwind base;
@@ -47,42 +48,42 @@
   }
 
   .dark {
-    --background: 0 0% 7%;
-    --foreground: 0 0% 98%;
+    --background: 0 0% 0%;
+    --foreground: 0 0% 100%;
 
-    --card: 0 0% 10%;
-    --card-foreground: 0 0% 98%;
+    --card: 0 0% 7%;
+    --card-foreground: 0 0% 100%;
 
     --popover: 0 0% 5%;
-    --popover-foreground: 0 0% 98%;
+    --popover-foreground: 0 0% 100%;
 
-    --primary: 0 73% 57%;
+    --primary: 0 91% 56%;
     --primary-foreground: 0 0% 100%;
 
     --secondary: 0 73% 57%;
     --secondary-foreground: 0 0% 100%;
 
     --muted: 0 0% 15%;
-    --muted-foreground: 0 0% 70%;
+    --muted-foreground: 0 0% 80%;
 
-    --accent: 0 73% 57%;
+    --accent: 0 91% 56%;
     --accent-foreground: 0 0% 100%;
 
-    --destructive: 0 73% 50%;
-    --destructive-foreground: 0 0% 98%;
+    --destructive: 0 91% 56%;
+    --destructive-foreground: 0 0% 100%;
 
     --border: 0 0% 20%;
     --input: 0 0% 15%;
-    --ring: 0 73% 57%;
+    --ring: 0 91% 56%;
 
-    --sidebar-background: 0 0% 8%;
-    --sidebar-foreground: 0 0% 98%;
-    --sidebar-primary: 0 73% 57%;
+    --sidebar-background: 0 0% 5%;
+    --sidebar-foreground: 0 0% 100%;
+    --sidebar-primary: 0 91% 56%;
     --sidebar-primary-foreground: 0 0% 100%;
-    --sidebar-accent: 0 0% 15%;
+    --sidebar-accent: 0 0% 12%;
     --sidebar-accent-foreground: 0 0% 95%;
-    --sidebar-border: 0 0% 18%;
-    --sidebar-ring: 0 73% 57%;
+    --sidebar-border: 0 0% 15%;
+    --sidebar-ring: 0 91% 56%;
   }
 }
 
@@ -121,6 +122,11 @@
   .dark .btn-primary {
     @apply bg-gradient-to-r from-darkAccent-red to-darkAccent-orange text-white;
   }
+  
+  /* Red gradient card for dark mode */
+  .dark .card-red-gradient {
+    @apply bg-gradient-to-br from-darkAccent-red to-darkAccent-orange/80 text-white border-none shadow-lg shadow-darkAccent-red/20;
+  }
 }
 
 @layer components {
@@ -129,26 +135,36 @@
   }
   
   .hero-title {
-    @apply bg-gradient-to-r from-zordie-700 to-accent1 bg-clip-text text-transparent dark:from-darkAccent-blue dark:to-darkAccent-purple;
+    @apply bg-gradient-to-r from-zordie-700 to-accent1 bg-clip-text text-transparent dark:from-darkAccent-red dark:to-darkAccent-orange;
   }
 
+  /* Feature card with red gradient animation in dark mode */
   .feature-card {
-    @apply relative p-6 rounded-xl border bg-white/50 shadow-sm hover:shadow-md transition-all duration-300 dark:bg-dark-800/80 dark:border-dark-700 dark:hover:shadow-darkAccent-purple/20;
+    @apply relative p-6 rounded-xl border bg-white/50 shadow-sm hover:shadow-md transition-all duration-300 dark:bg-gradient-to-br dark:from-dark-800 dark:to-dark-900 dark:border-dark-700 dark:hover:shadow-darkAccent-red/30;
   }
 
+  /* Enhanced pricing card with red gradient in dark mode */
   .pricing-card {
-    @apply relative p-6 rounded-xl border bg-white/50 shadow-sm hover:shadow-md transition-all duration-300 dark:bg-dark-800/80 dark:border-dark-700 dark:hover:shadow-darkAccent-purple/20;
+    @apply relative p-6 rounded-xl border bg-white/50 shadow-sm hover:shadow-md transition-all duration-300;
   }
 
-  .pricing-card-highlight {
-    @apply dark:border-darkAccent-purple dark:from-dark-800/90 dark:to-dark-900/90 dark:shadow-darkAccent-purple/20;
+  .dark .pricing-card {
+    @apply bg-gradient-to-br from-dark-800 to-dark-900 border-dark-700 hover:shadow-darkAccent-red/30;
+  }
+
+  .dark .pricing-card-highlight {
+    @apply bg-gradient-to-br from-darkAccent-red/10 to-dark-900 border-darkAccent-red/50 shadow-darkAccent-red/20;
+  }
+
+  .dark .pricing-card:hover {
+    @apply shadow-xl shadow-darkAccent-red/20;
   }
 
   .avatar-verified {
-    @apply after:content-[''] after:absolute after:bottom-0 after:right-0 after:h-5 after:w-5 after:rounded-full after:bg-green-500 after:ring-2 after:ring-white after:flex after:items-center after:justify-center dark:after:ring-dark-900;
+    @apply after:content-[''] after:absolute after:bottom-0 after:right-0 after:h-5 after:w-5 after:rounded-full after:bg-green-500 after:ring-2 after:ring-white after:flex after:items-center after:justify-center dark:after:ring-dark-950;
   }
   
-  /* Dark mode card */
+  /* Dark mode card with red gradient */
   .dark-card {
     @apply bg-dark-800 border-dark-700 text-white;
   }
@@ -181,7 +197,7 @@
   
   .glow-border::before {
     content: '';
-    @apply absolute -inset-0.5 bg-gradient-to-r from-zordie-500 to-accent1 rounded-lg blur opacity-0 dark:from-darkAccent-blue dark:to-darkAccent-purple;
+    @apply absolute -inset-0.5 bg-gradient-to-r from-zordie-500 to-accent1 rounded-lg blur opacity-0 dark:from-darkAccent-red dark:to-darkAccent-orange;
     transition: opacity 0.3s ease;
   }
   
@@ -205,7 +221,28 @@
 
   /* Dark mode specific glowing effect */
   .dark .glow-effect {
-    @apply animate-glow border border-darkAccent-purple/30;
+    @apply animate-glow border border-darkAccent-red/30;
+  }
+  
+  /* Animated gradient background */
+  .dark .gradient-animate {
+    background-size: 200% 200%;
+    @apply bg-gradient-to-r from-darkAccent-red to-darkAccent-orange animate-flow;
+  }
+  
+  /* Card with red gradient border */
+  .dark .red-border-card {
+    @apply border border-transparent bg-dark-900 relative;
+  }
+
+  .dark .red-border-card::before {
+    content: '';
+    @apply absolute inset-0 -z-10 rounded-xl bg-gradient-to-r from-darkAccent-red to-darkAccent-orange p-[1px];
+  }
+  
+  /* Flowing gradient button */
+  .dark .flow-btn {
+    @apply bg-gradient-to-r from-darkAccent-red to-darkAccent-orange bg-size-200 animate-flow text-white;
   }
 }
 
@@ -333,8 +370,8 @@
 }
 
 .dark .glass {
-  background: rgba(24, 24, 36, 0.3);
-  border: 1px solid rgba(155, 135, 245, 0.15);
+  background: rgba(24, 24, 24, 0.3);
+  border: 1px solid rgba(255, 31, 61, 0.15);
 }
 
 /* 3D Effect for cards */
@@ -363,7 +400,7 @@
 }
 
 .dark .dotted-bg {
-  background-image: radial-gradient(circle, rgba(155, 135, 245, 0.15) 1px, transparent 1px);
+  background-image: radial-gradient(circle, rgba(255, 31, 61, 0.15) 1px, transparent 1px);
 }
 
 /* Enhanced backgrounds for dashboard mockups */
@@ -372,32 +409,46 @@
 }
 
 .dark .dashboard-bg {
-  background: linear-gradient(135deg, #1e2133 0%, #12151f 100%);
+  background: linear-gradient(135deg, #121212 0%, #000000 100%);
 }
 
 /* New dark mode specific background patterns */
 .dark .bg-pattern-grid {
-  background-image: linear-gradient(rgba(155, 135, 245, 0.05) 1px, transparent 1px),
-                    linear-gradient(90deg, rgba(155, 135, 245, 0.05) 1px, transparent 1px);
+  background-image: linear-gradient(rgba(255, 31, 61, 0.05) 1px, transparent 1px),
+                    linear-gradient(90deg, rgba(255, 31, 61, 0.05) 1px, transparent 1px);
   background-size: 20px 20px;
 }
 
 .dark .bg-pattern-dots {
-  background-image: radial-gradient(rgba(155, 135, 245, 0.15) 1px, transparent 1px);
+  background-image: radial-gradient(rgba(255, 31, 61, 0.15) 1px, transparent 1px);
   background-size: 15px 15px;
 }
 
 /* Dark mode specific gradient text */
 .dark .gradient-text {
-  @apply bg-gradient-to-r from-darkAccent-blue via-darkAccent-purple to-darkAccent-pink bg-clip-text text-transparent;
+  @apply bg-gradient-to-r from-darkAccent-red via-white to-darkAccent-orange bg-clip-text text-transparent;
 }
 
 /* Dark mode card effects */
 .dark .glow-card {
-  box-shadow: 0 0 15px rgba(155, 135, 245, 0.2);
+  box-shadow: 0 0 15px rgba(255, 31, 61, 0.2);
   transition: all 0.3s ease;
 }
 
 .dark .glow-card:hover {
-  box-shadow: 0 0 30px rgba(155, 135, 245, 0.4);
+  box-shadow: 0 0 30px rgba(255, 31, 61, 0.4);
+}
+
+/* Background size for gradient animations */
+.bg-size-200 {
+  background-size: 200% 200%;
+}
+
+/* Red decorative elements for dark mode */
+.dark .red-accent::before {
+  content: '';
+  @apply absolute w-16 h-1 bg-gradient-to-r from-darkAccent-red to-darkAccent-orange rounded-full;
+  bottom: -0.5rem;
+  left: 50%;
+  transform: translateX(-50%);
 }

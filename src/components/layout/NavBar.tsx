@@ -46,11 +46,11 @@ const NavBar = () => {
     <header 
       className={`sticky top-0 z-40 w-full transition-all duration-300 ${
         scrolled 
-          ? "bg-white/80 dark:bg-dark-900/95 backdrop-blur-md shadow-sm border-b dark:border-dark-700" 
+          ? "bg-white/80 dark:bg-black/95 backdrop-blur-md shadow-sm border-b dark:border-dark-700" 
           : "bg-transparent"
       }`}
     >
-      <div className="container mx-auto px-4 bg-zinc-50 dark:bg-dark-900">
+      <div className="container mx-auto px-4 bg-zinc-50 dark:bg-black">
         <div className="flex h-16 items-center justify-between">
           <Link to="/" className="flex items-center">
             <ZordieLogo variant={theme === 'dark' ? 'light' : 'default'} />
@@ -135,7 +135,7 @@ const NavBar = () => {
         transition={{
           duration: 0.3
         }} 
-        className="md:hidden overflow-hidden bg-white dark:bg-dark-900 border-b dark:border-dark-700"
+        className="md:hidden overflow-hidden bg-white dark:bg-black border-b dark:border-dark-700"
       >
         <div className="container mx-auto px-4 py-3">
           <ul className="space-y-2">

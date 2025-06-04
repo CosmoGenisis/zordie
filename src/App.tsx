@@ -17,6 +17,15 @@ import Features from "./pages/Features";
 import Solutions from "./pages/Solutions";
 import ARC from "./pages/ARC";
 import PrimeHR from "./pages/agents/PrimeHR";
+import Optimus from "./pages/agents/Optimus";
+import Monica from "./pages/agents/Monica";
+import Nova from "./pages/agents/Nova";
+import Orion from "./pages/agents/Orion";
+import Onix from "./pages/agents/Onix";
+import Maxx from "./pages/agents/Maxx";
+import Archie from "./pages/agents/Archie";
+import Laxmi from "./pages/agents/Laxmi";
+import Aura from "./pages/agents/Aura";
 import About from "./pages/About";
 import Contact from "./pages/Contact";
 import Privacy from "./pages/Privacy";
@@ -64,6 +73,15 @@ const App = () => {
                 <Route path="/solutions" element={<Solutions />} />
                 <Route path="/arc" element={<ARC />} />
                 <Route path="/arc/prime-hr" element={<PrimeHR />} />
+                <Route path="/arc/optimus" element={<Optimus />} />
+                <Route path="/arc/monica" element={<Monica />} />
+                <Route path="/arc/nova" element={<Nova />} />
+                <Route path="/arc/orion" element={<Orion />} />
+                <Route path="/arc/onix" element={<Onix />} />
+                <Route path="/arc/maxx" element={<Maxx />} />
+                <Route path="/arc/archie" element={<Archie />} />
+                <Route path="/arc/laxmi" element={<Laxmi />} />
+                <Route path="/arc/aura" element={<Aura />} />
                 <Route path="/dashboard-selector" element={<DashboardSelector />} />
                 <Route path="/dashboard" element={
                   <ProtectedRoute requiresRole="hr">

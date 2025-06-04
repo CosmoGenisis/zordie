@@ -36,8 +36,8 @@ const NavBar = () => {
 
   const navItems = [
     { name: "Home", href: "/" },
-    { name: "For Companies", href: "/companies" },
-    { name: "For Job Seekers", href: "/candidates" },
+    { name: "ARC Agents", href: "/arc" },
+    { name: "Solutions", href: "/solutions" },
     { name: "Features", href: "/features" },
     { name: "Pricing", href: "/pricing" }
   ];

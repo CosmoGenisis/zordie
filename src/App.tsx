@@ -14,8 +14,9 @@ import PostJob from "./pages/PostJob";
 import Dashboard from "./pages/Dashboard";
 import NotFound from "./pages/NotFound";
 import Features from "./pages/Features";
-import ForCompanies from "./pages/ForCompanies";
-import ForJobSeekers from "./pages/ForJobSeekers";
+import Solutions from "./pages/Solutions";
+import ARC from "./pages/ARC";
+import PrimeHR from "./pages/agents/PrimeHR";
 import About from "./pages/About";
 import Contact from "./pages/Contact";
 import Privacy from "./pages/Privacy";
@@ -60,8 +61,9 @@ const App = () => {
                 <Route path="/signup" element={<Signup />} />
                 <Route path="/pricing" element={<Pricing />} />
                 <Route path="/features" element={<Features />} />
-                <Route path="/companies" element={<ForCompanies />} />
-                <Route path="/candidates" element={<ForJobSeekers />} />
+                <Route path="/solutions" element={<Solutions />} />
+                <Route path="/arc" element={<ARC />} />
+                <Route path="/arc/prime-hr" element={<PrimeHR />} />
                 <Route path="/dashboard-selector" element={<DashboardSelector />} />
                 <Route path="/dashboard" element={
                   <ProtectedRoute requiresRole="hr">

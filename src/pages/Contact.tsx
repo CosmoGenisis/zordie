@@ -1,7 +1,7 @@
 
 import React from 'react';
 import Layout from '@/components/layout/Layout';
-import ContactInfo from '@/components/contact/ContactInfo';
+import { ContactInfo } from '@/components/contact/ContactInfo';
 import PreAccessForm from '@/components/contact/PreAccessForm';
 import ContactForm from '@/components/contact/ContactForm';
 import { SectionHeading } from '@/components/ui/section-heading';

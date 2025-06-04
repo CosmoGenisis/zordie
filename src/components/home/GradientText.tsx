@@ -1,59 +1,27 @@
 
 import React from 'react';
-import { motion } from 'framer-motion';
-import { useTheme } from '@/hooks';
 
 interface GradientTextProps {
   children: React.ReactNode;
+  gradient?: 'primary' | 'secondary' | 'accent';
   className?: string;
-  gradient?: 'primary' | 'secondary' | 'accent' | 'rainbow';
-  animate?: boolean;
-  delay?: number;
 }
 
 const GradientText: React.FC<GradientTextProps> = ({ 
   children, 
-  className = '', 
-  gradient = 'primary', 
-  animate = false,
-  delay = 0
+  gradient = 'primary',
+  className = '' 
 }) => {
-  const { theme } = useTheme();
-  
   const gradientClasses = {
-    primary: theme === 'dark' 
-      ? 'bg-gradient-to-r from-darkAccent-red to-darkAccent-orange' 
-      : 'bg-gradient-to-r from-zordie-600 to-accent1',
-    secondary: theme === 'dark'
-      ? 'bg-gradient-to-r from-darkAccent-orange to-darkAccent-yellow'
-      : 'bg-gradient-to-r from-accent1 to-purple-400',
-    accent: theme === 'dark'
-      ? 'bg-gradient-to-r from-white via-darkAccent-red to-white'
-      : 'bg-gradient-to-r from-sky-400 to-zordie-500',
-    rainbow: 'bg-gradient-to-r from-red-500 via-yellow-500 via-green-500 via-blue-500 to-purple-500'
+    primary: 'bg-blue-purple-gradient dark:bg-red-gradient bg-clip-text text-transparent',
+    secondary: 'bg-gradient-to-r from-green-500 to-blue-500 dark:from-red-400 dark:to-orange-400 bg-clip-text text-transparent',
+    accent: 'bg-gradient-to-r from-purple-500 to-pink-500 dark:from-orange-400 dark:to-red-400 bg-clip-text text-transparent'
   };
 
-  const selectedGradient = gradientClasses[gradient];
-  
-  const baseClasses = `${selectedGradient} bg-clip-text text-transparent inline-block ${className}`;
-  
-  return animate ? (
-    <motion.span
-      className={baseClasses}
-      initial={{ opacity: 0, y: 20 }}
-      whileInView={{ opacity: 1, y: 0 }}
-      viewport={{ once: true }}
-      transition={{ 
-        duration: 0.6, 
-        delay,
-        type: "spring",
-        stiffness: 50
-      }}
-    >
+  return (
+    <span className={`${gradientClasses[gradient]} ${className}`}>
       {children}
-    </motion.span>
-  ) : (
-    <span className={baseClasses}>{children}</span>
+    </span>
   );
 };
 

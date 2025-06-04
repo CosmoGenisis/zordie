@@ -4,7 +4,7 @@ import { Button } from "@/components/ui/button";
 import { motion } from "framer-motion";
 import { useInView } from "framer-motion";
 import { useRef } from "react";
-import { ArrowRight } from "lucide-react";
+import { ArrowRight, Mail } from "lucide-react";
 
 const CTASection = () => {
   const sectionRef = useRef(null);
@@ -59,7 +59,7 @@ const CTASection = () => {
               Ready to Transform Your Hiring Process?
             </h2>
             <p className="text-lg text-zordie-200 mb-10 max-w-2xl mx-auto">
-              Join thousands of companies using Zordie to find, screen, and hire the best talent. Start your free trial today.
+              Join our exclusive pre-access program and be among the first to experience the future of AI-powered recruitment with Zordie.
             </p>
           </motion.div>
           
@@ -73,10 +73,11 @@ const CTASection = () => {
               whileHover={{ scale: 1.05 }}
               transition={{ type: "spring", stiffness: 400, damping: 10 }}
             >
-              <Link to="/dashboard-selector">
-                <Button size="lg" className="w-full sm:w-auto bg-gradient-to-r from-zordie-500 to-accent1 border-none text-white font-medium px-8 py-7 text-lg">
+              <Link to="/contact">
+                <Button size="lg" className="w-full sm:w-auto bg-gradient-to-r from-yellow-500 to-yellow-600 hover:from-yellow-400 hover:to-yellow-500 border-none text-black font-semibold px-8 py-7 text-lg">
                   <span className="flex items-center">
-                    Get Started For Free
+                    <Mail className="mr-2 h-5 w-5" />
+                    Join Pre-Access Waitlist
                     <ArrowRight className="ml-2 h-5 w-5 transition-transform group-hover:translate-x-1" />
                   </span>
                 </Button>
@@ -87,26 +88,31 @@ const CTASection = () => {
               whileHover={{ scale: 1.05 }}
               transition={{ type: "spring", stiffness: 400, damping: 10 }}
             >
-              <Link to="/contact">
+              <Link to="/pricing">
                 <Button
                   variant="outline"
                   size="lg"
                   className="w-full sm:w-auto text-white border-white hover:bg-white/10 py-7 text-lg"
                 >
-                  Talk to Sales
+                  View Pricing Plans
                 </Button>
               </Link>
             </motion.div>
           </motion.div>
           
-          <motion.p
-            className="text-zordie-300 mt-6 text-sm"
+          <motion.div
+            className="mt-8 space-y-2"
             initial={{ opacity: 0 }}
             animate={isInView ? { opacity: 1 } : { opacity: 0 }}
             transition={{ duration: 0.6, delay: 0.6 }}
           >
-            No credit card required. 14-day free trial.
-          </motion.p>
+            <p className="text-zordie-300 text-sm">
+              🚀 Be the first to access revolutionary AI recruitment technology
+            </p>
+            <p className="text-zordie-400 text-xs">
+              No commitment required • Early bird pricing available
+            </p>
+          </motion.div>
         </div>
       </div>
     </section>

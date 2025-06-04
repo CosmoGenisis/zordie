@@ -1,87 +1,105 @@
 
 import React from 'react';
 import Layout from '@/components/layout/Layout';
-import { motion } from 'framer-motion';
-import { ContactInfo, ContactDetails } from '@/components/contact/ContactInfo';
+import ContactInfo from '@/components/contact/ContactInfo';
+import PreAccessForm from '@/components/contact/PreAccessForm';
 import ContactForm from '@/components/contact/ContactForm';
+import { SectionHeading } from '@/components/ui/section-heading';
+import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
+import { motion } from 'framer-motion';
+import { Badge } from '@/components/ui/badge';
+import { Zap, MessageSquare, Mail } from 'lucide-react';
 
 const Contact = () => {
   return (
     <Layout>
-      {/* Hero Section */}
-      <div className="relative overflow-hidden bg-gradient-to-b from-zordie-50 to-white dark:from-zordie-900 dark:to-zordie-950 transition-colors duration-300">
-        <div className="absolute inset-0 z-0">
-          <div className="absolute inset-0 bg-grid-black/[0.02] dark:bg-grid-white/[0.02]" />
-        </div>
-        <div className="relative z-10 px-4 py-24 mx-auto max-w-7xl sm:px-6 lg:px-8">
-          <motion.div 
-            initial={{ opacity: 0, y: 20 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.5 }}
-            className="text-center"
-          >
-            <h1 className="mb-6 text-5xl font-bold tracking-tight text-gray-900 dark:text-white md:text-6xl">
-              Get in <span className="text-zordie-600 dark:text-zordie-400">Touch</span>
-            </h1>
-            <p className="max-w-2xl mx-auto mb-10 text-xl text-gray-600 dark:text-gray-300">
-              Have questions about Zordie AI? Our team is here to help you get started with authentic hiring.
-            </p>
-          </motion.div>
-        </div>
-      </div>
-
-      {/* Contact Form Section */}
-      <div className="py-24 bg-white dark:bg-zordie-950 transition-colors duration-300">
-        <div className="px-4 mx-auto max-w-7xl sm:px-6 lg:px-8">
-          <div className="grid grid-cols-1 gap-12 lg:grid-cols-2">
-            <motion.div
-              initial={{ opacity: 0, x: -30 }}
-              whileInView={{ opacity: 1, x: 0 }}
-              transition={{ duration: 0.5 }}
-              viewport={{ once: true }}
-            >
-              <ContactForm />
-            </motion.div>
-            
-            <motion.div
-              initial={{ opacity: 0, x: 30 }}
-              whileInView={{ opacity: 1, x: 0 }}
-              transition={{ duration: 0.5 }}
-              viewport={{ once: true }}
-              className="lg:mt-12"
-            >
-              <ContactInfo className="mt-12 lg:mt-0" />
-              
-              <div className="mt-8 overflow-hidden rounded-lg shadow-xl">
-                <iframe 
-                  title="Zordie AI Location"
-                  src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d115408.23982788336!2d80.22156075381184!3d26.449636589762694!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x399c4770b127c46f%3A0x1778302a9fbe7b41!2sKanpur%2C%20Uttar%20Pradesh!5e0!3m2!1sen!2sin!4v1681461476689!5m2!1sen!2sin" 
-                  width="100%" 
-                  height="300" 
-                  style={{ border: 0 }} 
-                  allowFullScreen
-                  loading="lazy"
-                  referrerPolicy="no-referrer-when-downgrade"
-                ></iframe>
-              </div>
-            </motion.div>
-          </div>
-        </div>
-      </div>
-
-      {/* Detailed Contact Information Section */}
-      <div className="py-12 bg-gray-50 dark:bg-zordie-900 transition-colors duration-300">
-        <div className="px-4 mx-auto max-w-7xl sm:px-6 lg:px-8">
+      <section className="py-16 bg-gradient-to-br from-blue-50 to-indigo-100">
+        <div className="container mx-auto px-4">
           <motion.div
             initial={{ opacity: 0, y: 20 }}
-            whileInView={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.5 }}
-            viewport={{ once: true }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.6 }}
+            className="text-center mb-12"
           >
-            <ContactDetails />
+            <Badge className="bg-blue-100 text-blue-700 border-blue-200 mb-4">
+              <Zap className="w-4 h-4 mr-1" />
+              Get Early Access
+            </Badge>
+            <SectionHeading
+              title="Join the Future of Recruitment"
+              subtitle="Get exclusive early access to Zordie's AI-powered recruitment platform and transform your hiring process"
+              align="center"
+            />
+          </motion.div>
+
+          <motion.div
+            initial={{ opacity: 0, y: 30 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.6, delay: 0.2 }}
+          >
+            <Tabs defaultValue="preaccess" className="max-w-6xl mx-auto">
+              <TabsList className="grid w-full grid-cols-3 mb-8">
+                <TabsTrigger value="preaccess" className="flex items-center">
+                  <Zap className="w-4 h-4 mr-2" />
+                  Pre-Access Program
+                </TabsTrigger>
+                <TabsTrigger value="contact" className="flex items-center">
+                  <MessageSquare className="w-4 h-4 mr-2" />
+                  General Contact
+                </TabsTrigger>
+                <TabsTrigger value="info" className="flex items-center">
+                  <Mail className="w-4 h-4 mr-2" />
+                  Get in Touch
+                </TabsTrigger>
+              </TabsList>
+
+              <TabsContent value="preaccess" className="mt-8">
+                <PreAccessForm />
+              </TabsContent>
+
+              <TabsContent value="contact" className="mt-8">
+                <div className="grid grid-cols-1 lg:grid-cols-2 gap-8">
+                  <div>
+                    <h3 className="text-2xl font-bold mb-4">Send us a Message</h3>
+                    <p className="text-gray-600 mb-6">
+                      Have questions about Zordie? Want to schedule a demo? We'd love to hear from you.
+                    </p>
+                    <ContactForm />
+                  </div>
+                  <div>
+                    <ContactInfo />
+                  </div>
+                </div>
+              </TabsContent>
+
+              <TabsContent value="info" className="mt-8">
+                <div className="grid grid-cols-1 lg:grid-cols-2 gap-8">
+                  <div>
+                    <ContactInfo />
+                  </div>
+                  <div>
+                    <h3 className="text-2xl font-bold mb-4">Why Choose Zordie?</h3>
+                    <div className="space-y-4">
+                      <div className="bg-white p-4 rounded-lg border border-gray-200">
+                        <h4 className="font-semibold text-gray-900 mb-2">10 Specialized AI Agents</h4>
+                        <p className="text-gray-600 text-sm">Our ARC system features dedicated AI agents for every aspect of recruitment.</p>
+                      </div>
+                      <div className="bg-white p-4 rounded-lg border border-gray-200">
+                        <h4 className="font-semibold text-gray-900 mb-2">Advanced Analytics</h4>
+                        <p className="text-gray-600 text-sm">Get deep insights into your hiring process with AI-powered analytics.</p>
+                      </div>
+                      <div className="bg-white p-4 rounded-lg border border-gray-200">
+                        <h4 className="font-semibold text-gray-900 mb-2">Seamless Integration</h4>
+                        <p className="text-gray-600 text-sm">Integrate with your existing tools and workflows effortlessly.</p>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </TabsContent>
+            </Tabs>
           </motion.div>
         </div>
-      </div>
+      </section>
     </Layout>
   );
 };

@@ -1,15 +1,17 @@
+
 import { useState, useRef } from "react";
 import Layout from "@/components/layout/Layout";
 import { SectionHeading } from "@/components/ui/section-heading";
 import { Button } from "@/components/ui/button";
 import { motion, useInView } from "framer-motion";
-import { CheckCircle, CircleCheck, HelpCircle, X, ArrowRight, LayoutGrid, CircleArrowDown } from "lucide-react";
+import { CheckCircle, CircleCheck, HelpCircle, X, ArrowRight, LayoutGrid, CircleArrowDown, Users, Zap, Shield, Crown } from "lucide-react";
 import { Link } from "react-router-dom";
 import { Accordion, AccordionContent, AccordionItem, AccordionTrigger } from "@/components/ui/accordion";
 import { HoverCard, HoverCardContent, HoverCardTrigger } from "@/components/ui/hover-card";
 import { Card, CardContent } from "@/components/ui/card";
 import { SpinningCube } from '@/components/home/3d/SpinningCube';
 import { FloatingParticles } from '@/components/home/3d/FloatingParticles';
+
 const Pricing = () => {
   const [billingCycle, setBillingCycle] = useState<"monthly" | "annual">("monthly");
   const pricingSectionRef = useRef(null);
@@ -35,6 +37,7 @@ const Pricing = () => {
   const calculateAnnualPrice = (monthlyPrice: number) => {
     return (monthlyPrice * 12 * 0.8).toLocaleString();
   };
+
   return <Layout>
       {/* Hero Section */}
       <section className="relative bg-gradient-to-br from-blue-600 via-blue-700 to-blue-900 text-white py-20 overflow-hidden">
@@ -56,7 +59,7 @@ const Pricing = () => {
               Simple, Transparent Pricing
             </h1>
             <p className="text-xl text-blue-100 mb-8">
-              Choose the plan that fits your hiring needs and scale as you grow
+              Choose the plan that fits your hiring needs and scale as you grow. All plans include unlimited job posts and candidates.
             </p>
             
             <div className="flex justify-center mb-8">
@@ -110,7 +113,7 @@ const Pricing = () => {
       {/* Pricing cards */}
       <section ref={pricingSectionRef} className="py-16 bg-white">
         <div className="container max-w-7xl mx-auto px-4">          
-          <motion.div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-5 gap-4 mt-6" initial={{
+          <motion.div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6 mt-6" initial={{
           opacity: 0
         }} animate={pricingInView ? {
           opacity: 1
@@ -130,26 +133,28 @@ const Pricing = () => {
           }}>
               <Card className="border border-gray-200 hover:border-zordie-200 hover:shadow-md transition-all duration-300 hover:scale-[1.02] overflow-hidden h-full">
                 <div className="p-6 border-b bg-gray-50">
-                  <h3 className="text-xl font-semibold">Free</h3>
-                  <div className="mt-2 flex items-baseline">
-                    <span className="text-3xl font-bold">₹0</span>
-                    <span className="ml-1 text-gray-500 text-sm">/month</span>
+                  <div className="flex items-center justify-center mb-4">
+                    <Users className="w-5 h-5 text-gray-600 mr-2" />
+                    <h3 className="text-xl font-semibold">Free</h3>
                   </div>
-                  <p className="text-sm text-gray-600 mt-2">Try Zordie for free</p>
+                  <div className="text-center">
+                    <span className="text-3xl font-bold">₹0</span>
+                    <p className="text-sm text-gray-600 mt-2">Try Zordie for free</p>
+                  </div>
                 </div>
                 <CardContent className="p-6">
                   <ul className="space-y-3">
-                    <PricingFeature available={true} text="2 job posts" />
+                    <PricingFeature available={true} text="2 job posts per month" />
                     <PricingFeature available={true} text="Basic AI screening" />
-                    <PricingFeature available={true} text="10 verified applications" />
-                    <PricingFeature available={false} text="Candidate assessments" />
-                    <PricingFeature available={false} text="Prime AI assistance" />
-                    <PricingFeature available={false} text="Advanced analytics" />
+                    <PricingFeature available={true} text="10 candidate profiles" />
+                    <PricingFeature available={true} text="Email support" />
+                    <PricingFeature available={false} text="Advanced AI assessments" />
+                    <PricingFeature available={false} text="ARC AI agents" />
                   </ul>
                   <div className="mt-6">
-                    <Link to="/signup" className="block">
+                    <Link to="/contact" className="block">
                       <Button variant="outline" className="w-full transition-all duration-300 hover:shadow-md">
-                        Get Started
+                        Join Pre-Access
                       </Button>
                     </Link>
                   </div>
@@ -168,28 +173,32 @@ const Pricing = () => {
             duration: 0.5,
             delay: 0.1
           }}>
-              <Card className="border border-zordie-500 hover:shadow-xl transition-all duration-300 hover:scale-[1.02] overflow-hidden md:col-span-1 lg:col-span-1 bg-white h-full">
+              <Card className="border border-blue-500 hover:shadow-xl transition-all duration-300 hover:scale-[1.02] overflow-hidden h-full">
                 <div className="p-6 border-b bg-gradient-to-r from-blue-600 to-blue-700 text-white">
-                  <h3 className="text-xl font-semibold">STARTER PLAN</h3>
-                  <div className="mt-2 flex items-baseline">
-                    <span className="text-3xl font-bold">
-                      {billingCycle === "monthly" ? "₹4,999" : `₹${calculateAnnualPrice(4999)}`}
-                    </span>
-                    <span className="ml-1 text-gray-100 text-sm">/{billingCycle === "monthly" ? "month" : "year"}</span>
+                  <div className="flex items-center justify-center mb-4">
+                    <Zap className="w-5 h-5 text-white mr-2" />
+                    <h3 className="text-xl font-semibold">STARTER</h3>
                   </div>
-                  <p className="text-sm text-gray-100 mt-2">For small startups</p>
+                  <div className="text-center">
+                    <span className="text-3xl font-bold">
+                      {billingCycle === "monthly" ? "₹2,999" : `₹${calculateAnnualPrice(2999)}`}
+                    </span>
+                    <p className="text-sm text-gray-100 mt-1">per user / {billingCycle === "monthly" ? "month" : "year"}</p>
+                    <p className="text-xs text-gray-200 mt-1">1-10 users</p>
+                  </div>
                 </div>
                 <CardContent className="p-6">
                   <ul className="space-y-3">
-                    <PricingFeature available={true} text="Up to 10 Job Postings per month" />
-                    <PricingFeature available={true} text="Includes 1,000 AI Credits for candidate assessments and analytics" />
-                    <PricingFeature available={true} text="Access to basic dashboard and reporting features" />
-                    <PricingFeature available={true} text="Email support for quick assistance" />
+                    <PricingFeature available={true} text="Unlimited job postings" />
+                    <PricingFeature available={true} text="5,000 AI screening credits/month" />
+                    <PricingFeature available={true} text="Basic ARC AI agents" />
+                    <PricingFeature available={true} text="Standard analytics dashboard" />
+                    <PricingFeature available={true} text="Email & chat support" />
                   </ul>
                   <div className="mt-6">
-                    <Link to="/signup" className="block">
+                    <Link to="/contact" className="block">
                       <Button className="w-full bg-gradient-to-r from-blue-600 to-blue-700 text-white hover:from-blue-700 hover:to-blue-800 transition-all duration-300 hover:shadow-lg">
-                        Choose Starter
+                        Join Pre-Access
                       </Button>
                     </Link>
                   </div>
@@ -208,33 +217,38 @@ const Pricing = () => {
             duration: 0.5,
             delay: 0.2
           }}>
-              <Card className="border border-zordie-500 hover:shadow-xl transition-all duration-300 hover:scale-[1.02] overflow-hidden md:col-span-1 lg:col-span-1 bg-white relative h-full transform hover:translate-y-[-10px]">
+              <Card className="border border-indigo-500 hover:shadow-xl transition-all duration-300 hover:scale-[1.02] overflow-hidden h-full relative transform hover:translate-y-[-5px]">
                 <div className="absolute top-0 right-0">
-                  <div className="bg-zordie-500 text-white text-xs font-semibold py-1 px-3 rounded-bl-lg">
-                    Popular
+                  <div className="bg-indigo-500 text-white text-xs font-semibold py-1 px-3 rounded-bl-lg">
+                    Most Popular
                   </div>
                 </div>
-                <div className="p-6 border-b bg-gradient-to-r from-blue-600 to-blue-700 text-white">
-                  <h3 className="text-xl font-semibold">GROWTH PLAN</h3>
-                  <div className="mt-2 flex items-baseline">
-                    <span className="text-3xl font-bold">
-                      {billingCycle === "monthly" ? "₹9,999" : `₹${calculateAnnualPrice(9999)}`}
-                    </span>
-                    <span className="ml-1 text-gray-100 text-sm">/{billingCycle === "monthly" ? "month" : "year"}</span>
+                <div className="p-6 border-b bg-gradient-to-r from-indigo-600 to-purple-600 text-white">
+                  <div className="flex items-center justify-center mb-4">
+                    <Shield className="w-5 h-5 text-white mr-2" />
+                    <h3 className="text-xl font-semibold">GROWTH</h3>
                   </div>
-                  <p className="text-sm text-gray-100 mt-2">For growing teams</p>
+                  <div className="text-center">
+                    <span className="text-3xl font-bold">
+                      {billingCycle === "monthly" ? "₹4,999" : `₹${calculateAnnualPrice(4999)}`}
+                    </span>
+                    <p className="text-sm text-gray-100 mt-1">per user / {billingCycle === "monthly" ? "month" : "year"}</p>
+                    <p className="text-xs text-gray-200 mt-1">10-50 users</p>
+                  </div>
                 </div>
                 <CardContent className="p-6">
                   <ul className="space-y-3">
-                    <PricingFeature available={true} text="Allows up to 25 Job Postings monthly" />
-                    <PricingFeature available={true} text="Includes 5,000 AI Credits for extensive candidate evaluations" />
-                    <PricingFeature available={true} text="Advanced analytics dashboard with customized reporting" />
-                    <PricingFeature available={true} text="Priority email and chat support" />
+                    <PricingFeature available={true} text="Everything in Starter" />
+                    <PricingFeature available={true} text="20,000 AI screening credits/month" />
+                    <PricingFeature available={true} text="Advanced ARC AI agents" />
+                    <PricingFeature available={true} text="Advanced AI assessments" />
+                    <PricingFeature available={true} text="Custom analytics & reporting" />
+                    <PricingFeature available={true} text="Priority support" />
                   </ul>
                   <div className="mt-6">
-                    <Link to="/signup" className="block">
-                      <Button className="w-full bg-gradient-to-r from-blue-600 to-blue-700 text-white hover:from-blue-700 hover:to-blue-800 transition-all duration-300 hover:shadow-lg">
-                        Choose Growth
+                    <Link to="/contact" className="block">
+                      <Button className="w-full bg-gradient-to-r from-indigo-600 to-purple-600 text-white hover:from-indigo-700 hover:to-purple-700 transition-all duration-300 hover:shadow-lg">
+                        Join Pre-Access
                       </Button>
                     </Link>
                   </div>
@@ -253,74 +267,79 @@ const Pricing = () => {
             duration: 0.5,
             delay: 0.3
           }}>
-              <Card className="border border-zordie-500 hover:shadow-xl transition-all duration-300 hover:scale-[1.02] overflow-hidden md:col-span-1 lg:col-span-1 bg-white h-full">
-                <div className="p-6 border-b bg-gradient-to-r from-blue-600 to-blue-700 text-white">
-                  <h3 className="text-xl font-semibold">AGENCY PLAN</h3>
-                  <div className="mt-2 flex items-baseline">
+              <Card className="border border-purple-500 hover:shadow-xl transition-all duration-300 hover:scale-[1.02] overflow-hidden h-full">
+                <div className="p-6 border-b bg-gradient-to-r from-purple-600 to-purple-700 text-white">
+                  <div className="flex items-center justify-center mb-4">
+                    <Crown className="w-5 h-5 text-white mr-2" />
+                    <h3 className="text-xl font-semibold">AGENCY</h3>
+                  </div>
+                  <div className="text-center">
                     <span className="text-3xl font-bold">
-                      {billingCycle === "monthly" ? "₹16,999" : `₹${calculateAnnualPrice(16999)}`}
+                      {billingCycle === "monthly" ? "₹7,999" : `₹${calculateAnnualPrice(7999)}`}
                     </span>
-                    <span className="ml-1 text-gray-100 text-sm">/{billingCycle === "monthly" ? "month" : "year"}</span>
+                    <p className="text-sm text-gray-100 mt-1">per user / {billingCycle === "monthly" ? "month" : "year"}</p>
+                    <p className="text-xs text-gray-200 mt-1">50+ users</p>
                   </div>
-                  <p className="text-sm text-gray-100 mt-2">For recruitment agencies</p>
                 </div>
                 <CardContent className="p-6">
                   <ul className="space-y-3">
-                    <PricingFeature available={true} text="Allows up to 50 Job Postings per month" />
-                    <PricingFeature available={true} text="Includes 10,000 AI Credits for high volume candidate processing" />
-                    <PricingFeature available={true} text="White-labeled platform customization and branding options" />
-                    <PricingFeature available={true} text="Dedicated account manager and premium support" />
-                  </ul>
-                  <div className="mt-6">
-                    <Link to="/signup" className="block">
-                      <Button className="w-full bg-gradient-to-r from-blue-600 to-blue-700 text-white hover:from-blue-700 hover:to-blue-800 transition-all duration-300 hover:shadow-lg">
-                        Choose Agency
-                      </Button>
-                    </Link>
-                  </div>
-                </CardContent>
-              </Card>
-            </motion.div>
-            
-            {/* Enterprise Plan */}
-            <motion.div initial={{
-            opacity: 0,
-            y: 30
-          }} animate={pricingInView ? {
-            opacity: 1,
-            y: 0
-          } : {}} transition={{
-            duration: 0.5,
-            delay: 0.4
-          }}>
-              <Card className="border border-gray-200 hover:border-zordie-200 hover:shadow-md transition-all duration-300 hover:scale-[1.02] overflow-hidden h-full">
-                <div className="p-6 border-b bg-gray-50">
-                  <h3 className="text-xl font-semibold">Enterprise</h3>
-                  <div className="mt-2 flex items-baseline">
-                    <span className="text-3xl font-bold">Custom</span>
-                  </div>
-                  <p className="text-sm text-gray-600 mt-2">Tailored for large organizations</p>
-                </div>
-                <CardContent className="p-6">
-                  <ul className="space-y-3">
-                    <PricingFeature available={true} text="Unlimited job posts" />
+                    <PricingFeature available={true} text="Everything in Growth" />
+                    <PricingFeature available={true} text="Unlimited AI credits" />
+                    <PricingFeature available={true} text="Full ARC AI agent suite" />
+                    <PricingFeature available={true} text="White-label solution" />
                     <PricingFeature available={true} text="Custom integrations" />
                     <PricingFeature available={true} text="Dedicated account manager" />
-                    <PricingFeature available={true} text="Custom AI training" />
-                    <PricingFeature available={true} text={'Pay as You Go model'} />
-                    <PricingFeature available={true} text="Tailored pricing" />
-                    <PricingFeature available={true} text="Phone & priority support" />
                   </ul>
                   <div className="mt-6">
                     <Link to="/contact" className="block">
-                      <Button variant="outline" className="w-full transition-all duration-300 hover:shadow-md">
-                        Contact Sales
+                      <Button className="w-full bg-gradient-to-r from-purple-600 to-purple-700 text-white hover:from-purple-700 hover:to-purple-800 transition-all duration-300 hover:shadow-lg">
+                        Join Pre-Access
                       </Button>
                     </Link>
                   </div>
                 </CardContent>
               </Card>
             </motion.div>
+          </motion.div>
+
+          {/* Enterprise Section */}
+          <motion.div
+            initial={{ opacity: 0, y: 20 }}
+            animate={pricingInView ? { opacity: 1, y: 0 } : { opacity: 0, y: 20 }}
+            transition={{ duration: 0.6, delay: 0.5 }}
+            className="mt-12"
+          >
+            <Card className="bg-gradient-to-r from-gray-50 to-gray-100 border border-gray-200">
+              <CardContent className="p-8 text-center">
+                <h3 className="text-2xl font-bold text-gray-900 mb-4">Enterprise Solutions</h3>
+                <p className="text-gray-600 mb-6 max-w-2xl mx-auto">
+                  Need a custom solution for your organization? We offer tailored enterprise packages with volume discounts, custom features, and dedicated support.
+                </p>
+                <div className="flex flex-wrap justify-center gap-4 mb-6">
+                  <div className="flex items-center text-sm text-gray-600">
+                    <CheckCircle className="w-4 h-4 text-green-500 mr-2" />
+                    Custom pricing
+                  </div>
+                  <div className="flex items-center text-sm text-gray-600">
+                    <CheckCircle className="w-4 h-4 text-green-500 mr-2" />
+                    Volume discounts
+                  </div>
+                  <div className="flex items-center text-sm text-gray-600">
+                    <CheckCircle className="w-4 h-4 text-green-500 mr-2" />
+                    24/7 support
+                  </div>
+                  <div className="flex items-center text-sm text-gray-600">
+                    <CheckCircle className="w-4 h-4 text-green-500 mr-2" />
+                    On-premise deployment
+                  </div>
+                </div>
+                <Link to="/contact">
+                  <Button size="lg" variant="outline" className="font-medium">
+                    Contact Sales Team
+                  </Button>
+                </Link>
+              </CardContent>
+            </Card>
           </motion.div>
         </div>
       </section>
@@ -345,95 +364,27 @@ const Pricing = () => {
                 <div className="p-5 text-center font-semibold text-gray-800">Free</div>
                 <div className="p-5 text-center font-semibold text-gray-800">Starter</div>
                 <div className="p-5 text-center font-semibold text-gray-800">Growth</div>
-                <div className="p-5 text-center font-semibold text-gray-800">Enterprise</div>
+                <div className="p-5 text-center font-semibold text-gray-800">Agency</div>
               </div>
 
-              <ComparisonRow feature="Job Postings" free="2" starter="10" growth="25" agency="50" enterprise="Unlimited" />
+              <ComparisonRow feature="Job Postings" free="2/month" starter="Unlimited" growth="Unlimited" agency="Unlimited" enterprise="Unlimited" />
 
-              <ComparisonRow feature="AI Screening" free="Basic" starter="Advanced" growth="Premium" agency="Enterprise" enterprise="Custom" />
+              <ComparisonRow feature="AI Screening Credits" free="0" starter="5,000/month" growth="20,000/month" agency="Unlimited" enterprise="Unlimited" />
 
-              <ComparisonRow feature="AI Credits" free="0" starter="1,000" growth="5,000" agency="10,000" enterprise="Unlimited" />
+              <ComparisonRow feature="ARC AI Agents" free={<X className="mx-auto h-5 w-5 text-red-500" />} starter="Basic" growth="Advanced" agency="Full Suite" enterprise="Custom" />
 
               <ComparisonRow feature="White Labeling" free={<X className="mx-auto h-5 w-5 text-red-500" />} starter={<X className="mx-auto h-5 w-5 text-red-500" />} growth={<X className="mx-auto h-5 w-5 text-red-500" />} agency={<CheckCircle className="mx-auto h-5 w-5 text-green-500" />} enterprise={<CheckCircle className="mx-auto h-5 w-5 text-green-500" />} />
 
-              <ComparisonRow feature="Dedicated Account Manager" free={<X className="mx-auto h-5 w-5 text-red-500" />} starter={<X className="mx-auto h-5 w-5 text-red-500" />} growth={<X className="mx-auto h-5 w-5 text-red-500" />} agency={<CheckCircle className="mx-auto h-5 w-5 text-green-500" />} enterprise={<CheckCircle className="mx-auto h-5 w-5 text-green-500" />} />
+              <ComparisonRow feature="Custom Integrations" free={<X className="mx-auto h-5 w-5 text-red-500" />} starter={<X className="mx-auto h-5 w-5 text-red-500" />} growth="Basic API" agency={<CheckCircle className="mx-auto h-5 w-5 text-green-500" />} enterprise={<CheckCircle className="mx-auto h-5 w-5 text-green-500" />} />
 
-              <ComparisonRow feature="API Access" free={<X className="mx-auto h-5 w-5 text-red-500" />} starter={<X className="mx-auto h-5 w-5 text-red-500" />} growth={<CheckCircle className="mx-auto h-5 w-5 text-green-500" />} agency={<CheckCircle className="mx-auto h-5 w-5 text-green-500" />} enterprise={<CheckCircle className="mx-auto h-5 w-5 text-green-500" />} />
-
-              <ComparisonRow feature="Support" free="Community" starter="Email" growth="Priority Email & Chat" agency="Dedicated Support" enterprise="24/7 Phone & Email" />
+              <ComparisonRow feature="Support" free="Email" starter="Email & Chat" growth="Priority Support" agency="Dedicated Manager" enterprise="24/7 Phone & Email" />
             </motion.div>
           </div>
         </div>
       </section>
         
-      {/* Additional pricing info */}
-      <section className="py-16 bg-white">
-        <div className="container mx-auto px-4">
-          <motion.div initial={{
-          opacity: 0,
-          y: 20
-        }} whileInView={{
-          opacity: 1,
-          y: 0
-        }} viewport={{
-          once: true
-        }} transition={{
-          duration: 0.5
-        }} className="bg-gradient-to-r from-blue-50 to-blue-100 dark:from-blue-900/20 dark:to-blue-800/20 border border-blue-200 dark:border-blue-800/30 rounded-xl p-8">
-            <div className="grid md:grid-cols-2 gap-8">
-              <div>
-                <h3 className="text-xl font-semibold mb-4">Additional Pricing Options</h3>
-                <ul className="space-y-3">
-                  <li className="flex items-start">
-                    <CheckCircle className="h-5 w-5 text-blue-600 mr-2 shrink-0 mt-0.5" />
-                    <span className="text-gray-700 dark:text-gray-300">
-                      <strong>Pay-per-post:</strong> ₹799 per job post for low-volume or occasional users
-                    </span>
-                  </li>
-                  <li className="flex items-start">
-                    <CheckCircle className="h-5 w-5 text-blue-600 mr-2 shrink-0 mt-0.5" />
-                    <span className="text-gray-700 dark:text-gray-300">
-                      <strong>AI credit packs:</strong> ₹199 for 100 credits to supplement assessments
-                    </span>
-                  </li>
-                  <li className="flex items-start">
-                    <CheckCircle className="h-5 w-5 text-blue-600 mr-2 shrink-0 mt-0.5" />
-                    <span className="text-gray-700 dark:text-gray-300">
-                      <strong>White-label solutions:</strong> Customizable for agencies seeking brand integration
-                    </span>
-                  </li>
-                </ul>
-              </div>
-              <div>
-                <h3 className="text-xl font-semibold mb-4">Enterprise Benefits</h3>
-                <ul className="space-y-3">
-                  <li className="flex items-start">
-                    <CheckCircle className="h-5 w-5 text-blue-600 mr-2 shrink-0 mt-0.5" />
-                    <span className="text-gray-700 dark:text-gray-300">
-                      <strong>Flexible "Pay as You Go" model:</strong> Tailored pricing for large organizations
-                    </span>
-                  </li>
-                  <li className="flex items-start">
-                    <CheckCircle className="h-5 w-5 text-blue-600 mr-2 shrink-0 mt-0.5" />
-                    <span className="text-gray-700 dark:text-gray-300">
-                      <strong>Custom AI training:</strong> Specialized models trained for your industry
-                    </span>
-                  </li>
-                  <li className="flex items-start">
-                    <CheckCircle className="h-5 w-5 text-blue-600 mr-2 shrink-0 mt-0.5" />
-                    <span className="text-gray-700 dark:text-gray-300">
-                      <strong>Talent Marketplace:</strong> Sponsored job posts and premium access to top-tier talent
-                    </span>
-                  </li>
-                </ul>
-              </div>
-            </div>
-          </motion.div>
-        </div>
-      </section>
-        
       {/* FAQ Section */}
-      <section ref={faqSectionRef} className="py-16 bg-gray-50">
+      <section ref={faqSectionRef} className="py-16 bg-white">
         <div className="container mx-auto px-4">
           <SectionHeading title="Frequently Asked Questions" align="center" />
           
@@ -481,19 +432,19 @@ const Pricing = () => {
         } : {}} transition={{
           duration: 0.6
         }}>
-            <h3 className="text-3xl font-bold mb-4">Need a custom solution?</h3>
+            <h3 className="text-3xl font-bold mb-4">Ready to Transform Your Hiring?</h3>
             <p className="text-xl text-blue-100 mb-8 max-w-2xl mx-auto">
-              Let's discuss how Zordie can be tailored to meet your organization's specific hiring requirements.
+              Join our exclusive pre-access program and be among the first to experience the future of AI-powered recruitment.
             </p>
             <div className="flex flex-col sm:flex-row justify-center space-y-4 sm:space-y-0 sm:space-x-4">
               <Link to="/contact">
-                <Button variant="outline" size="lg" className="text-white border-white hover:text-blue-700 transition-all duration-300 hover:shadow-md bg-yellow-500 hover:bg-yellow-400">
-                  Schedule a Demo
+                <Button size="lg" className="bg-yellow-500 text-blue-900 hover:bg-yellow-400 transition-all duration-300 hover:shadow-lg font-semibold">
+                  Join Pre-Access Waitlist
                 </Button>
               </Link>
-              <Link to="/signup">
-                <Button size="lg" className="bg-white text-blue-700 hover:bg-gray-100 transition-all duration-300 hover:shadow-lg">
-                  Start Free Trial <ArrowRight className="ml-2 h-4 w-4" />
+              <Link to="/arc">
+                <Button size="lg" variant="outline" className="text-white border-white hover:bg-white hover:text-blue-700 transition-all duration-300">
+                  Explore ARC Agents <ArrowRight className="ml-2 h-4 w-4" />
                 </Button>
               </Link>
             </div>
@@ -506,21 +457,24 @@ const Pricing = () => {
       </section>
     </Layout>;
 };
+
 interface PricingFeatureProps {
   available: boolean;
   text: string;
 }
+
 const PricingFeature = ({
   available,
   text
 }: PricingFeatureProps) => {
   return <li className="flex items-start">
-      {available ? <CircleCheck className="h-5 w-5 text-green-500 mr-2 shrink-0" /> : <X className="h-5 w-5 text-gray-300 mr-2 shrink-0" />}
+      {available ? <CircleCheck className="h-4 w-4 text-green-500 mr-2 shrink-0 mt-0.5" /> : <X className="h-4 w-4 text-gray-300 mr-2 shrink-0 mt-0.5" />}
       <span className={`text-sm ${available ? "text-gray-600 dark:text-gray-300" : "text-gray-400 dark:text-gray-500"}`}>
         {text}
       </span>
     </li>;
 };
+
 interface ComparisonRowProps {
   feature: string;
   free: React.ReactNode;
@@ -529,6 +483,7 @@ interface ComparisonRowProps {
   agency: React.ReactNode;
   enterprise: React.ReactNode;
 }
+
 const ComparisonRow = ({
   feature,
   free,
@@ -556,27 +511,29 @@ const ComparisonRow = ({
         {typeof growth === "string" ? growth : growth}
       </div>
       <div className="text-center flex items-center justify-center">
-        {typeof enterprise === "string" ? enterprise : enterprise}
+        {typeof agency === "string" ? agency : agency}
       </div>
     </motion.div>;
 };
+
 const faqs = [{
-  question: "Can I switch plans later?",
-  answer: "Yes, you can upgrade or downgrade your plan at any time. If you upgrade, the new features will be immediately available. If you downgrade, the changes will take effect at the start of your next billing cycle."
+  question: "What is pre-access and how does it work?",
+  answer: "Pre-access gives you early access to Zordie's platform before our official launch. By joining our waitlist, you'll be among the first to test our AI-powered recruitment tools and provide valuable feedback to shape the final product."
 }, {
-  question: "Is there a free trial for paid plans?",
-  answer: "Yes, we offer a 14-day free trial for all paid plans. You won't be charged until the trial period ends, and you can cancel anytime during the trial."
+  question: "When will Zordie be available?",
+  answer: "We're currently in development and plan to launch in early 2024. Pre-access members will get access 2-3 months before our public launch, giving you a significant advantage in transforming your hiring process."
 }, {
   question: "What are AI Credits and how do they work?",
-  answer: "AI Credits are used for running candidate assessments, screenings, and generating detailed reports. Each assessment typically uses between 5-20 credits depending on its complexity. You can purchase additional credit packs if you need more than what's included in your plan."
+  answer: "AI Credits are used for running candidate assessments, AI screening, resume analysis, and generating detailed reports. Each assessment typically uses between 5-20 credits depending on its complexity. You can always purchase additional credit packs if needed."
 }, {
-  question: "How does the pay-as-you-go model work?",
-  answer: "With our pay-as-you-go model, you purchase credits that can be used for various actions like posting jobs, screening resumes, or conducting AI interviews. This is ideal for companies with irregular hiring needs."
+  question: "Can I upgrade or downgrade my plan later?",
+  answer: "Yes, you can change your plan at any time once we launch. If you upgrade, new features will be immediately available. If you downgrade, changes take effect at the start of your next billing cycle."
 }, {
-  question: "Do you offer discounts for non-profits or educational institutions?",
-  answer: "Yes, we offer special pricing for non-profits, educational institutions, and startups. Please contact our sales team for more information."
+  question: "What makes Zordie different from other ATS platforms?",
+  answer: "Zordie features our revolutionary ARC (AI Recruitment Collective) system with 10 specialized AI agents, each designed for specific recruitment tasks. This provides unmatched accuracy and efficiency compared to traditional ATS platforms."
 }, {
-  question: "What type of assessments can I create with Zordie?",
-  answer: "With Zordie, you can create a wide range of assessments including technical skills evaluations, personality assessments, cognitive ability tests, role-specific scenario assessments, and cultural fit evaluations. Our AI-powered system helps you design and analyze results from these assessments."
+  question: "Do you offer custom solutions for enterprise clients?",
+  answer: "Yes, we provide tailored enterprise solutions with custom pricing, volume discounts, dedicated support, on-premise deployment options, and specialized AI training for your specific industry needs."
 }];
+
 export default Pricing;

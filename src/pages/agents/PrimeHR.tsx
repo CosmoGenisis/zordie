@@ -1,4 +1,3 @@
-
 import React, { useRef } from 'react';
 import Layout from '@/components/layout/Layout';
 import { motion, useInView } from 'framer-motion';
@@ -80,7 +79,7 @@ const PrimeHR = () => {
               ARC Agent
             </Badge>
             <h1 className="text-4xl md:text-6xl font-bold mb-6">
-              <GradientText gradient="rainbow" className="text-white">Prime HR</GradientText>
+              <GradientText gradient="zordie" className="text-white">Prime HR</GradientText>
             </h1>
             <p className="text-xl md:text-2xl text-red-100 mb-8 max-w-4xl mx-auto">
               <strong>The Master Orchestrator</strong> - Central command center coordinating all agent activities, managing workflows, and providing unified HR oversight with advanced decision-making algorithms

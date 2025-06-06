@@ -1,4 +1,3 @@
-
 import React, { useRef } from 'react';
 import Layout from '@/components/layout/Layout';
 import { motion, useInView } from 'framer-motion';
@@ -80,7 +79,7 @@ const Optimus = () => {
               ARC Agent
             </Badge>
             <h1 className="text-4xl md:text-6xl font-bold mb-6">
-              <GradientText gradient="rainbow" className="text-white">Optimus</GradientText>
+              <GradientText gradient="zordie" className="text-white">Optimus</GradientText>
             </h1>
             <p className="text-xl md:text-2xl text-blue-100 mb-8 max-w-4xl mx-auto">
               <strong>The Recruitment Commander</strong> - Advanced ATS capabilities with machine learning algorithms for candidate matching, sourcing, and intelligent recruitment pipeline management

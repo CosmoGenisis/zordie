@@ -17,12 +17,12 @@ const GradientText: React.FC<GradientTextProps> = ({
   delay = 0
 }) => {
   const gradientClasses = {
-    primary: 'bg-blue-cyan-gradient dark:bg-cyan-orange-gradient bg-clip-text text-transparent',
-    secondary: 'bg-gradient-to-r from-brandOrange-500 to-brandBlue-500 dark:from-brandCyan-400 dark:to-brandOrange-400 bg-clip-text text-transparent',
-    accent: 'bg-gradient-to-r from-brandCyan-500 to-brandOrange-500 dark:from-brandOrange-400 dark:to-brandCyan-400 bg-clip-text text-transparent',
-    zordie: 'bg-zordie-main dark:bg-zordie-secondary bg-clip-text text-transparent', // Orange to Blue like reference image
-    zordieCyan: 'bg-zordie-blue-cyan dark:bg-zordie-secondary bg-clip-text text-transparent', // Blue to Cyan
-    zordieReverse: 'bg-zordie-secondary dark:bg-zordie-main bg-clip-text text-transparent', // Cyan to Orange
+    primary: 'bg-gradient-to-r from-blue-custom to-orange-custom bg-clip-text text-transparent',
+    secondary: 'bg-gradient-to-r from-orange-custom to-blue-dark bg-clip-text text-transparent',
+    accent: 'bg-gradient-to-r from-blue-dark to-orange-custom bg-clip-text text-transparent',
+    zordie: 'bg-gradient-to-r from-orange-custom via-blue-custom to-blue-dark bg-clip-text text-transparent',
+    zordieCyan: 'bg-gradient-to-r from-blue-custom to-blue-dark bg-clip-text text-transparent',
+    zordieReverse: 'bg-gradient-to-r from-blue-dark via-blue-custom to-orange-custom bg-clip-text text-transparent',
   };
 
   const animationClass = animate ? 'zordie-flow' : '';

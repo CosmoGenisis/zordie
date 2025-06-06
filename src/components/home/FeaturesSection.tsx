@@ -1,3 +1,4 @@
+
 import React, { useRef } from 'react';
 import { SectionHeading } from '@/components/ui/section-heading';
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
@@ -47,11 +48,11 @@ const FeaturesSection = () => {
   };
 
   return (
-    <section ref={sectionRef} className="py-24 relative overflow-hidden bg-gradient-to-br from-zordieBlue-50 to-zordieCyan-50 dark:from-slate-900 dark:to-slate-800">
-      {/* Background elements with Zordie colors */}
+    <section ref={sectionRef} className="py-24 relative overflow-hidden bg-gradient-to-br from-blue-custom-50 to-orange-custom-50 dark:from-blue-dark-900 dark:to-blue-dark-800">
+      {/* Background elements with custom colors */}
       <div className="absolute top-0 left-0 w-full h-full pointer-events-none">
-        <div className="absolute top-10 left-10 w-72 h-72 bg-zordieOrange-400/10 dark:bg-zordieCyan-400/10 rounded-full blur-3xl"></div>
-        <div className="absolute bottom-20 right-10 w-80 h-80 bg-zordieCyan-400/10 dark:bg-zordieOrange-400/10 rounded-full blur-3xl"></div>
+        <div className="absolute top-10 left-10 w-72 h-72 bg-orange-custom-400/10 dark:bg-blue-custom-400/10 rounded-full blur-3xl"></div>
+        <div className="absolute bottom-20 right-10 w-80 h-80 bg-blue-custom-400/10 dark:bg-orange-custom-400/10 rounded-full blur-3xl"></div>
       </div>
       
       <div className="container mx-auto px-4 relative z-10">
@@ -71,13 +72,13 @@ const FeaturesSection = () => {
               <TabsList className="grid grid-cols-2 w-full max-w-md">
                 <TabsTrigger 
                   value="companies" 
-                  className="data-[state=active]:bg-zordie-main data-[state=active]:text-white"
+                  className="data-[state=active]:bg-custom-main data-[state=active]:text-white"
                 >
                   For Companies
                 </TabsTrigger>
                 <TabsTrigger 
                   value="jobseekers"
-                  className="data-[state=active]:bg-zordie-main data-[state=active]:text-white"
+                  className="data-[state=active]:bg-custom-main data-[state=active]:text-white"
                 >
                   For Job Seekers
                 </TabsTrigger>
@@ -94,7 +95,7 @@ const FeaturesSection = () => {
                   className="order-2 md:order-1"
                 >
                   <motion.h3 
-                    className="text-3xl font-bold mb-6 text-zordieBlue-800 dark:text-white"
+                    className="text-3xl font-bold mb-6 text-blue-dark-800 dark:text-white"
                     variants={itemVariants}
                   >
                     Find verified talent faster with our{' '}
@@ -102,7 +103,7 @@ const FeaturesSection = () => {
                   </motion.h3>
                   
                   <motion.p 
-                    className="text-gray-600 dark:text-slate-300 mb-8"
+                    className="text-blue-dark-600 dark:text-white/90 mb-8"
                     variants={itemVariants}
                   >
                     Our AI agent, Prime HR, handles the entire screening process, from resume verification to skills assessment, so you can focus on finding the perfect match for your team.
@@ -113,28 +114,28 @@ const FeaturesSection = () => {
                     variants={containerVariants}
                   >
                     <FeatureItem 
-                      icon={<Bot className="zordie-blue-text" />}
+                      icon={<Bot className="custom-blue-text" />}
                       title="AI-Powered Screening"
                       description="Our AI automatically scans and ranks resumes based on job requirements."
                       variants={itemVariants}
                     />
                     
                     <FeatureItem 
-                      icon={<ShieldCheck className="zordie-cyan-text" />}
+                      icon={<ShieldCheck className="custom-blue-text" />}
                       title="Credential Verification"
                       description="Automatically verify skills, projects, and credentials with connected profiles."
                       variants={itemVariants}
                     />
                     
                     <FeatureItem 
-                      icon={<Video className="zordie-orange-text" />}
+                      icon={<Video className="custom-orange-text" />}
                       title="Automated Video Interviews"
                       description="AI-analyzed video screening with real-time scoring reduces interview time by 73%."
                       variants={itemVariants}
                     />
                     
                     <FeatureItem 
-                      icon={<BarChart className="zordie-blue-text" />}
+                      icon={<BarChart className="custom-blue-dark-text" />}
                       title="Comprehensive Analytics"
                       description="Detailed scorecards and candidate rankings based on verified skills and interview performance."
                       variants={itemVariants}
@@ -148,7 +149,7 @@ const FeaturesSection = () => {
                     <Link to="/contact">
                       <Button 
                         size="lg" 
-                        className="btn-zordie-main relative overflow-hidden group"
+                        className="btn-custom-main relative overflow-hidden group"
                       >
                         <span className="relative z-10">Join Pre-Access Program</span>
                         <motion.span 
@@ -171,19 +172,19 @@ const FeaturesSection = () => {
                   className="order-1 md:order-2 relative"
                   variants={itemVariants}
                 >
-                  <div className="relative zordie-card zordie-glow p-8 rounded-xl">
-                    <div className="absolute -top-4 -right-4 bg-zordie-main text-white text-sm font-medium px-4 py-1 rounded-full">
+                  <div className="relative custom-card custom-glow p-8 rounded-xl">
+                    <div className="absolute -top-4 -right-4 bg-custom-main text-white text-sm font-medium px-4 py-1 rounded-full">
                       Prime HR AI
                     </div>
                     
                     <div className="mb-6">
-                      <div className="w-12 h-12 rounded-full bg-zordieBlue-100 dark:bg-slate-700 flex items-center justify-center mb-4">
-                        <Bot className="h-6 w-6 zordie-blue-text dark:text-zordieCyan-400" />
+                      <div className="w-12 h-12 rounded-full bg-blue-custom-100 dark:bg-blue-dark-700 flex items-center justify-center mb-4">
+                        <Bot className="h-6 w-6 custom-blue-text dark:text-blue-custom-400" />
                       </div>
-                      <h4 className="text-xl font-semibold text-zordieBlue-800 dark:text-white mb-2">
+                      <h4 className="text-xl font-semibold text-blue-dark-800 dark:text-white mb-2">
                         Candidate Screening Process
                       </h4>
-                      <p className="text-gray-600 dark:text-slate-300 text-sm">
+                      <p className="text-blue-dark-600 dark:text-white/80 text-sm">
                         Our AI agent, Prime HR, handles the entire screening flow
                       </p>
                     </div>
@@ -222,12 +223,12 @@ const FeaturesSection = () => {
                     
                     <div className="mt-8 flex justify-between items-center">
                       <div>
-                        <p className="text-sm text-gray-500 dark:text-slate-400">Average time saved</p>
-                        <p className="text-2xl font-bold zordie-blue-text dark:text-zordieCyan-400">23 hours/week</p>
+                        <p className="text-sm text-blue-dark-500 dark:text-white/60">Average time saved</p>
+                        <p className="text-2xl font-bold custom-blue-text dark:text-blue-custom-400">23 hours/week</p>
                       </div>
                       <div>
                         <Link to="/contact">
-                          <Button variant="outline" size="sm" className="zordie-animated-border">
+                          <Button variant="outline" size="sm" className="custom-animated-border">
                             Join Pre-Access
                           </Button>
                         </Link>
@@ -235,9 +236,9 @@ const FeaturesSection = () => {
                     </div>
                   </div>
                   
-                  {/* Decorative elements with Zordie colors */}
-                  <div className="absolute -bottom-6 -left-6 w-32 h-32 bg-zordieBlue-100 dark:bg-slate-800/50 rounded-lg -z-10 transform -rotate-6"></div>
-                  <div className="absolute -top-6 -right-6 w-32 h-32 bg-zordieOrange-100 dark:bg-zordieOrange-100/50 rounded-lg -z-10 transform rotate-6"></div>
+                  {/* Decorative elements with custom colors */}
+                  <div className="absolute -bottom-6 -left-6 w-32 h-32 bg-blue-custom-100 dark:bg-blue-dark-800/50 rounded-lg -z-10 transform -rotate-6"></div>
+                  <div className="absolute -top-6 -right-6 w-32 h-32 bg-orange-custom-100 dark:bg-orange-custom-100/50 rounded-lg -z-10 transform rotate-6"></div>
                 </motion.div>
               </div>
             </TabsContent>
@@ -251,7 +252,7 @@ const FeaturesSection = () => {
                   animate={isInView ? "visible" : "hidden"}
                 >
                   <motion.h3 
-                    className="text-3xl font-bold mb-6 text-zordieBlue-800 dark:text-white"
+                    className="text-3xl font-bold mb-6 text-blue-dark-800 dark:text-white"
                     variants={itemVariants}
                   >
                     Showcase your{' '}
@@ -260,7 +261,7 @@ const FeaturesSection = () => {
                   </motion.h3>
                   
                   <motion.p 
-                    className="text-gray-600 dark:text-slate-300 mb-8"
+                    className="text-blue-dark-600 dark:text-white/90 mb-8"
                     variants={itemVariants}
                   >
                     Verify your skills, prepare with AI, and get matched with the perfect opportunities that recognize your authentic abilities.
@@ -271,28 +272,28 @@ const FeaturesSection = () => {
                     variants={containerVariants}
                   >
                     <FeatureItem 
-                      icon={<ShieldCheck className="zordie-cyan-text" />}
+                      icon={<ShieldCheck className="custom-blue-text" />}
                       title="Skill Verification"
                       description="Connect GitHub, LinkedIn and upload projects to verify your skills and get your verification badge."
                       variants={itemVariants}
                     />
                     
                     <FeatureItem 
-                      icon={<Zap className="zordie-orange-text" />}
+                      icon={<Zap className="custom-orange-text" />}
                       title="AI-Optimized Profile"
                       description="Our AI optimizes your profile for each job application to maximize match rate."
                       variants={itemVariants}
                     />
                     
                     <FeatureItem 
-                      icon={<Video className="zordie-blue-text" />}
+                      icon={<Video className="custom-blue-dark-text" />}
                       title="Interview Practice"
                       description="Prepare with AI-powered practice interviews tailored to your target roles."
                       variants={itemVariants}
                     />
                     
                     <FeatureItem 
-                      icon={<Award className="zordie-cyan-text" />}
+                      icon={<Award className="custom-blue-text" />}
                       title="Stand Out from the Crowd"
                       description="Get hired based on your authentic, verified abilities rather than just your resume."
                       variants={itemVariants}
@@ -306,7 +307,7 @@ const FeaturesSection = () => {
                     <Link to="/contact">
                       <Button 
                         size="lg" 
-                        className="btn-zordie-secondary relative overflow-hidden group"
+                        className="btn-custom-secondary relative overflow-hidden group"
                       >
                         <span className="relative z-10">Join Pre-Access Program</span>
                         <motion.span 
@@ -329,8 +330,8 @@ const FeaturesSection = () => {
                   className="relative"
                   variants={itemVariants}
                 >
-                  <div className="relative zordie-card zordie-glow p-8 rounded-xl">
-                    <div className="absolute -top-4 -left-4 bg-zordie-secondary text-white text-sm font-medium px-4 py-1 rounded-full">
+                  <div className="relative custom-card custom-glow p-8 rounded-xl">
+                    <div className="absolute -top-4 -left-4 bg-custom-secondary text-white text-sm font-medium px-4 py-1 rounded-full">
                       Verified Profile
                     </div>
                     
@@ -339,17 +340,17 @@ const FeaturesSection = () => {
                         <img 
                           src="https://randomuser.me/api/portraits/men/32.jpg" 
                           alt="Profile" 
-                          className="w-16 h-16 rounded-full object-cover border-2 border-white dark:border-slate-700"
+                          className="w-16 h-16 rounded-full object-cover border-2 border-white dark:border-blue-dark-700"
                         />
-                        <div className="absolute -bottom-1 -right-1 bg-green-500 text-white p-1 rounded-full border-2 border-white dark:border-slate-700">
+                        <div className="absolute -bottom-1 -right-1 bg-green-500 text-white p-1 rounded-full border-2 border-white dark:border-blue-dark-700">
                           <CheckCircle className="h-4 w-4" />
                         </div>
                       </div>
                       <div>
-                        <h4 className="text-xl font-semibold text-zordieBlue-800 dark:text-white">
+                        <h4 className="text-xl font-semibold text-blue-dark-800 dark:text-white">
                           David Chen
                         </h4>
-                        <p className="text-gray-500 dark:text-gray-400">
+                        <p className="text-blue-dark-500 dark:text-white/70">
                           Full Stack Developer
                         </p>
                         <div className="flex items-center mt-1">
@@ -364,67 +365,67 @@ const FeaturesSection = () => {
                     <div className="space-y-4 mb-6">
                       <div>
                         <div className="flex justify-between mb-1">
-                          <span className="text-sm font-medium text-gray-700 dark:text-gray-300">Technical Skills</span>
-                          <span className="text-sm font-medium text-zordieBlue-600">92%</span>
+                          <span className="text-sm font-medium text-blue-dark-700 dark:text-white/90">Technical Skills</span>
+                          <span className="text-sm font-medium text-blue-custom-600">92%</span>
                         </div>
-                        <div className="w-full h-2 bg-gray-200 dark:bg-gray-700 rounded-full">
-                          <div className="h-full bg-gradient-to-r from-zordieBlue-600 to-zordieCyan-500 rounded-full" style={{width: '92%'}}></div>
-                        </div>
-                      </div>
-                      
-                      <div>
-                        <div className="flex justify-between mb-1">
-                          <span className="text-sm font-medium text-gray-700 dark:text-gray-300">Project Verification</span>
-                          <span className="text-sm font-medium text-zordieBlue-600">100%</span>
-                        </div>
-                        <div className="w-full h-2 bg-gray-200 dark:bg-gray-700 rounded-full">
-                          <div className="h-full bg-gradient-to-r from-zordieBlue-600 to-zordieCyan-500 rounded-full" style={{width: '100%'}}></div>
+                        <div className="w-full h-2 bg-blue-custom-200 dark:bg-blue-dark-700 rounded-full">
+                          <div className="h-full bg-gradient-to-r from-blue-custom-600 to-orange-custom-500 rounded-full" style={{width: '92%'}}></div>
                         </div>
                       </div>
                       
                       <div>
                         <div className="flex justify-between mb-1">
-                          <span className="text-sm font-medium text-gray-700 dark:text-gray-300">Interview Readiness</span>
-                          <span className="text-sm font-medium text-zordieBlue-600">85%</span>
+                          <span className="text-sm font-medium text-blue-dark-700 dark:text-white/90">Project Verification</span>
+                          <span className="text-sm font-medium text-blue-custom-600">100%</span>
                         </div>
-                        <div className="w-full h-2 bg-gray-200 dark:bg-gray-700 rounded-full">
-                          <div className="h-full bg-gradient-to-r from-zordieBlue-600 to-zordieCyan-500 rounded-full" style={{width: '85%'}}></div>
+                        <div className="w-full h-2 bg-blue-custom-200 dark:bg-blue-dark-700 rounded-full">
+                          <div className="h-full bg-gradient-to-r from-blue-custom-600 to-orange-custom-500 rounded-full" style={{width: '100%'}}></div>
+                        </div>
+                      </div>
+                      
+                      <div>
+                        <div className="flex justify-between mb-1">
+                          <span className="text-sm font-medium text-blue-dark-700 dark:text-white/90">Interview Readiness</span>
+                          <span className="text-sm font-medium text-blue-custom-600">85%</span>
+                        </div>
+                        <div className="w-full h-2 bg-blue-custom-200 dark:bg-blue-dark-700 rounded-full">
+                          <div className="h-full bg-gradient-to-r from-blue-custom-600 to-orange-custom-500 rounded-full" style={{width: '85%'}}></div>
                         </div>
                       </div>
                     </div>
                     
                     <div className="grid grid-cols-3 gap-3">
-                      <div className="flex flex-col items-center p-3 bg-gray-50 dark:bg-zordie-700/30 rounded-lg">
-                        <Github className="h-5 w-5 text-brandBlue-600 mb-1" />
-                        <span className="text-xs text-gray-500 dark:text-gray-400">GitHub</span>
-                        <span className="text-sm font-medium text-brandBlue-800 dark:text-white">Verified</span>
+                      <div className="flex flex-col items-center p-3 bg-blue-custom-50 dark:bg-blue-dark-700/30 rounded-lg">
+                        <Github className="h-5 w-5 text-blue-custom-600 mb-1" />
+                        <span className="text-xs text-blue-dark-500 dark:text-white/60">GitHub</span>
+                        <span className="text-sm font-medium text-blue-dark-800 dark:text-white">Verified</span>
                       </div>
                       
-                      <div className="flex flex-col items-center p-3 bg-gray-50 dark:bg-zordie-700/30 rounded-lg">
-                        <Linkedin className="h-5 w-5 text-brandBlue-600 mb-1" />
-                        <span className="text-xs text-gray-500 dark:text-gray-400">LinkedIn</span>
-                        <span className="text-sm font-medium text-brandBlue-800 dark:text-white">Verified</span>
+                      <div className="flex flex-col items-center p-3 bg-blue-custom-50 dark:bg-blue-dark-700/30 rounded-lg">
+                        <Linkedin className="h-5 w-5 text-blue-custom-600 mb-1" />
+                        <span className="text-xs text-blue-dark-500 dark:text-white/60">LinkedIn</span>
+                        <span className="text-sm font-medium text-blue-dark-800 dark:text-white">Verified</span>
                       </div>
                       
-                      <div className="flex flex-col items-center p-3 bg-gray-50 dark:bg-zordie-700/30 rounded-lg">
-                        <Video className="h-5 w-5 text-brandBlue-600 mb-1" />
-                        <span className="text-xs text-gray-500 dark:text-gray-400">Interviews</span>
-                        <span className="text-sm font-medium text-brandBlue-800 dark:text-white">5 Passed</span>
+                      <div className="flex flex-col items-center p-3 bg-blue-custom-50 dark:bg-blue-dark-700/30 rounded-lg">
+                        <Video className="h-5 w-5 text-blue-custom-600 mb-1" />
+                        <span className="text-xs text-blue-dark-500 dark:text-white/60">Interviews</span>
+                        <span className="text-sm font-medium text-blue-dark-800 dark:text-white">5 Passed</span>
                       </div>
                     </div>
                     
                     <div className="mt-6">
                       <Link to="/verify-profile">
-                        <Button className="w-full btn-zordie-main">
+                        <Button className="w-full btn-custom-main">
                           Get Your Profile Verified
                         </Button>
                       </Link>
                     </div>
                   </div>
                   
-                  {/* Decorative elements with Zordie colors */}
-                  <div className="absolute -bottom-6 -right-6 w-32 h-32 bg-zordieBlue-100 dark:bg-slate-800/50 rounded-lg -z-10 transform rotate-6"></div>
-                  <div className="absolute -top-6 -left-6 w-32 h-32 bg-zordieOrange-100 dark:bg-zordieOrange-100/50 rounded-lg -z-10 transform -rotate-6"></div>
+                  {/* Decorative elements with custom colors */}
+                  <div className="absolute -bottom-6 -right-6 w-32 h-32 bg-blue-custom-100 dark:bg-blue-dark-800/50 rounded-lg -z-10 transform rotate-6"></div>
+                  <div className="absolute -top-6 -left-6 w-32 h-32 bg-orange-custom-100 dark:bg-orange-custom-100/50 rounded-lg -z-10 transform -rotate-6"></div>
                 </motion.div>
               </div>
             </TabsContent>
@@ -438,12 +439,12 @@ const FeaturesSection = () => {
 const FeatureItem = ({ icon, title, description, variants }) => {
   return (
     <motion.div className="flex items-start" variants={variants}>
-      <div className="mt-1 w-10 h-10 rounded-full bg-zordieBlue-100 dark:bg-slate-800 flex items-center justify-center mr-4 flex-shrink-0">
+      <div className="mt-1 w-10 h-10 rounded-full bg-blue-custom-100 dark:bg-blue-dark-800 flex items-center justify-center mr-4 flex-shrink-0">
         {icon}
       </div>
       <div>
-        <h4 className="text-lg font-semibold text-zordieBlue-800 dark:text-white mb-1">{title}</h4>
-        <p className="text-gray-600 dark:text-slate-300">{description}</p>
+        <h4 className="text-lg font-semibold text-blue-dark-800 dark:text-white mb-1">{title}</h4>
+        <p className="text-blue-dark-600 dark:text-white/80">{description}</p>
       </div>
     </motion.div>
   );
@@ -452,12 +453,12 @@ const FeatureItem = ({ icon, title, description, variants }) => {
 const ScreeningStep = ({ number, title, description }) => {
   return (
     <div className="flex items-start">
-      <div className="w-8 h-8 rounded-full bg-zordieBlue-100 dark:bg-slate-700 flex items-center justify-center zordie-blue-text dark:text-zordieCyan-400 font-semibold mr-3 flex-shrink-0">
+      <div className="w-8 h-8 rounded-full bg-blue-custom-100 dark:bg-blue-dark-700 flex items-center justify-center custom-blue-text dark:text-blue-custom-400 font-semibold mr-3 flex-shrink-0">
         {number}
       </div>
       <div>
-        <h5 className="font-medium text-zordieBlue-800 dark:text-white text-base">{title}</h5>
-        <p className="text-gray-500 dark:text-slate-400 text-sm">{description}</p>
+        <h5 className="font-medium text-blue-dark-800 dark:text-white text-base">{title}</h5>
+        <p className="text-blue-dark-500 dark:text-white/70 text-sm">{description}</p>
       </div>
     </div>
   );

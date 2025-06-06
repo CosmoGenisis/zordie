@@ -63,86 +63,43 @@ export default {
 					border: 'hsl(var(--sidebar-border))',
 					ring: 'hsl(var(--sidebar-ring))'
 				},
-				// Reference image inspired color palette
-				zordieOrange: {
-					50: '#fff7ed',
-					100: '#ffedd5',
-					200: '#fed7aa',
-					300: '#fdba74',
-					400: '#fb923c',
-					500: '#f97316', // Main orange from logo
-					600: '#ea580c',
-					700: '#c2410c',
-					800: '#9a3412',
-					900: '#7c2d12',
-					950: '#431407',
-				},
-				zordieBlue: {
-					50: '#eff6ff',
-					100: '#dbeafe',
-					200: '#bfdbfe',
-					300: '#93c5fd',
-					400: '#60a5fa',
-					500: '#3b82f6', // Main blue from images
-					600: '#2563eb',
-					700: '#1d4ed8',
-					800: '#1e40af',
-					900: '#1e3a8a',
-					950: '#172554',
-				},
-				zordieCyan: {
-					50: '#ecfeff',
-					100: '#cffafe',
-					200: '#a5f3fc',
-					300: '#67e8f9',
-					400: '#22d3ee', // Main cyan from gradient
-					500: '#06b6d4',
-					600: '#0891b2',
-					700: '#0e7490',
-					800: '#155e75',
-					900: '#164e63',
-					950: '#083344',
-				},
-				// Legacy brand colors for compatibility
-				brandBlue: {
-					50: '#eff6ff',
-					100: '#dbeafe',
-					200: '#bfdbfe',
-					300: '#93c5fd',
-					400: '#60a5fa',
-					500: '#3b82f6',
-					600: '#2563eb',
-					700: '#1d4ed8',
-					800: '#1e40af',
-					900: '#1e3a8a',
-					950: '#172554',
-				},
-				brandOrange: {
-					50: '#fff7ed',
-					100: '#ffedd5',
-					200: '#fed7aa',
-					300: '#fdba74',
-					400: '#fb923c',
-					500: '#f97316',
-					600: '#ea580c',
-					700: '#c2410c',
-					800: '#9a3412',
-					900: '#7c2d12',
-					950: '#431407',
-				},
-				brandCyan: {
-					50: '#ecfeff',
-					100: '#cffafe',
-					200: '#a5f3fc',
-					300: '#67e8f9',
-					400: '#22d3ee',
-					500: '#06b6d4',
-					600: '#0891b2',
-					700: '#0e7490',
-					800: '#155e75',
-					900: '#164e63',
-					950: '#083344',
-				},
+				// Custom color palette based on provided colors
+				'blue-custom': '#0378fd', // Light blue
+				'orange-custom': '#f55b22', // Orange
+				'blue-dark': '#004aad', // Dark blue
+				// Color variations for better design flexibility
+				'blue-custom-50': '#f0f8ff',
+				'blue-custom-100': '#e0f1ff',
+				'blue-custom-200': '#b3e0ff',
+				'blue-custom-300': '#80ccff',
+				'blue-custom-400': '#4db8ff',
+				'blue-custom-500': '#0378fd',
+				'blue-custom-600': '#0266e3',
+				'blue-custom-700': '#0254c9',
+				'blue-custom-800': '#0142af',
+				'blue-custom-900': '#013095',
+				
+				'orange-custom-50': '#fff7f0',
+				'orange-custom-100': '#ffe6d4',
+				'orange-custom-200': '#ffc299',
+				'orange-custom-300': '#ff9e5e',
+				'orange-custom-400': '#f87a33',
+				'orange-custom-500': '#f55b22',
+				'orange-custom-600': '#e5451c',
+				'orange-custom-700': '#d53016',
+				'orange-custom-800': '#c51c10',
+				'orange-custom-900': '#b5080a',
+				
+				'blue-dark-50': '#e6f0ff',
+				'blue-dark-100': '#b3d6ff',
+				'blue-dark-200': '#80bbff',
+				'blue-dark-300': '#4da1ff',
+				'blue-dark-400': '#1a86ff',
+				'blue-dark-500': '#006be6',
+				'blue-dark-600': '#0057cc',
+				'blue-dark-700': '#004aad',
+				'blue-dark-800': '#003d94',
+				'blue-dark-900': '#00307a',
 			},
 			fontFamily: {
 				sans: ['Inter', 'sans-serif'],
@@ -172,12 +129,12 @@ export default {
 				},
 				"glow": {
 					"0%, 100%": { 
-						boxShadow: "0 0 20px rgba(34, 211, 238, 0.4)",
-						borderColor: "rgba(34, 211, 238, 0.7)"
+						boxShadow: "0 0 20px rgba(3, 120, 253, 0.4)",
+						borderColor: "rgba(3, 120, 253, 0.7)"
 					},
 					"50%": { 
-						boxShadow: "0 0 40px rgba(34, 211, 238, 0.7)",
-						borderColor: "rgba(34, 211, 238, 1)"
+						boxShadow: "0 0 40px rgba(3, 120, 253, 0.7)",
+						borderColor: "rgba(3, 120, 253, 1)"
 					},
 				},
 				"flow": {
@@ -196,20 +153,12 @@ export default {
 			},
 			backgroundImage: {
 				'gradient-radial': 'radial-gradient(var(--tw-gradient-stops))',
-				// Reference image inspired gradients
-				'zordie-main': 'linear-gradient(135deg, #f97316 0%, #3b82f6 100%)', // Orange to Blue like first image
-				'zordie-main-hover': 'linear-gradient(135deg, #ea580c 0%, #2563eb 100%)',
-				'zordie-secondary': 'linear-gradient(135deg, #22d3ee 0%, #f97316 100%)', // Cyan to Orange like second image
-				'zordie-secondary-hover': 'linear-gradient(135deg, #06b6d4 0%, #ea580c 100%)',
-				'zordie-blue-cyan': 'linear-gradient(135deg, #3b82f6 0%, #22d3ee 100%)', // Blue to Cyan
-				'zordie-blue-cyan-hover': 'linear-gradient(135deg, #2563eb 0%, #06b6d4 100%)',
-				// Legacy gradients for compatibility
-				'cyan-orange-gradient': 'linear-gradient(135deg, #22d3ee 0%, #f97316 100%)',
-				'cyan-orange-gradient-hover': 'linear-gradient(135deg, #06b6d4 0%, #ea580c 100%)',
-				'blue-cyan-gradient': 'linear-gradient(135deg, #3b82f6 0%, #22d3ee 100%)',
-				'blue-cyan-gradient-hover': 'linear-gradient(135deg, #2563eb 0%, #06b6d4 100%)',
-				'orange-blue-gradient': 'linear-gradient(135deg, #f97316 0%, #3b82f6 100%)',
-				'orange-blue-gradient-hover': 'linear-gradient(135deg, #ea580c 0%, #2563eb 100%)',
+				// Custom gradients using the provided colors
+				'custom-main': 'linear-gradient(135deg, #f55b22 0%, #0378fd 50%, #004aad 100%)',
+				'custom-secondary': 'linear-gradient(135deg, #0378fd 0%, #f55b22 100%)',
+				'custom-dark': 'linear-gradient(135deg, #004aad 0%, #0378fd 100%)',
+				'custom-orange-blue': 'linear-gradient(135deg, #f55b22 0%, #0378fd 100%)',
+				'custom-blue-dark': 'linear-gradient(135deg, #0378fd 0%, #004aad 100%)',
 			}
 		}
 	},

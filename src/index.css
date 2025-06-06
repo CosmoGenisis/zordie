@@ -7,83 +7,83 @@
 
 @layer base {
   :root {
-    --background: 255 255 255; /* Pure white */
-    --foreground: 30 41 59; /* Dark blue-gray */
+    --background: 255 255 255; /* White */
+    --foreground: 0 74 173; /* Dark blue for text */
 
     --card: 255 255 255; /* White cards */
-    --card-foreground: 30 41 59;
+    --card-foreground: 0 74 173;
 
     --popover: 255 255 255;
-    --popover-foreground: 30 41 59;
+    --popover-foreground: 0 74 173;
 
-    --primary: 59 130 246; /* Zordie Blue */
+    --primary: 3 120 253; /* Custom blue */
     --primary-foreground: 255 255 255;
 
-    --secondary: 249 115 22; /* Zordie Orange */
+    --secondary: 245 91 34; /* Custom orange */
     --secondary-foreground: 255 255 255;
 
-    --muted: 248 250 252;
-    --muted-foreground: 100 116 139;
+    --muted: 240 248 255;
+    --muted-foreground: 0 74 173;
 
-    --accent: 34 211 238; /* Zordie Cyan */
+    --accent: 3 120 253; /* Custom blue */
     --accent-foreground: 255 255 255;
 
     --destructive: 239 68 68;
     --destructive-foreground: 255 255 255;
 
-    --border: 226 232 240;
-    --input: 226 232 240;
-    --ring: 59 130 246;
+    --border: 3 120 253;
+    --input: 240 248 255;
+    --ring: 3 120 253;
 
     --radius: 0.5rem;
 
     --sidebar-background: 255 255 255;
-    --sidebar-foreground: 30 41 59;
-    --sidebar-primary: 59 130 246;
+    --sidebar-foreground: 0 74 173;
+    --sidebar-primary: 3 120 253;
     --sidebar-primary-foreground: 255 255 255;
-    --sidebar-accent: 248 250 252;
-    --sidebar-accent-foreground: 30 41 59;
-    --sidebar-border: 226 232 240;
-    --sidebar-ring: 59 130 246;
+    --sidebar-accent: 240 248 255;
+    --sidebar-accent-foreground: 0 74 173;
+    --sidebar-border: 3 120 253;
+    --sidebar-ring: 3 120 253;
   }
 
   .dark {
-    --background: 15 23 42; /* Dark blue background */
-    --foreground: 255 255 255; /* Pure white text */
+    --background: 0 74 173; /* Dark blue background */
+    --foreground: 255 255 255; /* White text */
 
-    --card: 30 41 59; /* Dark blue-gray cards */
+    --card: 0 50 120; /* Darker blue cards */
     --card-foreground: 255 255 255;
 
-    --popover: 30 41 59;
+    --popover: 0 50 120;
     --popover-foreground: 255 255 255;
 
-    --primary: 34 211 238; /* Zordie Cyan primary in dark mode */
-    --primary-foreground: 15 23 42;
+    --primary: 245 91 34; /* Orange primary in dark mode */
+    --primary-foreground: 255 255 255;
 
-    --secondary: 249 115 22; /* Zordie Orange secondary */
+    --secondary: 3 120 253; /* Blue secondary */
     --secondary-foreground: 255 255 255;
 
-    --muted: 51 65 85;
-    --muted-foreground: 148 163 184;
+    --muted: 0 50 120;
+    --muted-foreground: 255 255 255;
 
-    --accent: 249 115 22; /* Zordie Orange accent in dark mode */
+    --accent: 245 91 34; /* Orange accent in dark mode */
     --accent-foreground: 255 255 255;
 
     --destructive: 239 68 68;
     --destructive-foreground: 255 255 255;
 
-    --border: 51 65 85;
-    --input: 51 65 85;
-    --ring: 34 211 238;
+    --border: 3 120 253;
+    --input: 0 50 120;
+    --ring: 245 91 34;
 
-    --sidebar-background: 15 23 42;
+    --sidebar-background: 0 74 173;
     --sidebar-foreground: 255 255 255;
-    --sidebar-primary: 34 211 238;
-    --sidebar-primary-foreground: 15 23 42;
-    --sidebar-accent: 30 41 59;
+    --sidebar-primary: 245 91 34;
+    --sidebar-primary-foreground: 255 255 255;
+    --sidebar-accent: 0 50 120;
     --sidebar-accent-foreground: 255 255 255;
-    --sidebar-border: 51 65 85;
-    --sidebar-ring: 34 211 238;
+    --sidebar-border: 3 120 253;
+    --sidebar-ring: 245 91 34;
   }
 }
 
@@ -94,113 +94,108 @@
 
   body {
     @apply bg-background text-foreground font-sans transition-colors duration-300;
-    background: linear-gradient(135deg, #ffffff 0%, #f0f9ff 50%, #ecfeff 100%);
+    background: linear-gradient(135deg, #ffffff 0%, #f0f8ff 50%, #e6f0ff 100%);
   }
   
-  /* Dark mode gradient background inspired by reference images */
+  /* Dark mode gradient background */
   .dark body {
-    background: linear-gradient(135deg, #0f172a 0%, #1e293b 25%, #334155 75%, #22d3ee 100%);
+    background: linear-gradient(135deg, #004aad 0%, #0378fd 25%, #f55b22 75%, #004aad 100%);
   }
 }
 
 @layer components {
-  /* Main Zordie gradient buttons inspired by reference images */
-  .btn-zordie-main {
-    @apply bg-zordie-main hover:bg-zordie-main-hover text-white font-medium transition-all;
+  /* Custom gradient buttons */
+  .btn-custom-main {
+    @apply bg-custom-main hover:bg-custom-secondary text-white font-medium transition-all;
   }
   
-  .btn-zordie-secondary {
-    @apply bg-zordie-secondary hover:bg-zordie-secondary-hover text-white font-medium transition-all;
+  .btn-custom-secondary {
+    @apply bg-custom-secondary hover:bg-custom-main text-white font-medium transition-all;
   }
   
-  .btn-zordie-blue-cyan {
-    @apply bg-zordie-blue-cyan hover:bg-zordie-blue-cyan-hover text-white font-medium transition-all;
+  .btn-custom-blue {
+    @apply bg-custom-blue-dark hover:bg-custom-dark text-white font-medium transition-all;
   }
   
-  /* Hero title with reference image colors */
-  .hero-title {
-    @apply bg-zordie-main bg-clip-text text-transparent dark:bg-zordie-secondary;
-  }
-
-  /* Feature cards with new color scheme */
+  /* Feature cards with custom colors */
   .feature-card {
-    @apply relative p-6 rounded-xl border bg-white/80 shadow-sm hover:shadow-md transition-all duration-300;
+    @apply relative p-6 rounded-xl border border-blue-custom-200 bg-white shadow-sm hover:shadow-lg hover:shadow-blue-custom-200/30 transition-all duration-300;
   }
 
   .dark .feature-card {
-    @apply bg-gradient-to-br from-slate-800 to-slate-900 border-slate-700 hover:shadow-zordieCyan-500/30;
+    @apply bg-gradient-to-br from-blue-dark-800 to-blue-dark-900 border-blue-custom-500 hover:shadow-orange-custom-500/30;
   }
 
-  /* Enhanced pricing cards */
+  /* Pricing cards */
   .pricing-card {
-    @apply relative p-6 rounded-xl border bg-white/80 shadow-sm hover:shadow-md transition-all duration-300;
+    @apply relative p-6 rounded-xl border border-blue-custom-200 bg-white shadow-sm hover:shadow-lg hover:shadow-blue-custom-200/30 transition-all duration-300;
   }
 
   .dark .pricing-card {
-    @apply bg-gradient-to-br from-slate-800 to-slate-900 border-slate-700 hover:shadow-zordieCyan-500/30;
+    @apply bg-gradient-to-br from-blue-dark-800 to-blue-dark-900 border-blue-custom-500 hover:shadow-orange-custom-500/30;
   }
 
   .dark .pricing-card-highlight {
-    @apply bg-gradient-to-br from-zordieCyan-500/10 to-slate-900 border-zordieCyan-500/50 shadow-zordieCyan-500/20;
+    @apply bg-gradient-to-br from-orange-custom-500/10 to-blue-dark-900 border-orange-custom-500/50 shadow-orange-custom-500/20;
   }
 
-  /* Zordie brand text colors */
-  .zordie-orange-text {
-    @apply text-zordieOrange-500 dark:text-zordieOrange-400;
+  /* Custom text colors */
+  .custom-orange-text {
+    @apply text-orange-custom-500 dark:text-orange-custom-400;
   }
 
-  .zordie-blue-text {
-    @apply text-zordieBlue-500 dark:text-zordieBlue-400;
+  .custom-blue-text {
+    @apply text-blue-custom-500 dark:text-blue-custom-400;
   }
 
-  .zordie-cyan-text {
-    @apply text-zordieCyan-500 dark:text-zordieCyan-400;
+  .custom-blue-dark-text {
+    @apply text-blue-dark-500 dark:text-blue-dark-400;
   }
 
-  /* Zordie gradient text */
-  .zordie-gradient-text {
-    @apply bg-zordie-main bg-clip-text text-transparent dark:bg-zordie-secondary;
+  /* Custom gradient text */
+  .custom-gradient-text {
+    @apply bg-custom-main bg-clip-text text-transparent dark:bg-custom-secondary;
   }
 
-  /* Cards with Zordie colors */
-  .zordie-card {
-    @apply bg-white border border-gray-200 shadow-sm hover:shadow-md transition-all duration-300;
+  /* Cards with custom colors */
+  .custom-card {
+    @apply bg-white border border-blue-custom-200 shadow-sm hover:shadow-md hover:shadow-blue-custom-200/30 transition-all duration-300;
   }
 
-  .dark .zordie-card {
-    @apply bg-gradient-to-br from-slate-800 to-slate-900 border-zordieCyan-500/30 shadow-lg shadow-zordieCyan-500/10 hover:shadow-zordieCyan-500/30;
+  .dark .custom-card {
+    @apply bg-gradient-to-br from-blue-dark-800 to-blue-dark-900 border-blue-custom-500/30 shadow-lg shadow-blue-custom-500/10 hover:shadow-orange-custom-500/30;
   }
 
-  /* Zordie highlight cards */
-  .zordie-highlight-card {
-    @apply bg-gradient-to-br from-zordieOrange-50 to-zordieCyan-50 border border-zordieBlue-100;
+  /* Custom highlight cards */
+  .custom-highlight-card {
+    @apply bg-gradient-to-br from-blue-custom-50 to-orange-custom-50 border border-blue-custom-100;
   }
 
-  .dark .zordie-highlight-card {
-    @apply bg-gradient-to-br from-zordieCyan-500/20 to-slate-900 border-zordieCyan-500/50;
+  .dark .custom-highlight-card {
+    @apply bg-gradient-to-br from-blue-custom-500/20 to-blue-dark-900 border-blue-custom-500/50;
   }
 
-  /* Zordie glow effects */
-  .zordie-glow {
-    @apply shadow-md shadow-zordieBlue-200/20 hover:shadow-lg hover:shadow-zordieCyan-300/30 transition-all duration-300;
+  /* Custom glow effects */
+  .custom-glow {
+    @apply shadow-md shadow-blue-custom-200/20 hover:shadow-lg hover:shadow-orange-custom-300/30 transition-all duration-300;
   }
 
-  .dark .zordie-glow {
-    @apply shadow-md shadow-zordieCyan-500/10 hover:shadow-lg hover:shadow-zordieCyan-500/30;
+  .dark .custom-glow {
+    @apply shadow-md shadow-blue-custom-500/10 hover:shadow-lg hover:shadow-orange-custom-500/30;
   }
 
-  /* Zordie animated borders */
-  .zordie-animated-border {
-    @apply border border-zordieBlue-300 hover:border-zordieCyan-400 transition-colors duration-300;
+  /* Custom animated borders */
+  .custom-animated-border {
+    @apply border border-blue-custom-300 hover:border-orange-custom-400 transition-colors duration-300;
   }
 
-  .dark .zordie-animated-border {
-    @apply border border-zordieCyan-500/50 hover:border-zordieOrange-400/70;
+  .dark .custom-animated-border {
+    @apply border border-blue-custom-500/50 hover:border-orange-custom-400/70;
   }
 }
 
-/* Zordie specific animations */
-@keyframes zordieFlow {
+/* Custom animations */
+@keyframes customFlow {
   0% {
     background-position: 0% 50%;
   }
@@ -212,52 +207,52 @@
   }
 }
 
-.zordie-flow {
+.custom-flow {
   background-size: 200% 200%;
-  animation: zordieFlow 8s ease infinite;
+  animation: customFlow 8s ease infinite;
 }
 
-/* Glassmorphism with Zordie colors */
-.zordie-glass {
+/* Glassmorphism with custom colors */
+.custom-glass {
   background: rgba(255, 255, 255, 0.15);
   backdrop-filter: blur(10px);
   -webkit-backdrop-filter: blur(10px);
-  border: 1px solid rgba(59, 130, 246, 0.18);
+  border: 1px solid rgba(3, 120, 253, 0.18);
 }
 
-.dark .zordie-glass {
-  background: rgba(24, 24, 24, 0.3);
-  border: 1px solid rgba(34, 211, 238, 0.15);
+.dark .custom-glass {
+  background: rgba(0, 74, 173, 0.3);
+  border: 1px solid rgba(245, 91, 34, 0.15);
 }
 
-/* 3D Effect for Zordie cards */
-.zordie-card-3d {
+/* 3D Effect for custom cards */
+.custom-card-3d {
   transform-style: preserve-3d;
   transition: transform 0.3s ease;
 }
 
-.zordie-card-3d:hover {
+.custom-card-3d:hover {
   transform: translateY(-10px) rotateX(5deg) rotateY(5deg);
-  box-shadow: 0 20px 40px rgba(34, 211, 238, 0.15);
+  box-shadow: 0 20px 40px rgba(3, 120, 253, 0.15);
 }
 
-/* Background patterns with Zordie colors */
-.zordie-dotted-bg {
-  background-image: radial-gradient(circle, rgba(59, 130, 246, 0.1) 1px, transparent 1px);
+/* Background patterns with custom colors */
+.custom-dotted-bg {
+  background-image: radial-gradient(circle, rgba(3, 120, 253, 0.1) 1px, transparent 1px);
   background-size: 20px 20px;
 }
 
-.dark .zordie-dotted-bg {
-  background-image: radial-gradient(circle, rgba(34, 211, 238, 0.15) 1px, transparent 1px);
+.dark .custom-dotted-bg {
+  background-image: radial-gradient(circle, rgba(245, 91, 34, 0.15) 1px, transparent 1px);
 }
 
-.zordie-grid-bg {
-  background-image: linear-gradient(rgba(59, 130, 246, 0.05) 1px, transparent 1px),
-                    linear-gradient(90deg, rgba(59, 130, 246, 0.05) 1px, transparent 1px);
+.custom-grid-bg {
+  background-image: linear-gradient(rgba(3, 120, 253, 0.05) 1px, transparent 1px),
+                    linear-gradient(90deg, rgba(3, 120, 253, 0.05) 1px, transparent 1px);
   background-size: 20px 20px;
 }
 
-.dark .zordie-grid-bg {
-  background-image: linear-gradient(rgba(34, 211, 238, 0.05) 1px, transparent 1px),
-                    linear-gradient(90deg, rgba(34, 211, 238, 0.05) 1px, transparent 1px);
+.dark .custom-grid-bg {
+  background-image: linear-gradient(rgba(245, 91, 34, 0.05) 1px, transparent 1px),
+                    linear-gradient(90deg, rgba(245, 91, 34, 0.05) 1px, transparent 1px);
 }

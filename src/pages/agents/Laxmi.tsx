@@ -1,4 +1,3 @@
-
 import React, { useRef } from 'react';
 import Layout from '@/components/layout/Layout';
 import { motion, useInView } from 'framer-motion';
@@ -80,7 +79,7 @@ const Laxmi = () => {
               ARC Agent
             </Badge>
             <h1 className="text-4xl md:text-6xl font-bold mb-6">
-              <GradientText gradient="rainbow" className="text-white">Laxmi</GradientText>
+              <GradientText gradient="zordie" className="text-white">Laxmi</GradientText>
             </h1>
             <p className="text-xl md:text-2xl text-orange-100 mb-8 max-w-4xl mx-auto">
               <strong>The Financial Optimizer</strong> - Finance integration and payroll automation with cost optimization and budget forecasting capabilities

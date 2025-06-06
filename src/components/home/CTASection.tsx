@@ -15,16 +15,16 @@ const CTASection = () => {
       ref={sectionRef}
       className="py-24 px-4 md:py-32 relative overflow-hidden"
     >
-      {/* Gradient background with new color scheme */}
-      <div className="absolute inset-0 bg-gradient-to-r from-brandBlue-800 via-brandBlue-900 to-slate-900 z-0 dark:from-slate-900 dark:via-slate-800 dark:to-brandCyan-900"></div>
+      {/* Gradient background with Zordie colors from reference images */}
+      <div className="absolute inset-0 bg-gradient-to-r from-zordieOrange-600 via-zordieBlue-700 to-zordieCyan-600 z-0 dark:from-slate-900 dark:via-slate-800 dark:to-zordieCyan-900"></div>
       
-      {/* Animated background elements with new colors */}
+      {/* Animated background elements with Zordie colors */}
       <div className="absolute inset-0 overflow-hidden z-0">
         <div className="absolute top-0 left-0 w-full h-full">
           {[...Array(20)].map((_, index) => (
             <motion.div
               key={index}
-              className="absolute rounded-full bg-gradient-to-r from-brandCyan-500/10 to-brandOrange-500/10 backdrop-blur-3xl"
+              className="absolute rounded-full bg-gradient-to-r from-zordieCyan-500/10 to-zordieOrange-500/10 backdrop-blur-3xl"
               style={{
                 width: Math.random() * 300 + 50,
                 height: Math.random() * 300 + 50,
@@ -74,7 +74,7 @@ const CTASection = () => {
               transition={{ type: "spring", stiffness: 400, damping: 10 }}
             >
               <Link to="/contact">
-                <Button size="lg" className="w-full sm:w-auto bg-gradient-to-r from-brandCyan-500 to-brandOrange-500 hover:from-brandCyan-400 hover:to-brandOrange-400 border-none text-white font-semibold px-8 py-7 text-lg">
+                <Button size="lg" className="w-full sm:w-auto bg-zordie-secondary hover:bg-zordie-secondary-hover border-none text-white font-semibold px-8 py-7 text-lg">
                   <span className="flex items-center">
                     <Mail className="mr-2 h-5 w-5" />
                     Join Pre-Access Program

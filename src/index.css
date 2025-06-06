@@ -1,3 +1,4 @@
+
 @import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Poppins:wght@400;500;600;700&display=swap');
 
 @tailwind base;
@@ -15,16 +16,16 @@
     --popover: 255 255 255;
     --popover-foreground: 30 41 59;
 
-    --primary: 59 130 246; /* Blue */
+    --primary: 59 130 246; /* Zordie Blue */
     --primary-foreground: 255 255 255;
 
-    --secondary: 249 115 22; /* Orange */
+    --secondary: 249 115 22; /* Zordie Orange */
     --secondary-foreground: 255 255 255;
 
     --muted: 248 250 252;
     --muted-foreground: 100 116 139;
 
-    --accent: 34 211 238; /* Cyan */
+    --accent: 34 211 238; /* Zordie Cyan */
     --accent-foreground: 255 255 255;
 
     --destructive: 239 68 68;
@@ -56,16 +57,16 @@
     --popover: 30 41 59;
     --popover-foreground: 255 255 255;
 
-    --primary: 34 211 238; /* Cyan primary in dark mode */
+    --primary: 34 211 238; /* Zordie Cyan primary in dark mode */
     --primary-foreground: 15 23 42;
 
-    --secondary: 249 115 22; /* Orange secondary */
+    --secondary: 249 115 22; /* Zordie Orange secondary */
     --secondary-foreground: 255 255 255;
 
     --muted: 51 65 85;
     --muted-foreground: 148 163 184;
 
-    --accent: 249 115 22; /* Orange accent in dark mode */
+    --accent: 249 115 22; /* Zordie Orange accent in dark mode */
     --accent-foreground: 255 255 255;
 
     --destructive: 239 68 68;
@@ -96,278 +97,110 @@
     background: linear-gradient(135deg, #ffffff 0%, #f0f9ff 50%, #ecfeff 100%);
   }
   
-  /* Dark mode gradient background */
+  /* Dark mode gradient background inspired by reference images */
   .dark body {
-    background: linear-gradient(135deg, #0f172a 0%, #1e293b 50%, #334155 100%);
-  }
-  
-  /* Updated color schemes for new palette */
-  .dark .bg-white {
-    @apply bg-slate-800;
-  }
-  
-  .dark .bg-gray-50 {
-    @apply bg-slate-900;
-  }
-  
-  .dark .text-gray-900 {
-    @apply text-white;
-  }
-  
-  .dark .text-gray-600, .dark .text-gray-700 {
-    @apply text-slate-300;
-  }
-
-  /* Enhanced dark mode card effect with new colors */
-  .dark .feature-card, .dark .pricing-card {
-    @apply bg-gradient-to-br from-slate-800 to-slate-900 border-slate-700 shadow-lg shadow-brandCyan-500/10;
-  }
-
-  /* Enhanced button effects with new color scheme */
-  .dark .btn-primary {
-    @apply bg-gradient-to-r from-brandCyan-500 to-brandOrange-500 text-white;
-  }
-  
-  /* Cyan-orange gradient card for dark mode */
-  .dark .card-cyan-gradient {
-    @apply bg-gradient-to-br from-brandCyan-500 to-brandOrange-500/80 text-white border-none shadow-lg shadow-brandCyan-500/20;
+    background: linear-gradient(135deg, #0f172a 0%, #1e293b 25%, #334155 75%, #22d3ee 100%);
   }
 }
 
 @layer components {
-  .btn-gradient {
-    @apply bg-gradient-to-r from-brandBlue-600 to-brandCyan-500 hover:from-brandBlue-700 hover:to-brandCyan-600 text-white font-medium transition-all;
+  /* Main Zordie gradient buttons inspired by reference images */
+  .btn-zordie-main {
+    @apply bg-zordie-main hover:bg-zordie-main-hover text-white font-medium transition-all;
   }
   
+  .btn-zordie-secondary {
+    @apply bg-zordie-secondary hover:bg-zordie-secondary-hover text-white font-medium transition-all;
+  }
+  
+  .btn-zordie-blue-cyan {
+    @apply bg-zordie-blue-cyan hover:bg-zordie-blue-cyan-hover text-white font-medium transition-all;
+  }
+  
+  /* Hero title with reference image colors */
   .hero-title {
-    @apply bg-gradient-to-r from-brandBlue-700 to-brandCyan-500 bg-clip-text text-transparent dark:from-brandCyan-400 dark:to-brandOrange-400;
+    @apply bg-zordie-main bg-clip-text text-transparent dark:bg-zordie-secondary;
   }
 
-  /* Feature card with cyan-orange gradient animation in dark mode */
+  /* Feature cards with new color scheme */
   .feature-card {
-    @apply relative p-6 rounded-xl border bg-white/80 shadow-sm hover:shadow-md transition-all duration-300 dark:bg-gradient-to-br dark:from-slate-800 dark:to-slate-900 dark:border-slate-700 dark:hover:shadow-brandCyan-500/30;
+    @apply relative p-6 rounded-xl border bg-white/80 shadow-sm hover:shadow-md transition-all duration-300;
   }
 
-  /* Enhanced pricing card with cyan-orange gradient in dark mode */
+  .dark .feature-card {
+    @apply bg-gradient-to-br from-slate-800 to-slate-900 border-slate-700 hover:shadow-zordieCyan-500/30;
+  }
+
+  /* Enhanced pricing cards */
   .pricing-card {
     @apply relative p-6 rounded-xl border bg-white/80 shadow-sm hover:shadow-md transition-all duration-300;
   }
 
   .dark .pricing-card {
-    @apply bg-gradient-to-br from-slate-800 to-slate-900 border-slate-700 hover:shadow-brandCyan-500/30;
+    @apply bg-gradient-to-br from-slate-800 to-slate-900 border-slate-700 hover:shadow-zordieCyan-500/30;
   }
 
   .dark .pricing-card-highlight {
-    @apply bg-gradient-to-br from-brandCyan-500/10 to-slate-900 border-brandCyan-500/50 shadow-brandCyan-500/20;
+    @apply bg-gradient-to-br from-zordieCyan-500/10 to-slate-900 border-zordieCyan-500/50 shadow-zordieCyan-500/20;
   }
 
-  .dark .pricing-card:hover {
-    @apply shadow-xl shadow-brandCyan-500/20;
+  /* Zordie brand text colors */
+  .zordie-orange-text {
+    @apply text-zordieOrange-500 dark:text-zordieOrange-400;
   }
 
-  .avatar-verified {
-    @apply after:content-[''] after:absolute after:bottom-0 after:right-0 after:h-5 after:w-5 after:rounded-full after:bg-green-500 after:ring-2 after:ring-white after:flex after:items-center after:justify-center dark:after:ring-slate-900;
-  }
-  
-  /* Dark mode card with cyan gradient */
-  .dark-card {
-    @apply bg-slate-800 border-slate-700 text-white;
-  }
-  
-  /* Glass effect for dark mode with new colors */
-  .dark-glass {
-    @apply bg-slate-800/80 backdrop-blur-sm border-slate-700;
-  }
-  
-  /* Wave button effect */
-  .wave-btn {
-    @apply relative overflow-hidden;
-  }
-  
-  .wave-btn::after {
-    content: '';
-    @apply absolute top-0 left-0 w-full h-full bg-white opacity-20 transform -translate-x-full;
-    transition: transform 0.7s ease;
-  }
-  
-  .wave-btn:hover::after {
-    @apply transform translate-x-0;
-    animation: wave 0.7s forwards;
-  }
-  
-  /* Glowing gradient border with new colors */
-  .glow-border {
-    @apply relative;
-  }
-  
-  .glow-border::before {
-    content: '';
-    @apply absolute -inset-0.5 bg-gradient-to-r from-brandBlue-500 to-brandCyan-500 rounded-lg blur opacity-0 dark:from-brandCyan-500 dark:to-brandOrange-500;
-    transition: opacity 0.3s ease;
-  }
-  
-  .glow-border:hover::before {
-    @apply opacity-75;
-  }
-  
-  .glow-border > * {
-    @apply relative z-10;
-  }
-  
-  /* Card hover effect */
-  .card-hover {
-    @apply transition-all duration-300;
-  }
-  
-  .card-hover:hover {
-    @apply transform -translate-y-2;
-    box-shadow: 0 10px 25px -5px rgba(34, 211, 238, 0.2), 0 10px 10px -5px rgba(59, 130, 246, 0.1);
+  .zordie-blue-text {
+    @apply text-zordieBlue-500 dark:text-zordieBlue-400;
   }
 
-  /* Dark mode specific glowing effect with cyan */
-  .dark .glow-effect {
-    @apply animate-glow border border-brandCyan-500/30;
-  }
-  
-  /* Animated gradient background */
-  .dark .gradient-animate {
-    background-size: 200% 200%;
-    @apply bg-gradient-to-r from-brandCyan-500 to-brandOrange-500 animate-flow;
-  }
-  
-  /* Card with cyan-orange gradient border */
-  .dark .cyan-border-card {
-    @apply border border-transparent bg-slate-900 relative;
+  .zordie-cyan-text {
+    @apply text-zordieCyan-500 dark:text-zordieCyan-400;
   }
 
-  .dark .cyan-border-card::before {
-    content: '';
-    @apply absolute inset-0 -z-10 rounded-xl bg-gradient-to-r from-brandCyan-500 to-brandOrange-500 p-[1px];
-  }
-  
-  /* Flowing gradient button */
-  .dark .flow-btn {
-    @apply bg-gradient-to-r from-brandCyan-500 to-brandOrange-500 bg-size-200 animate-flow text-white;
+  /* Zordie gradient text */
+  .zordie-gradient-text {
+    @apply bg-zordie-main bg-clip-text text-transparent dark:bg-zordie-secondary;
   }
 
-  /* New color-specific classes */
-  .dark .cyan-glow-text {
-    @apply text-white animate-neon-pulse;
+  /* Cards with Zordie colors */
+  .zordie-card {
+    @apply bg-white border border-gray-200 shadow-sm hover:shadow-md transition-all duration-300;
   }
 
-  .dark .cyan-card {
-    @apply bg-gradient-to-br from-slate-800 to-slate-900 border border-brandCyan-500/30 shadow-lg shadow-brandCyan-500/10 hover:shadow-brandCyan-500/30 transition-all duration-300;
+  .dark .zordie-card {
+    @apply bg-gradient-to-br from-slate-800 to-slate-900 border-zordieCyan-500/30 shadow-lg shadow-zordieCyan-500/10 hover:shadow-zordieCyan-500/30;
   }
 
-  .dark .cyan-highlight-card {
-    @apply bg-gradient-to-br from-brandCyan-500/20 to-slate-900 border-brandCyan-500/50;
+  /* Zordie highlight cards */
+  .zordie-highlight-card {
+    @apply bg-gradient-to-br from-zordieOrange-50 to-zordieCyan-50 border border-zordieBlue-100;
   }
 
-  .dark .animated-border {
-    @apply border border-brandCyan-500/50 animate-border-flow;
+  .dark .zordie-highlight-card {
+    @apply bg-gradient-to-br from-zordieCyan-500/20 to-slate-900 border-zordieCyan-500/50;
   }
 
-  .dark .cyan-glass {
-    @apply bg-slate-900/80 backdrop-blur-md border border-brandCyan-500/20 shadow-md shadow-brandCyan-500/10;
+  /* Zordie glow effects */
+  .zordie-glow {
+    @apply shadow-md shadow-zordieBlue-200/20 hover:shadow-lg hover:shadow-zordieCyan-300/30 transition-all duration-300;
   }
 
-  /* Light mode blue-cyan gradients */
-  .blue-cyan-text {
-    @apply bg-gradient-to-r from-brandBlue-600 to-brandCyan-500 bg-clip-text text-transparent;
+  .dark .zordie-glow {
+    @apply shadow-md shadow-zordieCyan-500/10 hover:shadow-lg hover:shadow-zordieCyan-500/30;
   }
 
-  .blue-cyan-card {
-    @apply bg-gradient-to-br from-blue-50 to-cyan-50 border border-blue-100/50 shadow-md shadow-blue-200/20;
+  /* Zordie animated borders */
+  .zordie-animated-border {
+    @apply border border-zordieBlue-300 hover:border-zordieCyan-400 transition-colors duration-300;
   }
 
-  .blue-cyan-button {
-    @apply bg-blue-cyan-gradient hover:bg-blue-cyan-gradient-hover text-white;
-  }
-
-  .orange-blue-button {
-    @apply bg-orange-blue-gradient hover:bg-orange-blue-gradient-hover text-white;
-  }
-
-  .cyan-orange-button {
-    @apply bg-cyan-orange-gradient hover:bg-cyan-orange-gradient-hover text-white;
+  .dark .zordie-animated-border {
+    @apply border border-zordieCyan-500/50 hover:border-zordieOrange-400/70;
   }
 }
 
-/* Animations */
-@keyframes wave {
-  0% {
-    transform: translateX(-100%);
-  }
-  100% {
-    transform: translateX(100%);
-  }
-}
-
-@keyframes fadeIn {
-  from {
-    opacity: 0;
-    transform: translateY(20px);
-  }
-  to {
-    opacity: 1;
-    transform: translateY(0);
-  }
-}
-
-@keyframes slideInRight {
-  from {
-    opacity: 0;
-    transform: translateX(50px);
-  }
-  to {
-    opacity: 1;
-    transform: translateX(0);
-  }
-}
-
-@keyframes slideInLeft {
-  from {
-    opacity: 0;
-    transform: translateX(-50px);
-  }
-  to {
-    opacity: 1;
-    transform: translateX(0);
-  }
-}
-
-@keyframes scaleIn {
-  from {
-    opacity: 0;
-    transform: scale(0.9);
-  }
-  to {
-    opacity: 1;
-    transform: scale(1);
-  }
-}
-
-@keyframes float {
-  0%, 100% {
-    transform: translateY(0);
-  }
-  50% {
-    transform: translateY(-10px);
-  }
-}
-
-@keyframes pulse {
-  0%, 100% {
-    opacity: 1;
-    transform: scale(1);
-  }
-  50% {
-    opacity: 0.8;
-    transform: scale(0.95);
-  }
-}
-
-@keyframes gradientShift {
+/* Zordie specific animations */
+@keyframes zordieFlow {
   0% {
     background-position: 0% 50%;
   }
@@ -379,410 +212,52 @@
   }
 }
 
-.animate-fade-in {
-  animation: fadeIn 0.6s ease-out forwards;
-}
-
-.animate-slide-in-right {
-  animation: slideInRight 0.6s ease-out forwards;
-}
-
-.animate-slide-in-left {
-  animation: slideInLeft 0.6s ease-out forwards;
-}
-
-.animate-scale-in {
-  animation: scaleIn 0.5s ease-out forwards;
-}
-
-.animate-float {
-  animation: float 3s ease-in-out infinite;
-}
-
-.animate-pulse-slow {
-  animation: pulse 3s ease-in-out infinite;
-}
-
-.animate-gradient {
+.zordie-flow {
   background-size: 200% 200%;
-  animation: gradientShift 5s ease infinite;
+  animation: zordieFlow 8s ease infinite;
 }
 
-/* Glassmorphism */
-.glass {
+/* Glassmorphism with Zordie colors */
+.zordie-glass {
   background: rgba(255, 255, 255, 0.15);
   backdrop-filter: blur(10px);
   -webkit-backdrop-filter: blur(10px);
-  border: 1px solid rgba(255, 255, 255, 0.18);
+  border: 1px solid rgba(59, 130, 246, 0.18);
 }
 
-.dark .glass {
+.dark .zordie-glass {
   background: rgba(24, 24, 24, 0.3);
   border: 1px solid rgba(34, 211, 238, 0.15);
 }
 
-/* 3D Effect for cards */
-.card-3d {
+/* 3D Effect for Zordie cards */
+.zordie-card-3d {
   transform-style: preserve-3d;
   transition: transform 0.3s ease;
 }
 
-.card-3d:hover {
+.zordie-card-3d:hover {
   transform: translateY(-10px) rotateX(5deg) rotateY(5deg);
+  box-shadow: 0 20px 40px rgba(34, 211, 238, 0.15);
 }
 
-/* Z-index utility for layered positioning */
-.z-1 {
-  z-index: 1;
-}
-
-.z-2 {
-  z-index: 2;
-}
-
-/* Additional background patterns */
-.dotted-bg {
-  background-image: radial-gradient(circle, rgba(0, 0, 0, 0.1) 1px, transparent 1px);
+/* Background patterns with Zordie colors */
+.zordie-dotted-bg {
+  background-image: radial-gradient(circle, rgba(59, 130, 246, 0.1) 1px, transparent 1px);
   background-size: 20px 20px;
 }
 
-.dark .dotted-bg {
+.dark .zordie-dotted-bg {
   background-image: radial-gradient(circle, rgba(34, 211, 238, 0.15) 1px, transparent 1px);
 }
 
-/* Enhanced backgrounds for dashboard mockups */
-.dashboard-bg {
-  background: linear-gradient(135deg, #f8f9fa 0%, #e9ecef 100%);
+.zordie-grid-bg {
+  background-image: linear-gradient(rgba(59, 130, 246, 0.05) 1px, transparent 1px),
+                    linear-gradient(90deg, rgba(59, 130, 246, 0.05) 1px, transparent 1px);
+  background-size: 20px 20px;
 }
 
-.dark .dashboard-bg {
-  background: linear-gradient(135deg, #121212 0%, #000000 100%);
-}
-
-/* New dark mode specific background patterns */
-.dark .bg-pattern-grid {
+.dark .zordie-grid-bg {
   background-image: linear-gradient(rgba(34, 211, 238, 0.05) 1px, transparent 1px),
                     linear-gradient(90deg, rgba(34, 211, 238, 0.05) 1px, transparent 1px);
-  background-size: 20px 20px;
-}
-
-.dark .bg-pattern-dots {
-  background-image: radial-gradient(rgba(34, 211, 238, 0.15) 1px, transparent 1px);
-  background-size: 15px 15px;
-}
-
-/* Dark mode specific gradient text */
-.dark .gradient-text {
-  @apply bg-gradient-to-r from-brandCyan-500 via-white to-brandOrange-500 bg-clip-text text-transparent;
-}
-
-/* Dark mode card effects */
-.dark .glow-card {
-  box-shadow: 0 0 15px rgba(34, 211, 238, 0.2);
-  transition: all 0.3s ease;
-}
-
-.dark .glow-card:hover {
-  box-shadow: 0 0 30px rgba(34, 211, 238, 0.4);
-}
-
-/* Background size for gradient animations */
-.bg-size-200 {
-  background-size: 200% 200%;
-}
-
-/* Cyan decorative elements for dark mode */
-.dark .cyan-accent::before {
-  content: '';
-  @apply absolute w-16 h-1 bg-gradient-to-r from-brandCyan-500 to-brandOrange-500 rounded-full;
-  bottom: -0.5rem;
-  left: 50%;
-  transform: translateX(-50%);
-}
-
-/* New dark mode effects */
-.dark .cyan-outline-hover {
-  @apply border border-transparent transition-all duration-300;
-}
-
-.dark .cyan-outline-hover:hover {
-  @apply border-brandCyan-500/50 shadow-md shadow-brandCyan-500/20;
-}
-
-.dark .cyan-text-shadow {
-  text-shadow: 0 0 10px rgba(34, 211, 238, 0.5);
-}
-
-.dark .cyan-highlight {
-  @apply relative;
-}
-
-.dark .cyan-highlight::after {
-  content: '';
-  @apply absolute bottom-0 left-0 w-full h-0.5 bg-cyan-orange-gradient origin-left scale-x-0 transition-transform duration-300;
-}
-
-.dark .cyan-highlight:hover::after {
-  @apply scale-x-100;
-}
-
-/* Light mode blue-cyan gradient effects */
-.blue-cyan-gradient-text {
-  @apply bg-blue-cyan-gradient bg-clip-text text-transparent;
-}
-
-.blue-cyan-hover {
-  @apply transition-all duration-300 hover:shadow-md hover:shadow-blue-300/20;
-}
-
-/* Enhanced blood moon effect for dark mode */
-.dark .blood-moon-bg {
-  background-image: radial-gradient(circle at center, rgba(34, 211, 238, 0.3) 0%, transparent 70%);
-}
-
-/* Animations */
-@keyframes wave {
-  0% {
-    transform: translateX(-100%);
-  }
-  100% {
-    transform: translateX(100%);
-  }
-}
-
-@keyframes fadeIn {
-  from {
-    opacity: 0;
-    transform: translateY(20px);
-  }
-  to {
-    opacity: 1;
-    transform: translateY(0);
-  }
-}
-
-@keyframes slideInRight {
-  from {
-    opacity: 0;
-    transform: translateX(50px);
-  }
-  to {
-    opacity: 1;
-    transform: translateX(0);
-  }
-}
-
-@keyframes slideInLeft {
-  from {
-    opacity: 0;
-    transform: translateX(-50px);
-  }
-  to {
-    opacity: 1;
-    transform: translateX(0);
-  }
-}
-
-@keyframes scaleIn {
-  from {
-    opacity: 0;
-    transform: scale(0.9);
-  }
-  to {
-    opacity: 1;
-    transform: scale(1);
-  }
-}
-
-@keyframes float {
-  0%, 100% {
-    transform: translateY(0);
-  }
-  50% {
-    transform: translateY(-10px);
-  }
-}
-
-@keyframes pulse {
-  0%, 100% {
-    opacity: 1;
-    transform: scale(1);
-  }
-  50% {
-    opacity: 0.8;
-    transform: scale(0.95);
-  }
-}
-
-@keyframes gradientShift {
-  0% {
-    background-position: 0% 50%;
-  }
-  50% {
-    background-position: 100% 50%;
-  }
-  100% {
-    background-position: 0% 50%;
-  }
-}
-
-.animate-fade-in {
-  animation: fadeIn 0.6s ease-out forwards;
-}
-
-.animate-slide-in-right {
-  animation: slideInRight 0.6s ease-out forwards;
-}
-
-.animate-slide-in-left {
-  animation: slideInLeft 0.6s ease-out forwards;
-}
-
-.animate-scale-in {
-  animation: scaleIn 0.5s ease-out forwards;
-}
-
-.animate-float {
-  animation: float 3s ease-in-out infinite;
-}
-
-.animate-pulse-slow {
-  animation: pulse 3s ease-in-out infinite;
-}
-
-.animate-gradient {
-  background-size: 200% 200%;
-  animation: gradientShift 5s ease infinite;
-}
-
-/* Glassmorphism */
-.glass {
-  background: rgba(255, 255, 255, 0.15);
-  backdrop-filter: blur(10px);
-  -webkit-backdrop-filter: blur(10px);
-  border: 1px solid rgba(255, 255, 255, 0.18);
-}
-
-.dark .glass {
-  background: rgba(24, 24, 24, 0.3);
-  border: 1px solid rgba(34, 211, 238, 0.15);
-}
-
-/* 3D Effect for cards */
-.card-3d {
-  transform-style: preserve-3d;
-  transition: transform 0.3s ease;
-}
-
-.card-3d:hover {
-  transform: translateY(-10px) rotateX(5deg) rotateY(5deg);
-}
-
-/* Z-index utility for layered positioning */
-.z-1 {
-  z-index: 1;
-}
-
-.z-2 {
-  z-index: 2;
-}
-
-/* Additional background patterns */
-.dotted-bg {
-  background-image: radial-gradient(circle, rgba(0, 0, 0, 0.1) 1px, transparent 1px);
-  background-size: 20px 20px;
-}
-
-.dark .dotted-bg {
-  background-image: radial-gradient(circle, rgba(34, 211, 238, 0.15) 1px, transparent 1px);
-}
-
-/* Enhanced backgrounds for dashboard mockups */
-.dashboard-bg {
-  background: linear-gradient(135deg, #f8f9fa 0%, #e9ecef 100%);
-}
-
-.dark .dashboard-bg {
-  background: linear-gradient(135deg, #121212 0%, #000000 100%);
-}
-
-/* New dark mode specific background patterns */
-.dark .bg-pattern-grid {
-  background-image: linear-gradient(rgba(34, 211, 238, 0.05) 1px, transparent 1px),
-                    linear-gradient(90deg, rgba(34, 211, 238, 0.05) 1px, transparent 1px);
-  background-size: 20px 20px;
-}
-
-.dark .bg-pattern-dots {
-  background-image: radial-gradient(rgba(34, 211, 238, 0.15) 1px, transparent 1px);
-  background-size: 15px 15px;
-}
-
-/* Dark mode specific gradient text */
-.dark .gradient-text {
-  @apply bg-gradient-to-r from-brandCyan-500 via-white to-brandOrange-500 bg-clip-text text-transparent;
-}
-
-/* Dark mode card effects */
-.dark .glow-card {
-  box-shadow: 0 0 15px rgba(34, 211, 238, 0.2);
-  transition: all 0.3s ease;
-}
-
-.dark .glow-card:hover {
-  box-shadow: 0 0 30px rgba(34, 211, 238, 0.4);
-}
-
-/* Background size for gradient animations */
-.bg-size-200 {
-  background-size: 200% 200%;
-}
-
-/* Cyan decorative elements for dark mode */
-.dark .cyan-accent::before {
-  content: '';
-  @apply absolute w-16 h-1 bg-gradient-to-r from-brandCyan-500 to-brandOrange-500 rounded-full;
-  bottom: -0.5rem;
-  left: 50%;
-  transform: translateX(-50%);
-}
-
-/* New dark mode effects */
-.dark .cyan-outline-hover {
-  @apply border border-transparent transition-all duration-300;
-}
-
-.dark .cyan-outline-hover:hover {
-  @apply border-brandCyan-500/50 shadow-md shadow-brandCyan-500/20;
-}
-
-.dark .cyan-text-shadow {
-  text-shadow: 0 0 10px rgba(34, 211, 238, 0.5);
-}
-
-.dark .cyan-highlight {
-  @apply relative;
-}
-
-.dark .cyan-highlight::after {
-  content: '';
-  @apply absolute bottom-0 left-0 w-full h-0.5 bg-cyan-orange-gradient origin-left scale-x-0 transition-transform duration-300;
-}
-
-.dark .cyan-highlight:hover::after {
-  @apply scale-x-100;
-}
-
-/* Light mode blue-cyan gradient effects */
-.blue-cyan-gradient-text {
-  @apply bg-blue-cyan-gradient bg-clip-text text-transparent;
-}
-
-.blue-cyan-hover {
-  @apply transition-all duration-300 hover:shadow-md hover:shadow-blue-300/20;
-}
-
-/* Enhanced blood moon effect for dark mode */
-.dark .blood-moon-bg {
-  background-image: radial-gradient(circle at center, rgba(34, 211, 238, 0.3) 0%, transparent 70%);
 }

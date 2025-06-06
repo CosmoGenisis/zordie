@@ -97,7 +97,7 @@ const ForCompanies = () => {
                 For Companies
               </Badge>
               <h1 className="mb-6 text-4xl font-bold tracking-tight text-gray-900 dark:text-white md:text-5xl lg:text-6xl">
-                Transform Your <GradientText gradient="rainbow" animate={true} delay={0.3}>Hiring Process</GradientText> with AI
+                Transform Your <GradientText gradient="zordie" animate={true} delay={0.3}>Hiring Process</GradientText> with AI
               </h1>
               <p className="mb-8 text-lg text-gray-600 dark:text-gray-300 md:text-xl">
                 Eliminate fake resumes, verify skills, and hire authentic talent 73% faster with Zordie AI's advanced verification technology.
@@ -647,7 +647,7 @@ const ForCompanies = () => {
               Join Industry Leaders
             </Badge>
             <h2 className="mb-6 text-3xl font-bold text-white md:text-5xl">
-              Ready to build your dream team <GradientText gradient="rainbow">faster</GradientText>?
+              Ready to build your dream team <GradientText gradient="zordie">faster</GradientText>?
             </h2>
             <p className="mb-10 text-lg text-indigo-100">
               Experience the future of recruitment with AI-powered verification, automated screening, and intelligent matching.

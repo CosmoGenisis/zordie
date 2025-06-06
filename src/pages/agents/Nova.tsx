@@ -80,7 +80,7 @@ const Nova = () => {
               ARC Agent
             </Badge>
             <h1 className="text-4xl md:text-6xl font-bold mb-6">
-              <GradientText gradient="zordie" className="text-white">Nova</GradientText>
+              <GradientText gradient="rainbow" className="text-white">Nova</GradientText>
             </h1>
             <p className="text-xl md:text-2xl text-green-100 mb-8 max-w-4xl mx-auto">
               <strong>The Intelligence Assessor</strong> - Gamified AI assessments providing deep insights into candidate capabilities and performance predictions

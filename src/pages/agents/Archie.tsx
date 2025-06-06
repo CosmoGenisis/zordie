@@ -1,3 +1,4 @@
+
 import React, { useRef } from 'react';
 import Layout from '@/components/layout/Layout';
 import { motion, useInView } from 'framer-motion';
@@ -79,7 +80,7 @@ const Archie = () => {
               ARC Agent
             </Badge>
             <h1 className="text-4xl md:text-6xl font-bold mb-6">
-              <GradientText gradient="zordie" className="text-white">Archie</GradientText>
+              <GradientText gradient="rainbow" className="text-white">Archie</GradientText>
             </h1>
             <p className="text-xl md:text-2xl text-teal-100 mb-8 max-w-4xl mx-auto">
               <strong>The Compliance Guardian</strong> - Legal compliance and automated onboarding ensuring regulatory adherence and seamless employee integration

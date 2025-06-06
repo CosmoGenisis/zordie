@@ -1,3 +1,4 @@
+
 import React, { useRef } from 'react';
 import Layout from '@/components/layout/Layout';
 import { motion, useInView } from 'framer-motion';
@@ -79,7 +80,7 @@ const Orion = () => {
               ARC Agent
             </Badge>
             <h1 className="text-4xl md:text-6xl font-bold mb-6">
-              <GradientText gradient="zordie" className="text-white">Orion</GradientText>
+              <GradientText gradient="rainbow" className="text-white">Orion</GradientText>
             </h1>
             <p className="text-xl md:text-2xl text-indigo-100 mb-8 max-w-4xl mx-auto">
               <strong>The Strategic Planner</strong> - Long-term succession planning, strategic talent acquisition, and workforce analytics for organizational excellence

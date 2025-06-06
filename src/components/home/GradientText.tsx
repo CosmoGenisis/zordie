@@ -3,7 +3,7 @@ import React from 'react';
 
 interface GradientTextProps {
   children: React.ReactNode;
-  gradient?: 'primary' | 'secondary' | 'accent' | 'zordie' | 'zordieCyan' | 'zordieReverse';
+  gradient?: 'primary' | 'secondary' | 'accent' | 'rainbow';
   className?: string;
   animate?: boolean;
   delay?: number;
@@ -11,24 +11,20 @@ interface GradientTextProps {
 
 const GradientText: React.FC<GradientTextProps> = ({ 
   children, 
-  gradient = 'zordie',
+  gradient = 'primary',
   className = '',
   animate = false,
   delay = 0
 }) => {
   const gradientClasses = {
-    primary: 'bg-gradient-to-r from-blue-custom to-orange-custom bg-clip-text text-transparent',
-    secondary: 'bg-gradient-to-r from-orange-custom to-blue-dark bg-clip-text text-transparent',
-    accent: 'bg-gradient-to-r from-blue-dark to-orange-custom bg-clip-text text-transparent',
-    zordie: 'bg-gradient-to-r from-orange-custom via-blue-custom to-blue-dark bg-clip-text text-transparent',
-    zordieCyan: 'bg-gradient-to-r from-blue-custom to-blue-dark bg-clip-text text-transparent',
-    zordieReverse: 'bg-gradient-to-r from-blue-dark via-blue-custom to-orange-custom bg-clip-text text-transparent',
+    primary: 'bg-blue-purple-gradient dark:bg-red-gradient bg-clip-text text-transparent',
+    secondary: 'bg-gradient-to-r from-green-500 to-blue-500 dark:from-red-400 dark:to-orange-400 bg-clip-text text-transparent',
+    accent: 'bg-gradient-to-r from-purple-500 to-pink-500 dark:from-orange-400 dark:to-red-400 bg-clip-text text-transparent',
+    rainbow: 'bg-gradient-to-r from-purple-600 via-pink-500 to-red-500 dark:from-red-400 dark:via-orange-400 dark:to-yellow-400 bg-clip-text text-transparent'
   };
 
-  const animationClass = animate ? 'zordie-flow' : '';
-
   return (
-    <span className={`${gradientClasses[gradient]} ${animationClass} ${className}`}>
+    <span className={`${gradientClasses[gradient]} ${className}`}>
       {children}
     </span>
   );

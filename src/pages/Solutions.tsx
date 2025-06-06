@@ -1,3 +1,4 @@
+
 import React, { useRef } from 'react';
 import Layout from '@/components/layout/Layout';
 import { motion, useInView } from 'framer-motion';
@@ -108,7 +109,7 @@ const Solutions = () => {
               Zordie AI Solutions
             </Badge>
             <h1 className="text-4xl md:text-6xl font-bold mb-6">
-              <GradientText gradient="zordie" className="text-white">Solutions</GradientText> for Every HR Challenge
+              <GradientText gradient="rainbow" className="text-white">Solutions</GradientText> for Every HR Challenge
             </h1>
             <p className="text-xl md:text-2xl text-blue-100 mb-8 max-w-4xl mx-auto">
               From startups to enterprises, discover how Zordie AI's intelligent automation transforms HR operations across industries and company sizes

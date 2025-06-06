@@ -15,16 +15,16 @@ const CTASection = () => {
       ref={sectionRef}
       className="py-24 px-4 md:py-32 relative overflow-hidden"
     >
-      {/* Gradient background */}
-      <div className="absolute inset-0 bg-gradient-to-r from-zordie-800 via-zordie-900 to-zordie-950 z-0"></div>
+      {/* Gradient background with new color scheme */}
+      <div className="absolute inset-0 bg-gradient-to-r from-brandBlue-800 via-brandBlue-900 to-slate-900 z-0 dark:from-slate-900 dark:via-slate-800 dark:to-brandCyan-900"></div>
       
-      {/* Animated background elements */}
+      {/* Animated background elements with new colors */}
       <div className="absolute inset-0 overflow-hidden z-0">
         <div className="absolute top-0 left-0 w-full h-full">
           {[...Array(20)].map((_, index) => (
             <motion.div
               key={index}
-              className="absolute rounded-full bg-white/5 backdrop-blur-3xl"
+              className="absolute rounded-full bg-gradient-to-r from-brandCyan-500/10 to-brandOrange-500/10 backdrop-blur-3xl"
               style={{
                 width: Math.random() * 300 + 50,
                 height: Math.random() * 300 + 50,
@@ -58,7 +58,7 @@ const CTASection = () => {
             <h2 className="text-3xl md:text-4xl lg:text-5xl font-bold text-white mb-6">
               Ready to Transform Your Hiring Process?
             </h2>
-            <p className="text-lg text-zordie-200 mb-10 max-w-2xl mx-auto">
+            <p className="text-lg text-slate-200 mb-10 max-w-2xl mx-auto">
               Join our exclusive pre-access program and be among the first to experience the future of AI-powered recruitment with Zordie.
             </p>
           </motion.div>
@@ -74,10 +74,10 @@ const CTASection = () => {
               transition={{ type: "spring", stiffness: 400, damping: 10 }}
             >
               <Link to="/contact">
-                <Button size="lg" className="w-full sm:w-auto bg-gradient-to-r from-yellow-500 to-yellow-600 hover:from-yellow-400 hover:to-yellow-500 border-none text-black font-semibold px-8 py-7 text-lg">
+                <Button size="lg" className="w-full sm:w-auto bg-gradient-to-r from-brandCyan-500 to-brandOrange-500 hover:from-brandCyan-400 hover:to-brandOrange-400 border-none text-white font-semibold px-8 py-7 text-lg">
                   <span className="flex items-center">
                     <Mail className="mr-2 h-5 w-5" />
-                    Join Pre-Access Waitlist
+                    Join Pre-Access Program
                     <ArrowRight className="ml-2 h-5 w-5 transition-transform group-hover:translate-x-1" />
                   </span>
                 </Button>
@@ -106,10 +106,10 @@ const CTASection = () => {
             animate={isInView ? { opacity: 1 } : { opacity: 0 }}
             transition={{ duration: 0.6, delay: 0.6 }}
           >
-            <p className="text-zordie-300 text-sm">
+            <p className="text-slate-300 text-sm">
               🚀 Be the first to access revolutionary AI recruitment technology
             </p>
-            <p className="text-zordie-400 text-xs">
+            <p className="text-slate-400 text-xs">
               No commitment required • Early bird pricing available
             </p>
           </motion.div>
